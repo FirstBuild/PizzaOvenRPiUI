@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>BackButton.qml</file>
+        <file>Gear-Icon.svg</file>
+        <file>MyTumblerStyle.qml</file>
+        <file>Screen_AwaitStart.qml</file>
+        <file>Screen_MainMenu.qml</file>
+        <file>Screen_PizzaType.qml</file>
+        <file>Screen_Preheating.qml</file>
+        <file>SideButton.qml</file>
+        <file>fonts/FreeSans.ttf</file>
+    </qresource>
+</RCC>
