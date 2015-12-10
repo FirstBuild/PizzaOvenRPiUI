@@ -7,7 +7,7 @@ Item {
     signal clicked()
 
     implicitHeight: 75
-    implicitWidth: 150
+    implicitWidth: parent.width*.2
     Text {
         text: buttonText
         font.family: localFont.name

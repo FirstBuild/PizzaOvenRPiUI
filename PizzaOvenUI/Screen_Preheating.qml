@@ -6,14 +6,16 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: screenAwaitStart
-    implicitWidth: rootWindow.width
-    implicitHeight: rootWindow.height
+    implicitWidth: parent.width
+    implicitHeight: parent.height
+
+    property int myMargins: 10
 
     BackButton {
         id: backbutton
-        anchors.margins: 20
-        x: 20
-        y: 20
+        anchors.margins: myMargins
+        x: myMargins
+        y: myMargins
         onClicked: {
             stackView.pop();
         }
@@ -24,60 +26,33 @@ Item {
         font.family: localFont.name
         font.pointSize: 24
         text: "PREHEATING"
-        anchors.margins: 20
+        anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: backbutton.verticalCenter
     }
 
     Item {
         id: centerCircle
-        implicitWidth: rootWindow.height * 0.5;
+        implicitWidth: parent.height * 0.7;
         implicitHeight: width
-        anchors.margins: 20
-        anchors.top: screenLabel.bottom
+        anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
-        Rectangle {
-            width: parent.width;
-            height: width
-            radius: width/2
-            anchors.centerIn: parent
-            border.width: 1
-            border.color: "black"
-        }
-        Rectangle {
-            id: horizontalBar
-            width: parent.width * 0.5
-            height: 2
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: parent.height/3
-            anchors.top: parent.top
-            border.width: 1
-            border.color: "black"
-        }
-        Text {
-            id: setTemp
-            text: "725F"
-            font.family: localFont.name
-            font.pointSize: 18
-            anchors.margins: 20
-            anchors.bottom: horizontalBar.top
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-        Text {
-            id: actualTemp
-            text: "327F"
-            font.family: localFont.name
-            font.pointSize: 48
-            anchors.topMargin: 40
-            anchors.top: horizontalBar.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 40
+
+        CircleAsymmetrical {
+            id: dataCircle
+            height: parent.height;
+            width: parent.width
+            topText: tempToString(targetTemp)
+            bottomText: tempToString(currentTemp)
         }
     }
 
     SideButton {
         id: cancelButton
         buttonText: "CANCEL"
-        anchors.margins: 20
+        anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
@@ -85,5 +60,22 @@ Item {
         }
     }
 
+    Timer {
+        id: animateTimer
+        interval: 250; running: true; repeat: true
+        onTriggered: {
+            var val = dataCircle.currentValue + 10;
+            if (val > 100) {
+                val = 0;
+                animateTimer.stop();
+                stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+            }
+            dataCircle.currentValue = val;
+
+            val = 80 + (targetTemp - 80) * val / 100
+            dataCircle.bottomText = tempToString(val);
+
+        }
+    }
 }
 

@@ -6,14 +6,16 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: screenPizzaType
-    width: rootWindow.width
-    height: rootWindow.height
+    width: parent.width
+    height: parent.height
+
+    property int myMargins: 10
 
     BackButton {
         id: pizzaTypeBackButton
-        anchors.margins: 20
-        x: 20
-        y: 20
+        anchors.margins: myMargins
+        x: 5
+        y: 5
         onClicked: {
             stackView.pop();
         }
@@ -23,7 +25,7 @@ Item {
         font.family: localFont.name
         font.pointSize: 24
         text: "Pizza Type"
-        anchors.margins: 20
+        anchors.margins: myMargins
         anchors.right: screenPizzaType.right
         anchors.top: pizzaTypeBackButton.top
     }
@@ -72,26 +74,27 @@ Item {
         }
     }
 
-    property int tumblerWidth: rootWindow.width*0.55;
+    property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
-        id: foodType
+        id: pizzaType
         anchors.top: pizzaTypeBackButton.bottom
-        anchors.topMargin: 20
-        height: rootWindow.height - y - 20
+        anchors.topMargin: myMargins
+        height: parent.height - y - myMargins
         width: tumblerWidth
-        x: rootWindow.width * 0.33
+        x: parent.width * 0.33
 
         style:  MyTumblerStyle {
             onClicked: {
                 // See if the current selection was clicked
+                console.log("height: " + pizzaType.height);
                 if (name === theColumn.model.get(theColumn.currentIndex).name) {
                     stackView.push(Qt.resolvedUrl("Screen_AwaitStart.qml"));
                 }
             }
-            visibleItemCount: 9
-            textHeight:foodType.height/visibleItemCount
-            textWidth: foodType.width
+            visibleItemCount: 5
+            textHeight:pizzaType.height/visibleItemCount
+            textWidth: pizzaType.width
         }
         TumblerColumn {
             id: theColumn

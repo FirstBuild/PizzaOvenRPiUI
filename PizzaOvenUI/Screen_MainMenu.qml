@@ -6,15 +6,20 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: screenMainMenu
-    height: rootWindow.height*0.8
+    height: parent.height
+    width: parent.width
+    border.color: "blue"
+    border.width: 1
+
+    property int myMargins: 10
 
     Rectangle {
         id: mainMenuGearButton
-        anchors.margins: 20
+        anchors.margins: myMargins
         width: 40
         height: 40
-        x: 20
-        y: 20
+        x: 5
+        y: 5
         Image {
             id: mainMenuGearIcon
             source: "Gear-Icon.svg"
@@ -26,7 +31,7 @@ Rectangle {
         font.family: localFont.name
         font.pointSize: 24
         text: "10:04"
-        anchors.margins: 20
+        anchors.margins: myMargins
         anchors.right: screenMainMenu.right
         anchors.top: mainMenuGearButton.top
     }
@@ -51,19 +56,21 @@ Rectangle {
         }
     }
 
-    property int tumblerWidth: rootWindow.width*0.55;
+    property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
         id: foodType
         anchors.top: mainMenuGearButton.bottom
-        anchors.topMargin: 20
-        height: rootWindow.height*0.66
+        anchors.topMargin: myMargins
+//        height: parent.height - mainMenuGearButton.height - (myMargins * 3)
+        height: parent.height - y - myMargins
         width: tumblerWidth
-        x: rootWindow.width * 0.33
+        x: parent.width * 0.33
 
         style:  MyTumblerStyle {
             onClicked: {
                 console.log("Name clicked: " + name + " model: " + theColumn.model.get(theColumn.currentIndex).name);
+                console.log("height: " + parent.height);
                 if (name === theColumn.model.get(theColumn.currentIndex).name) {
                     console.log("The names did match.");
                     stackView.push(Qt.resolvedUrl("Screen_PizzaType.qml"));
@@ -71,7 +78,7 @@ Rectangle {
             }
             visibleItemCount: 5
             textHeight:foodType.height/visibleItemCount
-            textWidth: foodType.width
+            textWidth: parent.width
         }
         TumblerColumn {
             id: theColumn

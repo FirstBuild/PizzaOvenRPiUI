@@ -1,18 +1,14 @@
-import QtQuick 2.3
-import QtQuick.Window 2.2
-import QtQuick.Extras 1.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.0
 
 Item {
-    id: screenAwaitStart
-    width: parent.width
-    height: parent.height
+    id: screenCookingFirstHalf
+    implicitWidth: parent.width
+    implicitHeight: parent.height
 
-    property int myMargins: 15
+    property int myMargins: 10
 
     BackButton {
-        id: awaitStartBackButton
+        id: backbutton
         anchors.margins: myMargins
         x: myMargins
         y: myMargins
@@ -22,13 +18,13 @@ Item {
     }
 
     Text {
-        id: foodSelectedLabel
+        id: screenLabel
         font.family: localFont.name
         font.pointSize: 24
-        text: "NEOPOLITAN"
+        text: "COOKING"
         anchors.margins: myMargins
-        anchors.horizontalCenter: screenAwaitStart.horizontalCenter
-        anchors.verticalCenter: awaitStartBackButton.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: backbutton.verticalCenter
     }
 
     Item {
@@ -36,22 +32,21 @@ Item {
         implicitWidth: parent.height * 0.7;
         implicitHeight: width
         anchors.margins: myMargins
-        anchors.horizontalCenter: foodSelectedLabel.horizontalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40
-        Rectangle {
-            width: parent.width;
-            height: width
-            radius: width/2
-            anchors.centerIn: parent
-            border.width: 1
-            border.color: "black"
+
+        ProgressCircle {
+            id: progress
         }
+
         Rectangle {
             id: horizontalBar
-            width: parent.width * 0.66
+            width: parent.width * 0.5
             height: 2
-            anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: -cancelButton.height/2
+            anchors.top: parent.verticalCenter
             border.width: 1
             border.color: "black"
         }
@@ -59,7 +54,7 @@ Item {
             id: setTemp
             text: tempToString(targetTemp)
             font.family: localFont.name
-            font.pointSize: 36
+            font.pointSize: 18
             anchors.margins: myMargins
             anchors.bottom: horizontalBar.top
             anchors.horizontalCenter: parent.horizontalCenter
@@ -69,32 +64,48 @@ Item {
             text: timeToString(cookTime)
             font.family: localFont.name
             font.pointSize: 36
-            anchors.margins: myMargins
+            anchors.topMargin: 40
             anchors.top: horizontalBar.bottom
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 
     SideButton {
-        id: editButton
-        buttonText: "EDIT"
+        id: cancelButton
+        buttonText: "CANCEL"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
-            console.log("The edit button was clicked.");
+            console.log("The cancel button was clicked.");
         }
     }
-
     SideButton {
-        id: preheatButton
-        buttonText: "PREHEAT"
+        id: pauseButton
+        buttonText: "PAUSE"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.left: centerCircle.right
         onClicked: {
-            console.log("The preheat button was clicked.");
-            stackView.push(Qt.resolvedUrl("Screen_Preheating.qml"));
+            console.log("The pause button was clicked.");
+        }
+    }
+    Timer {
+        id: countdownTimer
+        interval: 1000; running: true; repeat: true
+        onTriggered: {
+            currentTime++;
+            if (currentTime <= cookTime/2) {
+                var val = 100 * currentTime/cookTime;
+                progress.currentValue = val;
+
+                val = cookTime - currentTime;
+                setTime.text = timeToString(val);
+
+            } else {
+                stackView.push(Qt.resolvedUrl("Screen_RotatePizza.qml"));
+                countdownTimer.stop();
+            }
         }
     }
 }

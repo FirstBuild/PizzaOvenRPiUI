@@ -10,5 +10,10 @@
         <file>Screen_Preheating.qml</file>
         <file>SideButton.qml</file>
         <file>fonts/FreeSans.ttf</file>
+        <file>ProgressCircle.qml</file>
+        <file>Screen_Start.qml</file>
+        <file>Screen_CookingFirstHalf.qml</file>
+        <file>Screen_RotatePizza.qml</file>
+        <file>CircleAsymmetrical.qml</file>
     </qresource>
 </RCC>
