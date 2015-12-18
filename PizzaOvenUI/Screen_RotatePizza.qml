@@ -40,42 +40,29 @@ Item {
             id: progress
             currentValue: 100 * currentTime/cookTime
         }
-
-        Rectangle {
-            id: horizontalBar
-            width: parent.width * 0.5
-            height: 2
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: -cancelButton.height/2
-            anchors.top: parent.verticalCenter
-            border.width: 1
-            border.color: "black"
+        Text {
+            text: "Rotate"
+            font.family: localFont.name
+            font.pointSize: 20
+            anchors.bottomMargin: myMargins/2
+            anchors.horizontalCenter: centerCircle.horizontalCenter
+            anchors.bottom: centerCircle.verticalCenter
         }
         Text {
-            id: setTemp
-            text: tempToString(targetTemp)
+            text: "Pizza"
             font.family: localFont.name
-            font.pointSize: 18
-            anchors.margins: myMargins
-            anchors.bottom: horizontalBar.top
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-        Text {
-            id: setTime
-            text: timeToString(cookTime - currentTime)
-            font.family: localFont.name
-            font.pointSize: 36
-            anchors.topMargin: 40
-            anchors.top: horizontalBar.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
+            font.pointSize: 20
+            anchors.topMargin: myMargins/2
+            anchors.horizontalCenter: centerCircle.horizontalCenter
+            anchors.top: centerCircle.verticalCenter
         }
     }
 
     SideButton {
         id: cancelButton
         buttonText: "CANCEL"
-        anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
+        anchors.margins: myMargins
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The cancel button was clicked.");
@@ -83,12 +70,14 @@ Item {
     }
     SideButton {
         id: starttButton
-        buttonText: "PAUSE"
+        buttonText: "CONTINUE"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.left: centerCircle.right
         onClicked: {
-            console.log("The pause button was clicked.");
+            console.log("Stoping countdown timer in rotate.");
+            countdownTimer.stop();
+            stackView.push(Qt.resolvedUrl("Screen_CookingSecondHalf.qml"));
         }
     }
 
@@ -101,15 +90,12 @@ Item {
                 var val = 100 * currentTime/cookTime;
                 if (val > 100) {
                     val = 0;
-                    animateTimer.stop();
+                    countdownTimer.stop();
                     stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
                 }
                 progress.currentValue = val;
-
-                val = cookTime - currentTime;
-                setTime.text = timeToString(val);
-
             } else {
+                console.log("Stoping countdown timer in rotate.");
                 countdownTimer.stop();
             }
         }

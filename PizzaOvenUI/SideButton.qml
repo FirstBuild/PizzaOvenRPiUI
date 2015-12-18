@@ -8,10 +8,17 @@ Item {
 
     implicitHeight: 75
     implicitWidth: parent.width*.2
+    Rectangle {
+        id: buttonBackground
+        color: "white"
+        width: parent.width
+        height: parent.height
+    }
+
     Text {
         text: buttonText
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: 16
         anchors.centerIn: parent
     }
     Rectangle {
@@ -32,6 +39,12 @@ Item {
         anchors.fill: parent
         onClicked: {
             sideButton.clicked();
+        }
+        onPressed: {
+            buttonBackground.color = "lightgray";
+        }
+        onReleased: {
+            buttonBackground.color = "white";
         }
     }
 }

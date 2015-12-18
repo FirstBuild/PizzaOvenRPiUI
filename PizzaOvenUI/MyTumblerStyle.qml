@@ -22,7 +22,15 @@ TumblerStyle {
         id: tumblerDelegate
         implicitHeight: (control.height - padding.top - padding.bottom) / tumblerStyle.visibleItemCount
 
+        Rectangle {
+            id: textBackground
+            color: "white"
+            height: parent.height
+            width: parent.width
+        }
+
         Text {
+            id: selectionText
             height: textHeight
             width: textWidth
             font.family: localFont.name
@@ -41,6 +49,16 @@ TumblerStyle {
             anchors.fill: parent
             onClicked: {
                 tumblerStyle.clicked(styleData.value);
+            }
+            onPressed: {
+                if (styleData.displacement === 0) {
+                    textBackground.color = "lightgray";
+                }
+            }
+            onReleased: {
+                if (styleData.displacement === 0) {
+                    textBackground.color = "white";
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ Window {
 
     property int currentTemp: 80
     property int targetTemp: 725
-    property int cookTime: 10
+    property int cookTime: 20
     property int currentTime: 0
 
     function timeToString(t) {

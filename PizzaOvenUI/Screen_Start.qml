@@ -92,6 +92,7 @@ Item {
         anchors.left: centerCircle.right
         onClicked: {
             console.log("The start button was clicked.");
+            currentTime = 0;
             stackView.push(Qt.resolvedUrl("Screen_CookingFirstHalf.qml"));
         }
     }

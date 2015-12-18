@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: screenCookingFirstHalf
+    id: screenCookingSecondHalf
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -38,6 +38,7 @@ Item {
 
         ProgressCircle {
             id: progress
+            currentValue: 100 * currentTime/cookTime
         }
 
         Rectangle {
@@ -61,7 +62,7 @@ Item {
         }
         Text {
             id: setTime
-            text: timeToString(cookTime)
+            text: timeToString(cookTime - currentTime)
             font.family: localFont.name
             font.pointSize: 36
             anchors.topMargin: 40
@@ -95,7 +96,7 @@ Item {
         interval: 1000; running: true; repeat: true
         onTriggered: {
             currentTime++;
-            if (currentTime < cookTime/2) {
+            if (currentTime < cookTime*0.9) {
                 var val = 100 * currentTime/cookTime;
                 progress.currentValue = val;
 
@@ -103,9 +104,7 @@ Item {
                 setTime.text = timeToString(val);
 
             } else {
-                console.log("Stoping countdown timer first half.");
                 countdownTimer.stop();
-                stackView.push(Qt.resolvedUrl("Screen_RotatePizza.qml"));
             }
         }
     }
