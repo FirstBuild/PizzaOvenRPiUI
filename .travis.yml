@@ -1,0 +1,17 @@
+sudo: required
+
+services:
+  - docker
+
+deploy:
+  provider: releases
+  api-key:
+    secure: Wis7mQqFs50XZ4NlZge1HJPl2LjuemZZiaqMmCiB6mRO+AE8s9bcPIHu2PdQsa0b1durZG1a2yp1pa43hK2/sJybTfHMXWlRtcWz2L59+93bjSAy/BiuYRqMKS/9a69kBIM9KuZr2LLRZfHR2Gc9LFDfyd/2AbBLOvDifAWmGSKPzPaBZjbf4En4NDfz1DuruE3i3KKl5IRELartxeXfDzGiwF+XZdToX/+wnf1bWYLAW7aPur1lkWTbWMFyYCCT4mhDioNB37QRwuBXJu3D9M0ObVX3gamH4Fv1qYbr3Dz9BuuTYDsyOj/vbRpF0OAXyJUZ+7ZB+5boCDivkCuy/RrSN/+zxbboqV+52Uh2h3F4KxuAxZwHQVtr+VT+Rb8U3R3b5hOT1Arq34DV4IoglrXy6OLHlJpXot4L/8HT7rXg0AiN9AlVmpJ1p3dckOA4b4dcZtPeSsDeZKC/+y+Ut81qci82W2q+3Q1HGXPNY9FZ9Jr+CVVwvjIvEbFZqCSeziuGXaURgZ6LzI/DgcdUsf8EUhCJUbGKjZH73EPYrCWDn+WOdxYXIBAtoB3X1MeG1RbFdBtrWEOJI/JVMCvblaD+xTJrmgy7Z/lUD5d3wx5QU51DXdfYHUqQLg2ZEZwsJ/1oP2dZt2DE+hx/WWamjEP9QvFJ1ahxpM6Rcn3guTg=
+  file: pizza-oven-touchscreen.tcz
+  skip_cleanup: true
+  on:
+    tags: true
+
+script:
+  - docker build -t firstbuild/pizza-oven-touchscreen .
+  - docker run firstbuild/pizza-oven-touchscreen > pizza-oven-touchscreen.tcz
