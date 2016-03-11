@@ -64,17 +64,31 @@ Item {
         id: animateTimer
         interval: 250; running: true; repeat: true
         onTriggered: {
-            var val = dataCircle.currentValue + 10;
-            if (val > 100) {
-                val = 0;
-                animateTimer.stop();
-                stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+            var val = 0;
+            if (demoModeIsActive) {
+                val = dataCircle.currentValue + 10;
+                if (val > 100) {
+                    val = 0;
+                    animateTimer.stop();
+                    stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+                }
+                dataCircle.currentValue = val;
+
+                val = 80 + (targetTemp - 80) * val / 100
+                dataCircle.bottomText = tempToString(val);
+            } else {
+                val = 100 * currentTemp / targetTemp;
+                if (val >= 100) {
+                    val = 0;
+                    animateTimer.stop();
+                    stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+                }
+                dataCircle.currentValue = val;
+
+                dataCircle.bottomText = tempToString(currentTemp);
             }
-            dataCircle.currentValue = val;
 
-            val = 80 + (targetTemp - 80) * val / 100
-            dataCircle.bottomText = tempToString(val);
-
+            dataCircle.topText = tempToString(targetTemp);
         }
     }
 }

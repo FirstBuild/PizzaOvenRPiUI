@@ -8,8 +8,8 @@ Rectangle {
     id: screenMainMenu
     height: parent.height
     width: parent.width
-    border.color: "blue"
-    border.width: 1
+//    border.color: "blue"
+//    border.width: 1
 
     property int myMargins: 10
 
