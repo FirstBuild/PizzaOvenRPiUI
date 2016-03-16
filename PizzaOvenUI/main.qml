@@ -44,6 +44,7 @@ Window {
             case "SetTemp":
                 if (msgPart.length >=2){
                     targetTemp = 0 + msgPart[1];
+                    console.log("GOT A NEW SET TEMP: " + targetTemp);
                 }
                 break;
             default:
