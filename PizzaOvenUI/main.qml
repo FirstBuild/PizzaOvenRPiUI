@@ -10,7 +10,7 @@ Window {
     visible: true
     width: 800
     height: 480
-    color: "white"
+    color: appBackgroundColor
 
     FontLoader { id: localFont; source: "fonts/FreeSans.ttf"; name: "FreeSans" }
 
@@ -19,6 +19,10 @@ Window {
     property int cookTime: 20
     property int currentTime: 0
     property bool demoModeIsActive: false
+    property color appBackgroundColor: "black"
+    property color appForegroundColor: "white"
+    property Item screenBookmark
+    property bool immediateTransitions: true
 
     function timeToString(t) {
         var first = Math.floor(t/60).toString()
@@ -30,6 +34,12 @@ Window {
 
     function tempToString(t) {
         return t.toFixed(0).toString() + String.fromCharCode(8457)
+    }
+
+    function sendWebSocketMessage(msg) {
+        if (socket.status == WebSocket.Open) {
+            socket.sendTextMessage(msg);
+        }
     }
 
     function handleWebSocketMessage(msg) {
@@ -47,6 +57,12 @@ Window {
                     console.log("GOT A NEW SET TEMP: " + targetTemp);
                 }
                 break;
+            case "CookTime":
+                if (msgPart.length >=2){
+                    cookTime = 0 + msgPart[1];
+                    console.log("GOT A NEW COOK TIME: " + cookTime);
+                }
+                break;
             default:
                 console.log("Unknown message received: " + msg);
                 break
@@ -55,13 +71,13 @@ Window {
     }
 
     Rectangle {
-        color: "white"
+        color: appBackgroundColor
         width: 559
         height: 355
         x: 60
         y: 25
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 0
         StackView {
             id: stackView
             width: parent.width
@@ -124,11 +140,7 @@ Window {
                 Qt.quit();
             }
         }
-        Text {
-            text: qsTr("Quit")
-            font.family: localFont.name
-            anchors.centerIn: parent
-        }
+        text: "Quit"
     }
 }
 

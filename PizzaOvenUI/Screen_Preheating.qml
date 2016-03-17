@@ -17,7 +17,7 @@ Item {
         x: myMargins
         y: myMargins
         onClicked: {
-            stackView.pop();
+            stackView.pop({immediate:immediateTransitions});
         }
     }
 
@@ -29,6 +29,7 @@ Item {
         anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: backbutton.verticalCenter
+        color: appForegroundColor
     }
 
     Item {
@@ -70,7 +71,7 @@ Item {
                 if (val > 100) {
                     val = 0;
                     animateTimer.stop();
-                    stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
                 }
                 dataCircle.currentValue = val;
 
@@ -81,7 +82,7 @@ Item {
                 if (val >= 100) {
                     val = 0;
                     animateTimer.stop();
-                    stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
                 }
                 dataCircle.currentValue = val;
 

@@ -13,7 +13,7 @@ Item {
         x: myMargins
         y: myMargins
         onClicked: {
-            stackView.pop();
+            stackView.pop({immediate:immediateTransitions});
         }
     }
 
@@ -25,6 +25,7 @@ Item {
         anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: backbutton.verticalCenter
+        color: appForegroundColor
     }
 
     Item {
@@ -47,6 +48,7 @@ Item {
             anchors.bottomMargin: myMargins/2
             anchors.horizontalCenter: centerCircle.horizontalCenter
             anchors.bottom: centerCircle.verticalCenter
+            color: appForegroundColor
         }
         Text {
             text: "Pizza"
@@ -55,6 +57,7 @@ Item {
             anchors.topMargin: myMargins/2
             anchors.horizontalCenter: centerCircle.horizontalCenter
             anchors.top: centerCircle.verticalCenter
+            color: appForegroundColor
         }
     }
 
@@ -77,7 +80,7 @@ Item {
         onClicked: {
             console.log("Stoping countdown timer in rotate.");
             countdownTimer.stop();
-            stackView.push(Qt.resolvedUrl("Screen_CookingSecondHalf.qml"));
+            stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -91,7 +94,7 @@ Item {
                 if (val > 100) {
                     val = 0;
                     countdownTimer.stop();
-                    stackView.push(Qt.resolvedUrl("Screen_Start.qml"));
+                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
                 }
                 progress.currentValue = val;
             } else {

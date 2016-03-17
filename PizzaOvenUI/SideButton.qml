@@ -10,30 +10,34 @@ Item {
     implicitWidth: parent.width*.2
     Rectangle {
         id: buttonBackground
-        color: "white"
+        color: appBackgroundColor
         width: parent.width
         height: parent.height
     }
 
     Text {
+        id: idButtonText
         text: buttonText
         font.family: localFont.name
         font.pointSize: 16
         anchors.centerIn: parent
+        color: appForegroundColor
     }
     Rectangle {
+        id: idTopLine
         width: parent.width
         height: 2
         anchors.top: parent.top
         border.width: 1
-        border.color: "black"
+        border.color: appForegroundColor
     }
     Rectangle {
+        id: idBottomLine
         width: parent.width
         height: 2
         anchors.bottom: parent.bottom
         border.width: 1
-        border.color: "black"
+        border.color: appForegroundColor
     }
     MouseArea {
         anchors.fill: parent
@@ -41,10 +45,12 @@ Item {
             sideButton.clicked();
         }
         onPressed: {
-            buttonBackground.color = "lightgray";
+            buttonBackground.color = appForegroundColor;
+            idButtonText.color = appBackgroundColor;
         }
         onReleased: {
-            buttonBackground.color = "white";
+            buttonBackground.color = appBackgroundColor;
+            idButtonText.color = appForegroundColor;
         }
     }
 }

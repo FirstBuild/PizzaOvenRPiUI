@@ -18,8 +18,8 @@ Item {
         antialiasing: true
         anchors.centerIn: parent
 
-        property color primaryColor: "black"
-        property color secondaryColor: "black"
+        property color primaryColor: appForegroundColor
+        property color secondaryColor: appForegroundColor
 
         property real centerWidth: width / 2
         property real centerHeight: height / 2

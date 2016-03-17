@@ -16,5 +16,7 @@
         <file>Screen_RotatePizza.qml</file>
         <file>CircleAsymmetrical.qml</file>
         <file>Screen_CookingSecondHalf.qml</file>
+        <file>Screen_TemperatureEntry.qml</file>
+        <file>Screen_TimeEntry.qml</file>
     </qresource>
 </RCC>

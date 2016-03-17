@@ -17,7 +17,7 @@ Item {
         x: 5
         y: 5
         onClicked: {
-            stackView.pop();
+            stackView.pop({immediate:immediateTransitions});
         }
     }
 
@@ -28,6 +28,7 @@ Item {
         anchors.margins: myMargins
         anchors.right: screenPizzaType.right
         anchors.top: pizzaTypeBackButton.top
+        color: appForegroundColor
     }
 
     ListModel {
@@ -86,11 +87,7 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
-                // See if the current selection was clicked
-                console.log("height: " + pizzaType.height);
-                if (name === theColumn.model.get(theColumn.currentIndex).name) {
-                    stackView.push(Qt.resolvedUrl("Screen_AwaitStart.qml"));
-                }
+                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }
             visibleItemCount: 5
             textHeight:pizzaType.height/visibleItemCount

@@ -5,26 +5,30 @@ TumblerStyle {
     id: tumblerStyle
     property int textHeight: 50
     property int textWidth: 50
+    property int textAlignment: Text.AlignLeft
     signal clicked(string name)
     frame: Rectangle {
         border.color: "black"
         border.width: 0
+        color: appBackgroundColor
     }
-    background: Rectangle {
-        color: "white"
-    }
-    columnForeground: Rectangle {
-        border.color: "white"
-        color: "white"
-        opacity: 0
-    }
+
+//    background: Item {
+//        MouseArea {
+//            onClicked: {
+//                console.log("Background was clicked.");
+//            }
+
+//        }
+//    }
+
     delegate: Item {
         id: tumblerDelegate
         implicitHeight: (control.height - padding.top - padding.bottom) / tumblerStyle.visibleItemCount
 
         Rectangle {
             id: textBackground
-            color: "white"
+            color: appBackgroundColor
             height: parent.height
             width: parent.width
         }
@@ -37,10 +41,10 @@ TumblerStyle {
             font.pointSize: 24
             text: styleData.value
             anchors.centerIn: parent
-            horizontalAlignment: Text.AlignLeft
+            horizontalAlignment: textAlignment
             verticalAlignment: Text.AlignVCenter
+            color: appForegroundColor
 
-            //opacity: 1.0 - (Math.abs(styleData.displacement)+1)/visibleItemCount
             opacity: 1.0 - (Math.abs(styleData.displacement)+1)/visibleItemCount
         }
 
@@ -48,16 +52,26 @@ TumblerStyle {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
-                tumblerStyle.clicked(styleData.value);
+                if (styleData.current) {
+                    tumblerStyle.clicked(styleData.value);
+                }
             }
             onPressed: {
-                if (styleData.displacement === 0) {
-                    textBackground.color = "lightgray";
+                if (styleData.current) {
+                    textBackground.color = appForegroundColor;
+                    selectionText.color = appBackgroundColor;
                 }
             }
             onReleased: {
-                if (styleData.displacement === 0) {
-                    textBackground.color = "white";
+                if (styleData.current) {
+                    textBackground.color = appBackgroundColor;
+                    selectionText.color = appForegroundColor;
+                }
+            }
+            onPositionChanged: {
+                if (styleData.current) {
+                    textBackground.color = appBackgroundColor;
+                    selectionText.color = appForegroundColor;
                 }
             }
         }
@@ -67,8 +81,10 @@ TumblerStyle {
         id:canvas
         width:parent.width
         height:parent.height
-        property color strokeStyle:  Qt.darker(fillStyle, 1.4)
-        property color fillStyle: "#808080"
+//        property color strokeStyle:  Qt.darker(fillStyle, 1.4)
+        property color strokeStyle:  fillStyle
+//        property color fillStyle: "#808080"
+        property color fillStyle: appForegroundColor
         property bool fill: true
         property bool stroke: true
         property real alpha: 1.0
@@ -111,8 +127,8 @@ TumblerStyle {
 //            ctx.lineTo(parent.width, 0);
 
 
-            console.log("Width: " + parent.width);
-            console.log("Height: " + parent.height);
+//            console.log("Width: " + parent.width);
+//            console.log("Height: " + parent.height);
 
             ctx.closePath();
             if (canvas.fill)

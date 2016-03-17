@@ -13,7 +13,7 @@ Item {
         x: myMargins
         y: myMargins
         onClicked: {
-            stackView.pop();
+            stackView.pop({immediate:immediateTransitions});
         }
     }
 
@@ -25,6 +25,7 @@ Item {
         anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: backbutton.verticalCenter
+        color: appForegroundColor
     }
 
     Item {
@@ -48,7 +49,7 @@ Item {
             anchors.topMargin: -cancelButton.height/2
             anchors.top: parent.verticalCenter
             border.width: 1
-            border.color: "black"
+            border.color: appForegroundColor
         }
         Text {
             id: setTemp
@@ -58,6 +59,7 @@ Item {
             anchors.margins: myMargins
             anchors.bottom: horizontalBar.top
             anchors.horizontalCenter: parent.horizontalCenter
+            color: appForegroundColor
         }
         Text {
             id: setTime
@@ -67,6 +69,7 @@ Item {
             anchors.topMargin: 40
             anchors.top: horizontalBar.bottom
             anchors.horizontalCenter: parent.horizontalCenter
+            color: appForegroundColor
         }
     }
 
@@ -105,7 +108,7 @@ Item {
             } else {
                 console.log("Stoping countdown timer first half.");
                 countdownTimer.stop();
-                stackView.push(Qt.resolvedUrl("Screen_RotatePizza.qml"));
+                stackView.push({item:Qt.resolvedUrl("Screen_RotatePizza.qml"), immediate:immediateTransitions});
             }
         }
     }

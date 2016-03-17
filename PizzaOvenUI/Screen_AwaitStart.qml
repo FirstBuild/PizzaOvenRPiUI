@@ -17,7 +17,7 @@ Item {
         x: myMargins
         y: myMargins
         onClicked: {
-            stackView.pop();
+            stackView.pop({immediate:immediateTransitions});
         }
     }
 
@@ -29,6 +29,7 @@ Item {
         anchors.margins: myMargins
         anchors.horizontalCenter: screenAwaitStart.horizontalCenter
         anchors.verticalCenter: awaitStartBackButton.verticalCenter
+        color: appForegroundColor
     }
 
     Item {
@@ -45,7 +46,8 @@ Item {
             radius: width/2
             anchors.centerIn: parent
             border.width: 1
-            border.color: "black"
+            border.color: appForegroundColor
+            color: appBackgroundColor
         }
         Rectangle {
             id: horizontalBar
@@ -53,7 +55,7 @@ Item {
             height: 2
             anchors.centerIn: parent
             border.width: 1
-            border.color: "black"
+            border.color: appForegroundColor
         }
         Text {
             id: setTemp
@@ -63,6 +65,7 @@ Item {
             anchors.margins: myMargins
             anchors.bottom: horizontalBar.top
             anchors.horizontalCenter: parent.horizontalCenter
+            color: appForegroundColor
         }
         Text {
             id: setTime
@@ -72,6 +75,7 @@ Item {
             anchors.margins: myMargins
             anchors.top: horizontalBar.bottom
             anchors.horizontalCenter: parent.horizontalCenter
+            color: appForegroundColor
         }
     }
 
@@ -83,6 +87,9 @@ Item {
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The edit button was clicked.");
+            console.log("Current item: " + stackView.currentItem);
+            screenBookmark = stackView.currentItem;
+            stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -94,7 +101,7 @@ Item {
         anchors.left: centerCircle.right
         onClicked: {
             console.log("The preheat button was clicked.");
-            stackView.push(Qt.resolvedUrl("Screen_Preheating.qml"));
+            stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
         }
     }
 }

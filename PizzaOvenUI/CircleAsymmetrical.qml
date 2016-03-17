@@ -28,7 +28,7 @@ Item {
         anchors.topMargin: -75/2
         anchors.top: parent.verticalCenter
         border.width: 1
-        border.color: "black"
+        border.color: appForegroundColor
     }
     Text {
         id: topLabel
@@ -38,6 +38,7 @@ Item {
         anchors.margins: 20
         anchors.bottom: horizontalBar.top
         anchors.horizontalCenter: parent.horizontalCenter
+        color: appForegroundColor
     }
     Text {
         id: bottomLabel
@@ -47,6 +48,7 @@ Item {
         anchors.topMargin: 40
         anchors.top: horizontalBar.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        color: appForegroundColor
     }
 }
 

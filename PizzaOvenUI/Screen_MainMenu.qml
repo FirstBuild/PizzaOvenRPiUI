@@ -4,12 +4,10 @@ import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
-Rectangle {
+Item {
     id: screenMainMenu
     height: parent.height
     width: parent.width
-//    border.color: "blue"
-//    border.width: 1
 
     property int myMargins: 10
 
@@ -20,6 +18,7 @@ Rectangle {
         height: 40
         x: 5
         y: 5
+        color: appBackgroundColor
         Image {
             id: mainMenuGearIcon
             source: "Gear-Icon.svg"
@@ -34,6 +33,7 @@ Rectangle {
         anchors.margins: myMargins
         anchors.right: screenMainMenu.right
         anchors.top: mainMenuGearButton.top
+        color: appForegroundColor
     }
 
     ListModel {
@@ -62,19 +62,13 @@ Rectangle {
         id: foodType
         anchors.top: mainMenuGearButton.bottom
         anchors.topMargin: myMargins
-//        height: parent.height - mainMenuGearButton.height - (myMargins * 3)
         height: parent.height - y - myMargins
         width: tumblerWidth
         x: parent.width * 0.33
 
         style:  MyTumblerStyle {
             onClicked: {
-                console.log("Name clicked: " + name + " model: " + theColumn.model.get(theColumn.currentIndex).name);
-                console.log("height: " + parent.height);
-                if (name === theColumn.model.get(theColumn.currentIndex).name) {
-                    console.log("The names did match.");
-                    stackView.push(Qt.resolvedUrl("Screen_PizzaType.qml"));
-                }
+                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
             }
             visibleItemCount: 5
             textHeight:foodType.height/visibleItemCount
