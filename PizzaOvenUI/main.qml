@@ -90,8 +90,8 @@ Window {
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
-            console.log("Opening connection to websocket server.");
-            socket.active = true;
+            console.log("Starting web socket connection timer.");
+            webSocketConnectionTimer.start();
         }
     }
 
@@ -104,10 +104,12 @@ Window {
         }
         onStatusChanged: if (socket.status == WebSocket.Error) {
                              console.log("Error: " + socket.errorString)
+                             webSocketConnectionTimer.start();
                          } else if (socket.status == WebSocket.Open) {
                              socket.sendTextMessage("Hello World")
                          } else if (socket.status == WebSocket.Closed) {
                              console.log("Socket closed");
+                             webSocketConnectionTimer.start();
                          }
         active: false
     }
@@ -128,7 +130,33 @@ Window {
         active: false
     }
 
-
+    Timer {
+        id: webSocketConnectionTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered: {
+            switch(socket.status) {
+            case WebSocket.Closed:
+                console.log("Web socket is closed.");
+                socket.active = false;
+                socket.active = true;
+                break;
+            case WebSocket.Connecting:
+                console.log("Web socket is connecting.");
+                break;
+            case WebSocket.Open:
+                webSocketConnectionTimer.stop();
+                break;
+            case WebSocket.Closing:
+                console.log("Web socket is closing.");
+                break;
+            case WebSocket.Error:
+                console.log("Web socket is error.");
+                socket.active = false;
+                socket.active = true;
+                break;
+            }
+        }
+    }
 
     Button {
         id: quitButton
