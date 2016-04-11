@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: screenCookingSecondHalf
+    id: screenCookingDone
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -21,7 +21,7 @@ Item {
         id: screenLabel
         font.family: localFont.name
         font.pointSize: 24
-        text: "COOKING"
+        text: "DONE"
         anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: backbutton.verticalCenter
@@ -47,7 +47,7 @@ Item {
             width: parent.width * 0.5
             height: 2
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: -cancelButton.height/2
+            anchors.topMargin: -completeButton.height/2
             anchors.top: parent.verticalCenter
             border.width: 1
             border.color: appForegroundColor
@@ -64,7 +64,8 @@ Item {
         }
         Text {
             id: setTime
-            text: timeToString(cookTime - currentTime)
+//            text: timeToString(cookTime - currentTime)
+            text: "00:00"
             font.family: localFont.name
             font.pointSize: 36
             anchors.topMargin: 40
@@ -75,49 +76,27 @@ Item {
     }
 
     SideButton {
-        id: cancelButton
-        buttonText: "CANCEL"
+        id: completeButton
+        buttonText: "COMPLETE"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
-            console.log("The cancel button was clicked.");
-            countdownTimer.stop();
+            console.log("The complete button was clicked.");
+            sendWebSocketMessage("StopOven " + targetTemp);
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
     SideButton {
-        id: pauseButton
-        buttonText: "PAUSE"
+        id: repeatButton
+        buttonText: "REPEAT"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.left: centerCircle.right
         onClicked: {
-            console.log("The pause button was clicked.");
-            if (countdownTimer.running) {
-                countdownTimer.stop();
-            } else {
-                countdownTimer.start();
-            }
-        }
-    }
-    Timer {
-        id: countdownTimer
-        interval: 1000; running: true; repeat: true
-        onTriggered: {
-            currentTime++;
-            if (currentTime < cookTime*0.9) {
-                var val = 100 * currentTime/cookTime;
-                progress.currentValue = val;
-
-                val = cookTime - currentTime;
-                setTime.text = timeToString(val);
-
-            } else {
-                countdownTimer.stop();
-                stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
-            }
+            console.log("The repeat button was clicked.");
+            stackView.pop({item:screenBookmark, immediate:immediateTransitions});
         }
     }
 }

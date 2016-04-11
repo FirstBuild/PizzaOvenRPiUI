@@ -81,6 +81,9 @@ Item {
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The cancel button was clicked.");
+            countdownTimer.stop();
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
     SideButton {
@@ -91,6 +94,11 @@ Item {
         anchors.left: centerCircle.right
         onClicked: {
             console.log("The pause button was clicked.");
+            if (countdownTimer.running) {
+                countdownTimer.stop();
+            } else {
+                countdownTimer.start();
+            }
         }
     }
     Timer {

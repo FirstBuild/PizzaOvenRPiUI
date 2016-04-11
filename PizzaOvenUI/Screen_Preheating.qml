@@ -57,7 +57,9 @@ Item {
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
-            console.log("The edit button was clicked.");
+            console.log("The cancel button was clicked.");
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
 

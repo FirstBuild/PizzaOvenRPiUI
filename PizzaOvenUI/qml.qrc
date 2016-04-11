@@ -18,5 +18,11 @@
         <file>Screen_CookingSecondHalf.qml</file>
         <file>Screen_TemperatureEntry.qml</file>
         <file>Screen_TimeEntry.qml</file>
+        <file>Screen_Off.qml</file>
+        <file>Screen_Cooldown.qml</file>
+        <file>Gear-Icon-white.svg</file>
+        <file>Screen_CookingFinalCheck.qml</file>
+        <file>Screen_CookingDone.qml</file>
+        <file>Screen_CookingFinal.qml</file>
     </qresource>
 </RCC>

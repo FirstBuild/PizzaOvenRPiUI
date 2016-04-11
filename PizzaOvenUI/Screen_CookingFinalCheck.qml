@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: screenRotatePizza
+    id: screenFinalCheck
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -42,7 +42,7 @@ Item {
             currentValue: 100 * currentTime/cookTime
         }
         Text {
-            text: "Rotate"
+            text: "Final"
             font.family: localFont.name
             font.pointSize: 20
             anchors.bottomMargin: myMargins/2
@@ -51,7 +51,7 @@ Item {
             color: appForegroundColor
         }
         Text {
-            text: "Pizza"
+            text: "Check"
             font.family: localFont.name
             font.pointSize: 20
             anchors.topMargin: myMargins/2
@@ -81,9 +81,9 @@ Item {
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.left: centerCircle.right
         onClicked: {
-            console.log("Stoping countdown timer in rotate.");
+            console.log("Stoping countdown timer in final check.");
             countdownTimer.stop();
-            stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
+            stackView.push({item:Qt.resolvedUrl("Screen_CookingFinal.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -101,7 +101,7 @@ Item {
                 }
                 progress.currentValue = val;
             } else {
-                console.log("Stoping countdown timer in rotate.");
+                console.log("Stoping countdown timer in final check.");
                 countdownTimer.stop();
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
             }

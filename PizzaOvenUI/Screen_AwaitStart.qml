@@ -101,6 +101,8 @@ Item {
         anchors.left: centerCircle.right
         onClicked: {
             console.log("The preheat button was clicked.");
+            sendWebSocketMessage("StartOven ");
+            screenBookmark = stackView.currentItem;
             stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
         }
     }

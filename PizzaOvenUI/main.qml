@@ -18,9 +18,12 @@ Window {
     property int targetTemp: 725
     property int cookTime: 20
     property int currentTime: 0
+    property int powerSwitch: 0
+    property int dlb: 0
     property bool demoModeIsActive: false
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
+    property string gearIconSource: "Gear-Icon-white.svg"
     property Item screenBookmark
     property bool immediateTransitions: true
 
@@ -42,35 +45,114 @@ Window {
         }
     }
 
-    function handleWebSocketMessage(msg) {
-        var msgPart = msg.split(" ");
-        if (msgPart.length > 0) {
-            switch (msgPart[0]){
-            case "Temp":
-                if (msgPart.length >=2){
-                    currentTemp = 0 + msgPart[1];
-                }
-                break;
-            case "SetTemp":
-                if (msgPart.length >=2){
-                    targetTemp = 0 + msgPart[1];
-                    console.log("GOT A NEW SET TEMP: " + targetTemp);
-                }
-                break;
-            case "CookTime":
-                if (msgPart.length >=2){
-                    cookTime = 0 + msgPart[1];
-                    console.log("GOT A NEW COOK TIME: " + cookTime);
-                }
-                break;
-            default:
-                console.log("Unknown message received: " + msg);
-                break
+    function forceScreenTransition(newScreen) {
+        if (stackView.currentItem.cleanUpOnExit)
+        {
+            console.log("Calling the exit function.");
+            stackView.currentItem.cleanUpOnExit();
+        } else {
+            console.log("There is no exit function to call.");
+        }
+        stackView.clear();
+        stackView.push({item: newScreen, immediate:immediateTransitions});
+    }
+
+    function handleWebSocketMessage(_msg) {
+        var  msg = JSON.parse(_msg);
+        switch (msg.id){
+        case "Temp":
+            if (msg.data.LF && msg.data.LR){
+                currentTemp = (msg.data.LF*1 + msg.data.LR*1)/2;
+                console.log("Current temp: " + currentTemp);
+            } else {
+                console.log("Temp data missing.");
             }
+            break;
+        case "SetTemp":
+            console.log("Got a set temp message: " + _msg);
+            break;
+        case "CookTime":
+            console.log("Got a cook time message: " + _msg);
+            break;
+        case "Power":
+            var oldDlb = dlb;
+            var oldPowerSwitch = powerSwitch;
+
+            if (msg.data.powerSwitch && msg.data.l2DLB) {
+                dlb = msg.data.l2DLB*1;
+                powerSwitch = msg.data.powerSwitch*1;
+            }
+
+            var oldState = oldPowerSwitch + (oldDlb * 10);
+            var newState = powerSwitch + (dlb * 10);
+
+            if (oldDlb != dlb) {
+                console.log("DLB state is now " + dlb);
+            }
+            if (oldPowerSwitch != powerSwitch) {
+                console.log("Power switch state is now " + powerSwitch);
+            }
+
+            switch(oldState) {
+            case 00: // off
+                switch(newState) {
+                case 01:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    break;
+                case 10:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    break;
+                case 11:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    break;
+                }
+                break;
+            case 01: // powered on
+                switch(newState) {
+                case 00:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    break;
+                case 10:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    break;
+                }
+                break;
+            case 10: // cooling
+                switch(newState) {
+                case 00:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    break;
+                case 01:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    break;
+                case 11:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    break;
+                }
+                break;
+            case 11: // cooking or other
+                switch(newState) {
+                case 00:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    break;
+                case 01:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    break;
+                case 10:
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    break;
+                }
+                break;
+            }
+            break;
+        default:
+            console.log("Unknown message received: " + JSON.parse(msg));
+            break
         }
     }
 
     Rectangle {
+        id: screenStackContainer
         color: appBackgroundColor
         width: 559
         height: 355
@@ -84,9 +166,15 @@ Window {
             height: parent.height
             anchors.fill: parent
             focus: true
-            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
+            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+//            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
 //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
 //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
+            onCurrentItemChanged: {
+                if (currentItem) {
+                    console.log("A new current item is current.");
+                }
+            }
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
@@ -99,7 +187,7 @@ Window {
         id: socket
         url: "ws://localhost:8080"
         onTextMessageReceived: {
-            console.log("Received message: " + message);
+//            console.log("Received message: " + message);
             handleWebSocketMessage(message);
         }
         onStatusChanged: if (socket.status == WebSocket.Error) {

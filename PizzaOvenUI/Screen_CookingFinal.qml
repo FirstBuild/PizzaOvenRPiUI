@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: screenRotatePizza
+    id: screenCookingFinal
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -41,22 +41,35 @@ Item {
             id: progress
             currentValue: 100 * currentTime/cookTime
         }
+
+        Rectangle {
+            id: horizontalBar
+            width: parent.width * 0.5
+            height: 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: -cancelButton.height/2
+            anchors.top: parent.verticalCenter
+            border.width: 1
+            border.color: appForegroundColor
+        }
         Text {
-            text: "Rotate"
+            id: setTemp
+            text: tempToString(targetTemp)
             font.family: localFont.name
-            font.pointSize: 20
-            anchors.bottomMargin: myMargins/2
-            anchors.horizontalCenter: centerCircle.horizontalCenter
-            anchors.bottom: centerCircle.verticalCenter
+            font.pointSize: 18
+            anchors.margins: myMargins
+            anchors.bottom: horizontalBar.top
+            anchors.horizontalCenter: parent.horizontalCenter
             color: appForegroundColor
         }
         Text {
-            text: "Pizza"
+            id: setTime
+            text: timeToString(cookTime - currentTime)
             font.family: localFont.name
-            font.pointSize: 20
-            anchors.topMargin: myMargins/2
-            anchors.horizontalCenter: centerCircle.horizontalCenter
-            anchors.top: centerCircle.verticalCenter
+            font.pointSize: 36
+            anchors.topMargin: 40
+            anchors.top: horizontalBar.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
             color: appForegroundColor
         }
     }
@@ -64,8 +77,8 @@ Item {
     SideButton {
         id: cancelButton
         buttonText: "CANCEL"
-        anchors.verticalCenter: centerCircle.verticalCenter
         anchors.margins: myMargins
+        anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The cancel button was clicked.");
@@ -75,18 +88,20 @@ Item {
         }
     }
     SideButton {
-        id: continueButton
-        buttonText: "CONTINUE"
+        id: pauseButton
+        buttonText: "PAUSE"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.left: centerCircle.right
         onClicked: {
-            console.log("Stoping countdown timer in rotate.");
-            countdownTimer.stop();
-            stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
+            console.log("The pause button was clicked.");
+            if (countdownTimer.running) {
+                countdownTimer.stop();
+            } else {
+                countdownTimer.start();
+            }
         }
     }
-
     Timer {
         id: countdownTimer
         interval: 1000; running: true; repeat: true
@@ -101,7 +116,7 @@ Item {
                 }
                 progress.currentValue = val;
             } else {
-                console.log("Stoping countdown timer in rotate.");
+                console.log("Stoping countdown final cooking.");
                 countdownTimer.stop();
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
             }

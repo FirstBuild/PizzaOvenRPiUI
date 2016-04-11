@@ -21,8 +21,12 @@ Item {
         color: appBackgroundColor
         Image {
             id: mainMenuGearIcon
-            source: "Gear-Icon.svg"
+            source: gearIconSource
             anchors.centerIn: parent
+        }
+        Component.onCompleted: {
+            console.log("Sending stop oven message from main menu.");
+            sendWebSocketMessage("StopOven ");
         }
     }
 
