@@ -12,14 +12,17 @@ Item {
 
     property int myMargins: 10
 
-    Text {
-        font.family: localFont.name
-        font.pointSize: 24
-        text: "This is not the off screen you are looking for."
-//        anchors.margins: myMargins
-//        anchors.right: screenMainMenu.right
-//        anchors.top: mainMenuGearButton.top
-        color: appForegroundColor
+    Image {
+        id: mainMenuGearIcon
+        source: "pizza_oven_blank_screen.jpg"
+        anchors.centerIn: parent
     }
+
+//    Text {
+//        font.family: localFont.name
+//        font.pointSize: 24
+//        text: "This is not the off screen you are looking for."
+//        color: appForegroundColor
+//    }
 }
 
