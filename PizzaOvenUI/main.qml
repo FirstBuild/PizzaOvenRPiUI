@@ -20,7 +20,7 @@ Window {
     property int currentTime: 0
     property int powerSwitch: 0
     property int dlb: 0
-    property bool demoModeIsActive: false
+    property bool demoModeIsActive: true
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
     property string gearIconSource: "Gear-Icon-white.svg"
@@ -175,11 +175,21 @@ Window {
                     console.log("A new current item is current.");
                 }
             }
+            Component.onCompleted: {
+                console.log("Stack view onCompleted received.");
+                stackView.push(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            }
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
-            console.log("Starting web socket connection timer.");
-            webSocketConnectionTimer.start();
+            if (demoModeIsActive) {
+                stackView.clear();
+                stackView.push(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            } else {
+                console.log("Starting web socket connection timer.");
+                webSocketConnectionTimer.start();
+            }
+
         }
     }
 
@@ -246,17 +256,17 @@ Window {
         }
     }
 
-    Button {
-        id: quitButton
-        x: 10
-        y: rootWindow.height - quitButton.height - 10
-        height: width
-        action: Action {
-            onTriggered: {
-                Qt.quit();
-            }
-        }
-        text: "Quit"
-    }
+//    Button {
+//        id: quitButton
+//        x: 10
+//        y: rootWindow.height - quitButton.height - 10
+//        height: width
+//        action: Action {
+//            onTriggered: {
+//                Qt.quit();
+//            }
+//        }
+//        text: "Quit"
+//    }
 }
 
