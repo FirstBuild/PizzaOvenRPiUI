@@ -8,7 +8,7 @@ TumblerStyle {
     property int textAlignment: Text.AlignLeft
     signal clicked(string name)
     frame: Rectangle {
-        border.color: "black"
+        border.color: "red"
         border.width: 0
         color: appBackgroundColor
     }
@@ -30,7 +30,8 @@ TumblerStyle {
             id: textBackground
             color: appBackgroundColor
             height: parent.height
-            width: parent.width
+            width: textWidth
+//            width: parent.width
         }
 
         Text {

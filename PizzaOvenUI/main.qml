@@ -27,6 +27,11 @@ Window {
     property Item screenBookmark
     property bool immediateTransitions: true
 
+    property int screenWidth: 559
+    property int screenHeight: 355
+    property int screenOffsetX: 60
+    property int screenOffsetY: 25
+
     function timeToString(t) {
         var first = Math.floor(t/60).toString()
         if (first.length == 1) first = "0" + first
@@ -154,10 +159,10 @@ Window {
     Rectangle {
         id: screenStackContainer
         color: appBackgroundColor
-        width: 559
-        height: 355
-        x: 60
-        y: 25
+        width: screenWidth
+        height: screenHeight
+        x: screenOffsetX
+        y: screenOffsetY
         border.color: "red"
         border.width: 0
         StackView {
@@ -176,16 +181,15 @@ Window {
                 }
             }
             Component.onCompleted: {
-                console.log("Stack view onCompleted received.");
-                stackView.push(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                if (demoModeIsActive) {
+                    console.log("Stack view onCompleted received.");
+                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
             }
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
-            if (demoModeIsActive) {
-                stackView.clear();
-                stackView.push(Qt.resolvedUrl("Screen_MainMenu.qml"));
-            } else {
+            if (!demoModeIsActive) {
                 console.log("Starting web socket connection timer.");
                 webSocketConnectionTimer.start();
             }

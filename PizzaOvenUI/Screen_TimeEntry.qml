@@ -28,21 +28,22 @@ Item {
         font.pointSize: 24
         text: "SELECT TIME"
         anchors.margins: myMargins
-        anchors.left: timeEntryBackButton.right
+        anchors.left: minutesEntry.left
         anchors.top: timeEntryBackButton.top
         color: appForegroundColor
     }
 
-//    property int tumblerWidth: parent.width*0.55/5;
-    property int tumblerWidth: parent.width / 2;
+    property int tumblerWidth: parent.width / 4;
+    property int columnWidth: tumblerWidth *0.35;
+    property int tumblerHeight: parent.height - screenTitle.y - screenTitle.height - myMargins*2
 
     Tumbler {
         id: minutesEntry
-        anchors.top: timeEntryBackButton.bottom
+        height: tumblerHeight
+        anchors.top: screenTitle.bottom
         anchors.topMargin: myMargins
-        height: parent.height - y - myMargins
-//        width: tumblerWidth
-        anchors.left: screenTitle.left
+        anchors.margins: myMargins
+        anchors.right: colonText.left
 
         Component.onCompleted: {
             var minutes = cookTime - (cookTime%60);
@@ -59,43 +60,43 @@ Item {
                 console.log("The tumbler was clicked.");
                 console.log(minutesTensColumn.currentIndex);
                 console.log(minutesOnesColumn.currentIndex);
-//                stackView.push(Qt.resolvedUrl("Screen_AwaitStart.qml"));
             }
             visibleItemCount: itemsPerTumbler
             textHeight:minutesEntry.height/visibleItemCount
-            textWidth: minutesEntry.width
+            textWidth: columnWidth
             textAlignment: Text.AlignHCenter
         }
         TumblerColumn {
             id: minutesTensColumn
-//            width: tumblerWidth
+            width: columnWidth
             model: [0,1,2,3,4,5,6,7,8,9]
         }
         TumblerColumn {
             id: minutesOnesColumn
-//            width: tumblerWidth
+            width: columnWidth
             model: [0,1,2,3,4,5,6,7,8,9]
         }
     }
 
     Text {
         id: colonText
-        anchors.left: minutesEntry.right
+        anchors.margins: myMargins
+        anchors.right: secondsEntry.left
         anchors.verticalCenter: minutesEntry.verticalCenter
         font.family: localFont.name
         font.pointSize: 24
         color: appForegroundColor
+        horizontalAlignment: Text.AlignLeft
         text: ":"
     }
 
     Tumbler {
         id: secondsEntry
-        anchors.top: timeEntryBackButton.bottom
+        height: tumblerHeight
+        anchors.top: screenTitle.bottom
         anchors.topMargin: myMargins
-        height: parent.height - y - myMargins
-//        width: tumblerWidth
-        anchors.left: colonText.right
-//        x: minutesEntry.x + minutesEntry.width
+        anchors.margins: myMargins
+        anchors.right: nextButton.left
 
         Component.onCompleted: {
             var seconds = (cookTime%60).toFixed(0);
@@ -111,30 +112,30 @@ Item {
                 console.log("The tumbler was clicked.");
                 console.log(secondsTensColumn.currentIndex);
                 console.log(secondsOnesColumn.currentIndex);
-//                stackView.push(Qt.resolvedUrl("Screen_AwaitStart.qml"));
             }
             visibleItemCount: itemsPerTumbler
             textHeight:secondsEntry.height/visibleItemCount
-            textWidth: secondsEntry.width
+            textWidth: columnWidth
             textAlignment: Text.AlignHCenter
         }
         TumblerColumn {
             id: secondsTensColumn
-//            width: tumblerWidth
+            width: columnWidth
             model: [0,1,2,3,4,5,6,7,8,9]
         }
         TumblerColumn {
             id: secondsOnesColumn
-//            width: tumblerWidth
+            width: columnWidth
             model: [0,1,2,3,4,5,6,7,8,9]
         }
     }
+
     SideButton {
         id: nextButton
         buttonText: "DONE"
-        anchors.margins: myMargins
+        anchors.margins: 20
         anchors.verticalCenter: minutesEntry.verticalCenter
-        anchors.left: secondsEntry.right
+        anchors.right: parent.right
         onClicked: {
             console.log("The next button was clicked.");
             var minutes = minutesTensColumn.currentIndex*10 + minutesOnesColumn.currentIndex;
