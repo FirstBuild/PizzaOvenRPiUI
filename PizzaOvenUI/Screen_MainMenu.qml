@@ -11,6 +11,22 @@ Item {
 
     property int myMargins: 10
 
+    function screenEntry() {
+        console.log("---------------> My screen entry was called.");
+        if (demoModeIsActive) {
+            demoTimeoutTimer.restart();
+        }
+    }
+
+    Timer {
+        id: demoTimeoutTimer
+        interval: 60000; running: false; repeat: false
+        onTriggered: {
+            stackView.clear();
+            stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+        }
+    }
+
     Rectangle {
         id: mainMenuGearButton
         anchors.margins: myMargins
@@ -27,6 +43,7 @@ Item {
         Component.onCompleted: {
             console.log("Sending stop oven message from main menu.");
             sendWebSocketMessage("StopOven ");
+            console.log("---------------> In the main menu.");
         }
     }
 
@@ -72,6 +89,7 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
+                demoTimeoutTimer.stop();
                 stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
             }
             visibleItemCount: 5

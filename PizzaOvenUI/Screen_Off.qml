@@ -12,17 +12,21 @@ Item {
 
     property int myMargins: 10
 
-    Image {
-        id: mainMenuGearIcon
-        source: "pizza_oven_blank_screen.jpg"
-        anchors.centerIn: parent
-    }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            if (demoModeIsActive) {
+                stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+            }
 
-//    Text {
-//        font.family: localFont.name
-//        font.pointSize: 24
-//        text: "This is not the off screen you are looking for."
-//        color: appForegroundColor
-//    }
+            console.log("Image clicked")
+        }
+
+        Image {
+            id: pizzaOvenOffImage
+            source: "pizza_oven_blank_screen.jpg"
+            anchors.centerIn: parent
+        }
+    }
 }
 

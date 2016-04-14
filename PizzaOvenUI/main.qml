@@ -178,13 +178,16 @@ Window {
             onCurrentItemChanged: {
                 if (currentItem) {
                     console.log("A new current item is current.");
+                    if (currentItem.screenEntry) {
+                        currentItem.screenEntry();
+                    }
                 }
             }
             Component.onCompleted: {
-                if (demoModeIsActive) {
-                    console.log("Stack view onCompleted received.");
-                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
+//                if (demoModeIsActive) {
+//                    console.log("Stack view onCompleted received.");
+//                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+//                }
             }
         }
         Component.onCompleted: {
