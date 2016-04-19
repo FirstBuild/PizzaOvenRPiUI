@@ -26,7 +26,7 @@ Item {
         id: screenTitle
         font.family: localFont.name
         font.pointSize: 24
-        text: "SELECT TIME"
+        text: "Select cook time"
         anchors.margins: myMargins
         anchors.left: minutesEntry.left
         anchors.top: timeEntryBackButton.top
@@ -132,7 +132,7 @@ Item {
 
     SideButton {
         id: nextButton
-        buttonText: "DONE"
+        buttonText: "NEXT"
         anchors.margins: 20
         anchors.verticalCenter: minutesEntry.verticalCenter
         anchors.right: parent.right
@@ -143,7 +143,8 @@ Item {
             cookTime = minutes * 60 + seconds;
             console.log("Cook time is now " + minutes + ":" + seconds + " (" + cookTime + ")");
             sendWebSocketMessage("CookTime " + cookTime);
-            stackView.pop({item:screenBookmark, immediate:immediateTransitions});
+            finalCheckTime = cookTime * 0.9
+            stackView.push({item:Qt.resolvedUrl("Screen_FinalCheckTimeEntry.qml"), immediate:immediateTransitions});
         }
     }
 }

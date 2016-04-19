@@ -25,5 +25,6 @@
         <file>Screen_CookingDone.qml</file>
         <file>Screen_CookingFinal.qml</file>
         <file>pizza_oven_blank_screen.jpg</file>
+        <file>Screen_FinalCheckTimeEntry.qml</file>
     </qresource>
 </RCC>

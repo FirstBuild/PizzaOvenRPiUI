@@ -107,7 +107,7 @@ Item {
         interval: 1000; running: true; repeat: true
         onTriggered: {
             currentTime++;
-            if (currentTime < cookTime*0.9) {
+            if (currentTime < finalCheckTime) {
                 var val = 100 * currentTime/cookTime;
                 progress.currentValue = val;
 

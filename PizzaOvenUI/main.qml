@@ -17,6 +17,7 @@ Window {
     property int currentTemp: 80
     property int targetTemp: 725
     property int cookTime: 20
+    property int finalCheckTime: cookTime * 0.9
     property int currentTime: 0
     property int powerSwitch: 0
     property int dlb: 0
