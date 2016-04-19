@@ -16,9 +16,9 @@ Item {
         anchors.margins: myMargins
         x: myMargins
         y: myMargins
-        onClicked: {
-            stackView.pop({immediate:immediateTransitions});
-        }
+//        onClicked: {
+//            stackView.pop({immediate:immediateTransitions});
+//        }
     }
 
     Text {

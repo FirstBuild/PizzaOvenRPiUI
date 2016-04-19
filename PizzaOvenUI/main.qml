@@ -19,6 +19,7 @@ Window {
     property int cookTime: 20
     property int finalCheckTime: cookTime * 0.9
     property int currentTime: 0
+    property bool halfTimeRotate: true
     property int powerSwitch: 0
     property int dlb: 0
     property bool demoModeIsActive: true

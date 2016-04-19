@@ -12,9 +12,9 @@ Item {
         anchors.margins: myMargins
         x: myMargins
         y: myMargins
-        onClicked: {
-            stackView.pop({immediate:immediateTransitions});
-        }
+//        onClicked: {
+//            stackView.pop({immediate:immediateTransitions});
+//        }
     }
 
     Text {
@@ -106,7 +106,7 @@ Item {
         interval: 1000; running: true; repeat: true
         onTriggered: {
             currentTime++;
-            if (currentTime < cookTime/2) {
+            if ((currentTime < cookTime/2) || ((halfTimeRotate == false) && (currentTime < finalCheckTime))) {
                 var val = 100 * currentTime/cookTime;
                 progress.currentValue = val;
 
@@ -116,7 +116,14 @@ Item {
             } else {
                 console.log("Stoping countdown timer first half.");
                 countdownTimer.stop();
-                stackView.push({item:Qt.resolvedUrl("Screen_RotatePizza.qml"), immediate:immediateTransitions});
+                if (halfTimeRotate)
+                {
+                    stackView.push({item:Qt.resolvedUrl("Screen_RotatePizza.qml"), immediate:immediateTransitions});
+                }
+                else
+                {
+                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }
