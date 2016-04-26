@@ -14,25 +14,59 @@ Window {
 
     FontLoader { id: localFont; source: "fonts/FreeSans.ttf"; name: "FreeSans" }
 
+    // Things related to the cooking of the oven
     property int currentTemp: 80
     property int targetTemp: 725
     property int cookTime: 20
-    property int finalCheckTime: cookTime * 0.9
     property int currentTime: 0
+    property int finalCheckTime: cookTime * 0.9
     property bool halfTimeRotate: true
     property int powerSwitch: 0
     property int dlb: 0
-    property bool demoModeIsActive: true
+
+    // Things related to how the app looks and operates
+    property bool demoModeIsActive: false
+    property bool developmentModeIsActive: true
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
     property string gearIconSource: "Gear-Icon-white.svg"
     property Item screenBookmark
     property bool immediateTransitions: true
-
     property int screenWidth: 559
     property int screenHeight: 355
     property int screenOffsetX: 60
     property int screenOffsetY: 25
+
+    // Parameters of the oven
+    property int upperFrontCurrentTemp: 100
+    property int upperFrontSetTemp: 1250
+    property int upperFrontDutyCycle: 10
+    property int upperFrontRelay: 0
+    property int upperRearCurrentTemp: 200
+    property int upperRearSetTemp: 1150
+    property int upperRearDutyCycle: 20
+    property int upperRearRelay: 0
+    property int lowerFrontCurrentTemp: 300
+    property int lowerFrontSetTemp: 650
+    property int lowerFrontDutyCycle: 30
+    property int lowerFrontRelay: 0
+    property int lowerRearCurrentTemp: 400
+    property int lowerRearSetTemp: 600
+    property int lowerRearDutyCycle: 40
+    property int lowerRearRelay: 0
+
+    property int upperFrontOnPercent: 0
+    property int upperFrontOffPercent: 49
+    property int upperRearOnPercent: 51
+    property int upperRearOffPercent: 100
+    property int lowerFrontOnPercent: 0
+    property int lowerFrontOffPercent: 49
+    property int lowerRearOnPercent: 51
+    property int lowerRearOffPercent: 100
+    property int upperElementTemperatureDeadband: 100
+    property int lowerElementTemperatureDeadband: 50
+
+    property string ovenState: "Standby"
 
     function timeToString(t) {
         var first = Math.floor(t/60).toString()
@@ -71,6 +105,10 @@ Window {
             if (msg.data.LF && msg.data.LR){
                 currentTemp = (msg.data.LF*1 + msg.data.LR*1)/2;
                 console.log("Current temp: " + currentTemp);
+                upperFrontCurrentTemp = msg.data.UF;
+                upperRearCurrentTemp = msg.data.UR;
+                lowerFrontCurrentTemp = msg.data.LF;
+                lowerRearCurrentTemp = msg.data.LR;
             } else {
                 console.log("Temp data missing.");
             }
@@ -99,6 +137,8 @@ Window {
             if (oldPowerSwitch != powerSwitch) {
                 console.log("Power switch state is now " + powerSwitch);
             }
+
+            if (developmentModeIsActive) return;
 
             switch(oldState) {
             case 00: // off
@@ -152,12 +192,61 @@ Window {
                 break;
             }
             break;
+        case "RelayParameters":
+            console.log("Received relay parameters: " + _msg);
+            if (msg.data) {
+                if (msg.data.relay && msg.data.onTemp && msg.data.offTemp && msg.data.onPercent && msg.data.offPercent) {
+                    switch(msg.data.relay) {
+                    case "UF":
+                        console.log("Setting the data for UF.");
+                        upperFrontSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        upperFrontOnPercent = parseInt(msg.data.onPercent);
+                        upperFrontOffPercent = parseInt(msg.data.offPercent);
+                        break;
+                    case "UR":
+                        console.log("Setting the data for UR.");
+                        upperRearSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        upperRearOnPercent = parseInt(msg.data.onPercent);
+                        upperRearOffPercent = parseInt(msg.data.offPercent);
+                        break;
+                    case "LF":
+                        console.log("Setting the data for LF.");
+                        lowerFrontSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        lowerFrontOnPercent = parseInt(msg.data.onPercent);
+                        lowerFrontOffPercent = parseInt(msg.data.offPercent);
+                        break;
+                    case "LR":
+                        console.log("Setting the data for LR.");
+                        lowerRearSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        lowerRearOnPercent = parseInt(msg.data.onPercent);
+                        lowerRearOffPercent = parseInt(msg.data.offPercent);
+                        break;
+                    }
+                }
+            }
+            break;
+        case "OvenState":
+            ovenState = msg.data;
+            break;
+        case "PidDutyCycles":
+            upperFrontDutyCycle = msg.data.UF;
+            upperRearDutyCycle = msg.data.UR;
+            lowerFrontDutyCycle = msg.data.LF;
+            lowerRearDutyCycle = msg.data.LR;
+            break;
+        case "RelayStates":
+            upperFrontRelay = msg.data.UF;
+            upperRearRelay = msg.data.UR;
+            lowerFrontRelay = msg.data.LF;
+            lowerRearRelay = msg.data.LR;
+            break;
         default:
-            console.log("Unknown message received: " + JSON.parse(msg));
+            console.log("Unknown message received: " + _msg);
             break
         }
     }
 
+    // Define the active screen area.  All screens live here.
     Rectangle {
         id: screenStackContainer
         color: appBackgroundColor
@@ -166,14 +255,17 @@ Window {
         x: screenOffsetX
         y: screenOffsetY
         border.color: "red"
-        border.width: 0
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width
             height: parent.height
             anchors.fill: parent
             focus: true
-            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+            initialItem: Qt.resolvedUrl("Screen_Development.qml")
+//            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
+//            initialItem: Qt.resolvedUrl("Keyboard.qml")
+//            initialItem: Qt.resolvedUrl("Screen_Off.qml")
 //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
 //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
 //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")

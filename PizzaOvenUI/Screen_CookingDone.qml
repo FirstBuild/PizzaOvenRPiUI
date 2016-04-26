@@ -83,7 +83,7 @@ Item {
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The complete button was clicked.");
-            sendWebSocketMessage("StopOven " + targetTemp);
+            sendWebSocketMessage("StopOven ");
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }

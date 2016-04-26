@@ -26,5 +26,11 @@
         <file>Screen_CookingFinal.qml</file>
         <file>pizza_oven_blank_screen.jpg</file>
         <file>Screen_FinalCheckTimeEntry.qml</file>
+        <file>Keyboard.qml</file>
+        <file>MyButton.qml</file>
+        <file>TempEntryWithKeys.qml</file>
+        <file>Screen_Development.qml</file>
+        <file>TwoValueBox.qml</file>
+        <file>HeaterBankData.qml</file>
     </qresource>
 </RCC>
