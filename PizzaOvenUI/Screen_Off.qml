@@ -18,6 +18,9 @@ Item {
             if (demoModeIsActive) {
                 stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
             }
+            if (developmentModeIsActive) {
+                stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
+            }
 
             console.log("Image clicked")
         }

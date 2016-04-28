@@ -31,6 +31,7 @@
         <file>TempEntryWithKeys.qml</file>
         <file>Screen_Development.qml</file>
         <file>TwoValueBox.qml</file>
+        <file>HeaterBankVisual.qml</file>
         <file>HeaterBankData.qml</file>
     </qresource>
 </RCC>

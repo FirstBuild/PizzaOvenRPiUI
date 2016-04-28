@@ -20,6 +20,7 @@ Item {
     }
 
     Column {
+        id: dataColumn
         z: 1
         spacing: 10
         anchors.centerIn: parent
@@ -27,53 +28,37 @@ Item {
         Row {
             spacing: 10
 
-            HeaterBankData {
+            HeaterBankVisual {
                 id: upperFrontData
-                bank: "UF"
+                heater: upperFront
                 width: smallButtonWidth
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
-                currentTemp: upperFrontCurrentTemp
-                setTemp: upperFrontSetTemp
-                onPercent: upperFrontOnPercent
-                offPercent: upperFrontOffPercent
-                borderColor: (upperFrontRelay == 0) ? "blue" : "red"
+                borderColor: (upperFront.elementRelay == 0) ? "blue" : "red"
             }
-            HeaterBankData {
+            HeaterBankVisual {
                 id: upperRearData
-                bank: "UR"
+                heater: upperRear
                 width: smallButtonWidth
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
-                currentTemp: upperRearCurrentTemp
-                setTemp: upperRearSetTemp
-                onPercent: upperRearOnPercent
-                offPercent: upperRearOffPercent
-                borderColor: (upperRearRelay == 0) ? "blue" : "red"
+                borderColor: (upperRear.elementRelay == 0) ? "blue" : "red"
             }
-            HeaterBankData {
+            HeaterBankVisual {
                 id: lowerFrontData
-                bank: "LF"
+                heater: lowerFront
                 width: smallButtonWidth
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
-                currentTemp: lowerFrontCurrentTemp
-                setTemp: lowerFrontSetTemp
-                onPercent: lowerFrontOnPercent
-                offPercent: lowerFrontOffPercent
-                borderColor: (lowerFrontRelay == 0) ? "blue" : "red"
+                borderColor: (lowerFront.elementRelay == 0) ? "blue" : "red"
             }
-            HeaterBankData {
+            HeaterBankVisual {
                 id: lowerRearData
-                bank: "LR"
+                heater: lowerRear
                 width: smallButtonWidth
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
-                currentTemp: lowerRearCurrentTemp
-                setTemp: lowerRearSetTemp
-                onPercent: lowerRearOnPercent
-                offPercent: lowerRearOffPercent
-                borderColor: (lowerRearRelay == 0) ? "blue" : "red"
+                borderColor: (lowerRear.elementRelay == 0) ? "blue" : "red"
             }
         }
         Row {
@@ -89,25 +74,25 @@ Item {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
-                text: " UF: " + upperFrontDutyCycle
+                text: " UF: " + upperFront.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
-                text: " UR: " + upperRearDutyCycle
+                text: " UR: " + upperRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
-                text: " LF: " + lowerFrontDutyCycle
+                text: " LF: " + lowerFront.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
-                text: " LR: " + lowerRearDutyCycle
+                text: " LR: " + lowerRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
             }
         }
 
@@ -116,7 +101,6 @@ Item {
             MyButton {
                 id: idStartStopButton
                 text: ovenState == "Cooking" ? "Stop" : "Start"
-//                textColor: ovenState == "Cooking" ? "red" : (powerSwitch==0 ? "gray" : "green")
                 width: smallButtonWidth
                 height: smallButtonHeight*.6
                 borderWidth: 2
@@ -153,6 +137,22 @@ Item {
                 text: "DLB: " + (dlb == 0 ? "Off" : "On")
             }
         }
+    }
+    MyButton {
+        id: idRefreshData
+        text: "Refresh"
+        width: smallButtonWidth
+        height: smallButtonHeight*.6
+        borderWidth: 1
+        borderColor: appForegroundColor
+        onClicked: {
+            sendWebSocketMessage("Get UF");
+            sendWebSocketMessage("Get UR");
+            sendWebSocketMessage("Get LF");
+            sendWebSocketMessage("Get LR");
+        }
+        anchors.right: dataColumn.right
+        anchors.bottom: dataColumn.bottom
     }
 }
 

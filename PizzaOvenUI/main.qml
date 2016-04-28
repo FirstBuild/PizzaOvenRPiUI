@@ -17,7 +17,7 @@ Window {
     // Things related to the cooking of the oven
     property int currentTemp: 80
     property int targetTemp: 725
-    property int cookTime: 20
+    property int cookTime: 2 * 60
     property int currentTime: 0
     property int finalCheckTime: cookTime * 0.9
     property bool halfTimeRotate: true
@@ -38,33 +38,51 @@ Window {
     property int screenOffsetY: 25
 
     // Parameters of the oven
-    property int upperFrontCurrentTemp: 100
-    property int upperFrontSetTemp: 1250
-    property int upperFrontDutyCycle: 10
-    property int upperFrontRelay: 0
-    property int upperRearCurrentTemp: 200
-    property int upperRearSetTemp: 1150
-    property int upperRearDutyCycle: 20
-    property int upperRearRelay: 0
-    property int lowerFrontCurrentTemp: 300
-    property int lowerFrontSetTemp: 650
-    property int lowerFrontDutyCycle: 30
-    property int lowerFrontRelay: 0
-    property int lowerRearCurrentTemp: 400
-    property int lowerRearSetTemp: 600
-    property int lowerRearDutyCycle: 40
-    property int lowerRearRelay: 0
+    HeaterBankData {
+        id: upperFront
+        bank: "UF"
+        currentTemp: 100
+        setTemp: 1250
+        elementDutyCycle: 10
+        elementRelay: 0
+        onPercent: 0
+        offPercent: 90
+        temperatureDeadband: 100
+    }
+    HeaterBankData {
+        id: upperRear
+        bank: "UR"
+        currentTemp: 100
+        setTemp: 1150
+        elementDutyCycle: 10
+        elementRelay: 0
+        onPercent: 10
+        offPercent: 90
+        temperatureDeadband: 100
+    }
+    HeaterBankData {
+        id: lowerFront
+        bank: "LF"
+        currentTemp: 100
+        setTemp: 650
+        elementDutyCycle: 10
+        elementRelay: 0
+        onPercent: 0
+        offPercent: 49
+        temperatureDeadband: 50
+    }
+    HeaterBankData {
+        id: lowerRear
+        bank: "LR"
+        currentTemp: 100
+        setTemp: 625
+        elementDutyCycle: 10
+        elementRelay: 0
+        onPercent: 51
+        offPercent: 100
+        temperatureDeadband: 50
+    }
 
-    property int upperFrontOnPercent: 0
-    property int upperFrontOffPercent: 49
-    property int upperRearOnPercent: 51
-    property int upperRearOffPercent: 100
-    property int lowerFrontOnPercent: 0
-    property int lowerFrontOffPercent: 49
-    property int lowerRearOnPercent: 51
-    property int lowerRearOffPercent: 100
-    property int upperElementTemperatureDeadband: 100
-    property int lowerElementTemperatureDeadband: 50
 
     property string ovenState: "Standby"
 
@@ -105,10 +123,10 @@ Window {
             if (msg.data.LF && msg.data.LR){
                 currentTemp = (msg.data.LF*1 + msg.data.LR*1)/2;
                 console.log("Current temp: " + currentTemp);
-                upperFrontCurrentTemp = msg.data.UF;
-                upperRearCurrentTemp = msg.data.UR;
-                lowerFrontCurrentTemp = msg.data.LF;
-                lowerRearCurrentTemp = msg.data.LR;
+                upperFront.currentTemp = msg.data.UF;
+                upperRear.currentTemp = msg.data.UR;
+                lowerFront.currentTemp = msg.data.LF;
+                lowerRear.currentTemp = msg.data.LR;
             } else {
                 console.log("Temp data missing.");
             }
@@ -199,27 +217,27 @@ Window {
                     switch(msg.data.relay) {
                     case "UF":
                         console.log("Setting the data for UF.");
-                        upperFrontSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
-                        upperFrontOnPercent = parseInt(msg.data.onPercent);
-                        upperFrontOffPercent = parseInt(msg.data.offPercent);
+                        upperFront.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        upperFront.onPercent = parseInt(msg.data.onPercent);
+                        upperFront.offPercent = parseInt(msg.data.offPercent);
                         break;
                     case "UR":
                         console.log("Setting the data for UR.");
-                        upperRearSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
-                        upperRearOnPercent = parseInt(msg.data.onPercent);
-                        upperRearOffPercent = parseInt(msg.data.offPercent);
+                        upperRear.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        upperRear.onPercent = parseInt(msg.data.onPercent);
+                        upperRear.offPercent = parseInt(msg.data.offPercent);
                         break;
                     case "LF":
                         console.log("Setting the data for LF.");
-                        lowerFrontSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
-                        lowerFrontOnPercent = parseInt(msg.data.onPercent);
-                        lowerFrontOffPercent = parseInt(msg.data.offPercent);
+                        lowerFront.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        lowerFront.onPercent = parseInt(msg.data.onPercent);
+                        lowerFront.offPercent = parseInt(msg.data.offPercent);
                         break;
                     case "LR":
                         console.log("Setting the data for LR.");
-                        lowerRearSetTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
-                        lowerRearOnPercent = parseInt(msg.data.onPercent);
-                        lowerRearOffPercent = parseInt(msg.data.offPercent);
+                        lowerRear.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
+                        lowerRear.onPercent = parseInt(msg.data.onPercent);
+                        lowerRear.offPercent = parseInt(msg.data.offPercent);
                         break;
                     }
                 }
@@ -229,16 +247,16 @@ Window {
             ovenState = msg.data;
             break;
         case "PidDutyCycles":
-            upperFrontDutyCycle = msg.data.UF;
-            upperRearDutyCycle = msg.data.UR;
-            lowerFrontDutyCycle = msg.data.LF;
-            lowerRearDutyCycle = msg.data.LR;
+            upperFront.elementDutyCycle = msg.data.UF;
+            upperRear.elementDutyCycle = msg.data.UR;
+            lowerFront.elementDutyCycle = msg.data.LF;
+            lowerRear.elementDutyCycle = msg.data.LR;
             break;
         case "RelayStates":
-            upperFrontRelay = msg.data.UF;
-            upperRearRelay = msg.data.UR;
-            lowerFrontRelay = msg.data.LF;
-            lowerRearRelay = msg.data.LR;
+            upperFront.elementRelay = msg.data.UF;
+            upperRear.elementRelay = msg.data.UR;
+            lowerFront.elementRelay = msg.data.LF;
+            lowerRear.elementRelay = msg.data.LR;
             break;
         default:
             console.log("Unknown message received: " + _msg);
@@ -255,17 +273,17 @@ Window {
         x: screenOffsetX
         y: screenOffsetY
         border.color: "red"
-        border.width: 1
+        border.width: 0
         StackView {
             id: stackView
             width: parent.width
             height: parent.height
             anchors.fill: parent
             focus: true
-            initialItem: Qt.resolvedUrl("Screen_Development.qml")
+//            initialItem: Qt.resolvedUrl("Screen_Development.qml")
 //            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
 //            initialItem: Qt.resolvedUrl("Keyboard.qml")
-//            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+            initialItem: Qt.resolvedUrl("Screen_Off.qml")
 //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
 //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
 //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
@@ -276,12 +294,6 @@ Window {
                         currentItem.screenEntry();
                     }
                 }
-            }
-            Component.onCompleted: {
-//                if (demoModeIsActive) {
-//                    console.log("Stack view onCompleted received.");
-//                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-//                }
             }
         }
         Component.onCompleted: {
