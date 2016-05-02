@@ -40,6 +40,8 @@ Item {
         ProgressCircle {
             id: progress
             currentValue: 100 * currentTime/cookTime
+            width: centerCircle.width
+            height: centerCircle.height
         }
         Text {
             text: "Final"

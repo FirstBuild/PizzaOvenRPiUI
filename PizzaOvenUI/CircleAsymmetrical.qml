@@ -7,8 +7,6 @@ Item {
     property string middleText: "Middle"
     property string bottomText: "Bottom"
     property int currentValue;
-    property int smallTextSize: 24
-    property int bigTextSize: 42
     property color rulerColor: appBackgroundColor
 
     implicitHeight: 50

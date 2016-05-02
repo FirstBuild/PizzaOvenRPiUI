@@ -47,32 +47,16 @@ Item {
         }
     }
 
-    function currentTime() {
-        var now = new Date();
-        var hours = now.getHours();
-        if (hours > 12) hours -= 12;
-        var mins = now.getMinutes();
-        var t = hours + ":" + ((mins < 10) ? "0" : "") + mins;
-        return t;
-    }
 
     Text {
         id: timeLabel
         font.family: localFont.name
         font.pointSize: 24
-        text: currentTime()
+        text: timeOfDay
         anchors.margins: myMargins
         anchors.right: screenMainMenu.right
-        anchors.top: mainMenuGearButton.top
+        anchors.top: screenMainMenu.top
         color: appForegroundColor
-    }
-
-    Timer {
-        id: timeOfDayClock
-        interval: 1000; running: true; repeat: true
-        onTriggered: {
-            timeLabel.text = currentTime();
-        }
     }
 
     ListModel {

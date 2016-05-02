@@ -37,42 +37,62 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40
 
-        ProgressCircle {
-            id: progress
-            currentValue: 100 * currentTime/cookTime
+        CircleAsymmetrical {
+            id: dataCircle
+            height: parent.height;
+            width: parent.width
+            topText: tempToString(upperFront.setTemp)
+            middleText: tempToString(lowerFront.setTemp)
+            bottomText: "00:00"
         }
 
-        Rectangle {
-            id: horizontalBar
-            width: parent.width * 0.5
-            height: 2
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: -completeButton.height/2
-            anchors.top: parent.verticalCenter
-            border.width: 1
-            border.color: appForegroundColor
-        }
-        Text {
-            id: setTemp
-            text: tempToString(lowerFront.setTemp)
-            font.family: localFont.name
-            font.pointSize: 18
-            anchors.margins: myMargins
-            anchors.bottom: horizontalBar.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
-        }
-        Text {
-            id: setTime
-//            text: timeToString(cookTime - currentTime)
-            text: "00:00"
-            font.family: localFont.name
-            font.pointSize: 36
-            anchors.topMargin: 40
-            anchors.top: horizontalBar.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
-        }
+//    Item {
+//        id: centerCircle
+//        implicitWidth: parent.height * 0.7;
+//        implicitHeight: width
+//        anchors.margins: myMargins
+//        anchors.horizontalCenter: parent.horizontalCenter
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 40
+
+//        ProgressCircle {
+//            id: progress
+//            currentValue: 100 * currentTime/cookTime
+//            width: centerCircle.width
+//            height: centerCircle.height
+//        }
+
+//        Rectangle {
+//            id: horizontalBar
+//            width: parent.width * 0.5
+//            height: 2
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            anchors.topMargin: -completeButton.height/2
+//            anchors.top: parent.verticalCenter
+//            border.width: 1
+//            border.color: appForegroundColor
+//        }
+//        Text {
+//            id: setTemp
+//            text: tempToString(lowerFront.setTemp)
+//            font.family: localFont.name
+//            font.pointSize: 18
+//            anchors.margins: myMargins
+//            anchors.bottom: horizontalBar.top
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            color: appForegroundColor
+//        }
+//        Text {
+//            id: setTime
+////            text: timeToString(cookTime - currentTime)
+//            text: "00:00"
+//            font.family: localFont.name
+//            font.pointSize: 36
+//            anchors.topMargin: 40
+//            anchors.top: horizontalBar.bottom
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            color: appForegroundColor
+//        }
     }
 
     SideButton {

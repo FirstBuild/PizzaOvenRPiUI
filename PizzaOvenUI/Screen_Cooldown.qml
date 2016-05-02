@@ -13,12 +13,26 @@ Item {
     property int myMargins: 10
 
     Text {
+        id: timeLabel
         font.family: localFont.name
         font.pointSize: 24
-        text: "The pizza oven is cooling down."
-//        anchors.margins: myMargins
-//        anchors.right: screenMainMenu.right
-//        anchors.top: mainMenuGearButton.top
+        text: timeOfDay
+        anchors.margins: myMargins
+        anchors.right: screenCooldown.right
+        anchors.top: screenCooldown.top
         color: appForegroundColor
+    }
+
+    Text {
+        anchors.centerIn: parent
+        anchors.margins: myMargins
+        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+        font.family: localFont.name
+        font.pointSize: 24
+        text: "CAUTION: The pizza oven is hot."
+        color: "red"
     }
 }

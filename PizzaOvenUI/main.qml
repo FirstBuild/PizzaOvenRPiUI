@@ -39,6 +39,9 @@ Window {
     property int screenHeight: 355
     property int screenOffsetX: 60
     property int screenOffsetY: 25
+    property string timeOfDay: "10:04"
+    property int smallTextSize: 24
+    property int bigTextSize: 42
 
     // Parameters of the oven
     HeaterBankData {
@@ -166,6 +169,14 @@ Window {
             switch(oldState) {
             case 00: // off
                 switch(newState) {
+                case 00:
+                    if (ovenState == "Standby") {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    }
+                    if (ovenState == "Cooldown") {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    }
+                    break;
                 case 01:
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
@@ -180,7 +191,11 @@ Window {
             case 01: // powered on
                 switch(newState) {
                 case 00:
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    if (ovenState == "Cooldown") {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    } else {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    }
                     break;
                 case 10:
                     forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
@@ -190,7 +205,11 @@ Window {
             case 10: // cooling
                 switch(newState) {
                 case 00:
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    if (ovenState == "Cooldown") {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    } else {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    }
                     break;
                 case 01:
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
@@ -203,7 +222,11 @@ Window {
             case 11: // cooking or other
                 switch(newState) {
                 case 00:
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    if (ovenState == "Cooldown") {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+                    } else {
+                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                    }
                     break;
                 case 01:
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
@@ -376,6 +399,18 @@ Window {
                 socket.active = true;
                 break;
             }
+        }
+    }
+
+    Timer {
+        id: timeOfDayClock
+        interval: 1000; running: true; repeat: true
+        onTriggered: {
+            var now = new Date();
+            var hours = now.getHours();
+            if (hours > 12) hours -= 12;
+            var mins = now.getMinutes();
+            timeOfDay = hours + ":" + ((mins < 10) ? "0" : "") + mins;
         }
     }
 
