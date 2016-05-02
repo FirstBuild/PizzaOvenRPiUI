@@ -28,7 +28,7 @@ Window {
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: false
-    property bool developmentModeIsActive: true
+    property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: false
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"

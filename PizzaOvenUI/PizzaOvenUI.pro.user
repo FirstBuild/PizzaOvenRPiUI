@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2016-05-02T14:21:23. -->
+<!-- Written by QtCreator 3.5.1, 2016-05-02T15:11:56. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -416,11 +416,11 @@
        <value type="QString">/home/rob/qt_apps/build-PizzaOvenUI-Raspberry_Pi-Debug/PizzaOvenUI</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
-       <value type="QString">192.168.2.3</value>
        <value type="QString">192.168.2.2</value>
-       <value type="QString">192.168.7.3</value>
        <value type="QString">192.168.7.4</value>
        <value type="QString">192.168.2.4</value>
+       <value type="QString">192.168.7.3</value>
+       <value type="QString">192.168.2.3</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths">
        <value type="QString">/home/pi/</value>
@@ -437,11 +437,11 @@
        <value type="QString"></value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
-       <value type="QDateTime">2016-01-08T13:10:24</value>
        <value type="QDateTime">2015-12-21T15:42:27</value>
-       <value type="QDateTime">2016-04-12T14:55:07</value>
        <value type="QDateTime">2016-04-14T10:06:41</value>
        <value type="QDateTime">2016-03-17T16:12:51</value>
+       <value type="QDateTime">2016-04-12T14:55:07</value>
+       <value type="QDateTime">2016-01-08T13:10:24</value>
       </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">true</value>
