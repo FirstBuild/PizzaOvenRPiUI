@@ -39,7 +39,7 @@ Item {
             id: screenTitle
             font.family: localFont.name
             font.pointSize: 24
-            text: "Select oven temp"
+            text: "Select dome temp"
             anchors.margins: myMargins
             color: appForegroundColor
         }
@@ -49,12 +49,20 @@ Item {
             height: parent.height - screenTitle.height - parent.spacing * 3
 
             Component.onCompleted: {
-                var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
-                var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
-                var ones = (lowerFront.setTemp%10).toFixed(0);
-                temperatureEntry.setCurrentIndexAt(0, hunds);
-                temperatureEntry.setCurrentIndexAt(1, tens);
-                temperatureEntry.setCurrentIndexAt(2, ones);
+                var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
+                var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
+                var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
+                var ones = (upperFront.setTemp%10).toFixed(0);
+                temperatureEntry.setCurrentIndexAt(0, thous);
+                temperatureEntry.setCurrentIndexAt(1, hunds);
+                temperatureEntry.setCurrentIndexAt(2, tens);
+                temperatureEntry.setCurrentIndexAt(3, ones);
+
+                console.log("upperFront.setTemp" + upperFront.setTemp);
+                console.log("Thous: " + thous);
+                console.log("Hunds: " + hunds);
+                console.log("Tens: " + tens);
+                console.log("Ones: "+ ones);
             }
 
             style:  MyTumblerStyle {
@@ -68,6 +76,11 @@ Item {
                 textHeight:temperatureEntry.height/visibleItemCount
                 textWidth: columnWidth
                 textAlignment: Text.AlignHCenter
+            }
+            TumblerColumn {
+                id: thousandsColumn
+                width: columnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
             }
             TumblerColumn {
                 id: hundredsColumn
@@ -94,25 +107,28 @@ Item {
         anchors.right: parent.right
         onClicked: {
             console.log("The next button was clicked.");
-            var temp = hundredsColumn.currentIndex * 100;
+            var temp = thousandsColumn.currentIndex * 1000;
+            temp += hundredsColumn.currentIndex * 100;
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
+            console.log("Temp is now " + temp);
 
-            lowerFront.setTemp = temp;
-            lowerRear.setTemp = temp - lowerTempDifferential;
+            upperFront.setTemp = temp;
+            upperRear.setTemp = upperFront.setTemp - 100;
 
-            console.log("Lower front set temp is now " + lowerFront.setTemp);
-            console.log("Lower rear set temp is now " + lowerRear.setTemp);
+            console.log("Upper front set temp is now " + upperFront.setTemp);
+            console.log("Upper rear set temp is now " + upperRear.setTemp);
 
-            sendWebSocketMessage("Set LF SetPoint " +
-                                 (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
-                                 (lowerFront.setTemp + 0.5 * lowerFront.temperatureDeadband));
-            sendWebSocketMessage("Set LR SetPoint " +
-                                 (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
-                                 (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
+            sendWebSocketMessage("Set UF SetPoint " +
+                                 (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
+                                 (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
+            sendWebSocketMessage("Set UR SetPoint " +
+                                 (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
+                                 (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
 
             stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
         }
     }
 }
+
 

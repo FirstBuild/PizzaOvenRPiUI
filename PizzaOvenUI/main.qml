@@ -16,17 +16,20 @@ Window {
 
     // Things related to the cooking of the oven
     property int currentTemp: 80
-    property int targetTemp: 725
-    property int cookTime: 2 * 60
+//    property int cookTime: 2 * 60
+    property int cookTime: 30
     property int currentTime: 0
     property int finalCheckTime: cookTime * 0.9
     property bool halfTimeRotate: true
     property int powerSwitch: 0
     property int dlb: 0
+    property int upperTempDifferential: 100
+    property int lowerTempDifferential: 50
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: false
     property bool developmentModeIsActive: true
+    property bool twoTempEntryModeIsActive: false
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
     property string gearIconSource: "Gear-Icon-white.svg"
@@ -69,7 +72,8 @@ Window {
         elementRelay: 0
         onPercent: 0
         offPercent: 49
-        temperatureDeadband: 50
+//        temperatureDeadband: 50
+        temperatureDeadband: 10
     }
     HeaterBankData {
         id: lowerRear
@@ -80,7 +84,8 @@ Window {
         elementRelay: 0
         onPercent: 51
         offPercent: 100
-        temperatureDeadband: 50
+//        temperatureDeadband: 50
+        temperatureDeadband: 10
     }
 
 
@@ -232,6 +237,7 @@ Window {
                         lowerFront.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
                         lowerFront.onPercent = parseInt(msg.data.onPercent);
                         lowerFront.offPercent = parseInt(msg.data.offPercent);
+                        lowerFront.setTemp = lowerFront.setTemp;
                         break;
                     case "LR":
                         console.log("Setting the data for LR.");
@@ -318,6 +324,10 @@ Window {
                              webSocketConnectionTimer.start();
                          } else if (socket.status == WebSocket.Open) {
                              socket.sendTextMessage("Hello World")
+                             sendWebSocketMessage("Get UF");
+                             sendWebSocketMessage("Get UR");
+                             sendWebSocketMessage("Get LF");
+                             sendWebSocketMessage("Get LR");
                          } else if (socket.status == WebSocket.Closed) {
                              console.log("Socket closed");
                              webSocketConnectionTimer.start();

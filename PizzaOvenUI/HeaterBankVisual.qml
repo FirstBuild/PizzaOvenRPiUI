@@ -28,15 +28,19 @@ Item {
             borderColor: heaterBankVisual.borderColor
 
             onClicked: {
-                function handleCanceled() {
+                function disconnectAndDisable() {
                     tempEntry.dialogCanceled.disconnect(handleCanceled);
+                    tempEntry.dialogCompleted.disconnect(handleCompleted);
                     tempEntry.enabled = false;
                     tempEntry.visible = false;
                 }
+                function handleCanceled() {
+                    disconnectAndDisable();
+                }
                 function handleCompleted() {
-                    tempEntry.dialogCompleted.disconnect(handleCompleted);
+                    console.log("Enter pressed and value is " + tempEntry.value);
                     heater.setTemp = tempEntry.value;
-                    handleCanceled();
+                    disconnectAndDisable();
                     console.log("New heater set temp: " + heater.setTemp);
                     var msg = "Set " + heater.bank + " SetPoint " +
                             (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
@@ -67,15 +71,18 @@ Item {
             borderColor: heaterBankVisual.borderColor
 
             onClicked: {
-                function handleCanceled() {
+                function disconnectAndDisable() {
                     tempEntry.dialogCanceled.disconnect(handleCanceled);
+                    tempEntry.dialogCompleted.disconnect(handleCompleted);
                     tempEntry.enabled = false;
                     tempEntry.visible = false;
                 }
+                function handleCanceled() {
+                    disconnectAndDisable();
+                }
                 function handleCompleted() {
-                    tempEntry.dialogCompleted.disconnect(handleCompleted);
                     heater.onPercent = tempEntry.value;
-                    handleCanceled();
+                    disconnectAndDisable();
                     var msg = "Set "+ heater.bank + " OnPercent " + heater.onPercent;
                     console.log("Setting on percent to " + msg);
                     sendWebSocketMessage("Set "+ heater.bank + " OnPercent " + heater.onPercent);
@@ -101,15 +108,18 @@ Item {
             borderColor: heaterBankVisual.borderColor
 
             onClicked: {
-                function handleCanceled() {
+                function disconnectAndDisable() {
                     tempEntry.dialogCanceled.disconnect(handleCanceled);
+                    tempEntry.dialogCompleted.disconnect(handleCompleted);
                     tempEntry.enabled = false;
                     tempEntry.visible = false;
                 }
+                function handleCanceled() {
+                    disconnectAndDisable();
+                }
                 function handleCompleted() {
-                    tempEntry.dialogCompleted.disconnect(handleCompleted);
                     heater.offPercent = tempEntry.value;
-                    handleCanceled();
+                    disconnectAndDisable();
                     var msg = "Set " + heater.bank + " OffPercent " + heater.offPercent;
                     console.log("Setting off percent to " + msg);
                     sendWebSocketMessage("Set " + heater.bank + " OffPercent " + heater.offPercent);

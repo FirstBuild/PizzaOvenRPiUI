@@ -45,7 +45,8 @@ Item {
             id: dataCircle
             height: parent.height;
             width: parent.width
-            topText: tempToString(targetTemp)
+            topText: tempToString(upperFront.setTemp)
+            middleText: tempToString(lowerFront.setTemp)
             bottomText: tempToString(currentTemp)
         }
     }
@@ -77,21 +78,17 @@ Item {
                 }
                 dataCircle.currentValue = val;
 
-                val = 80 + (targetTemp - 80) * val / 100
+                val = 80 + (lowerFront.setTemp - 80) * val / 100
                 dataCircle.bottomText = tempToString(val);
             } else {
-                val = 100 * currentTemp / targetTemp;
+                val = 100 * currentTemp / lowerFront.setTemp;
                 if (val >= 100) {
                     val = 0;
                     animateTimer.stop();
                     stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
                 }
                 dataCircle.currentValue = val;
-
-                dataCircle.bottomText = tempToString(currentTemp);
             }
-
-            dataCircle.topText = tempToString(targetTemp);
         }
     }
 }

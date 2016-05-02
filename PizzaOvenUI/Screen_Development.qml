@@ -103,8 +103,25 @@ Item {
                 text: ovenState == "Cooking" ? "Stop" : "Start"
                 width: smallButtonWidth
                 height: smallButtonHeight*.6
-                borderWidth: 2
-                borderColor: ovenState == "Cooking" ? "red" : (powerSwitch==0 ? "gray" : "green")
+                borderWidth: 3
+                borderColor: getButtonColor()
+                function getButtonColor () {
+                    console.log("Oven state: <" + ovenState + ">");
+                    var color = "orange"
+                    if (ovenState == "Cooking") {
+                        console.log("Setting color to red.");
+                        color = "red"
+                    } else {
+                        if (powerSwitch==0) {
+                            console.log("Setting color to gray.");
+                            color = "gray"
+                        } else {
+                            console.log("Setting color to green.");
+                            color = "green"
+                        }
+                    }
+                    return color;
+                }
                 onClicked: {
                     switch (ovenState) {
                     case "Cooking":

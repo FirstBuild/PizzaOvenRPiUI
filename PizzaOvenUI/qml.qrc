@@ -33,5 +33,7 @@
         <file>TwoValueBox.qml</file>
         <file>HeaterBankVisual.qml</file>
         <file>HeaterBankData.qml</file>
+        <file>Screen_EnterStoneTemp.qml</file>
+        <file>Screen_EnterDomeTemp.qml</file>
     </qresource>
 </RCC>

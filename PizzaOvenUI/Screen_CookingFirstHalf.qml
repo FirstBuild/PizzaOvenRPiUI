@@ -37,39 +37,13 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40
 
-        ProgressCircle {
-            id: progress
-        }
-
-        Rectangle {
-            id: horizontalBar
-            width: parent.width * 0.5
-            height: 2
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: -cancelButton.height/2
-            anchors.top: parent.verticalCenter
-            border.width: 1
-            border.color: appForegroundColor
-        }
-        Text {
-            id: setTemp
-            text: tempToString(targetTemp)
-            font.family: localFont.name
-            font.pointSize: 18
-            anchors.margins: myMargins
-            anchors.bottom: horizontalBar.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
-        }
-        Text {
-            id: setTime
-            text: timeToString(cookTime)
-            font.family: localFont.name
-            font.pointSize: 36
-            anchors.topMargin: 40
-            anchors.top: horizontalBar.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
+        CircleAsymmetrical {
+            id: dataCircle
+            height: parent.height;
+            width: parent.width
+            topText: tempToString(upperFront.setTemp)
+            middleText: tempToString(lowerFront.setTemp)
+            bottomText: timeToString(cookTime)
         }
     }
 
@@ -108,10 +82,10 @@ Item {
             currentTime++;
             if ((currentTime < cookTime/2) || ((halfTimeRotate == false) && (currentTime < finalCheckTime))) {
                 var val = 100 * currentTime/cookTime;
-                progress.currentValue = val;
+                dataCircle.currentValue = val;
 
                 val = cookTime - currentTime;
-                setTime.text = timeToString(val);
+                dataCircle.bottomText = timeToString(val);
 
             } else {
                 console.log("Stoping countdown timer first half.");

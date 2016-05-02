@@ -54,7 +54,7 @@ Item {
         }
         Text {
             id: setTemp
-            text: tempToString(targetTemp)
+            text: tempToString(lowerFront.setTemp)
             font.family: localFont.name
             font.pointSize: 18
             anchors.margins: myMargins
@@ -83,7 +83,7 @@ Item {
         anchors.right: centerCircle.left
         onClicked: {
             console.log("The complete button was clicked.");
-            sendWebSocketMessage("StopOven ");
+//            sendWebSocketMessage("StopOven ");
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }

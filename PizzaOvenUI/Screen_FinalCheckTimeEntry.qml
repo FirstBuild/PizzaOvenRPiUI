@@ -17,9 +17,9 @@ Item {
         anchors.margins: myMargins
         x: 5
         y: 5
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
+        onClicked: {
+            stackView.pop({immediate:immediateTransitions});
+        }
     }
 
     property int tumblerWidth: parent.width / 4;
@@ -50,10 +50,12 @@ Item {
                 height: parent.height
 
                 Component.onCompleted: {
-                    var minutes = finalCheckTime - (finalCheckTime%60);
+                    var minutes = (finalCheckTime - (finalCheckTime%60))/60;
                     var tensOfMinutes = minutes;
-                    minutes = minutes %10;
-                    tensOfMinutes = ((tensOfMinutes - minutes)/10).toFixed(0)
+                    minutes = minutes % 10;
+                    tensOfMinutes = (tensOfMinutes - minutes)/10
+
+                    console.log("Final check time is: " + finalCheckTime);
 
                     minutesEntry.setCurrentIndexAt(0, tensOfMinutes);
                     minutesEntry.setCurrentIndexAt(1, minutes);

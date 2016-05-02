@@ -8,14 +8,15 @@ Item {
     height: 40
 
     property string text: "Button"
-    //property color color: appBackgroundColor
+    property color backgroundColor: appBackgroundColor
     property color borderColor: appForegroundColor
     property int borderWidth: 0
     property string textColor: appForegroundColor
 
     Rectangle {
         id: buttonBackround
-        color: appBackgroundColor
+//        color: appBackgroundColor
+        color: button.backgroundColor
         width: button.width
         height: button.height
         border.color: button.borderColor
@@ -42,7 +43,7 @@ Item {
             }
             onReleased: {
                 idText.color = appForegroundColor;
-                buttonBackround.color = appBackgroundColor;
+                buttonBackround.color = button.backgroundColor;
             }
         }
     }

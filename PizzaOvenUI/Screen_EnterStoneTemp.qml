@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenTemperatureEntry
+    id: screenStoneTempEntry
     width: parent.width
     height: parent.height
 
@@ -39,7 +39,7 @@ Item {
             id: screenTitle
             font.family: localFont.name
             font.pointSize: 24
-            text: "Select oven temp"
+            text: "Select stone temp"
             anchors.margins: myMargins
             color: appForegroundColor
         }
@@ -55,6 +55,10 @@ Item {
                 temperatureEntry.setCurrentIndexAt(0, hunds);
                 temperatureEntry.setCurrentIndexAt(1, tens);
                 temperatureEntry.setCurrentIndexAt(2, ones);
+                console.log("Set temp is " + lowerFront.setTemp);
+                console.log("hunds: " + hunds);
+                console.log("tens: " + tens);
+                console.log("ones: " + ones);
             }
 
             style:  MyTumblerStyle {
@@ -99,7 +103,7 @@ Item {
             temp += onesColumn.currentIndex;
 
             lowerFront.setTemp = temp;
-            lowerRear.setTemp = temp - lowerTempDifferential;
+            lowerRear.setTemp = lowerFront.setTemp - lowerTempDifferential;
 
             console.log("Lower front set temp is now " + lowerFront.setTemp);
             console.log("Lower rear set temp is now " + lowerRear.setTemp);
@@ -111,7 +115,7 @@ Item {
                                  (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
                                  (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
 
-            stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+            stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
         }
     }
 }

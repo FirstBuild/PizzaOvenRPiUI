@@ -37,45 +37,17 @@ Item {
         implicitWidth: parent.height * 0.7;
         implicitHeight: width
         anchors.margins: myMargins
-        anchors.horizontalCenter: foodSelectedLabel.horizontalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40
-        Rectangle {
-            width: parent.width;
-            height: width
-            radius: width/2
-            anchors.centerIn: parent
-            border.width: 1
-            border.color: appForegroundColor
-            color: appBackgroundColor
-        }
-        Rectangle {
-            id: horizontalBar
-            width: parent.width * 0.66
-            height: 2
-            anchors.centerIn: parent
-            border.width: 1
-            border.color: appForegroundColor
-        }
-        Text {
-            id: setTemp
-            text: tempToString(targetTemp)
-            font.family: localFont.name
-            font.pointSize: 36
-            anchors.margins: myMargins
-            anchors.bottom: horizontalBar.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
-        }
-        Text {
-            id: setTime
-            text: timeToString(cookTime)
-            font.family: localFont.name
-            font.pointSize: 36
-            anchors.margins: myMargins
-            anchors.top: horizontalBar.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: appForegroundColor
+
+        CircleAsymmetrical {
+            id: dataCircle
+            height: parent.height;
+            width: parent.width
+            topText: tempToString(upperFront.setTemp)
+            middleText: tempToString(lowerFront.setTemp)
+            bottomText: timeToString(cookTime)
         }
     }
 
@@ -89,7 +61,11 @@ Item {
             console.log("The edit button was clicked.");
             console.log("Current item: " + stackView.currentItem);
             screenBookmark = stackView.currentItem;
-            stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+            if (twoTempEntryModeIsActive) {
+                stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+            } else {
+                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+            }
         }
     }
 

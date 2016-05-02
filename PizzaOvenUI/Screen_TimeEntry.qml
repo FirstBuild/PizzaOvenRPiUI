@@ -50,10 +50,13 @@ Item {
                 height: parent.height
 
                 Component.onCompleted: {
-                    var minutes = cookTime - (cookTime%60);
+                    console.log("Time entry on completed fired and cooktime is " + cookTime);
+                    var minutes = (cookTime - (cookTime%60))/60;
                     var tensOfMinutes = minutes;
-                    minutes = minutes %10;
-                    tensOfMinutes = ((tensOfMinutes - minutes)/10).toFixed(0)
+                    minutes = minutes % 10;
+                    tensOfMinutes = (tensOfMinutes - minutes)/10
+
+                    console.log("Cooktime is " + cookTime);
 
                     minutesEntry.setCurrentIndexAt(0, tensOfMinutes);
                     minutesEntry.setCurrentIndexAt(1, minutes);
