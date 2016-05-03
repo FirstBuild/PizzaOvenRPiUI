@@ -11,5 +11,6 @@ Item {
     property int onPercent: 0
     property int offPercent: 49
     property int temperatureDeadband: 100
+    property int maxTemp: 800
 }
 

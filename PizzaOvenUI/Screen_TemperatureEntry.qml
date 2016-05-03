@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.1
 
 Item {
     id: screenTemperatureEntry
@@ -98,21 +99,30 @@ Item {
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
 
-            lowerFront.setTemp = temp;
-            lowerRear.setTemp = temp - lowerTempDifferential;
+            if (temp > 800) {
+                messageDialog.open();
+            } else {
+                lowerFront.setTemp = temp;
+                lowerRear.setTemp = temp - lowerTempDifferential;
 
-            console.log("Lower front set temp is now " + lowerFront.setTemp);
-            console.log("Lower rear set temp is now " + lowerRear.setTemp);
+                console.log("Lower front set temp is now " + lowerFront.setTemp);
+                console.log("Lower rear set temp is now " + lowerRear.setTemp);
 
-            sendWebSocketMessage("Set LF SetPoint " +
-                                 (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
-                                 (lowerFront.setTemp + 0.5 * lowerFront.temperatureDeadband));
-            sendWebSocketMessage("Set LR SetPoint " +
-                                 (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
-                                 (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
+                sendWebSocketMessage("Set LF SetPoint " +
+                                     (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
+                                     (lowerFront.setTemp + 0.5 * lowerFront.temperatureDeadband));
+                sendWebSocketMessage("Set LR SetPoint " +
+                                     (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
+                                     (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
 
-            stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+                stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+            }
         }
+    }
+    MessageDialog {
+        id: messageDialog
+        title: "Limit Exceeded"
+        text: "Max temp is 800F"
     }
 }
 

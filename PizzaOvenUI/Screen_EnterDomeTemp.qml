@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.1
 
 Item {
     id: screenTemperatureEntry
@@ -111,23 +112,33 @@ Item {
             temp += hundredsColumn.currentIndex * 100;
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
-            console.log("Temp is now " + temp);
 
-            upperFront.setTemp = temp;
-            upperRear.setTemp = upperFront.setTemp - 100;
+            if (temp > 1250) {
+                messageDialog.open();
+            } else {
+                console.log("Temp is now " + temp);
 
-            console.log("Upper front set temp is now " + upperFront.setTemp);
-            console.log("Upper rear set temp is now " + upperRear.setTemp);
+                upperFront.setTemp = temp;
+                upperRear.setTemp = upperFront.setTemp - 100;
 
-            sendWebSocketMessage("Set UF SetPoint " +
-                                 (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
-                                 (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
-            sendWebSocketMessage("Set UR SetPoint " +
-                                 (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
-                                 (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
+                console.log("Upper front set temp is now " + upperFront.setTemp);
+                console.log("Upper rear set temp is now " + upperRear.setTemp);
 
-            stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+                sendWebSocketMessage("Set UF SetPoint " +
+                                     (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
+                                     (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
+                sendWebSocketMessage("Set UR SetPoint " +
+                                     (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
+                                     (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
+
+                stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+            }
         }
+    }
+    MessageDialog {
+        id: messageDialog
+        title: "Limit Exceeded"
+        text: "Dome temp max is 1250F"
     }
 }
 

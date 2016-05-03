@@ -25,11 +25,13 @@ Window {
     property int dlb: 0
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
+    property int upperMaxTemp: 1250
+    property int lowerMaxTemp: 800
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: false
-    property bool developmentModeIsActive: false
-    property bool twoTempEntryModeIsActive: false
+    property bool developmentModeIsActive: true
+    property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
     property string gearIconSource: "Gear-Icon-white.svg"
@@ -54,6 +56,7 @@ Window {
         onPercent: 0
         offPercent: 90
         temperatureDeadband: 100
+        maxTemp: upperMaxTemp
     }
     HeaterBankData {
         id: upperRear
@@ -65,6 +68,7 @@ Window {
         onPercent: 10
         offPercent: 90
         temperatureDeadband: 100
+        maxTemp: upperMaxTemp
     }
     HeaterBankData {
         id: lowerFront
@@ -77,6 +81,7 @@ Window {
         offPercent: 49
 //        temperatureDeadband: 50
         temperatureDeadband: 10
+        maxTemp: lowerMaxTemp
     }
     HeaterBankData {
         id: lowerRear
@@ -89,6 +94,7 @@ Window {
         offPercent: 100
 //        temperatureDeadband: 50
         temperatureDeadband: 10
+        maxTemp: lowerMaxTemp
     }
 
 

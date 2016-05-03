@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Dialogs 1.1
 
 Item {
     id: heaterBankVisual
@@ -12,6 +13,12 @@ Item {
     property color borderColor: appForegroundColor
 
     property HeaterBankData heater
+
+    MessageDialog {
+        id: messageDialog
+        title: "Limit Exceeded"
+        text: "Max temp is " + heater.maxTemp + "F"
+    }
 
     Column {
         z: 1
@@ -39,16 +46,20 @@ Item {
                 }
                 function handleCompleted() {
                     console.log("Enter pressed and value is " + tempEntry.value);
-                    heater.setTemp = tempEntry.value;
-                    disconnectAndDisable();
-                    console.log("New heater set temp: " + heater.setTemp);
-                    var msg = "Set " + heater.bank + " SetPoint " +
-                            (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
-                            (heater.setTemp + 0.5 * heater.temperatureDeadband);
-                    console.log("Trying to set: " + msg);
-                    sendWebSocketMessage("Set " + heater.bank + " SetPoint " +
-                                         (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
-                                         (heater.setTemp + 0.5 * heater.temperatureDeadband));
+                    if (tempEntry.value > heater.maxTemp) {
+                        messageDialog.open();
+                    } else {
+                        heater.setTemp = tempEntry.value;
+                        disconnectAndDisable();
+                        console.log("New heater set temp: " + heater.setTemp);
+                        var msg = "Set " + heater.bank + " SetPoint " +
+                                (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
+                                (heater.setTemp + 0.5 * heater.temperatureDeadband);
+                        console.log("Trying to set: " + msg);
+                        sendWebSocketMessage("Set " + heater.bank + " SetPoint " +
+                                             (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
+                                             (heater.setTemp + 0.5 * heater.temperatureDeadband));
+                    }
                 }
                 onClicked: {
                     tempEntry.value = heater.setTemp;
