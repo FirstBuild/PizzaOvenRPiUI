@@ -35,5 +35,8 @@
         <file>HeaterBankData.qml</file>
         <file>Screen_EnterStoneTemp.qml</file>
         <file>Screen_EnterDomeTemp.qml</file>
+        <file>Screen_Settings.qml</file>
+        <file>MyCheckBox.qml</file>
+        <file>GearButton.qml</file>
     </qresource>
 </RCC>

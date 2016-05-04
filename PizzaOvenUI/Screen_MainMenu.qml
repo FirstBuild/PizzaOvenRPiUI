@@ -27,26 +27,14 @@ Item {
         }
     }
 
-    Rectangle {
+    GearButton {
         id: mainMenuGearButton
-        anchors.margins: myMargins
-        width: 40
-        height: 40
         x: 5
         y: 5
-        color: appBackgroundColor
-        Image {
-            id: mainMenuGearIcon
-            source: gearIconSource
-            anchors.centerIn: parent
-        }
-        Component.onCompleted: {
-            console.log("Sending stop oven message from main menu.");
-            sendWebSocketMessage("StopOven ");
-            console.log("---------------> In the main menu.");
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
         }
     }
-
 
     Text {
         id: timeLabel

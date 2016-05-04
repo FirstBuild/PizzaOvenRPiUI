@@ -30,7 +30,7 @@ Window {
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: false
-    property bool developmentModeIsActive: true
+    property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
@@ -135,12 +135,13 @@ Window {
         switch (msg.id){
         case "Temp":
             if (msg.data.LF && msg.data.LR){
-                currentTemp = (msg.data.LF*1 + msg.data.LR*1)/2;
+                currentTemp = msg.data.LF;
                 console.log("Current temp: " + currentTemp);
                 upperFront.currentTemp = msg.data.UF;
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
+                console.log("Development mode is " + developmentModeIsActive)
             } else {
                 console.log("Temp data missing.");
             }
@@ -170,7 +171,9 @@ Window {
                 console.log("Power switch state is now " + powerSwitch);
             }
 
-            if (developmentModeIsActive) return;
+            if (developmentModeIsActive) {
+                return;
+            }
 
             switch(oldState) {
             case 00: // off
@@ -308,7 +311,7 @@ Window {
         x: screenOffsetX
         y: screenOffsetY
         border.color: "red"
-        border.width: 0
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

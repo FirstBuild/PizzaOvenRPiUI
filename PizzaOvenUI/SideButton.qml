@@ -8,6 +8,7 @@ Item {
 
     implicitHeight: 75
     implicitWidth: parent.width*.2
+
     Rectangle {
         id: buttonBackground
         color: appBackgroundColor
