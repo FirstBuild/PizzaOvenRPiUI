@@ -30,6 +30,7 @@ Item {
         width: 50
         height: 50
         onClicked: {
+            sounds.cancel.play();
             entryScreen.dialogCanceled();
         }
     }

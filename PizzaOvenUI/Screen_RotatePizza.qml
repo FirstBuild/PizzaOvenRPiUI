@@ -17,6 +17,10 @@ Item {
 //        }
     }
 
+    function screenEntry() {
+        sounds.alarmMid.play();
+    }
+
     Text {
         id: screenLabel
         font.family: localFont.name
@@ -63,9 +67,8 @@ Item {
         }
     }
 
-    SideButton {
+    CancelButton {
         id: cancelButton
-        buttonText: "CANCEL"
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.margins: myMargins
         anchors.right: centerCircle.left

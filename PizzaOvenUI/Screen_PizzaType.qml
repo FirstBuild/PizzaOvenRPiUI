@@ -87,6 +87,7 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
+                sounds.select.play();
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }
             visibleItemCount: 5

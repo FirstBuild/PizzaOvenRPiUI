@@ -35,6 +35,7 @@ Item {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
+                sounds.touch.play();
                 button.clicked();
             }
             onPressed: {

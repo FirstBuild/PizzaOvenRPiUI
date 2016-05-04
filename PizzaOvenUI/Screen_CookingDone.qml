@@ -17,6 +17,10 @@ Item {
 //        }
     }
 
+    function screenEntry() {
+        sounds.cycleComplete.play();
+    }
+
     Text {
         id: screenLabel
         font.family: localFont.name

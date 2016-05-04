@@ -91,6 +91,7 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
+                sounds.select.play();
                 demoTimeoutTimer.stop();
                 stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
             }

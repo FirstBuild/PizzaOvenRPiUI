@@ -58,8 +58,6 @@ Item {
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
-            console.log("The edit button was clicked.");
-            console.log("Current item: " + stackView.currentItem);
             screenBookmark = stackView.currentItem;
             if (twoTempEntryModeIsActive) {
                 stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});

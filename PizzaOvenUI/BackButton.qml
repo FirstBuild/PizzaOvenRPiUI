@@ -18,6 +18,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
+            sounds.touch.play();
             console.log("Back clicked");
             backButton.clicked();
         }

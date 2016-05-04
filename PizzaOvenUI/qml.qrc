@@ -35,5 +35,26 @@
         <file>HeaterBankData.qml</file>
         <file>Screen_EnterStoneTemp.qml</file>
         <file>Screen_EnterDomeTemp.qml</file>
+        <file>Sounds.qml</file>
+        <file>sounds/Monogram_Interact_Cancel.wav</file>
+        <file>sounds/Monogram_Interact_Decrease.wav</file>
+        <file>sounds/Monogram_Interact_Increase.wav</file>
+        <file>sounds/Monogram_Interact_Off.wav</file>
+        <file>sounds/Monogram_Interact_On.wav</file>
+        <file>sounds/Monogram_Interact_PowerOff.wav</file>
+        <file>sounds/Monogram_Interact_PowerOn.wav</file>
+        <file>sounds/Monogram_Interact_PressHoldOff.wav</file>
+        <file>sounds/Monogram_Interact_PressHoldOn.wav</file>
+        <file>sounds/Monogram_Interact_Select.wav</file>
+        <file>sounds/Monogram_Interact_Touch.wav</file>
+        <file>sounds/Monogram_Interact_UnavailableTouch.wav</file>
+        <file>sounds/Monogram_Passive_AlarmLow.wav</file>
+        <file>sounds/Monogram_Passive_AlarmMid.wav</file>
+        <file>sounds/Monogram_Passive_AlarmUrgent.wav</file>
+        <file>sounds/Monogram_Passive_CycleComplete.wav</file>
+        <file>sounds/Monogram_Passive_CyclePost.wav</file>
+        <file>sounds/Monogram_Passive_CyclePre.wav</file>
+        <file>sounds/Monogram_Passive_Notification.wav</file>
+        <file>CancelButton.qml</file>
     </qresource>
 </RCC>

@@ -1,9 +1,8 @@
 import QtQuick 2.0
 
 Item {
-    id: sideButton
+    id: cancleButton
 
-    property string buttonText: "BUTTON"
     signal clicked()
 
     implicitHeight: 75
@@ -18,7 +17,7 @@ Item {
 
     Text {
         id: idButtonText
-        text: buttonText
+        text: "CANCEL"
         font.family: localFont.name
         font.pointSize: 16
         anchors.centerIn: parent
@@ -43,8 +42,8 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            sounds.select.play();
-            sideButton.clicked();
+            sounds.cancel.play();
+            cancleButton.clicked();
         }
         onPressed: {
             buttonBackground.color = appForegroundColor;

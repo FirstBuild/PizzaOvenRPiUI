@@ -30,7 +30,7 @@ Window {
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: false
-    property bool developmentModeIsActive: true
+    property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
     property color appForegroundColor: "white"
@@ -97,6 +97,9 @@ Window {
         maxTemp: lowerMaxTemp
     }
 
+    Sounds {
+        id: sounds
+    }
 
     property string ovenState: "Standby"
 
@@ -168,6 +171,11 @@ Window {
             }
             if (oldPowerSwitch != powerSwitch) {
                 console.log("Power switch state is now " + powerSwitch);
+                if (powerSwitch == 1) {
+                    sounds.powerOn.play();
+                } else {
+                    sounds.powerOff.play();
+                }
             }
 
             if (developmentModeIsActive) return;
@@ -315,13 +323,7 @@ Window {
             height: parent.height
             anchors.fill: parent
             focus: true
-//            initialItem: Qt.resolvedUrl("Screen_Development.qml")
-//            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
-//            initialItem: Qt.resolvedUrl("Keyboard.qml")
             initialItem: Qt.resolvedUrl("Screen_Off.qml")
-//            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
-//            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
-//            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
             onCurrentItemChanged: {
                 if (currentItem) {
                     console.log("A new current item is current.");
@@ -337,7 +339,6 @@ Window {
                 console.log("Starting web socket connection timer.");
                 webSocketConnectionTimer.start();
             }
-
         }
     }
 

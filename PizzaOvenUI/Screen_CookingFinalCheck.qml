@@ -17,6 +17,11 @@ Item {
 //        }
     }
 
+    function screenEntry() {
+        console.log("Playing the sound.");
+        sounds.alarmUrgent.play();
+    }
+
     Text {
         id: screenLabel
         font.family: localFont.name
@@ -63,9 +68,8 @@ Item {
         }
     }
 
-    SideButton {
+    CancelButton {
         id: cancelButton
-        buttonText: "CANCEL"
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.margins: myMargins
         anchors.right: centerCircle.left

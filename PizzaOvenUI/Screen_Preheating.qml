@@ -16,9 +16,6 @@ Item {
         anchors.margins: myMargins
         x: myMargins
         y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
     }
 
     Text {
@@ -51,9 +48,8 @@ Item {
         }
     }
 
-    SideButton {
+    CancelButton {
         id: cancelButton
-        buttonText: "CANCEL"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
