@@ -4,6 +4,8 @@ import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
+import QtMultimedia 5.0
+
 Item {
     id: screenMainMenu
     height: parent.height
@@ -103,6 +105,39 @@ Item {
             id: theColumn
             width: tumblerWidth
             model: foodTypeListModel
+        }
+    }
+
+    Audio {
+        id: testAudio
+        source: "sounds/Monogram_Passive_AlarmUrgent.wav"
+        autoLoad: true
+        autoPlay: false
+    }
+    SideButton {
+        id: testButton
+        anchors.margins: myMargins
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        onClicked: {
+            switch(testAudio.availability) {
+            case Audio.Available:
+                testAudio.play();
+                break;
+            case Audio.Unavailable:
+                console.log("--> Audio is unavailable.");
+                break;
+            case Audio.Busy:
+                console.log("--> Audio is busy.");
+                break;
+            case Audio.ResourceMissing:
+                console.log("--> The resource is missing.");
+                break;
+            default:
+                console.log("--> The availability of audio is unknown.");
+                break;
+            }
+
         }
     }
 }
