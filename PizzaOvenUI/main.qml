@@ -29,7 +29,7 @@ Window {
     property int lowerMaxTemp: 800
 
     // Things related to how the app looks and operates
-    property bool demoModeIsActive: true
+    property bool demoModeIsActive: false
     property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
