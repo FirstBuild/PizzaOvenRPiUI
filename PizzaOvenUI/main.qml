@@ -29,7 +29,7 @@ Window {
     property int lowerMaxTemp: 800
 
     // Things related to how the app looks and operates
-    property bool demoModeIsActive: false
+    property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
@@ -311,7 +311,7 @@ Window {
         x: screenOffsetX
         y: screenOffsetY
         border.color: "red"
-        border.width: 1
+        border.width: 0
         StackView {
             id: stackView
             width: parent.width
@@ -336,11 +336,8 @@ Window {
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
-            if (!demoModeIsActive) {
-                console.log("Starting web socket connection timer.");
-                webSocketConnectionTimer.start();
-            }
-
+            console.log("Starting web socket connection timer.");
+            webSocketConnectionTimer.start();
         }
     }
 

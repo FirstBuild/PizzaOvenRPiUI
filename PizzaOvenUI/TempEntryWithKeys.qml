@@ -4,14 +4,28 @@ Item {
     id: entryScreen
 
     property int myMargins: 10
+    property string display: ""
     property string value: "1234"
-    property string header: "Value"
+    property string header: "Header"
+    property bool obscureEntry: false
 
     implicitHeight: screenHeight
     implicitWidth: screenWidth
 
     signal dialogCompleted()
     signal dialogCanceled()
+
+    onValueChanged: {
+        if (obscureEntry) {
+            var s = ""
+            for (var i=0; i<value.length; i++) {
+                s = s + "*";
+            }
+            display = s;
+        } else {
+            display = value;
+        }
+    }
 
     Rectangle {
         color: appBackgroundColor
@@ -47,7 +61,7 @@ Item {
 
     Text {
         id: entryText
-        text: entryScreen.value
+        text: entryScreen.display
         font.family: localFont.name
         font.pointSize: 72
         color: appForegroundColor
