@@ -124,10 +124,8 @@ Window {
     function forceScreenTransition(newScreen) {
         if (stackView.currentItem.cleanUpOnExit)
         {
-            console.log("Calling the exit function.");
             stackView.currentItem.cleanUpOnExit();
         } else {
-            console.log("There is no exit function to call.");
         }
         stackView.clear();
         stackView.push({item: newScreen, immediate:immediateTransitions});
@@ -144,7 +142,6 @@ Window {
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
-                console.log("Development mode is " + developmentModeIsActive)
             } else {
                 console.log("Temp data missing.");
             }
@@ -329,7 +326,6 @@ Window {
             initialItem: Qt.resolvedUrl("Screen_Off.qml")
             onCurrentItemChanged: {
                 if (currentItem) {
-                    console.log("A new current item is current.");
                     if (currentItem.screenEntry) {
                         currentItem.screenEntry();
                     }
@@ -337,7 +333,6 @@ Window {
             }
         }
         Component.onCompleted: {
-            console.log("Rectangle is loaded.");
             console.log("Starting web socket connection timer.");
             webSocketConnectionTimer.start();
         }

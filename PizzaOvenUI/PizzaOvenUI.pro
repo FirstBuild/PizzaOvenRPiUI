@@ -16,5 +16,10 @@ include(deployment.pri)
 
 target.path = /home/pi/
 
+sounds.files = $$files(sounds/*)
+sounds.path = /home/pi/sounds
+
+INSTALLS += sounds
+
 HEADERS += \
     programSettings.h
