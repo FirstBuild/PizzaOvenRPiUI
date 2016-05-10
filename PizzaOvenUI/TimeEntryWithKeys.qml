@@ -4,10 +4,9 @@ Item {
     id: entryScreen
 
     property int myMargins: 10
-    property string display: ""
+    property string display: "12:34"
     property string value: "1234"
     property string header: "Header"
-    property bool obscureEntry: false
 
     implicitHeight: screenHeight
     implicitWidth: screenWidth
@@ -16,14 +15,26 @@ Item {
     signal dialogCanceled()
 
     onValueChanged: {
-        if (obscureEntry) {
-            var s = ""
-            for (var i=0; i<value.length; i++) {
-                s = s + "*";
-            }
-            display = s;
-        } else {
-            display = value;
+        if (value.length > 4) {
+            value = value.substring(1);
+        }
+
+        switch(value.length) {
+        case 0:
+            display = "  :  ";
+            break;
+        case 1:
+            display = "  : " + value;
+            break;
+        case 2:
+            display = "  :" + value;
+            break;
+        case 3:
+            display = " " + value.substring(0, 1) + ":" + value.substring(1);
+            break;
+        case 4:
+            display = value.substring(0, 2) + ":" + value.substring(2);
+            break;
         }
     }
 
@@ -44,7 +55,6 @@ Item {
         width: 50
         height: 50
         onClicked: {
-            sounds.cancel.play();
             entryScreen.dialogCanceled();
         }
     }

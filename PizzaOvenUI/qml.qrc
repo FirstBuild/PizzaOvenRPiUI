@@ -56,5 +56,11 @@
         <file>sounds/Monogram_Passive_CyclePre.wav</file>
         <file>sounds/Monogram_Passive_Notification.wav</file>
         <file>CancelButton.qml</file>
+        <file>Screen_Settings.qml</file>
+        <file>MyCheckBox.qml</file>
+        <file>GearButton.qml</file>
+        <file>TimeEntryTumbler.qml</file>
+        <file>Screen_SetTimeOfDay.qml</file>
+        <file>TimeEntryWithKeys.qml</file>
     </qresource>
 </RCC>

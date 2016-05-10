@@ -138,12 +138,13 @@ Window {
         switch (msg.id){
         case "Temp":
             if (msg.data.LF && msg.data.LR){
-                currentTemp = (msg.data.LF*1 + msg.data.LR*1)/2;
+                currentTemp = msg.data.LF;
                 console.log("Current temp: " + currentTemp);
                 upperFront.currentTemp = msg.data.UF;
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
+                console.log("Development mode is " + developmentModeIsActive)
             } else {
                 console.log("Temp data missing.");
             }
@@ -178,7 +179,9 @@ Window {
                 }
             }
 
-            if (developmentModeIsActive) return;
+            if (developmentModeIsActive) {
+                return;
+            }
 
             switch(oldState) {
             case 00: // off
@@ -335,10 +338,8 @@ Window {
         }
         Component.onCompleted: {
             console.log("Rectangle is loaded.");
-            if (!demoModeIsActive) {
-                console.log("Starting web socket connection timer.");
-                webSocketConnectionTimer.start();
-            }
+            console.log("Starting web socket connection timer.");
+            webSocketConnectionTimer.start();
         }
     }
 
@@ -413,12 +414,29 @@ Window {
         id: timeOfDayClock
         interval: 1000; running: true; repeat: true
         onTriggered: {
-            var now = new Date();
+            var now = new Date(Date.now() + appSettings.todOffset);
             var hours = now.getHours();
             if (hours > 12) hours -= 12;
             var mins = now.getMinutes();
             timeOfDay = hours + ":" + ((mins < 10) ? "0" : "") + mins;
         }
+    }
+
+    function setTimeOfDay(newTime) {
+        var t = newTime.split(":");
+        var newHours = t[0] * 3600 * 1000;
+        var newSecs = t[1] * 60 * 1000;
+        var newMillis = newHours + newSecs;
+
+        var now = new Date();
+        var hours = now.getHours();
+        if (hours > 12) hours -= 12;
+        var mins = now.getMinutes();
+        var currentMillis = hours * 3600 * 1000 + mins * 60 * 1000;
+
+        var offset = newMillis - currentMillis;
+
+        appSettings.todOffset = offset;
     }
 
 //    Button {

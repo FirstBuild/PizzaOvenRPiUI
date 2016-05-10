@@ -42,93 +42,10 @@ Item {
             color: appForegroundColor
         }
 
-        Row {
+        TimeEntryTumbler {
+            id: timeEntryTumbler
+            timeValue: cookTime
             height: parent.height - screenTitle.height - checkbox.height - parent.spacing * 3
-            spacing: 2
-            Tumbler {
-                id: minutesEntry
-                height: parent.height
-
-                Component.onCompleted: {
-                    console.log("Time entry on completed fired and cooktime is " + cookTime);
-                    var minutes = (cookTime - (cookTime%60))/60;
-                    var tensOfMinutes = minutes;
-                    minutes = minutes % 10;
-                    tensOfMinutes = (tensOfMinutes - minutes)/10
-
-                    console.log("Cooktime is " + cookTime);
-
-                    minutesEntry.setCurrentIndexAt(0, tensOfMinutes);
-                    minutesEntry.setCurrentIndexAt(1, minutes);
-                }
-
-                style:  MyTumblerStyle {
-                    onClicked: {
-                        console.log("The tumbler was clicked.");
-                        console.log(minutesTensColumn.currentIndex);
-                        console.log(minutesOnesColumn.currentIndex);
-                    }
-                    visibleItemCount: itemsPerTumbler
-                    textHeight:minutesEntry.height/visibleItemCount
-                    textWidth: columnWidth
-                    textAlignment: Text.AlignHCenter
-                }
-                TumblerColumn {
-                    id: minutesTensColumn
-                    width: columnWidth
-                    model: [0,1,2,3,4,5,6,7,8,9]
-                }
-                TumblerColumn {
-                    id: minutesOnesColumn
-                    width: columnWidth
-                    model: [0,1,2,3,4,5,6,7,8,9]
-                }
-            }
-            Text {
-                id: colonText
-                font.family: localFont.name
-                font.pointSize: 24
-                color: appForegroundColor
-                anchors.verticalCenter: minutesEntry.verticalCenter
-                horizontalAlignment: Text.AlignLeft
-                text: ":"
-            }
-
-            Tumbler {
-                id: secondsEntry
-                height: parent.height
-
-                Component.onCompleted: {
-                    var seconds = (cookTime%60).toFixed(0);
-                    var tensOfSeconds = seconds;
-                    seconds = seconds %10;
-                    tensOfSeconds = ((tensOfSeconds - seconds)/10).toFixed(0)
-                    secondsEntry.setCurrentIndexAt(0, tensOfSeconds);
-                    secondsEntry.setCurrentIndexAt(1, seconds);
-                }
-
-                style:  MyTumblerStyle {
-                    onClicked: {
-                        console.log("The tumbler was clicked.");
-                        console.log(secondsTensColumn.currentIndex);
-                        console.log(secondsOnesColumn.currentIndex);
-                    }
-                    visibleItemCount: itemsPerTumbler
-                    textHeight:secondsEntry.height/visibleItemCount
-                    textWidth: columnWidth
-                    textAlignment: Text.AlignHCenter
-                }
-                TumblerColumn {
-                    id: secondsTensColumn
-                    width: columnWidth
-                    model: [0,1,2,3,4,5,6,7,8,9]
-                }
-                TumblerColumn {
-                    id: secondsOnesColumn
-                    width: columnWidth
-                    model: [0,1,2,3,4,5,6,7,8,9]
-                }
-            }
         }
 
         Item {
@@ -178,11 +95,12 @@ Item {
         anchors.verticalCenter: centerControlColumn.verticalCenter
         anchors.right: parent.right
         onClicked: {
-            console.log("The next button was clicked.");
-            var minutes = minutesTensColumn.currentIndex*10 + minutesOnesColumn.currentIndex;
-            var seconds = secondsTensColumn.currentIndex*10 + secondsOnesColumn.currentIndex;
-            cookTime = minutes * 60 + seconds;
-            console.log("Cook time is now " + minutes + ":" + seconds + " (" + cookTime + ")");
+//            var minutes = minutesTensColumn.currentIndex*10 + minutesOnesColumn.currentIndex;
+//            var seconds = secondsTensColumn.currentIndex*10 + secondsOnesColumn.currentIndex;
+//            cookTime = minutes * 60 + seconds;
+            cookTime = timeEntryTumbler.getTime();
+            console.log("Cook time is now " + timeEntryTumbler.getMinutes() + ":" + timeEntryTumbler.getSeconds() +
+                        " (" + cookTime + ")");
             sendWebSocketMessage("CookTime " + cookTime);
             finalCheckTime = cookTime * 0.9
             stackView.push({item:Qt.resolvedUrl("Screen_FinalCheckTimeEntry.qml"), immediate:immediateTransitions});

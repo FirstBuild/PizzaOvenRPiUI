@@ -3,7 +3,8 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    programSettings.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,3 +15,6 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 target.path = /home/pi/
+
+HEADERS += \
+    programSettings.h

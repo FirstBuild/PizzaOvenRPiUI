@@ -14,7 +14,6 @@ Item {
     property int myMargins: 10
 
     function screenEntry() {
-        console.log("---------------> My screen entry was called.");
         if (demoModeIsActive) {
             demoTimeoutTimer.restart();
         }
@@ -29,36 +28,46 @@ Item {
         }
     }
 
-    Rectangle {
+    GearButton {
         id: mainMenuGearButton
-        anchors.margins: myMargins
-        width: 40
-        height: 40
         x: 5
         y: 5
-        color: appBackgroundColor
-        Image {
-            id: mainMenuGearIcon
-            source: gearIconSource
-            anchors.centerIn: parent
-        }
-        Component.onCompleted: {
-            console.log("Sending stop oven message from main menu.");
-            sendWebSocketMessage("StopOven ");
-            console.log("---------------> In the main menu.");
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
         }
     }
 
-
-    Text {
-        id: timeLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: timeOfDay
+    Rectangle {
+        id: todBox
         anchors.margins: myMargins
         anchors.right: screenMainMenu.right
         anchors.top: screenMainMenu.top
-        color: appForegroundColor
+        width: timeLabel.width
+        height: timeLabel.height
+        color: appBackgroundColor
+
+        Text {
+            id: timeLabel
+            font.family: localFont.name
+            font.pointSize: 24
+            text: timeOfDay
+            color: appForegroundColor
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                stackView.push({item: Qt.resolvedUrl("Screen_SetTimeOfDay.qml"), immediate:immediateTransitions});
+            }
+            onPressed: {
+                timeLabel.color = appBackgroundColor;
+                todBox.color = appForegroundColor;
+            }
+            onReleased: {
+                timeLabel.color = appForegroundColor;
+                todBox.color = appBackgroundColor;
+            }
+        }
     }
 
     ListModel {

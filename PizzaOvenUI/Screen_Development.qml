@@ -94,6 +94,13 @@ Item {
                 font.pointSize: idDutyCycleRow.textSize
                 text: " LR: " + lowerRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
             }
+            GearButton {
+                id: mainMenuGearButton
+                height: 20
+                onClicked: {
+                    stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+                }
+            }
         }
 
         Row {

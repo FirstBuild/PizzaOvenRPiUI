@@ -21,8 +21,6 @@ Item {
             if (developmentModeIsActive) {
                 stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
             }
-
-            console.log("Image clicked")
         }
 
         Image {
