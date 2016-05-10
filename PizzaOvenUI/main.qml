@@ -29,7 +29,7 @@ Window {
     property int lowerMaxTemp: 800
 
     // Things related to how the app looks and operates
-    property bool demoModeIsActive: true
+    property bool demoModeIsActive: false
     property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
@@ -412,12 +412,29 @@ Window {
         id: timeOfDayClock
         interval: 1000; running: true; repeat: true
         onTriggered: {
-            var now = new Date();
+            var now = new Date(Date.now() + appSettings.todOffset);
             var hours = now.getHours();
             if (hours > 12) hours -= 12;
             var mins = now.getMinutes();
             timeOfDay = hours + ":" + ((mins < 10) ? "0" : "") + mins;
         }
+    }
+
+    function setTimeOfDay(newTime) {
+        var t = newTime.split(":");
+        var newHours = t[0] * 3600 * 1000;
+        var newSecs = t[1] * 60 * 1000;
+        var newMillis = newHours + newSecs;
+
+        var now = new Date();
+        var hours = now.getHours();
+        if (hours > 12) hours -= 12;
+        var mins = now.getMinutes();
+        var currentMillis = hours * 3600 * 1000 + mins * 60 * 1000;
+
+        var offset = newMillis - currentMillis;
+
+        appSettings.todOffset = offset;
     }
 
 //    Button {
