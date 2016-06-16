@@ -27,6 +27,8 @@ Window {
     property int lowerTempDifferential: 50
     property int upperMaxTemp: 1250
     property int lowerMaxTemp: 800
+    property int doorStatus: 0
+    property int doorCount: 0
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: true
@@ -295,6 +297,11 @@ Window {
             upperRear.elementRelay = msg.data.UR;
             lowerFront.elementRelay = msg.data.LF;
             lowerRear.elementRelay = msg.data.LR;
+            break;
+        case "Door":
+            doorStatus = msg.data.Status;
+            doorCount = msg.data.Count;
+            console.log("Got a door message: " + JSON.stringify(msg));
             break;
         default:
             console.log("Unknown message received: " + _msg);
