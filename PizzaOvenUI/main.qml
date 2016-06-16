@@ -29,7 +29,7 @@ Window {
     property int lowerMaxTemp: 800
 
     // Things related to how the app looks and operates
-    property bool demoModeIsActive: false
+    property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
     property color appBackgroundColor: "black"
@@ -39,8 +39,8 @@ Window {
     property bool immediateTransitions: true
     property int screenWidth: 559
     property int screenHeight: 355
-    property int screenOffsetX: 60
-    property int screenOffsetY: 25
+    property int screenOffsetX: appSettings.screenOffsetX
+    property int screenOffsetY: appSettings.screenOffsetY
     property string timeOfDay: "10:04"
     property int smallTextSize: 24
     property int bigTextSize: 42
@@ -321,7 +321,13 @@ Window {
 //            initialItem: Qt.resolvedUrl("Screen_Development.qml")
 //            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
 //            initialItem: Qt.resolvedUrl("Keyboard.qml")
-            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+            initialItem: {
+                if (appSettings.settingsInitialized) {
+                    Qt.resolvedUrl("Screen_Off.qml");
+                } else {
+                    Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
+                }
+            }
 //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
 //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
 //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
