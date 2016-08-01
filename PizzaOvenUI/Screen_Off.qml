@@ -12,6 +12,12 @@ Item {
 
     property int myMargins: 10
 
+    Rectangle {
+        color: "black"
+        width: parent.width
+        height: parent.height
+    }
+
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -23,11 +29,11 @@ Item {
             }
         }
 
-        Image {
-            id: pizzaOvenOffImage
-            source: "pizza_oven_blank_screen.jpg"
-            anchors.centerIn: parent
-        }
+//        Image {
+//            id: pizzaOvenOffImage
+//            source: "pizza_oven_blank_screen.jpg"
+//            anchors.centerIn: parent
+//        }
     }
 }
 
