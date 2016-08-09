@@ -142,23 +142,43 @@ Item {
                     }
                 }
             }
-            Text {
-                color: appForegroundColor
-                font.family: localFont.name
-                font.pointSize: 14
-                text: ovenState
-            }
-            Text {
-                color: appForegroundColor
-                font.family: localFont.name
-                font.pointSize: 14
-                text: "Power: " + (powerSwitch == 0 ? "Off" : "On")
-            }
-            Text {
-                color: appForegroundColor
-                font.family: localFont.name
-                font.pointSize: 14
-                text: "DLB: " + (dlb == 0 ? "Off" : "On")
+            Column {
+                Row {
+                    spacing: 10
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: ovenState
+                    }
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: "Power: " + (powerSwitch == 0 ? "Off" : "On")
+                    }
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: "DLB: " + (dlb == 0 ? "Off" : "On")
+                    }
+                }
+                Row {
+                    spacing: 10
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: "Door: " + doorStatus
+                    }
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: "Count: " + doorCount
+                    }
+                }
             }
         }
     }

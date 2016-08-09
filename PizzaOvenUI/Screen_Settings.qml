@@ -91,6 +91,18 @@ Item {
 
     SideButton {
         z: 1
+        id: adjustButton
+        buttonText: "Center"
+        anchors.margins: myMargins
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        onClicked: {
+            stackView.push({item:Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+        }
+    }
+
+    SideButton {
+        z: 1
         id: cancelButton
         buttonText: "Cancel"
         anchors.margins: myMargins

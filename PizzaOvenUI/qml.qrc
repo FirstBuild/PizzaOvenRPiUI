@@ -43,5 +43,6 @@
         <file>TimeEntryTumbler.qml</file>
         <file>Screen_SetTimeOfDay.qml</file>
         <file>TimeEntryWithKeys.qml</file>
+        <file>Screen_ShiftScreenPosition.qml</file>
     </qresource>
 </RCC>
