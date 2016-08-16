@@ -9,16 +9,27 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 10
+    property int myMargins: 15
 
-    BackButton {
-        id: backbutton
-        anchors.margins: myMargins
-        x: myMargins
-        y: myMargins
+//    BackButton {
+//        id: backbutton
+//        anchors.margins: myMargins
+//        x: myMargins
+//        y: myMargins
 //        onClicked: {
 //            stackView.pop({immediate:immediateTransitions});
 //        }
+//    }
+
+    HomeButton {
+        id: homeButton
+        anchors.margins: myMargins
+        x: 5
+        y: 5
+        onClicked: {
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        }
     }
 
     function screenEntry() {
@@ -32,7 +43,7 @@ Item {
         text: "READY"
         anchors.margins: myMargins
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: backbutton.verticalCenter
+        anchors.verticalCenter: homeButton.verticalCenter
         color: appForegroundColor
     }
 
@@ -55,17 +66,40 @@ Item {
         }
     }
 
-    CancelButton {
-        id: cancelButton
+//    SideButton {
+//        id: cancelButton
+//        buttonText: "CANCEL"
+//        anchors.margins: myMargins
+//        anchors.verticalCenter: centerCircle.verticalCenter
+//        anchors.right: centerCircle.left
+//        onClicked: {
+//            console.log("The cancel button was clicked.");
+//            stackView.clear();
+//            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+//        }
+//    }
+
+    SideButton {
+        id: editButton
+        buttonText: "EDIT"
         anchors.margins: myMargins
         anchors.verticalCenter: centerCircle.verticalCenter
         anchors.right: centerCircle.left
         onClicked: {
-            console.log("The cancel button was clicked.");
+            console.log("The edit button was clicked.");
+            console.log("Current item: " + stackView.currentItem);
             stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+            stackView.completeTransition();
+            screenBookmark = stackView.currentItem;
+            if (twoTempEntryModeIsActive) {
+                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
+            } else {
+                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+            }
         }
     }
+
     SideButton {
         id: startButton
         buttonText: "START"

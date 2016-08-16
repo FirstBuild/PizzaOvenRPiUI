@@ -44,5 +44,6 @@
         <file>Screen_SetTimeOfDay.qml</file>
         <file>TimeEntryWithKeys.qml</file>
         <file>Screen_ShiftScreenPosition.qml</file>
+        <file>HomeButton.qml</file>
     </qresource>
 </RCC>

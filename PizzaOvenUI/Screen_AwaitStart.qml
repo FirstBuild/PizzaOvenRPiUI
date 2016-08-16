@@ -11,13 +11,24 @@ Item {
 
     property int myMargins: 15
 
-    BackButton {
-        id: awaitStartBackButton
+//    BackButton {
+//        id: awaitStartBackButton
+//        anchors.margins: myMargins
+//        x: myMargins
+//        y: myMargins
+//        onClicked: {
+//            stackView.pop({immediate:immediateTransitions});
+//        }
+//    }
+
+    HomeButton {
+        id: awaitStartHomeButton
         anchors.margins: myMargins
-        x: myMargins
-        y: myMargins
+        x: 5
+        y: 5
         onClicked: {
-            stackView.pop({immediate:immediateTransitions});
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -25,10 +36,10 @@ Item {
         id: foodSelectedLabel
         font.family: localFont.name
         font.pointSize: 24
-        text: "NEOPOLITAN"
+        text: foodNameString
         anchors.margins: myMargins
         anchors.horizontalCenter: screenAwaitStart.horizontalCenter
-        anchors.verticalCenter: awaitStartBackButton.verticalCenter
+        anchors.verticalCenter: awaitStartHomeButton.verticalCenter
         color: appForegroundColor
     }
 
@@ -60,7 +71,7 @@ Item {
         onClicked: {
             screenBookmark = stackView.currentItem;
             if (twoTempEntryModeIsActive) {
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
             } else {
                 stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
             }

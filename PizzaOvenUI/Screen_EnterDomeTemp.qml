@@ -131,7 +131,8 @@ Item {
                                      (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
                                      (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
 
-                stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+//                stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
+                stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
             }
         }
     }

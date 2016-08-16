@@ -29,6 +29,7 @@ Window {
     property int lowerMaxTemp: 800
     property int doorStatus: 0
     property int doorCount: 0
+    property string foodNameString: "FOOD NAME"
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: true
@@ -323,7 +324,7 @@ Window {
         x: screenOffsetX
         y: screenOffsetY
         border.color: "red"
-        border.width: 0
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width
@@ -366,7 +367,7 @@ Window {
             handleWebSocketMessage(message);
         }
         onStatusChanged: if (socket.status == WebSocket.Error) {
-                             console.log("Error: " + socket.errorString)
+//                             console.log("Error: " + socket.errorString)
                              webSocketConnectionTimer.start();
                          } else if (socket.status == WebSocket.Open) {
                              socket.sendTextMessage("Hello World")
@@ -375,7 +376,7 @@ Window {
                              sendWebSocketMessage("Get LF");
                              sendWebSocketMessage("Get LR");
                          } else if (socket.status == WebSocket.Closed) {
-                             console.log("Socket closed");
+//                             console.log("Socket closed");
                              webSocketConnectionTimer.start();
                          }
         active: false
@@ -388,7 +389,7 @@ Window {
             console.log("Received secure message: " + message);
         }
         onStatusChanged: if (secureWebSocket.status == WebSocket.Error) {
-                             console.log("Error: " + secureWebSocket.errorString)
+//                             console.log("Error: " + secureWebSocket.errorString)
                          } else if (secureWebSocket.status == WebSocket.Open) {
                              secureWebSocket.sendTextMessage("Hello Secure World")
                          } else if (secureWebSocket.status == WebSocket.Closed) {
@@ -417,7 +418,7 @@ Window {
                 console.log("Web socket is closing.");
                 break;
             case WebSocket.Error:
-                console.log("Web socket is error.");
+//                console.log("Web socket is error.");
                 socket.active = false;
                 socket.active = true;
                 break;

@@ -70,23 +70,39 @@ Item {
         }
     }
 
+//    ListModel {
+//        id: foodTypeListModel
+
+//        ListElement {
+//            name: "PIZZA"
+//        }
+//        ListElement {
+//            name: "BAKE"
+//        }
+//        ListElement {
+//            name: "BROIL"
+//        }
+//        ListElement {
+//            name: "CASSEROLE"
+//        }
+//        ListElement {
+//            name: "ROAST"
+//        }
+//    }
+
     ListModel {
         id: foodTypeListModel
-
         ListElement {
-            name: "PIZZA"
+            name: "NEW YORK STYLE"
         }
         ListElement {
-            name: "BAKE"
+            name: "NEOPOLITAN"
         }
         ListElement {
-            name: "BROIL"
+            name: "DETROIT STYLE"
         }
         ListElement {
-            name: "CASSEROLE"
-        }
-        ListElement {
-            name: "ROAST"
+            name: "FLAT BREADS"
         }
     }
 
@@ -104,7 +120,10 @@ Item {
             onClicked: {
                 sounds.select.play();
                 demoTimeoutTimer.stop();
-                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
+//                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
+                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                console.log("Food type index: " + theColumn.currentIndex);
+                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
             }
             visibleItemCount: 5
             textHeight:foodType.height/visibleItemCount
