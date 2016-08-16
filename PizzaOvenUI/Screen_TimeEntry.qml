@@ -24,6 +24,7 @@ Item {
 
     property int tumblerWidth: parent.width / 4;
     property int columnWidth: tumblerWidth *0.35;
+    property int tumblerHeight: (height *3/4) - screenTitle.height
 
 
     Text {
@@ -38,69 +39,59 @@ Item {
         anchors.verticalCenter: backButton.verticalCenter
     }
 
-    Column {
-        id: centerControlColumn
-        anchors.margins: myMargins
-        anchors.top: backButton.bottom
+    TimeEntryTumbler {
+        id: timeEntryTumbler
+        timeValue: cookTime
+        height: tumblerHeight
+        width: screenTitle.width / 4
         anchors.horizontalCenter: screenTitle.horizontalCenter
-        spacing: 10
-
-//        TimeEntryTumbler {
-//            id: timeEntryTumbler
-//            timeValue: cookTime
-//            height: parent.height - screenTitle.height - checkbox.height - parent.spacing * 3
-//        }
-
-//        Item {
-//            id: checkbox
-//            height: 30
-//            width: screenTitle.width
-
-//            Row {
-//                spacing: 10
-
-//                Rectangle {
-//                    id: tick
-//                    width: 30
-//                    height: 30
-//                    border.width: 2
-//                    border.color: appForegroundColor
-//                    color: appBackgroundColor
-
-//                    Text {
-//                        text: halfTimeRotate ? "X" : ""
-//                        anchors.centerIn: parent
-//                        color: appForegroundColor
-//                    }
-//                }
-//                Text {
-//                    text: "Half time rotate"
-//                    color: appForegroundColor
-//                    font.family: localFont.name
-//                    font.pointSize: 18
-//                    anchors.verticalCenter: tick.verticalCenter
-//                }
-//            }
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked:{
-//                    halfTimeRotate = !halfTimeRotate;
-//                }
-//            }
-//        }
+        anchors.top: screenTitle.bottom
+        anchors.margins: myMargins
     }
 
+
+    Row {
+        spacing: 10
+        anchors.horizontalCenter: screenTitle.horizontalCenter
+        anchors.top: timeEntryTumbler.bottom
+        anchors.margins: myMargins
+
+        Rectangle {
+            id: tick
+            width: 30
+            height: 30
+            border.width: 2
+            border.color: appForegroundColor
+            color: appBackgroundColor
+
+            Text {
+                text: halfTimeRotate ? "X" : ""
+                anchors.centerIn: parent
+                color: appForegroundColor
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked:{
+                    halfTimeRotate = !halfTimeRotate;
+                }
+            }
+        }
+        Text {
+            text: "Half time rotate"
+            color: appForegroundColor
+            font.family: localFont.name
+            font.pointSize: 18
+            anchors.verticalCenter: tick.verticalCenter
+        }
+    }
 
     SideButton {
         id: nextButton
         buttonText: "NEXT"
         anchors.margins: 20
-        anchors.verticalCenter: centerControlColumn.verticalCenter
+        anchors.verticalCenter: timeEntryTumbler.verticalCenter
         anchors.right: parent.right
         onClicked: {
-//            var minutes = minutesTensColumn.currentIndex*10 + minutesOnesColumn.currentIndex;
-//            var seconds = secondsTensColumn.currentIndex*10 + secondsOnesColumn.currentIndex;
-//            cookTime = minutes * 60 + seconds;
             cookTime = timeEntryTumbler.getTime();
             console.log("Cook time is now " + timeEntryTumbler.getMinutes() + ":" + timeEntryTumbler.getSeconds() +
                         " (" + cookTime + ")");

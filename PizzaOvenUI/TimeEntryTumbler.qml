@@ -3,14 +3,15 @@ import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
-Item {
+Rectangle {
     id: timeEntryTumbler
-    width: parent.width
-    height: parent.height
+
+    color: appBackgroundColor
 
     property int timeValue: 0
     property int myMargins: 10
     property int itemsPerTumbler: 5
+    property int columnWidth: 50
 
     function getTime() {
         var minutes = minutesTensColumn.currentIndex*10 + minutesOnesColumn.currentIndex;
@@ -27,8 +28,10 @@ Item {
     }
 
     Row {
+        id: tumblerRow
         height: parent.height
         spacing: 2
+        anchors.centerIn: parent
         Tumbler {
             id: minutesEntry
             height: parent.height
@@ -46,10 +49,6 @@ Item {
             }
 
             style:  MyTumblerStyle {
-                onClicked: {
-                    console.log("Tens of minutes: " + minutesTensColumn.currentIndex);
-                    console.log("Minutes: " + minutesOnesColumn.currentIndex);
-                }
                 visibleItemCount: itemsPerTumbler
                 textHeight:minutesEntry.height/visibleItemCount
                 textWidth: columnWidth
@@ -90,10 +89,6 @@ Item {
             }
 
             style:  MyTumblerStyle {
-                onClicked: {
-                    console.log("Tens of seconds: " + secondsTensColumn.currentIndex);
-                    console.log("Seconds: " + secondsOnesColumn.currentIndex);
-                }
                 visibleItemCount: itemsPerTumbler
                 textHeight:secondsEntry.height/visibleItemCount
                 textWidth: columnWidth
