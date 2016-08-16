@@ -25,3 +25,8 @@ Compile the following modules using the [instructions from the link](https://wik
 -	qtgraphicaleffects
 -	qtlocation
 -	qtmultimedia
+-	qtquick1
+-	qtquickcontrols
+-	qtquickcontrols2
+-	qtwebsockets
+
