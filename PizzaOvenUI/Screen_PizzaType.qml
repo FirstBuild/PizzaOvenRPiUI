@@ -11,13 +11,24 @@ Item {
 
     property int myMargins: 10
 
-    BackButton {
-        id: pizzaTypeBackButton
+//    BackButton {
+//        id: pizzaTypeBackButton
+//        anchors.margins: myMargins
+//        x: 5
+//        y: 5
+//        onClicked: {
+//            stackView.pop({immediate:immediateTransitions});
+//        }
+//    }
+
+    HomeButton {
+        id: pizzaTypeHomeButton
         anchors.margins: myMargins
         x: 5
         y: 5
         onClicked: {
-            stackView.pop({immediate:immediateTransitions});
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -27,7 +38,7 @@ Item {
         text: "Pizza Type"
         anchors.margins: myMargins
         anchors.right: screenPizzaType.right
-        anchors.top: pizzaTypeBackButton.top
+        anchors.top: pizzaTypeHomeButton.top
         color: appForegroundColor
     }
 
@@ -79,7 +90,7 @@ Item {
 
     Tumbler {
         id: pizzaType
-        anchors.top: pizzaTypeBackButton.bottom
+        anchors.top: pizzaTypeHomeButton.bottom
         anchors.topMargin: myMargins
         height: parent.height - y - myMargins
         width: tumblerWidth

@@ -12,6 +12,9 @@ Rectangle {
     height: 40
     color: appBackgroundColor
 
+//    border.color: "red"
+//    border.width: 1
+
     Image {
         id: mainMenuGearIcon
         source: gearIconSource
