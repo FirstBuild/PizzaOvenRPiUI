@@ -8,10 +8,10 @@ Rectangle {
     color: appBackgroundColor
     Text {
         id: idText
+        anchors.centerIn: parent
         font.family: localFont.name
         font.pointSize: 24
         text: "<"
-        anchors.centerIn: parent
         color: appForegroundColor
     }
     MouseArea {

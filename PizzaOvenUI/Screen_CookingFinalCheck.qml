@@ -147,5 +147,31 @@ Item {
             }
         }
     }
+
+    Rectangle {
+        id: hiddenPauseButton
+        height: 75
+        width: parent.width*.2
+        anchors.margins: myMargins
+        anchors.left: continueButton.left
+        anchors.top: continueButton.bottom
+        color: appBackgroundColor
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: {
+                if (demoModeIsActive) {
+                    console.log("Pause clicked");
+                    sounds.touch.play();
+                    if (countdownTimer.running) {
+                        countdownTimer.stop();
+                    } else {
+                        countdownTimer.start();
+                    }
+                }
+            }
+        }
+    }
 }
 

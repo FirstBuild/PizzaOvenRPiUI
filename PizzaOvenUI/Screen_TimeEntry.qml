@@ -13,7 +13,7 @@ Item {
     property int itemsPerTumbler: 5
 
     BackButton {
-        id: timeEntryBackButton
+        id: backButton
         anchors.margins: myMargins
         x: 5
         y: 5
@@ -25,66 +25,69 @@ Item {
     property int tumblerWidth: parent.width / 4;
     property int columnWidth: tumblerWidth *0.35;
 
+
+    Text {
+        id: screenTitle
+        font.family: localFont.name
+        font.pointSize: 24
+        text: "Select cook time"
+        color: appForegroundColor
+        anchors.margins: myMargins
+        anchors.leftMargin: 62
+        anchors.left: backButton.right
+        anchors.verticalCenter: backButton.verticalCenter
+    }
+
     Column {
         id: centerControlColumn
         anchors.margins: myMargins
-        anchors.left: timeEntryBackButton.right
-        anchors.top: timeEntryBackButton.top
-        anchors.leftMargin: 50
-        height: parent.height - myMargins * 2
+        anchors.top: backButton.bottom
+        anchors.horizontalCenter: screenTitle.horizontalCenter
         spacing: 10
 
-        Text {
-            id: screenTitle
-            font.family: localFont.name
-            font.pointSize: 24
-            text: "Select cook time"
-            color: appForegroundColor
-        }
+//        TimeEntryTumbler {
+//            id: timeEntryTumbler
+//            timeValue: cookTime
+//            height: parent.height - screenTitle.height - checkbox.height - parent.spacing * 3
+//        }
 
-        TimeEntryTumbler {
-            id: timeEntryTumbler
-            timeValue: cookTime
-            height: parent.height - screenTitle.height - checkbox.height - parent.spacing * 3
-        }
+//        Item {
+//            id: checkbox
+//            height: 30
+//            width: screenTitle.width
 
-        Item {
-            id: checkbox
-            height: 30
-            width: screenTitle.width
+//            Row {
+//                spacing: 10
 
-            Row {
-                spacing: 10
+//                Rectangle {
+//                    id: tick
+//                    width: 30
+//                    height: 30
+//                    border.width: 2
+//                    border.color: appForegroundColor
+//                    color: appBackgroundColor
 
-                Rectangle {
-                    id: tick
-                    width: 30
-                    height: 30
-                    border.width: 2
-                    border.color: appForegroundColor
-                    color: appBackgroundColor
-
-                    Text {
-                        text: halfTimeRotate ? "X" : ""
-                        anchors.centerIn: parent
-                        color: appForegroundColor
-                    }
-                }
-                Text {
-                    text: "Half time rotate"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    anchors.verticalCenter: tick.verticalCenter
-                }
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked:{
-                    halfTimeRotate = !halfTimeRotate;
-                }
-            }
-        }
+//                    Text {
+//                        text: halfTimeRotate ? "X" : ""
+//                        anchors.centerIn: parent
+//                        color: appForegroundColor
+//                    }
+//                }
+//                Text {
+//                    text: "Half time rotate"
+//                    color: appForegroundColor
+//                    font.family: localFont.name
+//                    font.pointSize: 18
+//                    anchors.verticalCenter: tick.verticalCenter
+//                }
+//            }
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked:{
+//                    halfTimeRotate = !halfTimeRotate;
+//                }
+//            }
+//        }
     }
 
 

@@ -13,7 +13,7 @@ Item {
     property int myMargins: 10
 
     BackButton {
-        id: temperatureEntryBackButton
+        id: backButton
         anchors.margins: myMargins
         x: 5
         y: 5
@@ -25,29 +25,29 @@ Item {
     property int tumblerWidth: parent.width / 3;
     property int columnWidth: tumblerWidth * 0.4;
     property int tumblerHeight: parent.height - screenTitle.y - screenTitle.height - myMargins*2
-    property int columnHeight: parent.height
+
+    Text {
+        id: screenTitle
+        font.family: localFont.name
+        font.pointSize: 24
+        text: "Select stone temp"
+        anchors.margins: myMargins
+        color: appForegroundColor
+        anchors.leftMargin: 62
+        anchors.left: backButton.right
+        anchors.verticalCenter: backButton.verticalCenter
+    }
 
     Column {
         id: centerControlColumn
         anchors.margins: myMargins
-        anchors.left: temperatureEntryBackButton.right
-        anchors.top: temperatureEntryBackButton.top
-        anchors.leftMargin: 50
-        height: parent.height - myMargins * 2
+        anchors.top: backButton.bottom
+        anchors.horizontalCenter: screenTitle.horizontalCenter
         spacing: 10
-
-        Text {
-            id: screenTitle
-            font.family: localFont.name
-            font.pointSize: 24
-            text: "Select stone temp"
-            anchors.margins: myMargins
-            color: appForegroundColor
-        }
 
         Tumbler {
             id: temperatureEntry
-            height: parent.height - screenTitle.height - parent.spacing * 3
+            height: tumblerHeight
 
             Component.onCompleted: {
                 var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
@@ -94,7 +94,7 @@ Item {
     SideButton {
         id: nextButton
         buttonText: "NEXT"
-        anchors.margins: myMargins
+        anchors.margins: 20
         anchors.verticalCenter: centerControlColumn.verticalCenter
         anchors.right: parent.right
         onClicked: {

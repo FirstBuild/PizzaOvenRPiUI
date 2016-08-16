@@ -78,6 +78,7 @@ Rectangle {
         anchors.fill: buttonBox
         onClicked: {
             console.log("Home clicked");
+            sounds.touch.play();
             homeButton.clicked();
         }
         onPressed: {
