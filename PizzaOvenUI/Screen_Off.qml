@@ -12,11 +12,15 @@ Item {
 
     property int myMargins: 10
 
-    Rectangle {
-        color: "black"
-        width: parent.width
-        height: parent.height
-    }
+//    Image {
+//        id: pizzaOvenOffImage
+////            source: "pizza_oven_blank_screen.jpg"
+////        source: "PizzaOvenAwaitPreheat.png"
+////        source: "TwoTemps.png"
+//        source: "MainMenu.png"
+//        anchors.centerIn: parent
+//    }
+
 
     MouseArea {
         anchors.fill: parent
@@ -28,12 +32,6 @@ Item {
                 stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
             }
         }
-
-//        Image {
-//            id: pizzaOvenOffImage
-//            source: "pizza_oven_blank_screen.jpg"
-//            anchors.centerIn: parent
-//        }
     }
 }
 

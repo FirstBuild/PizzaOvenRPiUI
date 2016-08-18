@@ -7,6 +7,7 @@ Item {
 
     property real currentValue: 0
     onCurrentValueChanged: progress.requestPaint()
+    property int lineWidth: 4
 
     // draws two arcs (portion of a circle)
     // fills the circle with a lighter secondary color
@@ -18,7 +19,7 @@ Item {
         antialiasing: true
         anchors.centerIn: parent
 
-        property color primaryColor: appForegroundColor
+        property color primaryColor: appGrayColor
         property color secondaryColor: appForegroundColor
 
         property real centerWidth: width / 2
@@ -54,7 +55,7 @@ Item {
             // From angle to 2*PI
 
             ctx.beginPath();
-            ctx.lineWidth = 1;
+            ctx.lineWidth = lineWidth;
             ctx.strokeStyle = primaryColor;
             ctx.arc(progress.centerWidth,
                     progress.centerHeight,
@@ -68,7 +69,7 @@ Item {
             // From 0 to angle
 
             ctx.beginPath();
-            ctx.lineWidth = 3;
+            ctx.lineWidth = lineWidth;
             ctx.strokeStyle = progress.secondaryColor;
             ctx.arc(progress.centerWidth,
                     progress.centerHeight,

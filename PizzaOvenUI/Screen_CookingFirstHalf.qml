@@ -5,23 +5,14 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 15
-
-//    BackButton {
-//        id: backbutton
-//        anchors.margins: myMargins
-//        x: myMargins
-//        y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
+    CircleScreenTemplate {
+        id: dataCircle
+        circleValue: 0
+        titleText: "COOKING"
+    }
 
     HomeButton {
         id: homeButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             countdownTimer.stop();
             stackView.clear();
@@ -29,55 +20,9 @@ Item {
         }
     }
 
-    Text {
-        id: screenLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: "COOKING"
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: homeButton.verticalCenter
-        color: appForegroundColor
-    }
-
-    Item {
-        id: centerCircle
-        implicitWidth: parent.height * 0.7;
-        implicitHeight: width
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-
-        CircleAsymmetrical {
-            id: dataCircle
-            height: parent.height;
-            width: parent.width
-            topText: tempToString(upperFront.setTemp)
-            middleText: tempToString(lowerFront.setTemp)
-            bottomText: timeToString(cookTime)
-        }
-    }
-
-//    SideButton {
-//        id: cancelButton
-//        buttonText: "CANCEL"
-//        anchors.margins: myMargins
-//        anchors.verticalCenter: centerCircle.verticalCenter
-//        anchors.right: centerCircle.left
-//        onClicked: {
-//            console.log("The cancel button was clicked.");
-//            countdownTimer.stop();
-//            stackView.clear();
-//            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-//        }
-//    }
-    SideButton {
+    ButtonLeft {
         id: editButton
-        buttonText: "EDIT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.right: centerCircle.left
+        text: "EDIT"
         onClicked: {
             countdownTimer.stop();
             console.log("The edit button was clicked.");
@@ -94,23 +39,28 @@ Item {
         }
     }
 
-    SideButton {
+    CircleContent {
+        id: circleContent
+        topString: tempToString(upperFront.setTemp)
+        middleString: tempToString(lowerFront.setTemp)
+        bottomString: timeToString(cookTime)
+    }
+
+    ButtonRight {
         id: pauseButton
-        buttonText: "PAUSE"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.left: centerCircle.right
+        text: "PAUSE"
         onClicked: {
             console.log("The pause button was clicked.");
             if (countdownTimer.running) {
                 countdownTimer.stop();
-                pauseButton.buttonText = "RESUME"
+                pauseButton.text = "RESUME"
             } else {
                 countdownTimer.start();
-                pauseButton.buttonText = "PAUSE"
+                pauseButton.text = "PAUSE"
             }
         }
     }
+
     Timer {
         id: countdownTimer
         interval: 1000; running: true; repeat: true
@@ -118,10 +68,10 @@ Item {
             currentTime++;
             if ((currentTime < cookTime/2) || ((halfTimeRotate == false) && (currentTime < finalCheckTime))) {
                 var val = 100 * currentTime/cookTime;
-                dataCircle.currentValue = val;
+                dataCircle.circleValue = val;
 
                 val = cookTime - currentTime;
-                dataCircle.bottomText = timeToString(val);
+                circleContent.bottomString = timeToString(val);
 
             } else {
                 console.log("Stoping countdown timer first half.");

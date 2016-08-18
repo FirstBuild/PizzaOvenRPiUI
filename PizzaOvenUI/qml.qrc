@@ -14,7 +14,6 @@
         <file>Screen_Start.qml</file>
         <file>Screen_CookingFirstHalf.qml</file>
         <file>Screen_RotatePizza.qml</file>
-        <file>CircleAsymmetrical.qml</file>
         <file>Screen_CookingSecondHalf.qml</file>
         <file>Screen_TemperatureEntry.qml</file>
         <file>Screen_TimeEntry.qml</file>
@@ -45,5 +44,14 @@
         <file>TimeEntryWithKeys.qml</file>
         <file>Screen_ShiftScreenPosition.qml</file>
         <file>HomeButton.qml</file>
+        <file>PizzaOvenAwaitPreheat.png</file>
+        <file>CircleScreenTemplate.qml</file>
+        <file>ButtonLeft.qml</file>
+        <file>ButtonRight.qml</file>
+        <file>CircleContent.qml</file>
+        <file>PizzaRotate.png</file>
+        <file>TwoTemps.png</file>
+        <file>MainMenu.png</file>
+        <file>Gear-Icon-white-2.svg</file>
     </qresource>
 </RCC>

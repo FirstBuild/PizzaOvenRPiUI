@@ -24,8 +24,6 @@ Item {
     HomeButton {
         id: pizzaTypeHomeButton
         anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});

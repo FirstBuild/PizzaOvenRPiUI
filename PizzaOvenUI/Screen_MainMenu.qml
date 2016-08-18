@@ -19,6 +19,15 @@ Item {
         }
     }
 
+    Image {
+        id: pizzaOvenOffImage
+//            source: "pizza_oven_blank_screen.jpg"
+//        source: "PizzaOvenAwaitPreheat.png"
+//        source: "TwoTemps.png"
+        source: "MainMenu.png"
+        anchors.centerIn: parent
+    }
+
     Timer {
         id: demoTimeoutTimer
         interval: 60000; running: false; repeat: false
@@ -30,65 +39,19 @@ Item {
 
     GearButton {
         id: mainMenuGearButton
-        x: 5
-        y: 5
         onClicked: {
             stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
         }
     }
 
-    Rectangle {
-        id: todBox
-        anchors.margins: myMargins
-        anchors.right: screenMainMenu.right
-        anchors.top: screenMainMenu.top
-        width: timeLabel.width
-        height: timeLabel.height
-        color: appBackgroundColor
-
-        Text {
-            id: timeLabel
-            font.family: localFont.name
-            font.pointSize: 24
-            text: timeOfDay
-            color: appForegroundColor
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                stackView.push({item: Qt.resolvedUrl("Screen_SetTimeOfDay.qml"), immediate:immediateTransitions});
-            }
-            onPressed: {
-                timeLabel.color = appBackgroundColor;
-                todBox.color = appForegroundColor;
-            }
-            onReleased: {
-                timeLabel.color = appForegroundColor;
-                todBox.color = appBackgroundColor;
-            }
-        }
+    Text {
+        text: "Select"
+        font.family: localFont.name
+        font.pointSize: 18
+        color: appGrayText
+        x: 440
+        y: 40
     }
-
-//    ListModel {
-//        id: foodTypeListModel
-
-//        ListElement {
-//            name: "PIZZA"
-//        }
-//        ListElement {
-//            name: "BAKE"
-//        }
-//        ListElement {
-//            name: "BROIL"
-//        }
-//        ListElement {
-//            name: "CASSEROLE"
-//        }
-//        ListElement {
-//            name: "ROAST"
-//        }
-//    }
 
     ListModel {
         id: foodTypeListModel
@@ -109,12 +72,12 @@ Item {
     property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
+        opacity: 0.5
         id: foodType
-        anchors.top: mainMenuGearButton.bottom
-        anchors.topMargin: myMargins
-        height: parent.height - y - myMargins
-        width: tumblerWidth
-        x: parent.width * 0.33
+        height: 225
+        width: 300
+        x: 180
+        y: 100
 
         style:  MyTumblerStyle {
             onClicked: {
@@ -126,7 +89,7 @@ Item {
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
             }
             visibleItemCount: 5
-            textHeight:foodType.height/visibleItemCount
+            textHeight:100
             textWidth: parent.width
         }
         TumblerColumn {
@@ -135,4 +98,24 @@ Item {
             model: foodTypeListModel
         }
     }
+
+    Rectangle {
+        width: screenWidth
+        height: 1
+        color: "yellow"
+        x: 0
+        y: 165
+    }
+    Rectangle {
+        width: screenWidth
+        height: 1
+        color: "yellow"
+        x: 0
+        y: 228
+    }
+
+    ButtonLeft {
+
+    }
+
 }

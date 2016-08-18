@@ -9,82 +9,22 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 15
-
-//    BackButton {
-//        id: backbutton
-//        anchors.margins: myMargins
-//        x: myMargins
-//        y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
+    CircleScreenTemplate {
+        circleValue: 0
+        titleText: "READY"
+    }
 
     HomeButton {
-        id: homeButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
+        id: awaitStartHomeButton
         onClicked: {
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
 
-    function screenEntry() {
-        sounds.notification.play();
-    }
-
-    Text {
-        id: screenLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: "READY"
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: homeButton.verticalCenter
-        color: appForegroundColor
-    }
-
-    Item {
-        id: centerCircle
-        implicitWidth: parent.height * 0.7;
-        implicitHeight: width
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-
-        CircleAsymmetrical {
-            id: dataCircle
-            height: parent.height;
-            width: parent.width
-            topText: tempToString(upperFront.setTemp)
-            middleText: tempToString(lowerFront.setTemp)
-            bottomText: timeToString(cookTime)
-        }
-    }
-
-//    SideButton {
-//        id: cancelButton
-//        buttonText: "CANCEL"
-//        anchors.margins: myMargins
-//        anchors.verticalCenter: centerCircle.verticalCenter
-//        anchors.right: centerCircle.left
-//        onClicked: {
-//            console.log("The cancel button was clicked.");
-//            stackView.clear();
-//            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-//        }
-//    }
-
-    SideButton {
+    ButtonLeft {
         id: editButton
-        buttonText: "EDIT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.right: centerCircle.left
+        text: "EDIT"
         onClicked: {
             console.log("The edit button was clicked.");
             console.log("Current item: " + stackView.currentItem);
@@ -100,17 +40,25 @@ Item {
         }
     }
 
-    SideButton {
+    ButtonRight {
         id: startButton
-        buttonText: "START"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.left: centerCircle.right
+        text: "START"
         onClicked: {
             console.log("The start button was clicked.");
             currentTime = 0;
             stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
         }
+    }
+
+    CircleContent {
+        id: dataCircle
+        topString: tempToString(upperFront.setTemp)
+        middleString: tempToString(lowerFront.setTemp)
+        bottomString: timeToString(cookTime)
+    }
+
+    function screenEntry() {
+        sounds.notification.play();
     }
 }
 

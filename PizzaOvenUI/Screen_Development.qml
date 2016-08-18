@@ -7,7 +7,6 @@ Item {
     implicitHeight: screenHeight
     implicitWidth: screenWidth
 
-    property int myMargins: 10
     property int spacing: 10
     property int smallButtonWidth: ((devScreen.width - devScreen.spacing) / 4) - devScreen.spacing
     property int smallButtonHeight: ((devScreen.height - devScreen.spacing) / 4) - devScreen.spacing

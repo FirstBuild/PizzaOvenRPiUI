@@ -9,65 +9,23 @@ Item {
     width: parent.width
     height: parent.height
 
-    property int myMargins: 15
 
-//    BackButton {
-//        id: awaitStartBackButton
-//        anchors.margins: myMargins
-//        x: myMargins
-//        y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
+    CircleScreenTemplate {
+        circleValue: 0
+        titleText: foodNameString
+    }
 
     HomeButton {
         id: awaitStartHomeButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
         }
     }
 
-    Text {
-        id: foodSelectedLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: foodNameString
-        anchors.margins: myMargins
-        anchors.horizontalCenter: screenAwaitStart.horizontalCenter
-        anchors.verticalCenter: awaitStartHomeButton.verticalCenter
-        color: appForegroundColor
-    }
-
-    Item {
-        id: centerCircle
-        implicitWidth: parent.height * 0.7;
-        implicitHeight: width
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-
-        CircleAsymmetrical {
-            id: dataCircle
-            height: parent.height;
-            width: parent.width
-            topText: tempToString(upperFront.setTemp)
-            middleText: tempToString(lowerFront.setTemp)
-            bottomText: timeToString(cookTime)
-        }
-    }
-
-    SideButton {
+    ButtonLeft {
         id: editButton
-        buttonText: "EDIT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.right: centerCircle.left
+        text: "EDIT"
         onClicked: {
             screenBookmark = stackView.currentItem;
             if (twoTempEntryModeIsActive) {
@@ -78,20 +36,22 @@ Item {
         }
     }
 
-    SideButton {
+    ButtonRight {
         id: preheatButton
-        buttonText: "PREHEAT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.left: centerCircle.right
+        text: "PREHEAT"
         onClicked: {
-            console.log("The preheat button was clicked.");
             if (!demoModeIsActive) {
                 sendWebSocketMessage("StartOven ");
             }
             screenBookmark = stackView.currentItem;
             stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
         }
+    }
+
+    CircleContent {
+        topString: tempToString(upperFront.setTemp)
+        middleString: tempToString(lowerFront.setTemp)
+        bottomString: timeToString(cookTime)
     }
 }
 

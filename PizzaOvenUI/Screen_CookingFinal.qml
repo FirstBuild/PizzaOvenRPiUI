@@ -5,23 +5,14 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 15
-
-//    BackButton {
-//        id: backbutton
-//        anchors.margins: myMargins
-//        x: myMargins
-//        y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
+    CircleScreenTemplate {
+        id: dataCircle
+        circleValue: 100 * currentTime/cookTime
+        titleText: "COOKING"
+    }
 
     HomeButton {
         id: homeButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             countdownTimer.stop();
             stackView.clear();
@@ -29,60 +20,11 @@ Item {
         }
     }
 
-    Text {
-        id: screenLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: "COOKING"
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: homeButton.verticalCenter
-        color: appForegroundColor
-    }
-
-    Item {
-        id: centerCircle
-        implicitWidth: parent.height * 0.7;
-        implicitHeight: width
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-
-        CircleAsymmetrical {
-            id: dataCircle
-            height: parent.height;
-            width: parent.width
-            topText: tempToString(upperFront.setTemp)
-            middleText: tempToString(lowerFront.setTemp)
-            bottomText: timeToString(cookTime - currentTime)
-            currentValue: 100 * currentTime/cookTime
-        }
-    }
-
-//    SideButton {
-//        id: cancelButton
-//        buttonText: "CANCEL"
-//        anchors.margins: myMargins
-//        anchors.verticalCenter: centerCircle.verticalCenter
-//        anchors.right: centerCircle.left
-//        onClicked: {
-//            console.log("The cancel button was clicked.");
-//            countdownTimer.stop();
-//            stackView.clear();
-//            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-//        }
-//    }
-    SideButton {
+    ButtonLeft {
         id: editButton
-        buttonText: "EDIT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.right: centerCircle.left
+        text: "EDIT"
         onClicked: {
             countdownTimer.stop();
-            console.log("The edit button was clicked.");
-            console.log("Current item: " + stackView.currentItem);
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             stackView.completeTransition();
@@ -94,23 +36,28 @@ Item {
             }
         }
     }
-    SideButton {
+
+    CircleContent {
+        id: circleContent
+        topString: tempToString(upperFront.setTemp)
+        middleString: tempToString(lowerFront.setTemp)
+        bottomString: timeToString(cookTime - currentTime)
+    }
+
+    ButtonRight {
         id: pauseButton
-        buttonText: "PAUSE"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.left: centerCircle.right
+        text: "PAUSE"
         onClicked: {
-            console.log("The pause button was clicked.");
             if (countdownTimer.running) {
                 countdownTimer.stop();
-                pauseButton.buttonText = "RESUME";
+                pauseButton.text = "RESUME";
             } else {
                 countdownTimer.start();
-                pauseButton.buttonText = "PAUSE";
+                pauseButton.text = "PAUSE";
             }
         }
     }
+
     Timer {
         id: countdownTimer
         interval: 1000; running: true; repeat: true
@@ -123,38 +70,11 @@ Item {
                     countdownTimer.stop();
                     stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
                 } else {
-                    dataCircle.currentValue = val;
+                    dataCircle.circleValue = val;
                 }
             } else {
-                console.log("Stoping countdown final cooking.");
                 countdownTimer.stop();
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
-            }
-        }
-    }
-
-    Rectangle {
-        id: hiddenPauseButton
-        height: 75
-        width: parent.width*.2
-        anchors.margins: myMargins
-        anchors.left: pauseButton.left
-        anchors.top: pauseButton.bottom
-        color: appBackgroundColor
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            onClicked: {
-                if (demoModeIsActive) {
-                    console.log("Pause clicked");
-                    sounds.touch.play();
-                    if (countdownTimer.running) {
-                        countdownTimer.stop();
-                    } else {
-                        countdownTimer.start();
-                    }
-                }
             }
         }
     }

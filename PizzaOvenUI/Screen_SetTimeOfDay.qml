@@ -9,7 +9,6 @@ Item {
     width: parent.width
     height: parent.height
 
-    property int myMargins: 10
     property int itemsPerTumbler: 5
 
     TimeEntryWithKeys {

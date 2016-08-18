@@ -5,15 +5,12 @@ Rectangle {
 
     signal clicked()
 
-    property int myMargins: 15
+    x: 32
+    y: 35
 
-    anchors.margins: gearButton.myMargins
     width: 40
     height: 40
     color: appBackgroundColor
-
-//    border.color: "red"
-//    border.width: 1
 
     Image {
         id: mainMenuGearIcon

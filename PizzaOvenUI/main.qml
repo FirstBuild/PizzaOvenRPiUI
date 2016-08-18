@@ -35,9 +35,11 @@ Window {
     property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
     property bool twoTempEntryModeIsActive: true
-    property color appBackgroundColor: "black"
+    property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
-    property string gearIconSource: "Gear-Icon-white.svg"
+    property color appGrayColor: "#707070"
+    property color appGrayText: "#B0B0B0"
+    property string gearIconSource: "Gear-Icon-white-2.svg"
     property Item screenBookmark
     property bool immediateTransitions: true
     property int screenWidth: 559

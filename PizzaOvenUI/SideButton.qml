@@ -27,18 +27,16 @@ Item {
     Rectangle {
         id: idTopLine
         width: parent.width
-        height: 2
+        height: 1
         anchors.top: parent.top
-        border.width: 1
-        border.color: appForegroundColor
+        color: appGrayColor
     }
     Rectangle {
         id: idBottomLine
         width: parent.width
-        height: 2
+        height: 1
         anchors.bottom: parent.bottom
-        border.width: 1
-        border.color: appForegroundColor
+        color: appGrayColor
     }
     MouseArea {
         anchors.fill: parent

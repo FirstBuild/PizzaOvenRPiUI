@@ -5,23 +5,14 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 15
-
-//    BackButton {
-//        id: backbutton
-//        anchors.margins: myMargins
-//        x: myMargins
-//        y: myMargins
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
+    CircleScreenTemplate {
+        id: dataCircle
+        circleValue: 100 * currentTime/cookTime
+        titleText: "COOKING"
+    }
 
     HomeButton {
         id: homeButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             countdownTimer.stop();
             stackView.clear();
@@ -29,75 +20,9 @@ Item {
         }
     }
 
-    function screenEntry() {
-        sounds.alarmMid.play();
-    }
-
-    Text {
-        id: screenLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: "COOKING"
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: homeButton.verticalCenter
-        color: appForegroundColor
-    }
-
-    Item {
-        id: centerCircle
-        implicitWidth: parent.height * 0.7;
-        implicitHeight: width
-        anchors.margins: myMargins
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-
-        ProgressCircle {
-            id: progress
-            currentValue: 100 * currentTime/cookTime
-            width: centerCircle.width
-            height: centerCircle.height
-        }
-        Text {
-            text: "Rotate"
-            font.family: localFont.name
-            font.pointSize: 20
-            anchors.bottomMargin: myMargins/2
-            anchors.horizontalCenter: centerCircle.horizontalCenter
-            anchors.bottom: centerCircle.verticalCenter
-            color: appForegroundColor
-        }
-        Text {
-            text: "Pizza"
-            font.family: localFont.name
-            font.pointSize: 20
-            anchors.topMargin: myMargins/2
-            anchors.horizontalCenter: centerCircle.horizontalCenter
-            anchors.top: centerCircle.verticalCenter
-            color: appForegroundColor
-        }
-    }
-
-//    SideButton {
-//        id: cancelButton
-//        buttonText: "CANCEL"
-//        anchors.verticalCenter: centerCircle.verticalCenter
-//        anchors.margins: myMargins
-//        anchors.right: centerCircle.left
-//        onClicked: {
-//            console.log("The cancel button was clicked.");
-//            countdownTimer.stop();
-//            stackView.clear();
-//            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-//        }
-//    }
-    SideButton {
+    ButtonLeft {
         id: editButton
-        buttonText: "EDIT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.right: centerCircle.left
+        text: "EDIT"
         onClicked: {
             countdownTimer.stop();
             console.log("The edit button was clicked.");
@@ -113,17 +38,49 @@ Item {
             }
         }
     }
-    SideButton {
+
+    Rectangle {
+        width: 100
+        height: 40
+        x: 231
+        y: 160
+        color: appBackgroundColor
+        Text {
+            text: "Rotate"
+            font.family: localFont.name
+            font.pointSize: 24
+            color: appForegroundColor
+            anchors.centerIn: parent
+        }
+    }
+
+    Rectangle {
+        width: 100
+        height: 40
+        x: 231
+        y: 195
+        color: appBackgroundColor
+        Text {
+            text: "pizza"
+            font.family: localFont.name
+            font.pointSize: 24
+            color: appForegroundColor
+            anchors.centerIn: parent
+        }
+    }
+
+    ButtonRight {
         id: continueButton
-        buttonText: "CONTINUE"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerCircle.verticalCenter
-        anchors.left: centerCircle.right
+        text: "CONTINUE"
         onClicked: {
             console.log("Stoping countdown timer in rotate.");
             countdownTimer.stop();
             stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
         }
+    }
+
+    function screenEntry() {
+        sounds.alarmMid.play();
     }
 
     Timer {
@@ -138,7 +95,7 @@ Item {
                     countdownTimer.stop();
                     stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
                 }
-                progress.currentValue = val;
+                dataCircle.circleValue = val;
             } else {
                 console.log("Stoping countdown timer in rotate.");
                 countdownTimer.stop();

@@ -9,7 +9,6 @@ Rectangle {
     color: appBackgroundColor
 
     property int timeValue: 0
-    property int myMargins: 10
     property int itemsPerTumbler: 5
     property int columnWidth: 50
 

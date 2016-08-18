@@ -12,6 +12,8 @@ Rectangle {
 
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
+    x: 37
+    y: 37
 
     Rectangle {
         id: buttonBox
