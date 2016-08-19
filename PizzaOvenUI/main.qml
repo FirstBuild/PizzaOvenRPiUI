@@ -34,11 +34,13 @@ Window {
     // Things related to how the app looks and operates
     property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
-    property bool twoTempEntryModeIsActive: true
+    property bool twoTempEntryModeIsActive: appSettings.twoTempMode
+
     property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
     property color appGrayColor: "#707070"
     property color appGrayText: "#B0B0B0"
+
     property string gearIconSource: "Gear-Icon-white-2.svg"
     property Item screenBookmark
     property bool immediateTransitions: true
@@ -49,6 +51,7 @@ Window {
     property string timeOfDay: "10:04"
     property int smallTextSize: 24
     property int bigTextSize: 42
+    property int appColumnWidth: 62
 
     // Parameters of the oven
     HeaterBankData {
@@ -325,8 +328,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

@@ -34,7 +34,6 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             sounds.touch.play();
-            console.log("Back clicked");
             backButton.clicked();
         }
         onPressed: {

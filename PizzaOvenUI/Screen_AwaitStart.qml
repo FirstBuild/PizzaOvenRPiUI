@@ -16,7 +16,7 @@ Item {
     }
 
     HomeButton {
-        id: awaitStartHomeButton
+        id: homeButton
         onClicked: {
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});

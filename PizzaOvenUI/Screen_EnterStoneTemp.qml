@@ -14,103 +14,92 @@ Item {
 
     BackButton {
         id: backButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             stackView.pop({immediate:immediateTransitions});
         }
     }
 
-    property int tumblerWidth: parent.width / 3;
-    property int columnWidth: tumblerWidth * 0.4;
-    property int tumblerHeight: parent.height - screenTitle.y - screenTitle.height - myMargins*2
+    property int tumblerColumns: 3
+    property int tumblerHeight: 250
+    property int columnHeight: tumblerHeight
 
     Text {
-        id: screenTitle
+        text: "Select Stone Temperature"
         font.family: localFont.name
-        font.pointSize: 24
-        text: "Select stone temp"
-        anchors.margins: myMargins
-        color: appForegroundColor
-        anchors.leftMargin: 62
-        anchors.left: backButton.right
-        anchors.verticalCenter: backButton.verticalCenter
+        font.pointSize: 18
+        color: appGrayText
+        width: 400
+        height: 30
+        anchors.right: nextButton.right
+        y: 41
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
     }
 
-    Column {
-        id: centerControlColumn
-        anchors.margins: myMargins
-        anchors.top: backButton.bottom
-        anchors.horizontalCenter: screenTitle.horizontalCenter
-        spacing: 10
+    Tumbler {
+        id: temperatureEntry
+        height: tumblerHeight
+        anchors.verticalCenter: nextButton.verticalCenter
+        anchors.right: nextButton.left
+        anchors.rightMargin: 20
 
-        Tumbler {
-            id: temperatureEntry
-            height: tumblerHeight
+        Component.onCompleted: {
+            var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
+            var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
+            var ones = (lowerFront.setTemp%10).toFixed(0);
+            temperatureEntry.setCurrentIndexAt(0, hunds);
+            temperatureEntry.setCurrentIndexAt(1, tens);
+            temperatureEntry.setCurrentIndexAt(2, ones);
+            console.log("Set temp is " + lowerFront.setTemp);
+            console.log("hunds: " + hunds);
+            console.log("tens: " + tens);
+            console.log("ones: " + ones);
+        }
 
-            Component.onCompleted: {
-                var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
-                var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
-                var ones = (lowerFront.setTemp%10).toFixed(0);
-                temperatureEntry.setCurrentIndexAt(0, hunds);
-                temperatureEntry.setCurrentIndexAt(1, tens);
-                temperatureEntry.setCurrentIndexAt(2, ones);
-                console.log("Set temp is " + lowerFront.setTemp);
-                console.log("hunds: " + hunds);
-                console.log("tens: " + tens);
-                console.log("ones: " + ones);
+        style:  MyTumblerStyle {
+            onClicked: {
+                console.log("The tumbler was clicked.");
+                console.log(hundredsColumn.currentIndex);
+                console.log(tensColumn.currentIndex);
+                console.log(onesColumn.currentIndex);
             }
-
-            style:  MyTumblerStyle {
-                onClicked: {
-                    console.log("The tumbler was clicked.");
-                    console.log(hundredsColumn.currentIndex);
-                    console.log(tensColumn.currentIndex);
-                    console.log(onesColumn.currentIndex);
-                }
-                visibleItemCount: 5
-                textHeight:temperatureEntry.height/visibleItemCount
-                textWidth: columnWidth
-                textAlignment: Text.AlignHCenter
-            }
-            TumblerColumn {
-                id: hundredsColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: tensColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: onesColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
+            visibleItemCount: 5
+            textHeight:temperatureEntry.height/visibleItemCount
+            textWidth: appColumnWidth
+            textAlignment: Text.AlignHCenter
+        }
+        TumblerColumn {
+            id: hundredsColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: tensColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: onesColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
         }
     }
-    SideButton {
+
+    ButtonRight {
         id: nextButton
-        buttonText: "NEXT"
-        anchors.margins: 20
-        anchors.verticalCenter: centerControlColumn.verticalCenter
-        anchors.right: parent.right
+        text: "NEXT"
         onClicked: {
             console.log("The next button was clicked.");
             var temp = hundredsColumn.currentIndex * 100;
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
 
-            if (temp > 800) {
-                messageDialog.open();
+            if (temp > lowerMaxTemp) {
+                sounds.alarmUrgent.play();
+                tempWarningDialog.visible = true;
             } else {
                 lowerFront.setTemp = temp;
                 lowerRear.setTemp = lowerFront.setTemp - lowerTempDifferential;
-
-                console.log("Lower front set temp is now " + lowerFront.setTemp);
-                console.log("Lower rear set temp is now " + lowerRear.setTemp);
 
                 sendWebSocketMessage("Set LF SetPoint " +
                                      (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
@@ -125,10 +114,11 @@ Item {
 
         }
     }
-    MessageDialog {
-        id: messageDialog
-        title: "Limit Exceeded"
-        text: "Stone temp max is 800F"
+
+    DialogWithCheckbox {
+        id: tempWarningDialog
+        visible: false
+        dialogMessage: "You Must Select A Temperature Below " + tempToString(lowerMaxTemp)
     }
 }
 

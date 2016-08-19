@@ -53,5 +53,7 @@
         <file>TwoTemps.png</file>
         <file>MainMenu.png</file>
         <file>Gear-Icon-white-2.svg</file>
+        <file>MaxTemp.png</file>
+        <file>DialogWithCheckbox.qml</file>
     </qresource>
 </RCC>

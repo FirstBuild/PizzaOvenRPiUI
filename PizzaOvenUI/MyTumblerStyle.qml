@@ -3,24 +3,34 @@ import QtQuick.Controls.Styles 1.4
 
 TumblerStyle {
     id: tumblerStyle
-    property int textHeight: 50
-    property int textWidth: 50
+    property int textHeight: 64
+    property int textWidth: 64
     property int textAlignment: Text.AlignLeft
     signal clicked(string name)
     frame: Rectangle {
-        border.color: "red"
-        border.width: 0
+//        border.color: "red"
+//        border.width: 1
         color: appBackgroundColor
     }
 
-//    background: Item {
-//        MouseArea {
-//            onClicked: {
-//                console.log("Background was clicked.");
-//            }
+    background: Component {
+        Rectangle {
+            color: appBackgroundColor
+        }
+    }
 
-//        }
-//    }
+    separator: Component {
+        Rectangle {
+            width: 5
+            color: appBackgroundColor
+//            Rectangle {
+//                width: 1
+//                height: parent.height
+//                color: appGrayColor
+//                anchors.centerIn: parent
+//            }
+        }
+    }
 
     delegate: Item {
         id: tumblerDelegate
@@ -31,7 +41,6 @@ TumblerStyle {
             color: appBackgroundColor
             height: parent.height
             width: textWidth
-//            width: parent.width
         }
 
         Text {
@@ -45,8 +54,7 @@ TumblerStyle {
             horizontalAlignment: textAlignment
             verticalAlignment: Text.AlignVCenter
             color: appForegroundColor
-
-            opacity: 1.0 - (Math.abs(styleData.displacement)+1)/visibleItemCount
+            opacity: Math.pow(2.7183, -Math.abs(styleData.displacement))
         }
 
         MouseArea {
@@ -82,13 +90,12 @@ TumblerStyle {
         id:canvas
         width:parent.width
         height:parent.height
-//        property color strokeStyle:  Qt.darker(fillStyle, 1.4)
         property color strokeStyle:  fillStyle
-//        property color fillStyle: "#808080"
-        property color fillStyle: appForegroundColor
+        property color fillStyle: appGrayColor
         property bool fill: true
         property bool stroke: true
         property real alpha: 1.0
+        property int lineWidth: 1
         antialiasing: true
 
         onFillChanged:requestPaint();
@@ -100,6 +107,7 @@ TumblerStyle {
             var originX = 0
             var originY = 0
             ctx.save();
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.translate(originX, originX);
             ctx.globalAlpha = canvas.alpha;
@@ -114,8 +122,8 @@ TumblerStyle {
 
             ctx.beginPath();
             //            ctx.moveTo(75,40);
-            var y1 = ((visibleItemCount-1)/2)*parent.height/visibleItemCount;
-            var y2 = ((visibleItemCount+1)/2)*parent.height/visibleItemCount;
+            var y1 = parent.height/2 - 31;
+            var y2 = parent.height/2 + 31;
             ctx.moveTo(0, y1);
             ctx.lineTo(parent.width, y1);
             ctx.moveTo(0, y2);
@@ -127,9 +135,6 @@ TumblerStyle {
 //            ctx.moveTo(0, parent.height);
 //            ctx.lineTo(parent.width, 0);
 
-
-//            console.log("Width: " + parent.width);
-//            console.log("Height: " + parent.height);
 
             ctx.closePath();
             if (canvas.fill)

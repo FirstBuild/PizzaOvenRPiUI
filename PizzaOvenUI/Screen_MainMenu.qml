@@ -49,8 +49,13 @@ Item {
         font.family: localFont.name
         font.pointSize: 18
         color: appGrayText
-        x: 440
-        y: 40
+        width: 400
+        height: 30
+        anchors.right: foodType.right
+        y: 41
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
+//        opacity: 0.5
     }
 
     ListModel {
@@ -72,12 +77,12 @@ Item {
     property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
-//        opacity: 0.5
         id: foodType
+//        opacity: 0.5
         height: 225
         width: 300
         x: 180
-        y: 100
+        y: 85
 
         style:  MyTumblerStyle {
             onClicked: {
@@ -87,7 +92,7 @@ Item {
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
             }
-            visibleItemCount: 5
+            visibleItemCount: 3
             textHeight:100
             textWidth: parent.width
         }
@@ -112,9 +117,4 @@ Item {
 //        x: 0
 //        y: 228
 //    }
-
-//    ButtonLeft {
-
-//    }
-
 }

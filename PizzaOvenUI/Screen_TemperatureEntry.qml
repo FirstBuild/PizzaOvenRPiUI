@@ -12,101 +12,99 @@ Item {
 
     property int myMargins: 10
 
+//    Image {
+//        id: pizzaOvenOffImage
+//        //            source: "pizza_oven_blank_screen.jpg"
+//        //        source: "PizzaOvenAwaitPreheat.png"
+//        //        source: "TwoTemps.png"
+//        // source: "MainMenu.png"
+//        source: "MaxTemp.png"
+//        y: 43
+//    }
+
     BackButton {
-        id: temperatureEntryBackButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
+        id: backButton
         onClicked: {
             stackView.pop({immediate:immediateTransitions});
         }
     }
 
-    property int tumblerWidth: parent.width / 3;
-    property int columnWidth: tumblerWidth * 0.4;
-    property int tumblerHeight: parent.height - screenTitle.y - screenTitle.height - myMargins*2
-    property int columnHeight: parent.height
+    property int tumblerColumns: 3
+    property int tumblerHeight: 250
+    property int columnHeight: tumblerHeight
 
-    Column {
-        id: centerControlColumn
-        anchors.margins: myMargins
-        anchors.left: temperatureEntryBackButton.right
-        anchors.top: temperatureEntryBackButton.top
-        anchors.leftMargin: 50
-        height: parent.height - myMargins * 2
-        spacing: 10
+    Text {
+        text: "Select Temperature"
+        font.family: localFont.name
+        font.pointSize: 18
+        color: appGrayText
+        width: 400
+        height: 30
+        anchors.right: nextButton.right
+        y: 41
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Text {
-            id: screenTitle
-            font.family: localFont.name
-            font.pointSize: 24
-            text: "Select oven temp"
-            anchors.margins: myMargins
-            color: appForegroundColor
+    Tumbler {
+        id: temperatureEntry
+        height: tumblerHeight
+        anchors.verticalCenter: nextButton.verticalCenter
+        anchors.right: nextButton.left
+        anchors.rightMargin: 20
+
+        Component.onCompleted: {
+            var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
+            var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
+            var ones = (lowerFront.setTemp%10).toFixed(0);
+            temperatureEntry.setCurrentIndexAt(0, hunds);
+            temperatureEntry.setCurrentIndexAt(1, tens);
+            temperatureEntry.setCurrentIndexAt(2, ones);
         }
 
-        Tumbler {
-            id: temperatureEntry
-            height: parent.height - screenTitle.height - parent.spacing * 3
-
-            Component.onCompleted: {
-                var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
-                var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
-                var ones = (lowerFront.setTemp%10).toFixed(0);
-                temperatureEntry.setCurrentIndexAt(0, hunds);
-                temperatureEntry.setCurrentIndexAt(1, tens);
-                temperatureEntry.setCurrentIndexAt(2, ones);
+        style:  MyTumblerStyle {
+            onClicked: {
+                console.log("The tumbler was clicked.");
+                console.log(hundredsColumn.currentIndex);
+                console.log(tensColumn.currentIndex);
+                console.log(onesColumn.currentIndex);
             }
-
-            style:  MyTumblerStyle {
-                onClicked: {
-                    console.log("The tumbler was clicked.");
-                    console.log(hundredsColumn.currentIndex);
-                    console.log(tensColumn.currentIndex);
-                    console.log(onesColumn.currentIndex);
-                }
-                visibleItemCount: 5
-                textHeight:temperatureEntry.height/visibleItemCount
-                textWidth: columnWidth
-                textAlignment: Text.AlignHCenter
-            }
-            TumblerColumn {
-                id: hundredsColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: tensColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: onesColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
+            visibleItemCount: 5
+            textHeight:temperatureEntry.height/visibleItemCount
+            textWidth: appColumnWidth
+            textAlignment: Text.AlignHCenter
+        }
+        TumblerColumn {
+            id: hundredsColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: tensColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: onesColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
         }
     }
-    SideButton {
+
+    ButtonRight {
         id: nextButton
-        buttonText: "NEXT"
-        anchors.margins: myMargins
-        anchors.verticalCenter: centerControlColumn.verticalCenter
-        anchors.right: parent.right
+        text: "NEXT"
         onClicked: {
-            console.log("The next button was clicked.");
             var temp = hundredsColumn.currentIndex * 100;
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
 
-            if (temp > 800) {
-                messageDialog.open();
+            if (temp > lowerMaxTemp) {
+                sounds.alarmUrgent.play();
+                tempWarningDialog.visible = true;
             } else {
                 lowerFront.setTemp = temp;
                 lowerRear.setTemp = temp - lowerTempDifferential;
-
-                console.log("Lower front set temp is now " + lowerFront.setTemp);
-                console.log("Lower rear set temp is now " + lowerRear.setTemp);
 
                 sendWebSocketMessage("Set LF SetPoint " +
                                      (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
@@ -119,10 +117,11 @@ Item {
             }
         }
     }
-    MessageDialog {
-        id: messageDialog
-        title: "Limit Exceeded"
-        text: "Max temp is 800F"
+
+    DialogWithCheckbox {
+        id: tempWarningDialog
+        visible: false
+        dialogMessage: "You Must Select A Temperature Below " + tempToString(lowerMaxTemp)
     }
 }
 

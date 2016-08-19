@@ -5,8 +5,8 @@ Rectangle {
 
     signal clicked()
 
-    x: 32
-    y: 35
+    x: 37
+    y: 37
 
     width: 40
     height: 40

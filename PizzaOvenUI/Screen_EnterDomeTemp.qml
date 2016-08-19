@@ -14,115 +14,101 @@ Item {
 
     BackButton {
         id: backButton
-        anchors.margins: myMargins
-        x: 5
-        y: 5
         onClicked: {
             stackView.pop({immediate:immediateTransitions});
         }
     }
 
-    property int tumblerWidth: parent.width / 3;
-    property int columnWidth: tumblerWidth * 0.4;
-    property int tumblerHeight: parent.height - screenTitle.y - screenTitle.height - myMargins*2
+    property int tumblerColumns: 4
+    property int tumblerHeight: 250
+    property int columnHeight: tumblerHeight
 
     Text {
-        id: screenTitle
+        text: "Select Dome Temperature"
         font.family: localFont.name
-        font.pointSize: 24
-        text: "Select dome temp"
-        anchors.margins: myMargins
-        color: appForegroundColor
-        anchors.leftMargin: 62
-        anchors.left: backButton.right
-        anchors.verticalCenter: backButton.verticalCenter
+        font.pointSize: 18
+        color: appGrayText
+        width: 400
+        height: 30
+        anchors.right: nextButton.right
+        y: 41
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
     }
 
-    Column {
-        id: centerControlColumn
-        anchors.margins: myMargins
-        anchors.top: backButton.bottom
-        anchors.horizontalCenter: screenTitle.horizontalCenter
-        spacing: 10
+    Tumbler {
+        id: temperatureEntry
+        height: tumblerHeight
+        anchors.verticalCenter: nextButton.verticalCenter
+        anchors.right: nextButton.left
+        anchors.rightMargin: 20
 
-        Tumbler {
-            id: temperatureEntry
-            height: tumblerHeight
+        Component.onCompleted: {
+            var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
+            var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
+            var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
+            var ones = (upperFront.setTemp%10).toFixed(0);
+            temperatureEntry.setCurrentIndexAt(0, thous);
+            temperatureEntry.setCurrentIndexAt(1, hunds);
+            temperatureEntry.setCurrentIndexAt(2, tens);
+            temperatureEntry.setCurrentIndexAt(3, ones);
 
-            Component.onCompleted: {
-                var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
-                var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
-                var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
-                var ones = (upperFront.setTemp%10).toFixed(0);
-                temperatureEntry.setCurrentIndexAt(0, thous);
-                temperatureEntry.setCurrentIndexAt(1, hunds);
-                temperatureEntry.setCurrentIndexAt(2, tens);
-                temperatureEntry.setCurrentIndexAt(3, ones);
+            console.log("upperFront.setTemp" + upperFront.setTemp);
+            console.log("Thous: " + thous);
+            console.log("Hunds: " + hunds);
+            console.log("Tens: " + tens);
+            console.log("Ones: "+ ones);
+        }
 
-                console.log("upperFront.setTemp" + upperFront.setTemp);
-                console.log("Thous: " + thous);
-                console.log("Hunds: " + hunds);
-                console.log("Tens: " + tens);
-                console.log("Ones: "+ ones);
+        style:  MyTumblerStyle {
+            onClicked: {
+                console.log("The tumbler was clicked.");
+                console.log(hundredsColumn.currentIndex);
+                console.log(tensColumn.currentIndex);
+                console.log(onesColumn.currentIndex);
             }
-
-            style:  MyTumblerStyle {
-                onClicked: {
-                    console.log("The tumbler was clicked.");
-                    console.log(hundredsColumn.currentIndex);
-                    console.log(tensColumn.currentIndex);
-                    console.log(onesColumn.currentIndex);
-                }
-                visibleItemCount: 5
-                textHeight:temperatureEntry.height/visibleItemCount
-                textWidth: columnWidth
-                textAlignment: Text.AlignHCenter
-            }
-            TumblerColumn {
-                id: thousandsColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: hundredsColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: tensColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
-            TumblerColumn {
-                id: onesColumn
-                width: columnWidth
-                model: [0,1,2,3,4,5,6,7,8,9]
-            }
+            visibleItemCount: 5
+            textHeight:temperatureEntry.height/visibleItemCount
+            textWidth: appColumnWidth
+            textAlignment: Text.AlignHCenter
+        }
+        TumblerColumn {
+            id: thousandsColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: hundredsColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: tensColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
+        }
+        TumblerColumn {
+            id: onesColumn
+            width: appColumnWidth
+            model: [0,1,2,3,4,5,6,7,8,9]
         }
     }
 
-    SideButton {
+    ButtonRight {
         id: nextButton
-        buttonText: "NEXT"
-        anchors.margins: 20
-        anchors.verticalCenter: centerControlColumn.verticalCenter
-        anchors.right: parent.right
+        text: "NEXT"
         onClicked: {
             var temp = thousandsColumn.currentIndex * 1000;
             temp += hundredsColumn.currentIndex * 100;
             temp += tensColumn.currentIndex * 10;
             temp += onesColumn.currentIndex;
 
-            if (temp > 1250) {
-                messageDialog.open();
+            if (temp > upperMaxTemp) {
+                sounds.alarmUrgent.play();
+                messageDialog.visible = true;
             } else {
-                console.log("Temp is now " + temp);
-
                 upperFront.setTemp = temp;
                 upperRear.setTemp = upperFront.setTemp - 100;
-
-                console.log("Upper front set temp is now " + upperFront.setTemp);
-                console.log("Upper rear set temp is now " + upperRear.setTemp);
 
                 sendWebSocketMessage("Set UF SetPoint " +
                                      (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
@@ -137,10 +123,9 @@ Item {
         }
     }
 
-    MessageDialog {
+    DialogWithCheckbox {
         id: messageDialog
-        title: "Limit Exceeded"
-        text: "Dome temp max is 1250F"
+        dialogMessage: "You Must Select A Temperature Below " + tempToString(upperMaxTemp)
     }
 }
 

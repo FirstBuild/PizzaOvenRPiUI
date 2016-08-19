@@ -84,7 +84,8 @@ Item {
             console.log("Dev mode was " + developmentModeIsActive + " and will now be " + devModeCheckbox.checked);
             developmentModeIsActive = devModeCheckbox.checked
             console.log("Two temp mode was " + twoTempEntryModeIsActive + " and will now be " + twoTempCheckbox.checked);
-            twoTempEntryModeIsActive = twoTempCheckbox.checked
+            twoTempEntryModeIsActive = twoTempCheckbox.checked;
+            appSettings.twoTempMode = twoTempEntryModeIsActive;
             forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
         }
     }
