@@ -19,14 +19,14 @@ Item {
         }
     }
 
-    Image {
-        id: pizzaOvenOffImage
-//            source: "pizza_oven_blank_screen.jpg"
-//        source: "PizzaOvenAwaitPreheat.png"
-//        source: "TwoTemps.png"
-        source: "MainMenu.png"
-        anchors.centerIn: parent
-    }
+//    Image {
+//        id: pizzaOvenOffImage
+////            source: "pizza_oven_blank_screen.jpg"
+////        source: "PizzaOvenAwaitPreheat.png"
+////        source: "TwoTemps.png"
+//        source: "MainMenu.png"
+//        anchors.centerIn: parent
+//    }
 
     Timer {
         id: demoTimeoutTimer
@@ -72,7 +72,7 @@ Item {
     property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
-        opacity: 0.5
+//        opacity: 0.5
         id: foodType
         height: 225
         width: 300
@@ -85,7 +85,6 @@ Item {
                 demoTimeoutTimer.stop();
 //                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                console.log("Food type index: " + theColumn.currentIndex);
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
             }
             visibleItemCount: 5
@@ -99,23 +98,23 @@ Item {
         }
     }
 
-    Rectangle {
-        width: screenWidth
-        height: 1
-        color: "yellow"
-        x: 0
-        y: 165
-    }
-    Rectangle {
-        width: screenWidth
-        height: 1
-        color: "yellow"
-        x: 0
-        y: 228
-    }
+//    Rectangle {
+//        width: screenWidth
+//        height: 1
+//        color: "yellow"
+//        x: 0
+//        y: 165
+//    }
+//    Rectangle {
+//        width: screenWidth
+//        height: 1
+//        color: "yellow"
+//        x: 0
+//        y: 228
+//    }
 
-    ButtonLeft {
+//    ButtonLeft {
 
-    }
+//    }
 
 }
