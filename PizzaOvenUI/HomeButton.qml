@@ -7,9 +7,6 @@ Rectangle {
     implicitHeight: 40
     color: appBackgroundColor
 
-    // border.width: 1
-    // border.color: "red"
-
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
     x: 37
@@ -23,56 +20,44 @@ Rectangle {
 
         color: appBackgroundColor
 
-        //border.color: "orange"
-        //border.width: 1
+//        border.color: "orange"
+//        border.width: 1
 
-        Rectangle {
-            id: roofLeft
-            width: 1.414 * parent.width/2
-            height: segmentThickness
-            anchors.top: parent.top
-            anchors.right: parent.horizontalCenter
-            color: segmentColor
-            transform: Rotation { origin.x: roofLeft.width; origin.y: 0; angle: -45}
+        Canvas {
+            id: drawing
+            width: parent.width
+            height: parent.height
+            antialiasing: true
+            anchors.centerIn: parent
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                // floor and walls
+                ctx.beginPath();
+                ctx.lineWidth = segmentThickness;
+                ctx.strokeStyle = segmentColor;
+                ctx.moveTo(width / 6, height / 3);
+                ctx.lineTo(width / 6, height-1);
+                ctx.lineTo(width * 5 / 6, height-1);
+                ctx.lineTo(width * 5 / 6, height / 3);
+                ctx.stroke();
+
+                // roof
+                ctx.beginPath();
+                ctx.lineWidth = segmentThickness;
+                ctx.strokeStyle = segmentColor;
+                ctx.moveTo(0, height / 2 + 1);
+                ctx.lineTo(width/2, 1);
+                ctx.lineTo(width, height/2+1);
+                ctx.stroke();
+
+                ctx.restore();
+            }
         }
-
-        Rectangle {
-            id: roofRight
-            width: 1.414 * parent.width/2
-            height: segmentThickness
-            anchors.top: parent.top
-            anchors.left: parent.horizontalCenter
-            color: segmentColor
-            transform: Rotation { origin.x: 0; origin.y: 0; angle: 45}
-        }
-
-        Rectangle {
-            id: wallLeft
-            width: segmentThickness
-            height: parent.height * 4 / 6
-            anchors.bottom: parent.bottom
-            x: parent.width / 6
-            color: segmentColor
-        }
-
-        Rectangle {
-            id: wallRight
-            width: segmentThickness
-            height: parent.height * 4 / 6
-            anchors.bottom: parent.bottom
-            x: (parent.width * 5 / 6) - wallRight.width
-            color: segmentColor
-        }
-
-        Rectangle {
-            id: floor
-            height: segmentThickness
-            width: parent.height * 4 / 6
-            anchors.bottom: parent.bottom
-            x: parent.width  / 6
-            color: segmentColor
-        }
-
     }
 
     MouseArea {
@@ -86,10 +71,12 @@ Rectangle {
         onPressed: {
             segmentColor = appBackgroundColor;
             buttonBox.color = appForegroundColor;
+            drawing.requestPaint();
         }
         onReleased: {
             segmentColor = appForegroundColor;
             buttonBox.color = appBackgroundColor;
+            drawing.requestPaint();
         }
     }
 }

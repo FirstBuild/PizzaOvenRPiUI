@@ -3,32 +3,38 @@ import QtQuick 2.0
 Rectangle {
     id: backButton
     signal clicked()
-    implicitWidth: 12
-    implicitHeight: 24
+    implicitWidth: 14
+    implicitHeight: 26
     color: appBackgroundColor
     x: 48
     y: 45
+    property int segmentThickness: 2
+    property color segmentColor: appForegroundColor
 
-    Rectangle {
-        id: line1
-        width: parent.width * 1.414
-        height: 1
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        color: appForegroundColor
-        transform: Rotation { origin.x: 0; origin.y: 0; angle: -45}
+    Canvas {
+        id: drawing
+        width: parent.width
+        height: parent.height
+        antialiasing: true
+        anchors.centerIn: parent
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            ctx.lineWidth = segmentThickness;
+            ctx.strokeStyle = segmentColor;
+            ctx.moveTo(width-1, height-1);
+            ctx.lineTo(1, height/2);
+            ctx.lineTo(width-1, 1);
+            ctx.stroke();
+
+            ctx.restore();
+        }
     }
-    Rectangle {
-        id: line2
-        width: parent.width * 1.414
-        height: 1
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        color: appForegroundColor
-        transform: Rotation { origin.x: 0; origin.y: 0; angle: 45}
-    }
-
-
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -37,14 +43,14 @@ Rectangle {
             backButton.clicked();
         }
         onPressed: {
-            line1.color = appBackgroundColor;
-            line2.color = appBackgroundColor;
+            segmentColor = appBackgroundColor;
             backButton.color = appForegroundColor;
+            drawing.requestPaint();
         }
         onReleased: {
-            line1.color = appForegroundColor;
-            line2.color = appForegroundColor;
+            segmentColor = appForegroundColor;
             backButton.color = appBackgroundColor;
+            drawing.requestPaint();
         }
     }
 }

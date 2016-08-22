@@ -336,17 +336,18 @@ Window {
             height: parent.height
             anchors.fill: parent
             focus: true
-//            initialItem: Qt.resolvedUrl("Screen_Off.qml")
-//            initialItem: Qt.resolvedUrl("Screen_Development.qml")
-//            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
-//            initialItem: Qt.resolvedUrl("Keyboard.qml")
             initialItem: {
+//                Qt.resolvedUrl("Screen_Cooldown.qml")
                 if (appSettings.settingsInitialized) {
                     Qt.resolvedUrl("Screen_Off.qml");
                 } else {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }
             }
+//            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+//            initialItem: Qt.resolvedUrl("Screen_Development.qml")
+//            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
+//            initialItem: Qt.resolvedUrl("Keyboard.qml")
 //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
 //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
 //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")

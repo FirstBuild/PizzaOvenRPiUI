@@ -55,5 +55,6 @@
         <file>Gear-Icon-white-2.svg</file>
         <file>MaxTemp.png</file>
         <file>DialogWithCheckbox.qml</file>
+        <file>BackArrow.png</file>
     </qresource>
 </RCC>

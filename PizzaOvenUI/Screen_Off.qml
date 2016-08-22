@@ -15,16 +15,16 @@ Item {
 //    Image {
 //        id: pizzaOvenOffImage
 ////            source: "pizza_oven_blank_screen.jpg"
-////        source: "PizzaOvenAwaitPreheat.png"
+//        source: "PizzaOvenAwaitPreheat.png"
 ////        source: "TwoTemps.png"
-//        source: "MainMenu.png"
+////        source: "BackArrow.png"
 //        anchors.centerIn: parent
 //    }
-
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            console.log("clicked!!!");
             if (demoModeIsActive) {
                 stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
             }

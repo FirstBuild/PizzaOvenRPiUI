@@ -12,27 +12,31 @@ Item {
 
     property int myMargins: 10
 
-    Text {
-        id: timeLabel
-        font.family: localFont.name
-        font.pointSize: 24
-        text: timeOfDay
-        anchors.margins: myMargins
-        anchors.right: screenCooldown.right
-        anchors.top: screenCooldown.top
-        color: appForegroundColor
+    CircleScreenTemplate {
+        circleValue: 0
+        titleText: "COOLING DOWN"
+    }
+
+    HomeButton {
+        id: homeButton
+        onClicked: {
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        }
     }
 
     Text {
-        anchors.centerIn: parent
-        anchors.margins: myMargins
-        width: parent.width
-        anchors.horizontalCenter: parent.horizontalCenter
-        wrapMode: Text.WordWrap
+        id: screenMessage
+        text: "CAUTION<br>OVEN IS HOT"
+        height: 206
+        width: height
+        x: (parent.width - width) / 2
+        y: 96 + (206 - height)/2
         horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         font.family: localFont.name
-        font.pointSize: 24
-        text: "CAUTION: The pizza oven is hot."
-        color: "red"
+        font.pointSize: 18
+        wrapMode: Text.Wrap
+        color: appForegroundColor
     }
 }
