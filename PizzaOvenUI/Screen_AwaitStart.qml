@@ -44,7 +44,11 @@ Item {
                 sendWebSocketMessage("StartOven ");
             }
             screenBookmark = stackView.currentItem;
-            stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
+            if (appSettings.twoTempMode) {
+                stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+            } else {
+                stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
+            }
         }
     }
 

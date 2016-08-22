@@ -33,5 +33,16 @@ Item {
             }
         }
     }
+
+//    SlideOffOn {
+//        id: slide1
+//        x: 100
+//        y: 100
+//    }
+//    SlideOffOn {
+//        anchors.left: slide1.left
+//        anchors.topMargin: 10
+//        anchors.top: slide1.bottom
+//    }
 }
 

@@ -56,5 +56,9 @@
         <file>MaxTemp.png</file>
         <file>DialogWithCheckbox.qml</file>
         <file>BackArrow.png</file>
+        <file>SlideOffOn.qml</file>
+        <file>Screen_Preheating2Temp.qml</file>
+        <file>CircleContentTwoTemp.qml</file>
+        <file>TwoTempPreheat.png</file>
     </qresource>
 </RCC>
