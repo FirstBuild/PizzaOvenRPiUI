@@ -15,20 +15,11 @@ Item {
     property string trueText: "ON"
     property string falseText: "OFF"
 
-//    Rectangle {
-//        id: outline
-//        color: appBackgroundColor
-//        width: parent.width
-//        height: parent.height
-//        border.color: "yellow"
-//        border.width: 1
-//    }
-
     Text {
         text: { toggle.state ? trueText : falseText }
         font.family: localFont.name
         font.pointSize: 18
-        color: appGrayText
+        color: { toggle.state ? appForegroundColor : appGrayText }
         width: parent.width/2
         height: parent.height
         anchors.left: parent.left
