@@ -45,12 +45,29 @@ Item {
             sideButton.clicked();
         }
         onPressed: {
-            buttonBackground.color = appForegroundColor;
+            //buttonBackground.color = appForegroundColor;
+            animatePressedColor.start();
             idButtonText.color = appBackgroundColor;
         }
         onReleased: {
-            buttonBackground.color = appBackgroundColor;
+            //buttonBackground.color = appBackgroundColor;
+            animateReleasedColor.start();
             idButtonText.color = appForegroundColor;
         }
+    }
+
+    PropertyAnimation {
+        id: animatePressedColor
+        target: buttonBackground
+        properties: "color"
+        to: appForegroundColor
+        duration: 200
+    }
+    PropertyAnimation {
+        id: animateReleasedColor
+        target: buttonBackground
+        properties: "color"
+        to: appBackgroundColor
+        duration: 200
     }
 }

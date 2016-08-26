@@ -12,6 +12,8 @@ Rectangle {
     x: 37
     y: 37
 
+    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
+
     Rectangle {
         id: buttonBox
         width: 30

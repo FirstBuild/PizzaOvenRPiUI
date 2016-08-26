@@ -17,6 +17,7 @@ class ProgramSettings : public QObject
     Q_PROPERTY(int screenOffsetY READ getScreenOffsetY WRITE setScreenoffsetY NOTIFY screenOffsetYChanged)
     Q_PROPERTY(bool twoTempMode READ getTwoTempMode WRITE setTwoTempMode NOTIFY twoTempModeChanged)
     Q_PROPERTY(bool settingsInitialized READ areSettingsInitialized WRITE intializeSettings NOTIFY initializationChanged)
+    Q_PROPERTY(bool backlightOff READ getBacklightState WRITE setBacklightState NOTIFY backlightStateChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -34,12 +35,15 @@ public:
     bool getTwoTempMode();
     bool areSettingsInitialized();
     void intializeSettings(bool status);
+    bool getBacklightState(void);
+    void setBacklightState(bool state);
 signals:
     void todOffsetChanged();
     void screenOffsetXChanged();
     void screenOffsetYChanged();
     void twoTempModeChanged();
     void initializationChanged();
+    void backlightStateChanged();
 
 public slots:
 private:
@@ -48,6 +52,7 @@ private:
     int m_screenYOffset;
     bool m_twoTempMode;
     bool m_settingsInitialized;
+    bool m_backlightState;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;

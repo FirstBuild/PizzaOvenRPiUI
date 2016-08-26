@@ -2,19 +2,25 @@ import QtQuick 2.0
 
 Item {
     id: progressCircle
-    implicitWidth: parent.width + 3
-    implicitHeight: width
+//    implicitWidth: parent.width + 3
+//    implicitWidth: parent.width
+//    implicitHeight: width
+    width: parent.width
+    height: width
 
     property real currentValue: 0
     onCurrentValueChanged: progress.requestPaint()
     property int lineWidth: 4
+    onWidthChanged: progress.requestPaint()
+
 
     // draws two arcs (portion of a circle)
     // fills the circle with a lighter secondary color
     // when pressed
     Canvas {
         id: progress
-        implicitWidth: parent.width + 3
+//        implicitWidth: parent.width + 3
+        width: parent.width
         height: width
         antialiasing: true
         anchors.centerIn: parent
@@ -24,7 +30,7 @@ Item {
 
         property real centerWidth: width / 2
         property real centerHeight: height / 2
-        property real radius: Math.min(parent.width, parent.height) / 2
+        property real radius: (Math.min(parent.width, parent.height) / 2) - lineWidth
 
         property real minimumValue: 0
         property real maximumValue: 100

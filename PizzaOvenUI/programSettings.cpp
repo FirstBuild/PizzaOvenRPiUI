@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QProcess>
 
 using namespace std;
 
@@ -12,6 +13,8 @@ const int defaultScreenXOffset = 60;
 const int defaultScreenYOffset = 25;
 const bool defaultTwoTempMode = false;
 
+extern QObject *appParentObj;
+
 ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 {
     initializeSettingsToDefaults();
@@ -19,6 +22,8 @@ ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 
 void ProgramSettings::loadSettings(void)
 {
+
+    qInfo("Loading application settings...");
     QFile loadFile(QStringLiteral("settings.json"));
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
@@ -33,6 +38,15 @@ void ProgramSettings::loadSettings(void)
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
 
     loadSettingsFromJsonObject(loadDoc.object());
+
+    if (QFile("/sys/class/backlight/rpi_backlight/bl_power").exists())
+    {
+        qInfo("Backlight file exists, backlight control is possible.");
+    }
+    else
+    {
+        qWarning("Backlight file not found, cannot control backlight.");
+    }
 }
 
 void ProgramSettings::saveSettings(void)
@@ -154,3 +168,23 @@ void ProgramSettings::intializeSettings(bool status)
     m_settingsInitialized = status;
     emit screenOffsetYChanged();
 }
+
+/*************** Backlight Setting ***************/
+bool ProgramSettings::getBacklightState(void)
+{
+    return m_backlightState;
+}
+void ProgramSettings::setBacklightState(bool state)
+{
+    m_backlightState = state;
+
+    if (m_backlightState)
+    {
+        qInfo("Turning backlight off.");
+    }
+    else
+    {
+        qInfo("Turning backlight on.");
+    }
+}
+

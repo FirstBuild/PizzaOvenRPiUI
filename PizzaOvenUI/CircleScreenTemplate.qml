@@ -7,11 +7,16 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: circleScreenTemplate
 
-    implicitWidth: parent.width
-    implicitHeight: parent.height
+    width: parent.width
+    height: parent.height
 
     property int circleValue: 25
     property string titleText: "TITLE TEXT"
+    property int circleDiameter: 206
+
+    opacity: 0.0
+
+    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic }
 
     // center circle
     Item {
@@ -20,11 +25,15 @@ Item {
         width: 206
         x: (parent.width - width) / 2
         y: 96
+
         ProgressCircle {
             id: dataCircle
-            height: parent.height
-            width: parent.width
+//            height: parent.height
+//            width: parent.width
             currentValue: circleValue
+            NumberAnimation on width {from: 10; to: circleDiameter}
+            NumberAnimation on height {from: 10; to: circleDiameter}
+            anchors.centerIn: parent
         }
     }
 
@@ -34,7 +43,7 @@ Item {
         width: 400
         height: 30
         x: (parent.width - width) / 2
-        y: 41
+        //y: 41
         color: appBackgroundColor
         Text {
             id: idButtonText
@@ -44,6 +53,7 @@ Item {
             anchors.centerIn: parent
             color: appGrayText
         }
+        NumberAnimation on y {from: (screenHeight-titleBox.height)/2; to: 41 }
     }
 }
 

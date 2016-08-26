@@ -328,8 +328,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+//        border.color: "red"
+//        border.width: 1
         StackView {
             id: stackView
             width: parent.width
@@ -338,6 +338,7 @@ Window {
             focus: true
             initialItem: {
 //                Qt.resolvedUrl("Screen_Cooldown.qml")
+                //Qt.resolvedUrl("Screen_Settings2.qml")
                 if (appSettings.settingsInitialized) {
                     Qt.resolvedUrl("Screen_Off.qml");
                 } else {

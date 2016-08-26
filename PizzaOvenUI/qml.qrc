@@ -60,5 +60,9 @@
         <file>Screen_Preheating2Temp.qml</file>
         <file>CircleContentTwoTemp.qml</file>
         <file>TwoTempPreheat.png</file>
+        <file>RadioButton.png</file>
+        <file>MyRadioButton.qml</file>
+        <file>Screen_Settings2.qml</file>
+        <file>SettingsTitleLocation.png</file>
     </qresource>
 </RCC>

@@ -9,6 +9,8 @@
 
 #include <QtMultimedia>
 
+QObject *appParentObj;
+
 int main(int argc, char *argv[])
 {
     ProgramSettings appSettings;
@@ -39,6 +41,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("appSettings", &appSettings);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    appParentObj = engine.parent();
+
 
     return app.exec();
 }

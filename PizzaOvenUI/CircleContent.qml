@@ -9,6 +9,10 @@ Item {
     property string middleString: "MIDDLE"
     property string bottomString: "BOTTOM"
 
+    opacity: 0.0
+
+    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic}
+
     // Stuff for two lines of text
     Rectangle {
         width: 75
@@ -31,6 +35,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
+        NumberAnimation on font.pointSize {from: 1; to: 17}
     }
 
     Text {
@@ -45,6 +50,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
+        NumberAnimation on font.pointSize {from: 1; to: 36}
     }
 
     // Stuff for three lines of text
@@ -69,6 +75,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
+        NumberAnimation on font.pointSize {from: 1; to: 27}
     }
 
     Text {
@@ -83,6 +90,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
+        NumberAnimation on font.pointSize {from: 1; to: 27}
     }
 
     Text {
@@ -97,5 +105,6 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
+        NumberAnimation on font.pointSize {from: 1; to: 27}
     }
 }

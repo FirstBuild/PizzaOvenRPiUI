@@ -89,8 +89,9 @@ Item {
                 sounds.select.play();
                 demoTimeoutTimer.stop();
 //                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
-                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
+//                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+//                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
+                screenExitAnimation.start();
             }
             visibleItemCount: 3
             textHeight:100
@@ -100,6 +101,17 @@ Item {
             id: theColumn
             width: tumblerWidth
             model: foodTypeListModel
+        }
+    }
+
+    SequentialAnimation {
+        id: screenExitAnimation
+        OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+        ScriptAction {script: {
+                console.log("Opacity animation over, switching screens.");
+                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
+                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+            }
         }
     }
 

@@ -39,8 +39,11 @@ TumblerStyle {
         Rectangle {
             id: textBackground
             color: appBackgroundColor
-            height: parent.height
-            width: textWidth
+            //height: parent.height
+            height: 62
+//            width: textWidth
+            width: parent.width
+            anchors.centerIn: parent
         }
 
         Text {
@@ -67,14 +70,19 @@ TumblerStyle {
             }
             onPressed: {
                 if (styleData.current) {
-                    textBackground.color = appForegroundColor;
-                    selectionText.color = appBackgroundColor;
+
+//                    textBackground.color = appForegroundColor;
+//                    selectionText.color = appBackgroundColor;
+                    textBackgroundOnPressed.start();
+                    selectionTextOnPressed.start();
                 }
             }
             onReleased: {
                 if (styleData.current) {
-                    textBackground.color = appBackgroundColor;
-                    selectionText.color = appForegroundColor;
+//                    textBackground.color = appBackgroundColor;
+//                    selectionText.color = appForegroundColor;
+                    textBackgroundOnReleased.start();
+                    selectionTextOnReleased.start();
                 }
             }
             onPositionChanged: {
@@ -84,7 +92,33 @@ TumblerStyle {
                 }
             }
         }
+        ColorAnimation {
+            id: textBackgroundOnPressed
+            target: textBackground
+            property: "color"
+            to: appForegroundColor
+        }
+        ColorAnimation {
+            id: textBackgroundOnReleased
+            target: textBackground
+            property: "color"
+            to: appBackgroundColor
+        }
+        ColorAnimation {
+            id: selectionTextOnPressed
+            target: selectionText
+            property: "color"
+            to: appBackgroundColor
+        }
+        ColorAnimation {
+            id: selectionTextOnReleased
+            target: selectionText
+            property: "color"
+            to: appForegroundColor
+        }
+
     }
+
 
     foreground: Canvas {
         id:canvas
