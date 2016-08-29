@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenAwaitStart
+    id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -17,26 +17,36 @@ Item {
 
     HomeButton {
         id: preheatingHomeButton
-        onClicked: {
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
-        onClicked: {
-            console.log("The edit button was clicked.");
-            console.log("Current item: " + stackView.currentItem);
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-            stackView.completeTransition();
-            screenBookmark = stackView.currentItem;
-            if (twoTempEntryModeIsActive) {
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    console.log("The edit button was clicked.");
+                    console.log("Current item: " + stackView.currentItem);
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    stackView.completeTransition();
+                    screenBookmark = stackView.currentItem;
+                    if (twoTempEntryModeIsActive) {
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
         }
     }
@@ -58,7 +68,7 @@ Item {
                 if (val > 100) {
                     val = 0;
                     animateTimer.stop();
-                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                    screenExitAnimation.start();
                 }
                 dataCircle.circleValue = val;
 
@@ -69,9 +79,18 @@ Item {
                 if (val >= 100) {
                     val = 0;
                     animateTimer.stop();
-                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                    screenExitAnimation.start();
                 }
                 dataCircle.circleValue = val;
+            }
+        }
+        SequentialAnimation {
+            id: screenExitAnimation
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }

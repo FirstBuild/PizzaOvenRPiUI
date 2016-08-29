@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Item {
     id: screenCookingFinal
@@ -13,27 +13,36 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: {
-            countdownTimer.stop();
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenCookingFinal; from: 1.0; to: 0.0;}
+            ScriptAction {script:{
+                    countdownTimer.stop();
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
-        onClicked: {
-            countdownTimer.stop();
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-            stackView.completeTransition();
-            screenBookmark = stackView.currentItem;
-            if (twoTempEntryModeIsActive) {
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenCookingFinal; from: 1.0; to: 0.0;}
+            ScriptAction {script:{
+                    countdownTimer.stop();
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    stackView.completeTransition();
+                    screenBookmark = stackView.currentItem;
+                    if (twoTempEntryModeIsActive) {
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
+
         }
     }
 
@@ -63,17 +72,28 @@ Item {
         interval: 1000; running: true; repeat: true
         onTriggered: {
             currentTime++;
-            if (currentTime <= cookTime) {
+            if (currentTime < cookTime) {
                 var val = 100 * currentTime/cookTime;
                 if (val > 100) {
                     val = 0;
                     countdownTimer.stop();
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
+//                    stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
+                    screenExitAnimation.start();
                 } else {
                     dataCircle.circleValue = val;
                 }
             } else {
                 countdownTimer.stop();
+//                stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
+                screenExitAnimation.start();
+            }
+        }
+    }
+
+    SequentialAnimation {
+        id: screenExitAnimation
+        OpacityAnimator {target: screenCookingFinal; from: 1.0; to: 0.0;}
+        ScriptAction {script:{
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
             }
         }

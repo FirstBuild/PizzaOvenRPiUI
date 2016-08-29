@@ -14,6 +14,11 @@ const int defaultScreenYOffset = 25;
 const bool defaultTwoTempMode = false;
 
 extern QObject *appParentObj;
+bool backlightFileExists = false;
+
+#define BACKLIGHT_FILE ("/sys/class/backlight/rpi_backlight/bl_power")
+
+static void writeBacklightStateToBacklightFile(bool state);
 
 ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 {
@@ -22,6 +27,17 @@ ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 
 void ProgramSettings::loadSettings(void)
 {
+
+    if (QFile(BACKLIGHT_FILE).exists())
+    {
+        qInfo("Backlight file exists, backlight control is possible.");
+        backlightFileExists = true;
+    }
+    else
+    {
+        qInfo("Backlight file not found, cannot control backlight.");
+        backlightFileExists = false;
+    }
 
     qInfo("Loading application settings...");
     QFile loadFile(QStringLiteral("settings.json"));
@@ -39,14 +55,7 @@ void ProgramSettings::loadSettings(void)
 
     loadSettingsFromJsonObject(loadDoc.object());
 
-    if (QFile("/sys/class/backlight/rpi_backlight/bl_power").exists())
-    {
-        qInfo("Backlight file exists, backlight control is possible.");
-    }
-    else
-    {
-        qWarning("Backlight file not found, cannot control backlight.");
-    }
+    qInfo("Done loading application settings.");
 }
 
 void ProgramSettings::saveSettings(void)
@@ -112,11 +121,9 @@ int ProgramSettings::todOffset()
 void ProgramSettings::setScreenoffsetX(int OffsetX)
 {
     cout << "Setting screen offset X to " << OffsetX << endl;
-    if (OffsetX != m_screenXOffset) {
-        m_screenXOffset = OffsetX;
-        emit screenOffsetXChanged();
-        saveSettings();
-    }
+    m_screenXOffset = OffsetX;
+    emit screenOffsetXChanged();
+    saveSettings();
 }
 
 int ProgramSettings::getScreenOffsetX()
@@ -128,11 +135,9 @@ int ProgramSettings::getScreenOffsetX()
 void ProgramSettings::setScreenoffsetY(int OffsetY)
 {
     cout << "Setting screen offset Y to " << OffsetY << endl;
-    if (OffsetY != m_screenYOffset) {
-        m_screenYOffset = OffsetY;
-        emit screenOffsetYChanged();
-        saveSettings();
-    }
+    m_screenYOffset = OffsetY;
+    emit screenOffsetYChanged();
+    saveSettings();
 }
 
 int ProgramSettings::getScreenOffsetY()
@@ -156,8 +161,6 @@ bool ProgramSettings::getTwoTempMode()
     return m_twoTempMode;
 }
 
-
-
 /*************** Settings initialized ***************/
 bool ProgramSettings::areSettingsInitialized()
 {
@@ -172,19 +175,55 @@ void ProgramSettings::intializeSettings(bool status)
 /*************** Backlight Setting ***************/
 bool ProgramSettings::getBacklightState(void)
 {
-    return m_backlightState;
+    return m_backlightOff;
 }
 void ProgramSettings::setBacklightState(bool state)
 {
-    m_backlightState = state;
+    m_backlightOff = state;
 
-    if (m_backlightState)
+    if (m_backlightOff)
     {
         qInfo("Turning backlight off.");
     }
     else
     {
         qInfo("Turning backlight on.");
+    }
+    writeBacklightStateToBacklightFile(m_backlightOff);
+}
+
+static void writeBacklightStateToBacklightFile(bool backlightOff)
+{
+    QFile file(BACKLIGHT_FILE);
+    const char backlightOnMsg[] = "0";
+    const char backlightOffMsg[] = "1";
+
+    if (backlightFileExists)
+    {
+
+        if (file.open(QIODevice::WriteOnly))
+        {
+            if (true == backlightOff)
+            {
+                file.write(backlightOffMsg);
+            }
+            else
+            {
+                file.write(backlightOnMsg);
+            }
+
+
+            file.flush();
+            file.close();
+        }
+        else
+        {
+            qWarning("Unable to open the backlight file.");
+        }
+    }
+    else
+    {
+        qWarning("The backlight file does not exist.");
     }
 }
 

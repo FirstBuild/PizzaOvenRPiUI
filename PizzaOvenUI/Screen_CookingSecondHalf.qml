@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Item {
     id: screenCookingSecondHalf
@@ -13,17 +13,23 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: {
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
             countdownTimer.stop();
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        }
+    }
         }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
-        onClicked: {
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
             countdownTimer.stop();
             console.log("The edit button was clicked.");
             console.log("Current item: " + stackView.currentItem);
@@ -36,6 +42,8 @@ Item {
             } else {
                 stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
             }
+        }
+    }
         }
     }
 
@@ -74,9 +82,18 @@ Item {
 
             } else {
                 countdownTimer.stop();
+                screenExitAnimator.start();
+            }
+        }
+    }
+
+    SequentialAnimation {
+        id: screenExitAnimator
+        OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
             }
         }
     }
 }
-

@@ -11,9 +11,15 @@ Item {
     property string line2String: "LINE 2"
     property string line3String: "LINE 3"
     property string line4String: "LINE 4"
-    property int textSize: 18
+    property int textSize: 1
+    property int finalTextSize: 18
     property color textColor: appForegroundColor
     property int margins: 1
+
+    opacity: 0.0
+
+    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic}
+    NumberAnimation on textSize {from: 1; to: finalTextSize}
 
     Rectangle {
         id: topLine

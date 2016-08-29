@@ -19,28 +19,36 @@ Item {
         }
     }
 
-//    Image {
-//        id: pizzaOvenOffImage
-////            source: "pizza_oven_blank_screen.jpg"
-////        source: "PizzaOvenAwaitPreheat.png"
-////        source: "TwoTemps.png"
-//        source: "MainMenu.png"
-//        anchors.centerIn: parent
-//    }
-
     Timer {
         id: demoTimeoutTimer
         interval: 60000; running: false; repeat: false
-        onTriggered: {
-            stackView.clear();
-            stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+        onTriggered: SequentialAnimation {
+            OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.clear();
+                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
     GearButton {
         id: mainMenuGearButton
-        onClicked: {
-            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            ScriptAction {
+                script: {
+                    if (demoModeIsActive) {
+                        demoTimeoutTimer.stop();
+                    }
+                }
+            }
+            OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
@@ -55,7 +63,6 @@ Item {
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
-//        opacity: 0.5
     }
 
     ListModel {
@@ -78,7 +85,6 @@ Item {
 
     Tumbler {
         id: foodType
-//        opacity: 0.5
         height: 225
         width: 300
         x: 180
@@ -88,9 +94,6 @@ Item {
             onClicked: {
                 sounds.select.play();
                 demoTimeoutTimer.stop();
-//                stackView.push({item: Qt.resolvedUrl("Screen_PizzaType.qml"), immediate:immediateTransitions});
-//                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-//                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
                 screenExitAnimation.start();
             }
             visibleItemCount: 3
@@ -114,19 +117,4 @@ Item {
             }
         }
     }
-
-//    Rectangle {
-//        width: screenWidth
-//        height: 1
-//        color: "yellow"
-//        x: 0
-//        y: 165
-//    }
-//    Rectangle {
-//        width: screenWidth
-//        height: 1
-//        color: "yellow"
-//        x: 0
-//        y: 228
-//    }
 }

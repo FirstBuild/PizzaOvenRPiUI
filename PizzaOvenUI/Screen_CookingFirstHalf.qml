@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Item {
     id: screenCookingFirstHalf
@@ -13,28 +13,36 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: {
-            countdownTimer.stop();
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
+                    countdownTimer.stop();
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
-        onClicked: {
-            countdownTimer.stop();
-            console.log("The edit button was clicked.");
-            console.log("Current item: " + stackView.currentItem);
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-            stackView.completeTransition();
-            screenBookmark = stackView.currentItem;
-            if (twoTempEntryModeIsActive) {
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
+                    countdownTimer.stop();
+                    console.log("The edit button was clicked.");
+                    console.log("Current item: " + stackView.currentItem);
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    stackView.completeTransition();
+                    screenBookmark = stackView.currentItem;
+                    if (twoTempEntryModeIsActive) {
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
         }
     }
@@ -49,14 +57,18 @@ Item {
     ButtonRight {
         id: pauseButton
         text: "PAUSE"
-        onClicked: {
-            console.log("The pause button was clicked.");
-            if (countdownTimer.running) {
-                countdownTimer.stop();
-                pauseButton.text = "RESUME"
-            } else {
-                countdownTimer.start();
-                pauseButton.text = "PAUSE"
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
+                    console.log("The pause button was clicked.");
+                    if (countdownTimer.running) {
+                        countdownTimer.stop();
+                        pauseButton.text = "RESUME"
+                    } else {
+                        countdownTimer.start();
+                        pauseButton.text = "PAUSE"
+                    }
+                }
             }
         }
     }
@@ -74,8 +86,16 @@ Item {
                 circleContent.bottomString = timeToString(val);
 
             } else {
-                console.log("Stoping countdown timer first half.");
                 countdownTimer.stop();
+                screenExitAnimation.start();
+            }
+        }
+    }
+
+    SequentialAnimation {
+        id: screenExitAnimation
+        OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
+        ScriptAction {script: {
                 if (halfTimeRotate)
                 {
                     stackView.push({item:Qt.resolvedUrl("Screen_RotatePizza.qml"), immediate:immediateTransitions});
@@ -84,6 +104,7 @@ Item {
                 {
                     stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
                 }
+
             }
         }
     }

@@ -11,22 +11,17 @@ Item {
 
     property int myMargins: 10
 
-//    BackButton {
-//        id: pizzaTypeBackButton
-//        anchors.margins: myMargins
-//        x: 5
-//        y: 5
-//        onClicked: {
-//            stackView.pop({immediate:immediateTransitions});
-//        }
-//    }
-
     HomeButton {
         id: pizzaTypeHomeButton
         anchors.margins: myMargins
-        onClicked: {
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
@@ -95,9 +90,14 @@ Item {
         x: parent.width * 0.33
 
         style:  MyTumblerStyle {
-            onClicked: {
-                sounds.select.play();
-                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+            onClicked: SequentialAnimation {
+                ScriptAction { script: {sounds.select.play();}}
+                OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+                ScriptAction {
+                    script: {
+                        stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
             visibleItemCount: 5
             textHeight:pizzaType.height/visibleItemCount

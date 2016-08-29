@@ -52,7 +52,7 @@ private:
     int m_screenYOffset;
     bool m_twoTempMode;
     bool m_settingsInitialized;
-    bool m_backlightState;
+    bool m_backlightOff;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;

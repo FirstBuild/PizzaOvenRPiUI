@@ -9,29 +9,43 @@ Item {
     width: parent.width
     height: parent.height
 
-
     CircleScreenTemplate {
         circleValue: 0
         titleText: foodNameString
     }
 
+    function screenEntry() {
+        console.log("Entering screenAwaitStart");
+        screenEntryAnimation.start();
+    }
+
+    OpacityAnimator {id: screenEntryAnimation; target: screenAwaitStart; from: 0.0; to: 1.0;}
+
     HomeButton {
         id: homeButton
-        onClicked: {
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {script:{
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
-        onClicked: {
-            screenBookmark = stackView.currentItem;
-            if (twoTempEntryModeIsActive) {
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {script:{
+                    screenBookmark = stackView.currentItem;
+                    if (twoTempEntryModeIsActive) {
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
         }
     }
@@ -39,17 +53,22 @@ Item {
     ButtonRight {
         id: preheatButton
         text: "PREHEAT"
-        onClicked: {
-            if (!demoModeIsActive) {
-                sendWebSocketMessage("StartOven ");
-            }
-            screenBookmark = stackView.currentItem;
-            if (appSettings.twoTempMode) {
-                stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {script: {
+                    if (!demoModeIsActive) {
+                        sendWebSocketMessage("StartOven ");
+                    }
+                    screenBookmark = stackView.currentItem;
+                    if (appSettings.twoTempMode) {
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
+                    }
+                }
             }
         }
+
     }
 
     CircleContent {

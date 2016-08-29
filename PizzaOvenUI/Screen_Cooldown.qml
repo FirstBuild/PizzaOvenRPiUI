@@ -19,9 +19,14 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: {
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 

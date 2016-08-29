@@ -328,8 +328,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width
@@ -337,6 +337,7 @@ Window {
             anchors.fill: parent
             focus: true
             initialItem: {
+                appSettings.backlightOff = false;
 //                Qt.resolvedUrl("Screen_Cooldown.qml")
                 //Qt.resolvedUrl("Screen_Settings2.qml")
                 if (appSettings.settingsInitialized) {
@@ -365,6 +366,26 @@ Window {
             webSocketConnectionTimer.start();
         }
     }
+
+    GearButton {
+        id: auxGear1
+        anchors.margins: 20
+        anchors.left: screenStackContainer.right
+        anchors.verticalCenter: screenStackContainer.verticalCenter
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+        }
+    }
+    GearButton {
+        id: auxGear2
+        anchors.margins: 20
+        anchors.top: screenStackContainer.bottom
+        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+        }
+    }
+
 
     WebSocket {
         id: socket

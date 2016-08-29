@@ -12,16 +12,6 @@ Item {
 
     property int myMargins: 10
 
-//    Image {
-//        id: pizzaOvenOffImage
-////            source: "pizza_oven_blank_screen.jpg"
-////        source: "PizzaOvenAwaitPreheat.png"
-////        source: "TwoTemps.png"
-////        source: "BackArrow.png"
-//        source: "RadioButton.png"
-//        anchors.centerIn: parent
-//    }
-
     function screenEntry() {
         appSettings.backlightOff = true;
     }
@@ -39,27 +29,5 @@ Item {
             }
         }
     }
-
-
-
-//    MyRadioButton {
-//        id: theRadio
-//        x: 218
-//        y: 218 -75 -19
-//        onClicked: {
-//            theRadio.state = !theRadio.state
-//        }
-//    }
-
-    //    SlideOffOn {
-    //        id: slide1
-//        x: 100
-//        y: 100
-//    }
-//    SlideOffOn {
-//        anchors.left: slide1.left
-//        anchors.topMargin: 10
-//        anchors.top: slide1.bottom
-//    }
 }
 
