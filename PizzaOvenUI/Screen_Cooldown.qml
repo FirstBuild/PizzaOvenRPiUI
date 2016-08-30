@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenCooldown
+    id: thisScreen
 
     implicitWidth: parent.width
     implicitHeight: parent.height
@@ -19,15 +19,6 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
     Text {

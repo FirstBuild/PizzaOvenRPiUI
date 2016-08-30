@@ -9,88 +9,67 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property bool screenSwitchInProgress: false
+
+    function screenEntry() {
+        screenSwitchInProgress = false;
+    }
+
     CircleScreenTemplate {
         id: dataCircle
-        circleValue: 0
+        circleValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
         titleText: "PREHEATING"
+        onCircleValueChanged: {
+            doExitCheck();
+        }
     }
 
     HomeButton {
         id: preheatingHomeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    console.log("The edit button was clicked.");
-                    console.log("Current item: " + stackView.currentItem);
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     CircleContent {
         id: circleContent
         topString: tempToString(upperFront.setTemp)
         middleString: tempToString(lowerFront.setTemp)
-        bottomString: tempToString(currentTemp)
+        bottomString: tempToString(lowerFront.currentTemp)
     }
 
-    Timer {
-        id: animateTimer
-        interval: 250; running: true; repeat: true
-        onTriggered: {
-            var val = 0;
-            if (demoModeIsActive) {
-                val = dataCircle.circleValue + 10;
-                if (val > 100) {
-                    val = 0;
-                    animateTimer.stop();
-                    screenExitAnimation.start();
-                }
-                dataCircle.circleValue = val;
+    NumberAnimation {
+        target: lowerFront;
+        property: "currentTemp";
+        from: 75;
+        to: lowerFront.setTemp;
+        duration: 4000
+        running: demoModeIsActive
+    }
+    NumberAnimation {
+        target: upperFront;
+        property: "currentTemp";
+        from: 75;
+        to: upperFront.setTemp;
+        duration: 4000
+        running: demoModeIsActive
+    }
 
-                val = 80 + (lowerFront.setTemp - 80) * val / 100
-                circleContent.bottomString = tempToString(val);
-            } else {
-                val = 100 * currentTemp / lowerFront.setTemp;
-                if (val >= 100) {
-                    val = 0;
-                    animateTimer.stop();
-                    screenExitAnimation.start();
-                }
-                dataCircle.circleValue = val;
-            }
+    function doExitCheck() {
+        if (screenSwitchInProgress) return;
+        if (dataCircle.circleValue >= 100) {
+            screenSwitchInProgress = true;
+            screenExitAnimation.start();
         }
-        SequentialAnimation {
-            id: screenExitAnimation
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
-                }
+    }
+
+    SequentialAnimation {
+        id: screenExitAnimation
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
             }
         }
     }

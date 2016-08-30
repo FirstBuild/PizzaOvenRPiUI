@@ -2,14 +2,14 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 
 Item {
-    id: devScreen
+    id: thisScreen
 
     implicitHeight: screenHeight
     implicitWidth: screenWidth
 
     property int spacing: 10
-    property int smallButtonWidth: ((devScreen.width - devScreen.spacing) / 4) - devScreen.spacing
-    property int smallButtonHeight: ((devScreen.height - devScreen.spacing) / 4) - devScreen.spacing
+    property int smallButtonWidth: ((thisScreen.width - thisScreen.spacing) / 4) - thisScreen.spacing
+    property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
     TempEntryWithKeys {
         id: tempEntry

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
     id: homeButton
@@ -65,11 +65,22 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: buttonBox
-        onClicked: {
-            console.log("Home clicked");
-            sounds.touch.play();
-            homeButton.clicked();
-        }
+        onClicked: SequentialAnimation {
+                ScriptAction {
+                    script: {
+                        sounds.touch.play();
+                        rootWindow.cookTimer.stop();
+                        rootWindow.progressCircle.animation.stop();
+                    }
+                }
+                OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+                ScriptAction {script: {
+                        homeButton.clicked();
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                    }
+                }
+            }
         onPressed: {
             segmentColor = appBackgroundColor;
             buttonBox.color = appForegroundColor;

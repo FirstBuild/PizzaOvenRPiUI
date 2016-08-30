@@ -1,100 +1,55 @@
 import QtQuick 2.3
 
 Item {
-    id: screenCookingFirstHalf
+    id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property bool screenSwitchInProgress: false
+
+    function screenEntry() {
+        screenSwitchInProgress = false;
+    }
+
     CircleScreenTemplate {
         id: dataCircle
-        circleValue: 0
+        circleValue: rootWindow.cookTimer.value
         titleText: "COOKING"
+        onCircleValueChanged: {
+            doExitCheck();
+        }
     }
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    countdownTimer.stop();
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    countdownTimer.stop();
-                    console.log("The edit button was clicked.");
-                    console.log("Current item: " + stackView.currentItem);
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     CircleContent {
         id: circleContent
         topString: tempToString(upperFront.setTemp)
         middleString: tempToString(lowerFront.setTemp)
-        bottomString: timeToString(cookTime)
+        bottomString: timeToString(cookTime * dataCircle.circleValue / 100)
     }
 
-    ButtonRight {
+    PauseButton {
         id: pauseButton
-        text: "PAUSE"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    console.log("The pause button was clicked.");
-                    if (countdownTimer.running) {
-                        countdownTimer.stop();
-                        pauseButton.text = "RESUME"
-                    } else {
-                        countdownTimer.start();
-                        pauseButton.text = "PAUSE"
-                    }
-                }
-            }
-        }
     }
 
-    Timer {
-        id: countdownTimer
-        interval: 1000; running: true; repeat: true
-        onTriggered: {
-            currentTime++;
-            if ((currentTime < cookTime/2) || ((halfTimeRotate == false) && (currentTime < finalCheckTime))) {
-                var val = 100 * currentTime/cookTime;
-                dataCircle.circleValue = val;
-
-                val = cookTime - currentTime;
-                circleContent.bottomString = timeToString(val);
-
-            } else {
-                countdownTimer.stop();
-                screenExitAnimation.start();
-            }
+    function doExitCheck() {
+        if (screenSwitchInProgress) return;
+        if (dataCircle.circleValue >= 50) {
+            screenSwitchInProgress = true;
+            screenExitAnimation.start();
         }
     }
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: screenCookingFirstHalf; from: 1.0; to: 0.0;}
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
                 if (halfTimeRotate)
                 {
@@ -102,7 +57,7 @@ Item {
                 }
                 else
                 {
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
+                    stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
                 }
 
             }

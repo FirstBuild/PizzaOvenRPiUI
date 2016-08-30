@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenCooldown
+    id: thisScreen
 
     implicitWidth: parent.width
     implicitHeight: parent.height

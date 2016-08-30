@@ -7,7 +7,7 @@ import QtQuick.Controls.Styles 1.4
 import QtMultimedia 5.0
 
 Item {
-    id: screenMainMenu
+    id: thisScreen
     height: parent.height
     width: parent.width
 
@@ -23,7 +23,7 @@ Item {
         id: demoTimeoutTimer
         interval: 60000; running: false; repeat: false
         onTriggered: SequentialAnimation {
-            OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
                     stackView.clear();
@@ -43,7 +43,7 @@ Item {
                     }
                 }
             }
-            OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
@@ -109,9 +109,8 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: screenMainMenu; from: 1.0; to: 0.0;}
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
-                console.log("Opacity animation over, switching screens.");
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }

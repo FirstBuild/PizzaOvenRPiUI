@@ -64,5 +64,8 @@
         <file>MyRadioButton.qml</file>
         <file>Screen_Settings2.qml</file>
         <file>SettingsTitleLocation.png</file>
+        <file>CookTimer.qml</file>
+        <file>EditButton.qml</file>
+        <file>PauseButton.qml</file>
     </qresource>
 </RCC>

@@ -9,46 +9,27 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property bool screenSwitchInProgress: false
+
+    function screenEntry() {
+        screenSwitchInProgress = false;
+    }
+
     CircleScreenTemplate {
         id: dataCircle
-        circleValue: 0
+        circleValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
         titleText: "PREHEATING"
+        onCircleValueChanged: {
+            doExitCheck();
+        }
     }
 
     HomeButton {
         id: preheatingHomeButton
-        onClicked: SequentialAnimation {
-            ScriptAction { script: { animateTimer.stop(); }}
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            ScriptAction { script: { animateTimer.stop(); }}
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     CircleContentTwoTemp {
@@ -56,40 +37,34 @@ Item {
         line1String: tempToString(upperFront.setTemp)
         line2String: tempToString(upperFront.currentTemp)
         line3String: tempToString(lowerFront.setTemp)
-        line4String: tempToString(currentTemp)
+        line4String: tempToString(lowerFront.currentTemp)
     }
 
-    Timer {
-        id: animateTimer
-        interval: 250; running: true; repeat: true
-        onTriggered: {
-            var val = 0;
-            if (demoModeIsActive) {
-                val = dataCircle.circleValue + 10;
-                if (val > 100) {
-                    val = 0;
-                    animateTimer.stop();
-                    screenExitAnimator.start();
-                }
-                dataCircle.circleValue = val;
+    NumberAnimation {
+        target: lowerFront;
+        property: "currentTemp";
+        from: 75;
+        to: lowerFront.setTemp;
+        duration: 4000
+        running: demoModeIsActive
+    }
+    NumberAnimation {
+        target: upperFront;
+        property: "currentTemp";
+        from: 75;
+        to: upperFront.setTemp;
+        duration: 4000
+        running: demoModeIsActive
+    }
 
-                val = 80 + (lowerFront.setTemp - 80) * val / 100;
-                circleContent.line4String = tempToString(val);
-
-                val = dataCircle.circleValue
-                val = 100 + (upperFront.setTemp - 100) * val / 100;
-                circleContent.line2String = tempToString(val);
-            } else {
-                val = 100 * currentTemp / lowerFront.setTemp;
-                if (val >= 100) {
-                    val = 0;
-                    animateTimer.stop();
-                    screenExitAnimator.start();
-                }
-                dataCircle.circleValue = val;
-            }
+    function doExitCheck() {
+        if (screenSwitchInProgress) return;
+        if (dataCircle.circleValue >= 100) {
+            screenSwitchInProgress = true;
+            screenExitAnimator.start();
         }
     }
+
     SequentialAnimation {
         id: screenExitAnimator
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}

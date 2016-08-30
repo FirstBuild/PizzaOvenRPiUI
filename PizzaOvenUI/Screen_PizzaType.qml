@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenPizzaType
+    id: thisScreen
     width: parent.width
     height: parent.height
 
@@ -13,16 +13,6 @@ Item {
 
     HomeButton {
         id: pizzaTypeHomeButton
-        anchors.margins: myMargins
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
     Text {
@@ -30,7 +20,7 @@ Item {
         font.pointSize: 24
         text: "Pizza Type"
         anchors.margins: myMargins
-        anchors.right: screenPizzaType.right
+        anchors.right: thisScreen.right
         anchors.top: pizzaTypeHomeButton.top
         color: appForegroundColor
     }

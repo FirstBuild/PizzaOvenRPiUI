@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.1
 
 Item {
-    id: screenStoneTempEntry
+    id: thisScreen
     width: parent.width
     height: parent.height
 

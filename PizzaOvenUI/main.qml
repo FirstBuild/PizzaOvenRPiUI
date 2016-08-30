@@ -15,10 +15,7 @@ Window {
     FontLoader { id: localFont; source: "fonts/FreeSans.ttf"; name: "FreeSans" }
 
     // Things related to the cooking of the oven
-    property int currentTemp: 80
-//    property int cookTime: 2 * 60
     property int cookTime: 30
-    property int currentTime: 0
     property int finalCheckTime: cookTime * 0.9
     property bool halfTimeRotate: true
     property int powerSwitch: 0
@@ -53,11 +50,13 @@ Window {
     property int bigTextSize: 42
     property int appColumnWidth: 62
 
+    property CookTimer cookTimer: CookTimer {}
+
     // Parameters of the oven
     HeaterBankData {
         id: upperFront
         bank: "UF"
-        currentTemp: 100
+        currentTemp: 75
         setTemp: 1250
         elementDutyCycle: 10
         elementRelay: 0
@@ -69,7 +68,7 @@ Window {
     HeaterBankData {
         id: upperRear
         bank: "UR"
-        currentTemp: 100
+        currentTemp: 75
         setTemp: 1150
         elementDutyCycle: 10
         elementRelay: 0
@@ -81,26 +80,26 @@ Window {
     HeaterBankData {
         id: lowerFront
         bank: "LF"
-        currentTemp: 100
+        currentTemp: 75
         setTemp: 650
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 0
         offPercent: 49
-//        temperatureDeadband: 50
+        //        temperatureDeadband: 50
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }
     HeaterBankData {
         id: lowerRear
         bank: "LR"
-        currentTemp: 100
+        currentTemp: 75
         setTemp: 625
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 51
         offPercent: 100
-//        temperatureDeadband: 50
+        //        temperatureDeadband: 50
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }
@@ -144,12 +143,11 @@ Window {
         switch (msg.id){
         case "Temp":
             if (msg.data.LF && msg.data.LR){
-                currentTemp = msg.data.LF;
-                console.log("Current temp: " + currentTemp);
                 upperFront.currentTemp = msg.data.UF;
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
+                console.log("Current temp: " + lowerFront.currentTemp);
             } else {
                 console.log("Temp data missing.");
             }
@@ -338,7 +336,7 @@ Window {
             focus: true
             initialItem: {
                 appSettings.backlightOff = false;
-//                Qt.resolvedUrl("Screen_Cooldown.qml")
+                //                Qt.resolvedUrl("Screen_Cooldown.qml")
                 //Qt.resolvedUrl("Screen_Settings2.qml")
                 if (appSettings.settingsInitialized) {
                     Qt.resolvedUrl("Screen_Off.qml");
@@ -346,13 +344,13 @@ Window {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }
             }
-//            initialItem: Qt.resolvedUrl("Screen_Off.qml")
-//            initialItem: Qt.resolvedUrl("Screen_Development.qml")
-//            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
-//            initialItem: Qt.resolvedUrl("Keyboard.qml")
-//            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
-//            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
-//            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
+            //            initialItem: Qt.resolvedUrl("Screen_Off.qml")
+            //            initialItem: Qt.resolvedUrl("Screen_Development.qml")
+            //            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
+            //            initialItem: Qt.resolvedUrl("Keyboard.qml")
+            //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
+            //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
+            //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
             onCurrentItemChanged: {
                 if (currentItem) {
                     if (currentItem.screenEntry) {
@@ -391,11 +389,11 @@ Window {
         id: socket
         url: "ws://localhost:8080"
         onTextMessageReceived: {
-//            console.log("Received message: " + message);
+            //            console.log("Received message: " + message);
             handleWebSocketMessage(message);
         }
         onStatusChanged: if (socket.status == WebSocket.Error) {
-//                             console.log("Error: " + socket.errorString)
+                             //                             console.log("Error: " + socket.errorString)
                              webSocketConnectionTimer.start();
                          } else if (socket.status == WebSocket.Open) {
                              socket.sendTextMessage("Hello World")
@@ -404,7 +402,7 @@ Window {
                              sendWebSocketMessage("Get LF");
                              sendWebSocketMessage("Get LR");
                          } else if (socket.status == WebSocket.Closed) {
-//                             console.log("Socket closed");
+                             //                             console.log("Socket closed");
                              webSocketConnectionTimer.start();
                          }
         active: false
@@ -417,7 +415,7 @@ Window {
             console.log("Received secure message: " + message);
         }
         onStatusChanged: if (secureWebSocket.status == WebSocket.Error) {
-//                             console.log("Error: " + secureWebSocket.errorString)
+                             //                             console.log("Error: " + secureWebSocket.errorString)
                          } else if (secureWebSocket.status == WebSocket.Open) {
                              secureWebSocket.sendTextMessage("Hello Secure World")
                          } else if (secureWebSocket.status == WebSocket.Closed) {
@@ -446,7 +444,7 @@ Window {
                 console.log("Web socket is closing.");
                 break;
             case WebSocket.Error:
-//                console.log("Web socket is error.");
+                //                console.log("Web socket is error.");
                 socket.active = false;
                 socket.active = true;
                 break;
@@ -483,17 +481,17 @@ Window {
         appSettings.todOffset = offset;
     }
 
-//    Button {
-//        id: quitButton
-//        x: 10
-//        y: rootWindow.height - quitButton.height - 10
-//        height: width
-//        action: Action {
-//            onTriggered: {
-//                Qt.quit();
-//            }
-//        }
-//        text: "Quit"
-//    }
+    //    Button {
+    //        id: quitButton
+    //        x: 10
+    //        y: rootWindow.height - quitButton.height - 10
+    //        height: width
+    //        action: Action {
+    //            onTriggered: {
+    //                Qt.quit();
+    //            }
+    //        }
+    //        text: "Quit"
+    //    }
 }
 

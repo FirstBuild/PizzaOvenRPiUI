@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.1
 
 Item {
-    id: settingsScreen
+    id: thisScreen
 
     implicitWidth: parent.width
     implicitHeight: parent.height

@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenAwaitStart
+    id: thisScreen
     width: parent.width
     height: parent.height
 
@@ -15,46 +15,24 @@ Item {
     }
 
     function screenEntry() {
-        console.log("Entering screenAwaitStart");
         screenEntryAnimation.start();
     }
 
-    OpacityAnimator {id: screenEntryAnimation; target: screenAwaitStart; from: 0.0; to: 1.0;}
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
-            ScriptAction {script:{
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
-            ScriptAction {script:{
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     ButtonRight {
         id: preheatButton
         text: "PREHEAT"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenAwaitStart; from: 1.0; to: 0.0;}
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {script: {
                     if (!demoModeIsActive) {
                         sendWebSocketMessage("StartOven ");

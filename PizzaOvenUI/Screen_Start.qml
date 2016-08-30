@@ -16,47 +16,24 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     ButtonRight {
         id: startButton
         text: "START"
         onClicked: SequentialAnimation {
+            ScriptAction {
+                script: {
+                    rootWindow.cookTimer.start();
+                }
+            }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
-                    console.log("The start button was clicked.");
-                    currentTime = 0;
                     stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
                 }
             }

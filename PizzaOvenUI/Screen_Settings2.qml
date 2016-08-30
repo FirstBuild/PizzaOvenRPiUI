@@ -13,6 +13,8 @@ Item {
 //        x:-1
 //    }
 
+    id: thisScreen
+
     BackButton{
         id: backButton
         opacity: 0.5

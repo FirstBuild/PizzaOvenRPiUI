@@ -1,48 +1,32 @@
 import QtQuick 2.3
 
 Item {
-    id: screenFinalCheck
+    id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property bool screenSwitchInProgress: false
+
+    function screenEntry() {
+        sounds.alarmUrgent.play();
+        screenSwitchInProgress = false;
+    }
+
     CircleScreenTemplate {
         id: dataCircle
-        circleValue: 100 * currentTime/cookTime
+        circleValue: rootWindow.cookTimer.value
         titleText: "COOKING"
+        onCircleValueChanged: {
+            doExitCheck();
+        }
     }
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenFinalCheck; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    countdownTimer.stop();
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenFinalCheck; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    countdownTimer.stop();
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
     Rectangle {
@@ -79,45 +63,25 @@ Item {
         id: continueButton
         text: "CONTINUE"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenFinalCheck; from: 1.0; to: 0.0;}
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {script: {
-                    countdownTimer.stop();
                     stackView.push({item:Qt.resolvedUrl("Screen_CookingFinal.qml"), immediate:immediateTransitions});
                 }
             }
         }
     }
 
-    function screenEntry() {
-        console.log("Playing the sound.");
-        sounds.alarmUrgent.play();
-    }
-
-    Timer {
-        id: countdownTimer
-        interval: 1000; running: true; repeat: true
-        onTriggered: {
-            currentTime++;
-            if (currentTime <= cookTime) {
-                var val = 100 * currentTime/cookTime;
-                if (val > 100) {
-                    val = 0;
-                    countdownTimer.stop();
-//                    stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
-                    screenExitAnimation.start();
-                }
-                dataCircle.circleValue = val;
-            } else {
-                countdownTimer.stop();
-//                stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
-                screenExitAnimation.start();
-            }
+    function doExitCheck() {
+        if (screenSwitchInProgress) return;
+        if (dataCircle.circleValue >= 100) {
+            screenSwitchInProgress = true;
+            screenExitAnimation.start();
         }
     }
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: screenFinalCheck; from: 1.0; to: 0.0;}
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
             }

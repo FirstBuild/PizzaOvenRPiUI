@@ -5,7 +5,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Item {
-    id: screenCookingDone
+    id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
 
@@ -18,35 +18,10 @@ Item {
 
     HomeButton {
         id: homeButton
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingDone; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
-
     }
 
-    ButtonLeft {
+    EditButton {
         id: editButton
-        text: "EDIT"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingDone; from: 1.0; to: 0.0;}
-            ScriptAction {script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    stackView.completeTransition();
-                    screenBookmark = stackView.currentItem;
-                    if (twoTempEntryModeIsActive) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_TemperatureEntry.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        }
     }
 
 
@@ -61,7 +36,7 @@ Item {
         id: startButton
         text: "START"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: screenCookingDone; from: 1.0; to: 0.0;}
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {script: {
                     stackView.clear();
                     stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
