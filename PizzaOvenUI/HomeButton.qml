@@ -70,7 +70,6 @@ Rectangle {
                     script: {
                         sounds.touch.play();
                         rootWindow.cookTimer.stop();
-                        rootWindow.progressCircle.animation.stop();
                     }
                 }
                 OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
