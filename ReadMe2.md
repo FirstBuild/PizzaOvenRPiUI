@@ -57,12 +57,14 @@ partitions.
   ```
   Note that the starting sector for the new partition is the same as the one that was deleted.
 6. Write the changes and exit:
+  
   ```bash
   Command (m for help): w
   The partition table has been altered.
   Calling ioctl() to re-read partition table.
   Syncing disks.
   ```
+  
   You should now be back at the command prompt.
   
 
