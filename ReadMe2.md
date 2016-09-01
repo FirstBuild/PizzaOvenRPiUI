@@ -7,6 +7,27 @@ the SD card.  The instructions here are for a Linux host and assume some familia
 partitions.
 
 1. Insert the card into the SD card slot into the computer.  Two partitions should get mounted.  Unmount the two partitions.
+2. Check the file system
+   
+   ```bash
+   sudo e2fsck -f /dev/mmcblk0p2
+   e2fsck 1.42.13 (17-May-2015)
+   Pass 1: Checking inodes, blocks, and sizes
+   Pass 2: Checking directory structure
+   Pass 3: Checking directory connectivity
+   Pass 4: Checking reference counts
+   Pass 5: Checking group summary information
+   /dev/mmcblk0p2: 35424/957712 files (0.2% non-contiguous), 282993/3872384 blocks
+   ```
+3. Shrink the file system:
+   
+   ```bash
+   sudo resize2fs /dev/mmcblk0p2 4G
+   resize2fs 1.42.13 (17-May-2015)
+   Resizing the filesystem on /dev/mmcblk0p2 to 1048576 (4k) blocks.
+   The filesystem on /dev/mmcblk0p2 is now 1048576 (4k) blocks long.
+   ```
+   
 2. Open the card in fdisk: `fdisk /dev/mmcblk0`
 3. List the partitions:
    ```bash
@@ -67,6 +88,18 @@ partitions.
   
   You should now be back at the command prompt.
   
-
-
+7. Rerun `e2fsck` to make sure the changed file system is ok:
+   
+   ```
+   sudo e2fsck -f /dev/mmcblk0p2
+   e2fsck 1.42.13 (17-May-2015)
+   Pass 1: Checking inodes, blocks, and sizes
+   Pass 2: Checking directory structure
+   Pass 3: Checking directory connectivity
+   Pass 4: Checking reference counts
+   Pass 5: Checking group summary information
+   /dev/mmcblk0p2: 35424/257536 files (0.2% non-contiguous), 238898/1048576 blocks
+   ```
+10. Boot the resized SD card!
+11. Celebrate!!!
 
