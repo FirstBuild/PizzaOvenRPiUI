@@ -15,22 +15,33 @@ Item {
 
     function screenEntry() {
         if (demoModeIsActive) {
+            sounds.powerOn.play();
             demoTimeoutTimer.restart();
+            altDingTimer.restart();
         }
     }
 
     Timer {
         id: demoTimeoutTimer
-        interval: 60000; running: false; repeat: false
-//        interval: 15000; running: false; repeat: false
+        interval: 3*60*1000; running: false; repeat: false
         onTriggered: SequentialAnimation {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
+                    altDingTimer.stop();
+                    sounds.powerOff.play();
                     stackView.clear();
                     stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
                 }
             }
+        }
+    }
+
+    Timer {
+        id: altDingTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: {
+            sounds.off.play();
         }
     }
 
@@ -119,6 +130,23 @@ Item {
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }
+        }
+    }
+
+    Rectangle {
+        width: 75
+        height: 50
+        border.color: "orange"
+        border.width: 4
+        color: "black"
+        x: 20;
+        anchors.verticalCenter: parent.verticalCenter
+        Text {
+            text: "ALT"
+            font.family: localFont.name
+            font.pointSize: 24
+            color: "yellow"
+            anchors.centerIn: parent
         }
     }
 }
