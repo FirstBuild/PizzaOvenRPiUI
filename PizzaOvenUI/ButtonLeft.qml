@@ -8,7 +8,6 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: leftButton
 
-//    x: 26
     x: (screenWidth - width)/2
     y: 165
     width: 125
@@ -18,8 +17,13 @@ Item {
 
     opacity: 0.0
 
-    PropertyAnimation on x { to: 26}
-    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic}
+    function animate() {
+        opacityAnim.start();
+        movementAnim.start();
+    }
+
+    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26}
+    OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic}
 
     SideButton {
         id: theButton

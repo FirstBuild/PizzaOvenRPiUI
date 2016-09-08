@@ -10,15 +10,23 @@ Item {
     height: parent.height
 
     CircleScreenTemplate {
+        id: theCircle
         circleValue: 0
         titleText: foodNameString
     }
 
+    opacity: 0.0
+
     function screenEntry() {
+        console.log("Starting animations.");
+        editButton.animate();
+        preheatButton.animate();
+        theCircle.animate();
+        circleContent.animate();
         screenEntryAnimation.start();
     }
 
-    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic; /*duration: 2000*/}
 
     HomeButton {
         id: homeButton
@@ -32,12 +40,15 @@ Item {
         id: preheatButton
         text: "PREHEAT"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0; /*duration: 2000*/}
             ScriptAction {script: {
+                    homeButton.opacity = 0.0;
+                    editButton.opacity = 0.0;
+                    preheatButton.opacity = 0.0;
+                    circleContent.opacity = 0.0;
                     if (!demoModeIsActive) {
                         sendWebSocketMessage("StartOven ");
                     }
-                    screenBookmark = stackView.currentItem;
                     if (appSettings.twoTempMode) {
                         stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
                     } else {
@@ -50,6 +61,7 @@ Item {
     }
 
     CircleContent {
+        id: circleContent
         topString: tempToString(upperFront.setTemp)
         middleString: tempToString(lowerFront.setTemp)
         bottomString: timeToString(cookTime)

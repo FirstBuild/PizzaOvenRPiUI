@@ -21,22 +21,28 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-//    qDebug() << "------------- Available devices --------------------------------";
-//    foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
-//        qDebug() << "Device name: " << deviceInfo.deviceName();
-//    qDebug() << "----------------------------------------------------------------";
+    qDebug() << "------------- Available devices --------------------------------";
+    foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
+    {
+        qDebug() << "---------- Device name: " << deviceInfo.deviceName() << "--------";
+        qDebug() << "Preferred codecs: ";
+        foreach (const QString &codeName, deviceInfo.supportedCodecs())
+            qDebug() << "   " << codeName;
+        qDebug() << "----------------------------------------------------------------";
+    }
+    qDebug() << "----------------------------------------------------------------";
 
-//    qDebug() << "------------- Looking for the default device --------------------------------";
-//    QAudioDeviceInfo defDev = QAudioDeviceInfo::defaultOutputDevice();
-//    if (defDev.isNull())
-//    {
-//        qDebug() << "---> The default audio device is not present.";
-//    }
-//    else
-//    {
-//        qDebug() << "---> The default audio device is: " << defDev.deviceName();
-//    }
-//    qDebug() << "-----------------------------------------------------------------------------";
+    qDebug() << "------------- Looking for the default device --------------------------------";
+    QAudioDeviceInfo defDev = QAudioDeviceInfo::defaultOutputDevice();
+    if (defDev.isNull())
+    {
+        qDebug() << "---> The default audio device is not present.";
+    }
+    else
+    {
+        qDebug() << "---> The default audio device is: " << defDev.deviceName();
+    }
+    qDebug() << "-----------------------------------------------------------------------------";
 
     engine.rootContext()->setContextProperty("appSettings", &appSettings);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());

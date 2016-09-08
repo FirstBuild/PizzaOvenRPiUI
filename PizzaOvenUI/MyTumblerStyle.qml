@@ -3,10 +3,15 @@ import QtQuick.Controls.Styles 1.4
 
 TumblerStyle {
     id: tumblerStyle
+
     property int textHeight: 64
     property int textWidth: 64
     property int textAlignment: Text.AlignLeft
+    property int textPointSize: 24
+    property bool showKeypress: true
+
     signal clicked(string name)
+
     frame: Rectangle {
 //        border.color: "red"
 //        border.width: 1
@@ -23,12 +28,6 @@ TumblerStyle {
         Rectangle {
             width: 5
             color: appBackgroundColor
-//            Rectangle {
-//                width: 1
-//                height: parent.height
-//                color: appGrayColor
-//                anchors.centerIn: parent
-//            }
         }
     }
 
@@ -39,9 +38,7 @@ TumblerStyle {
         Rectangle {
             id: textBackground
             color: appBackgroundColor
-            //height: parent.height
             height: 62
-//            width: textWidth
             width: parent.width
             anchors.centerIn: parent
         }
@@ -51,7 +48,7 @@ TumblerStyle {
             height: textHeight
             width: textWidth
             font.family: localFont.name
-            font.pointSize: 24
+            font.pointSize: textPointSize
             text: styleData.value
             anchors.centerIn: parent
             horizontalAlignment: textAlignment
@@ -69,24 +66,30 @@ TumblerStyle {
                 }
             }
             onPressed: {
-                if (styleData.current) {
-
-//                    textBackground.color = appForegroundColor;
-//                    selectionText.color = appBackgroundColor;
+                tumblerDelegate.z = 10
+                if (styleData.current && showKeypress) {
+                    textBackgroundOnReleased.stop();
                     textBackgroundOnPressed.start();
+                    selectionTextOnReleased.stop();
                     selectionTextOnPressed.start();
                 }
             }
             onReleased: {
-                if (styleData.current) {
-//                    textBackground.color = appBackgroundColor;
-//                    selectionText.color = appForegroundColor;
+                tumblerDelegate.z = 0
+                if (styleData.current && showKeypress) {
+                    textBackgroundOnPressed.stop();
                     textBackgroundOnReleased.start();
+                    selectionTextOnPressed.stop();
                     selectionTextOnReleased.start();
                 }
             }
             onPositionChanged: {
-                if (styleData.current) {
+                if (styleData.current && showKeypress) {
+                    textBackgroundOnReleased.stop();
+                    selectionTextOnReleased.stop();
+                    textBackgroundOnPressed.stop();
+                    selectionTextOnPressed.stop();
+                    selectionTextOnReleased.start();
                     textBackground.color = appBackgroundColor;
                     selectionText.color = appForegroundColor;
                 }

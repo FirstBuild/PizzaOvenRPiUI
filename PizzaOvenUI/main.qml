@@ -39,7 +39,6 @@ Window {
     property color appGrayText: "#B0B0B0"
 
     property string gearIconSource: "Gear-Icon-white-2.svg"
-    property Item screenBookmark
     property bool immediateTransitions: true
     property int screenWidth: 559
     property int screenHeight: 355
@@ -339,7 +338,8 @@ Window {
                 //                Qt.resolvedUrl("Screen_Cooldown.qml")
                 //Qt.resolvedUrl("Screen_Settings2.qml")
                 if (appSettings.settingsInitialized) {
-                    Qt.resolvedUrl("Screen_Off.qml");
+//                    Qt.resolvedUrl("Screen_Off.qml");
+                    Qt.resolvedUrl("Screen_MainMenu.qml");
                 } else {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }

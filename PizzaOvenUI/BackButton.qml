@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
     id: backButton
@@ -10,6 +10,8 @@ Rectangle {
     y: 45
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
+
+    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
 
     Canvas {
         id: drawing
@@ -38,9 +40,27 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: {
-            sounds.touch.play();
-            backButton.clicked();
+        onClicked: SequentialAnimation {
+            ScriptAction {
+                script: {
+                    sounds.touch.play();
+                }
+            }
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+            ScriptAction {
+                script: {
+                    console.log("Current stack depth: " + stackView.depth);
+                    if (stackView.depth > 1) {
+                        backButton.clicked();
+                    }
+                    else
+                    {
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    }
+
+                }
+            }
         }
         onPressed: {
             segmentColor = appBackgroundColor;

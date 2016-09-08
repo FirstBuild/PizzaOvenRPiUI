@@ -22,6 +22,7 @@ Item {
     Timer {
         id: demoTimeoutTimer
         interval: 60000; running: false; repeat: false
+//        interval: 15000; running: false; repeat: false
         onTriggered: SequentialAnimation {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
@@ -99,6 +100,10 @@ Item {
             visibleItemCount: 3
             textHeight:100
             textWidth: parent.width
+            padding.top: 0
+            padding.bottom: 0
+            padding.left: 0
+            padding.right: 0
         }
         TumblerColumn {
             id: theColumn

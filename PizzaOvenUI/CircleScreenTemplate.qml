@@ -16,7 +16,14 @@ Item {
 
     opacity: 0.0
 
-    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic }
+    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic }
+
+    function animate() {
+        screenAnimation.start();
+        circleWidthAnimation.start();
+        circleHeightAnimation.start();
+        titleAnimation.start();
+    }
 
     // center circle
     Item {
@@ -31,8 +38,8 @@ Item {
 //            height: parent.height
 //            width: parent.width
             currentValue: circleValue
-            NumberAnimation on width {from: 10; to: circleDiameter}
-            NumberAnimation on height {from: 10; to: circleDiameter}
+            NumberAnimation on width {id: circleWidthAnimation; from: 10; to: circleDiameter}
+            NumberAnimation on height {id: circleHeightAnimation; from: 10; to: circleDiameter}
             anchors.centerIn: parent
         }
     }
@@ -53,7 +60,7 @@ Item {
             anchors.centerIn: parent
             color: appGrayText
         }
-        NumberAnimation on y {from: (screenHeight-titleBox.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41 }
     }
 }
 

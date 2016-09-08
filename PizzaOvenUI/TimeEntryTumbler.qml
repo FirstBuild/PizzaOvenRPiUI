@@ -9,7 +9,7 @@ Item {
 //    color: appBackgroundColor
 
     property int timeValue: 0
-    property int itemsPerTumbler: 5
+    property int tumblerRows: 5
     property int columnWidth: appColumnWidth
     width: secondsEntry.x + secondsEntry.width - minutesEntry.x
 
@@ -42,10 +42,11 @@ Item {
         }
 
         style:  MyTumblerStyle {
-            visibleItemCount: itemsPerTumbler
+            visibleItemCount: tumblerRows
             textHeight:minutesEntry.height/visibleItemCount
             textWidth: columnWidth
             textAlignment: Text.AlignHCenter
+            showKeypress: false
         }
         TumblerColumn {
             id: minutesTensColumn
@@ -84,10 +85,11 @@ Item {
         }
 
         style:  MyTumblerStyle {
-            visibleItemCount: itemsPerTumbler
+            visibleItemCount: tumblerRows
             textHeight:secondsEntry.height/visibleItemCount
             textWidth: columnWidth
             textAlignment: Text.AlignHCenter
+            showKeypress: false
         }
         TumblerColumn {
             id: secondsTensColumn

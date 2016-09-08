@@ -61,13 +61,11 @@ Item {
         target: buttonBackground
         properties: "color"
         to: appForegroundColor
-        duration: 200
     }
     PropertyAnimation {
         id: animateReleasedColor
         target: buttonBackground
         properties: "color"
         to: appBackgroundColor
-        duration: 200
     }
 }

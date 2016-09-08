@@ -11,7 +11,16 @@ Item {
 
     opacity: 0.0
 
-    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic}
+    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic}
+
+    function animate() {
+        screenAnimation.start();
+        text1Animation.start();
+        text2Animation.start();
+        text3Animation.start();
+        text4Animation.start();
+        text5Animation.start();
+    }
 
     // Stuff for two lines of text
     Rectangle {
@@ -35,7 +44,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {from: 1; to: 17}
+        NumberAnimation on font.pointSize {id: text1Animation; from: 1; to: 17}
     }
 
     Text {
@@ -50,7 +59,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {from: 1; to: 36}
+        NumberAnimation on font.pointSize {id: text2Animation; from: 1; to: 36}
     }
 
     // Stuff for three lines of text
@@ -75,7 +84,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text3Animation; from: 1; to: 27}
     }
 
     Text {
@@ -90,7 +99,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text4Animation; from: 1; to: 27}
     }
 
     Text {
@@ -105,6 +114,6 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text5Animation; from: 1; to: 27}
     }
 }

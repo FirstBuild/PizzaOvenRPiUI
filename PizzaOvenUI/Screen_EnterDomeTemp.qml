@@ -10,7 +10,20 @@ Item {
     width: parent.width
     height: parent.height
 
-    property int myMargins: 10
+    property int tumblerColumns: 4
+    property int tumblerHeight: 1
+    property int tumblerRows: 5
+    property int titleTextPointSize: 1
+    property int titleTextToPointSize: 18
+
+    function screenEntry() {
+        screenEntryAnimation.start();
+        tumblerHeightAnim.start();
+        titleTextAnim.start();
+        nextButton.animate();
+    }
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     BackButton {
         id: backButton
@@ -19,106 +32,134 @@ Item {
         }
     }
 
-    property int tumblerColumns: 4
-    property int tumblerHeight: 250
-    property int columnHeight: tumblerHeight
+    NumberAnimation on tumblerHeight {
+        id: tumblerHeightAnim
+        from: 1
+        to: 250
+    }
+
+    NumberAnimation on titleTextPointSize {
+        id: titleTextAnim
+        from: 1
+        to: titleTextToPointSize
+    }
 
     Text {
         text: "Select Dome Temperature"
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: titleTextPointSize
         color: appGrayText
         width: 400
         height: 30
-        anchors.right: nextButton.right
+        x: screenWidth - width - 26
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
 
-    Tumbler {
-        id: temperatureEntry
+    Item {
+        width: 300
         height: tumblerHeight
+        x:88
         anchors.verticalCenter: nextButton.verticalCenter
-        anchors.right: nextButton.left
-        anchors.rightMargin: 20
 
-        Component.onCompleted: {
-            var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
-            var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
-            var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
-            var ones = (upperFront.setTemp%10).toFixed(0);
-            temperatureEntry.setCurrentIndexAt(0, thous);
-            temperatureEntry.setCurrentIndexAt(1, hunds);
-            temperatureEntry.setCurrentIndexAt(2, tens);
-            temperatureEntry.setCurrentIndexAt(3, ones);
+        Tumbler {
+            id: temperatureEntry
+            height: tumblerHeight
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
 
-            console.log("upperFront.setTemp" + upperFront.setTemp);
-            console.log("Thous: " + thous);
-            console.log("Hunds: " + hunds);
-            console.log("Tens: " + tens);
-            console.log("Ones: "+ ones);
-        }
-
-        style:  MyTumblerStyle {
-            onClicked: {
-                console.log("The tumbler was clicked.");
-                console.log(hundredsColumn.currentIndex);
-                console.log(tensColumn.currentIndex);
-                console.log(onesColumn.currentIndex);
+            NumberAnimation on opacity {
+                id: anim;
+                from: 0.0;
+                to: 1.0;
+                easing.type: Easing.InCubic;
             }
-            visibleItemCount: 5
-            textHeight:temperatureEntry.height/visibleItemCount
-            textWidth: appColumnWidth
-            textAlignment: Text.AlignHCenter
-        }
-        TumblerColumn {
-            id: thousandsColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
-        }
-        TumblerColumn {
-            id: hundredsColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
-        }
-        TumblerColumn {
-            id: tensColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
-        }
-        TumblerColumn {
-            id: onesColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
+
+            Component.onCompleted: {
+                var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
+                var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
+                var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
+                var ones = (upperFront.setTemp%10).toFixed(0);
+                temperatureEntry.setCurrentIndexAt(0, thous);
+                temperatureEntry.setCurrentIndexAt(1, hunds);
+                temperatureEntry.setCurrentIndexAt(2, tens);
+                temperatureEntry.setCurrentIndexAt(3, ones);
+                anim.start();
+            }
+
+            style:  MyTumblerStyle {
+                visibleItemCount: tumblerRows
+                textHeight:temperatureEntry.height/visibleItemCount
+                textWidth: appColumnWidth
+                textAlignment: Text.AlignHCenter
+                NumberAnimation on textPointSize {
+                    from: 1
+                    to: 24
+                }
+                showKeypress: false
+            }
+            TumblerColumn {
+                id: thousandsColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
+            TumblerColumn {
+                id: hundredsColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
+            TumblerColumn {
+                id: tensColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
+            TumblerColumn {
+                id: onesColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
         }
     }
 
     ButtonRight {
         id: nextButton
         text: "NEXT"
-        onClicked: {
-            var temp = thousandsColumn.currentIndex * 1000;
-            temp += hundredsColumn.currentIndex * 100;
-            temp += tensColumn.currentIndex * 10;
-            temp += onesColumn.currentIndex;
+        onClicked: SequentialAnimation {
+            id: screenExitAnimation
+            ScriptAction {
+                script: {
+                    var temp = thousandsColumn.currentIndex * 1000;
+                    temp += hundredsColumn.currentIndex * 100;
+                    temp += tensColumn.currentIndex * 10;
+                    temp += onesColumn.currentIndex;
 
-            if (temp > upperMaxTemp) {
-                sounds.alarmUrgent.play();
-                messageDialog.visible = true;
-            } else {
-                upperFront.setTemp = temp;
-                upperRear.setTemp = upperFront.setTemp - 100;
+                    if (temp > upperMaxTemp) {
+                        screenExitAnimation.stop();
+                        sounds.alarmUrgent.play();
+                        messageDialog.visible = true;
+                    } else {
+                        if (temp !== upperFront.setTemp) {
+                            foodNameString = "CUSTOM"
+                        }
 
-                sendWebSocketMessage("Set UF SetPoint " +
-                                     (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
-                                     (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
-                sendWebSocketMessage("Set UR SetPoint " +
-                                     (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
-                                     (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
+                        upperFront.setTemp = temp;
+                        upperRear.setTemp = upperFront.setTemp - 100;
 
-                //                stackView.push({item:Qt.resolvedUrl("Screen_TimeEntry.qml"), immediate:immediateTransitions});
-                stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                        sendWebSocketMessage("Set UF SetPoint " +
+                                             (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
+                                             (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
+                        sendWebSocketMessage("Set UR SetPoint " +
+                                             (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
+                                             (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
+                    }
+                }
+            }
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
+            ScriptAction {script: {
+                    //                stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
+                    stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }
