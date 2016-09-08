@@ -1,6 +1,22 @@
 ### Additional Instructions
 
 ### Resize the SD card
+
+New instructions...
+
+- dd Jessie Lite to an SD card.
+- Use fdisk to create a partition at the end of the card.  Size it so that the size of the root parition please and space left over is at the desired size.  This effectively creates a hole into which the root file system will be expanded.
+- Boot the pi with the card.  The Pi will complain that it can't expand the root file system.  This is ok.  Click OK and let it finish booting.  Reboot the pi, confirm that the pi boots without and warning pop-ups.
+- Put the SD card into the PC.
+- Expand the rootfs - ```sudo resize2fs /dev/mmcblk0p2```
+- If resize2fs tells you to run e2fsk first, do that first, then rerun resize2fs.
+- Use fsck to check that the fs is ok - ```sudo fsck /dev/mmcblk0p2```
+- Use fdisk to remove partition 3
+- Boot the pi, confirm it boots ok.
+
+
+### IGNORE BELOW HERE
+
 After booting for the first time, the partition may expand to fill the entire SD card.  This is not necessarily a bad thing,
 but it takes longer to created subsequent SD cards due to the size of the disk image.  Follow these instructions to resize
 the SD card.  The instructions here are for a Linux host and assume some familiarity with things like mounting an unmounting 
