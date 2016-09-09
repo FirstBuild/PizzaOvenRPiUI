@@ -38,7 +38,7 @@ TumblerStyle {
         Rectangle {
             id: textBackground
             color: appBackgroundColor
-            height: 62
+            height: lineSpacing
             width: parent.width
             anchors.centerIn: parent
         }
@@ -159,8 +159,8 @@ TumblerStyle {
 
             ctx.beginPath();
             //            ctx.moveTo(75,40);
-            var y1 = parent.height/2 - 31;
-            var y2 = parent.height/2 + 31;
+            var y1 = parent.height/2 - (lineSpacing/2);
+            var y2 = parent.height/2 + (lineSpacing/2);
             ctx.moveTo(0, y1);
             ctx.lineTo(parent.width, y1);
             ctx.moveTo(0, y2);

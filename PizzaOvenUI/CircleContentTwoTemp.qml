@@ -27,7 +27,7 @@ Item {
         height: 1
         color: appGrayColor
         x: (screenWidth - width) / 2
-        y: 165
+        y: 197 - lineSpacing / 2
     }
 
     Rectangle {
@@ -36,7 +36,7 @@ Item {
         height: 1
         color: appGrayColor
         x: (screenWidth - width) / 2
-        y: 228
+        y: 196 + lineSpacing / 2
         anchors.bottomMargin: margins
     }
 

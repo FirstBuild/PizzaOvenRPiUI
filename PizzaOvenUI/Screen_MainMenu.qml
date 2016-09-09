@@ -34,6 +34,21 @@ Item {
         }
     }
 
+    Image {
+        source: "newLineSpacing.png"
+        y: 30
+    }
+
+    Rectangle {
+        width: screenWidth
+        height: lineSpacing
+        x: 0
+        y: 166 + (64 - lineSpacing) / 2
+        color: appBackgroundColor
+        border.color: "yellow"
+        border.width: 1
+    }
+
     GearButton {
         id: mainMenuGearButton
         onClicked: SequentialAnimation {
@@ -121,4 +136,6 @@ Item {
             }
         }
     }
+
+
 }

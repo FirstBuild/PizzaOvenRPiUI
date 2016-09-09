@@ -49,6 +49,8 @@ Window {
     property int bigTextSize: 42
     property int appColumnWidth: 62
 
+    property int lineSpacing: 54
+
     property CookTimer cookTimer: CookTimer {}
 
     // Parameters of the oven

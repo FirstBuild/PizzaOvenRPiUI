@@ -67,5 +67,6 @@
         <file>PauseButton.qml</file>
         <file>Screen_EnterTime.qml</file>
         <file>Screen_EnterFinalCheckTime.qml</file>
+        <file>newLineSpacing.png</file>
     </qresource>
 </RCC>

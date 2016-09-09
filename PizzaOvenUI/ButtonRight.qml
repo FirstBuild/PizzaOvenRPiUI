@@ -9,9 +9,9 @@ Item {
     id: rightButton
 
     width: 125
-    height: 64
+    height: lineSpacing
     x: (screenWidth-width)/2
-    y: 165
+    y: 165 + (64 - lineSpacing) / 2
     property string text: "LABEL"
     signal clicked()
 

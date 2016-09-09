@@ -125,6 +125,7 @@ Item {
     ButtonRight {
         id: nextButton
         text: "NEXT"
+        height: lineSpacing
         onClicked: SequentialAnimation {
             id: screenExitAnimation
             ScriptAction {

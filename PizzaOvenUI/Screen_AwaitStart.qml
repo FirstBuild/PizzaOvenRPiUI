@@ -48,7 +48,10 @@ Item {
                     circleContent.opacity = 0.0;
                     if (!demoModeIsActive) {
                         sendWebSocketMessage("StartOven ");
+                    } else {
+                        lowerFront.currentTemp = 75;
                     }
+
                     if (appSettings.twoTempMode) {
                         stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
                     } else {
