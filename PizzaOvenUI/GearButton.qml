@@ -20,6 +20,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            sounds.touch.play();
             gearButton.clicked();
         }
     }

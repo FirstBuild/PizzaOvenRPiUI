@@ -14,14 +14,7 @@ Item {
 
     property HeaterBankData heater
 
-    MessageDialog {
-        id: messageDialog
-        title: "Limit Exceeded"
-        text: "Max temp is " + heater.maxTemp + "F"
-    }
-
     Column {
-        z: 1
         spacing: heaterBankVisual.spacing
 
         TwoValueBox {
@@ -48,7 +41,8 @@ Item {
                     console.log("Enter pressed and value is " + tempEntry.value);
                     if (tempEntry.value > heater.maxTemp) {
                         sounds.alarmUrgent.play();
-                        messageDialog.open();
+                        messageDialog.dialogMessage = "Max temp is " + heater.maxTemp + "F";
+                        messageDialog.visible = true;
                     } else {
                         heater.setTemp = tempEntry.value;
                         disconnectAndDisable();
@@ -62,6 +56,7 @@ Item {
                                              (heater.setTemp + 0.5 * heater.temperatureDeadband));
                     }
                 }
+                sounds.touch.play();
                 tempEntry.value = heater.setTemp;
                 tempEntry.dialogCanceled.connect(handleCanceled);
                 tempEntry.dialogCompleted.connect(handleCompleted);
@@ -97,6 +92,7 @@ Item {
                     console.log("Setting on percent to " + msg);
                     sendWebSocketMessage("Set "+ heater.bank + " OnPercent " + heater.onPercent);
                 }
+                sounds.touch.play();
                 tempEntry.value = heater.onPercent;
                 tempEntry.dialogCanceled.connect(handleCanceled);
                 tempEntry.dialogCompleted.connect(handleCompleted);
@@ -132,6 +128,7 @@ Item {
                     console.log("Setting off percent to " + msg);
                     sendWebSocketMessage("Set " + heater.bank + " OffPercent " + heater.offPercent);
                 }
+                sounds.touch.play();
                 tempEntry.value = heater.offPercent;
                 tempEntry.dialogCanceled.connect(handleCanceled);
                 tempEntry.dialogCompleted.connect(handleCompleted);
@@ -141,9 +138,5 @@ Item {
             }
         }
     }
-//    DialogWithCheckbox {
-//        id: messageDialog
-//        dialogMessage: "Max temp is " + heater.maxTemp + "F"
-//    }
 }
 
