@@ -10,18 +10,7 @@ Item {
 
     property int myMargins: 10
 
-    signal onePressed()
-    signal twoPressed()
-    signal threePressed()
-    signal fourPressed()
-    signal fivePressed()
-    signal sixPressed()
-    signal sevenPressed()
-    signal eightPressed()
-    signal ninePressed()
-    signal zeroPressed()
-    signal deletePressed()
-    signal enterPressed()
+    signal keyPressed(int key)
 
     property string value
 
@@ -35,22 +24,22 @@ Item {
         Row {
             spacing: (keyboard.width - 6 * keyWidth) / 7
             x: spacing
-            MyButton {text: "1"; onClicked: keyboard.onePressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "2"; onClicked: keyboard.twoPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "3"; onClicked: keyboard.threePressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "4"; onClicked: keyboard.fourPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "5"; onClicked: keyboard.fivePressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "DEL"; onClicked: keyboard.deletePressed(); width: keyWidth; height: keyWidth}
+            MyButton {text: "1"; onClicked: keyboard.keyPressed(Qt.Key_1); width: keyWidth; height: keyWidth}
+            MyButton {text: "2"; onClicked: keyboard.keyPressed(Qt.Key_2); width: keyWidth; height: keyWidth}
+            MyButton {text: "3"; onClicked: keyboard.keyPressed(Qt.Key_3); width: keyWidth; height: keyWidth}
+            MyButton {text: "4"; onClicked: keyboard.keyPressed(Qt.Key_4); width: keyWidth; height: keyWidth}
+            MyButton {text: "5"; onClicked: keyboard.keyPressed(Qt.Key_5); width: keyWidth; height: keyWidth}
+            MyButton {text: "DEL"; onClicked: keyboard.keyPressed(Qt.Key_Backspace); width: keyWidth; height: keyWidth}
         }
         Row {
             spacing: (keyboard.width - 6 * keyWidth) / 7
             x: spacing
-            MyButton {text: "6"; onClicked: keyboard.sixPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "7"; onClicked: keyboard.sevenPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "8"; onClicked: keyboard.eightPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "9"; onClicked: keyboard.ninePressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "0"; onClicked: keyboard.zeroPressed(); width: keyWidth; height: keyWidth}
-            MyButton {text: "ENT"; onClicked: keyboard.enterPressed(); width: keyWidth; height: keyWidth}
+            MyButton {text: "6"; onClicked: keyboard.keyPressed(Qt.Key_6); width: keyWidth; height: keyWidth}
+            MyButton {text: "7"; onClicked: keyboard.keyPressed(Qt.Key_7); width: keyWidth; height: keyWidth}
+            MyButton {text: "8"; onClicked: keyboard.keyPressed(Qt.Key_8); width: keyWidth; height: keyWidth}
+            MyButton {text: "9"; onClicked: keyboard.keyPressed(Qt.Key_9); width: keyWidth; height: keyWidth}
+            MyButton {text: "0"; onClicked: keyboard.keyPressed(Qt.Key_0); width: keyWidth; height: keyWidth}
+            MyButton {text: "ENT"; onClicked: keyboard.keyPressed(Qt.Key_Return); width: keyWidth; height: keyWidth}
         }
     }
     Item {
@@ -60,47 +49,8 @@ Item {
         y: 0
         focus: keyboard.enabled
         Keys.onPressed: {
-            switch(event.key) {
-            case Qt.Key_0:
-                keyboard.zeroPressed();
-                break;
-            case Qt.Key_1:
-                keyboard.onePressed();
-                break;
-            case Qt.Key_2:
-                keyboard.twoPressed();
-                break;
-            case Qt.Key_3:
-                keyboard.threePressed();
-                break;
-            case Qt.Key_4:
-                keyboard.fourPressed();
-                break;
-            case Qt.Key_5:
-                keyboard.fivePressed();
-                break;
-            case Qt.Key_6:
-                keyboard.sixPressed();
-                break;
-            case Qt.Key_7:
-                keyboard.sevenPressed();
-                break;
-            case Qt.Key_8:
-                keyboard.eightPressed();
-                break;
-            case Qt.Key_9:
-                keyboard.ninePressed();
-                break;
-            case Qt.Key_Delete:
-            case Qt.Key_Backspace:
-                keyboard.deletePressed();
-                break
-            case Qt.Key_Enter:
-            case Qt.Key_Return:
-                keyboard.enterPressed();
-                break
-            }
-            event.accepted = true;
+            sounds.touch.play();
+            keyboard.keyPressed(event.key);
         }
     }
 }

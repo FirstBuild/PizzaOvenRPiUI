@@ -47,6 +47,7 @@ Item {
                 function handleCompleted() {
                     console.log("Enter pressed and value is " + tempEntry.value);
                     if (tempEntry.value > heater.maxTemp) {
+                        sounds.alarmUrgent.play();
                         messageDialog.open();
                     } else {
                         heater.setTemp = tempEntry.value;
@@ -61,14 +62,12 @@ Item {
                                              (heater.setTemp + 0.5 * heater.temperatureDeadband));
                     }
                 }
-                onClicked: {
-                    tempEntry.value = heater.setTemp;
-                    tempEntry.dialogCanceled.connect(handleCanceled);
-                    tempEntry.dialogCompleted.connect(handleCompleted);
-                    tempEntry.header = heater.bank + " Setpoint Deg. F"
-                    tempEntry.visible = true;
-                    tempEntry.enabled = true;
-                }
+                tempEntry.value = heater.setTemp;
+                tempEntry.dialogCanceled.connect(handleCanceled);
+                tempEntry.dialogCompleted.connect(handleCompleted);
+                tempEntry.header = heater.bank + " Setpoint Deg. F"
+                tempEntry.visible = true;
+                tempEntry.enabled = true;
             }
         }
         TwoValueBox {
@@ -98,14 +97,12 @@ Item {
                     console.log("Setting on percent to " + msg);
                     sendWebSocketMessage("Set "+ heater.bank + " OnPercent " + heater.onPercent);
                 }
-                onClicked: {
-                    tempEntry.value = heater.onPercent;
-                    tempEntry.dialogCanceled.connect(handleCanceled);
-                    tempEntry.dialogCompleted.connect(handleCompleted);
-                    tempEntry.header = heater.bank + " On Percent"
-                    tempEntry.visible = true;
-                    tempEntry.enabled = true;
-                }
+                tempEntry.value = heater.onPercent;
+                tempEntry.dialogCanceled.connect(handleCanceled);
+                tempEntry.dialogCompleted.connect(handleCompleted);
+                tempEntry.header = heater.bank + " On Percent"
+                tempEntry.visible = true;
+                tempEntry.enabled = true;
             }
         }
         TwoValueBox {
@@ -135,16 +132,18 @@ Item {
                     console.log("Setting off percent to " + msg);
                     sendWebSocketMessage("Set " + heater.bank + " OffPercent " + heater.offPercent);
                 }
-                onClicked: {
-                    tempEntry.value = heater.offPercent;
-                    tempEntry.dialogCanceled.connect(handleCanceled);
-                    tempEntry.dialogCompleted.connect(handleCompleted);
-                    tempEntry.header = heater.bank + " Off Percent"
-                    tempEntry.visible = true;
-                    tempEntry.enabled = true;
-                }
+                tempEntry.value = heater.offPercent;
+                tempEntry.dialogCanceled.connect(handleCanceled);
+                tempEntry.dialogCompleted.connect(handleCompleted);
+                tempEntry.header = heater.bank + " Off Percent"
+                tempEntry.visible = true;
+                tempEntry.enabled = true;
             }
         }
     }
+//    DialogWithCheckbox {
+//        id: messageDialog
+//        dialogMessage: "Max temp is " + heater.maxTemp + "F"
+//    }
 }
 
