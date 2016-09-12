@@ -96,6 +96,8 @@ Item {
             GearButton {
                 id: mainMenuGearButton
                 height: 20
+                x: 0
+                y: 0
                 onClicked: {
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
                 }
