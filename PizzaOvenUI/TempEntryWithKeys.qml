@@ -84,6 +84,7 @@ Item {
     Keyboard {
         id: keyboard
         anchors.bottom: parent.bottom
+        enabled: entryScreen.enabled
         onOnePressed: {
             entryScreen.value += "1";
         }
