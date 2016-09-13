@@ -22,7 +22,6 @@ Item {
         color: appBackgroundColor
         Row {
             id: upperRow
-            anchors.margins: myMargins
             spacing: 5
             x: 5
             y:5
@@ -41,21 +40,18 @@ Item {
         }
         Row {
             id: lowerRow
-            anchors.margins: myMargins
             anchors.top: upperRow.bottom
             spacing: 5
             x: 5
             Text {
                 color: appForegroundColor
                 text: lowerLabel
-                anchors.margins: myMargins
                 font.family: localFont.name
                 font.pointSize: 16
             }
             Text {
                 color: appForegroundColor
                 text: lowerValue
-                anchors.margins: myMargins
                 font.family: localFont.name
                 font.pointSize: 16
             }

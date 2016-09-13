@@ -12,41 +12,35 @@ Item {
     width: parent.width
 
     property int myMargins: 10
+    property bool ctrlPressed: false
+    property bool altPressed: false
+    property bool bsPressed: false
 
     function screenEntry() {
+        appSettings.backlightOff = false;
         if (demoModeIsActive) {
             demoTimeoutTimer.restart();
         }
+        keyhandler.focus = true;
+    }
+
+    function screenExit() {
+        keyhandler.focus = false;
     }
 
     Timer {
         id: demoTimeoutTimer
         interval: 60000; running: false; repeat: false
-//        interval: 15000; running: false; repeat: false
         onTriggered: SequentialAnimation {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
+                    screenExit();
                     stackView.clear();
                     stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
                 }
             }
         }
-    }
-
-    Image {
-        source: "newLineSpacing.png"
-        y: 30
-    }
-
-    Rectangle {
-        width: screenWidth
-        height: lineSpacing
-        x: 0
-        y: 166 + (64 - lineSpacing) / 2
-        color: appBackgroundColor
-        border.color: "yellow"
-        border.width: 1
     }
 
     GearButton {
@@ -62,6 +56,7 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
+                    screenExit();
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
                 }
             }
@@ -87,13 +82,16 @@ Item {
             name: "NEW YORK STYLE"
         }
         ListElement {
-            name: "NEOPOLITAN"
+            name: "NEAPOLITAN"
         }
         ListElement {
             name: "DETROIT STYLE"
         }
         ListElement {
-            name: "FLAT BREADS"
+            name: "FLATBREAD"
+        }
+        ListElement {
+            name: "CUSTOM"
         }
     }
 
@@ -112,7 +110,7 @@ Item {
                 demoTimeoutTimer.stop();
                 screenExitAnimation.start();
             }
-            visibleItemCount: 3
+            visibleItemCount: 5
             textHeight:100
             textWidth: parent.width
             padding.top: 0
@@ -132,10 +130,56 @@ Item {
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
                 foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
+                screenExit();
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }
         }
     }
 
+    Item {
+        id: keyhandler
+        anchors.fill: parent
+        focus: true
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Control:
+                ctrlPressed = true;
+                console.log("Ctrl was pressed.");
+                break;
+            case Qt.Key_Alt:
+                altPressed = true;
+                console.log("Alt was pressed.");
+                break;
+            case Qt.Key_Backspace:
+                bsPressed = true;
+                console.log("BS was pressed.");
+                break;
+            default:
+                console.log("key not handled in main menu.");
+            }
 
+            event.accepted = true;
+            if (ctrlPressed && altPressed && bsPressed) {
+                Qt.quit();
+            }
+        }
+        Keys.onReleased: {
+            switch (event.key) {
+            case Qt.Key_Control:
+                ctrlPressed = false;
+                console.log("Ctrl was released.");
+                break;
+            case Qt.Key_Alt:
+                altPressed = false;
+                console.log("Alt was released.");
+                break;
+            case Qt.Key_Backspace:
+                bsPressed = false;
+                console.log("BS was released.");
+                break;
+            }
+
+            event.accepted = true;
+        }
+    }
 }

@@ -10,17 +10,20 @@ Item {
     width: parent.width
     height: parent.height
 
-    property int myMargins: 10
+    property int tumblerHeight: 1
+    property int tumblerRows: 5
+    property int columnHeight: tumblerHeight
+    property int titleTextPointSize: 1
+    property int titleTextToPointSize: 18
 
-//    Image {
-//        id: pizzaOvenOffImage
-//        //            source: "pizza_oven_blank_screen.jpg"
-//        //        source: "PizzaOvenAwaitPreheat.png"
-//        //        source: "TwoTemps.png"
-//        // source: "MainMenu.png"
-//        source: "MaxTemp.png"
-//        y: 43
-//    }
+    function screenEntry() {
+        screenEntryAnimation.start();
+        tumblerHeightAnim.start();
+        titleTextAnim.start();
+        nextButton.animate();
+    }
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     BackButton {
         id: backButton
@@ -29,65 +32,90 @@ Item {
         }
     }
 
-    property int tumblerColumns: 3
-    property int tumblerHeight: 250
-    property int columnHeight: tumblerHeight
+    NumberAnimation on tumblerHeight {
+        id: tumblerHeightAnim
+        from: 1
+        to: 250
+    }
+
+    NumberAnimation on titleTextPointSize {
+        id: titleTextAnim
+        from: 1
+        to: titleTextToPointSize
+    }
 
     Text {
         text: "Select Temperature"
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: titleTextPointSize
         color: appGrayText
         width: 400
         height: 30
-        anchors.right: nextButton.right
+        x: screenWidth - width - 26
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
 
-    Tumbler {
-        id: temperatureEntry
+    Item {
+        width: 300
         height: tumblerHeight
+        x:88
         anchors.verticalCenter: nextButton.verticalCenter
-        anchors.right: nextButton.left
-        anchors.rightMargin: 20
+        Tumbler {
+            id: temperatureEntry
+            height: tumblerHeight
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
 
-        Component.onCompleted: {
-            var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
-            var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
-            var ones = (lowerFront.setTemp%10).toFixed(0);
-            temperatureEntry.setCurrentIndexAt(0, hunds);
-            temperatureEntry.setCurrentIndexAt(1, tens);
-            temperatureEntry.setCurrentIndexAt(2, ones);
-        }
-
-        style:  MyTumblerStyle {
-            onClicked: {
-                console.log("The tumbler was clicked.");
-                console.log(hundredsColumn.currentIndex);
-                console.log(tensColumn.currentIndex);
-                console.log(onesColumn.currentIndex);
+            NumberAnimation on opacity {
+                id: anim;
+                from: 0.0;
+                to: 1.0;
+                easing.type: Easing.InCubic;
             }
-            visibleItemCount: 5
-            textHeight:temperatureEntry.height/visibleItemCount
-            textWidth: appColumnWidth
-            textAlignment: Text.AlignHCenter
-        }
-        TumblerColumn {
-            id: hundredsColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
-        }
-        TumblerColumn {
-            id: tensColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
-        }
-        TumblerColumn {
-            id: onesColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
+
+            Component.onCompleted: {
+                var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
+                var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
+                var ones = (lowerFront.setTemp%10).toFixed(0);
+                temperatureEntry.setCurrentIndexAt(0, hunds);
+                temperatureEntry.setCurrentIndexAt(1, tens);
+                temperatureEntry.setCurrentIndexAt(2, ones);
+            }
+
+            style:  MyTumblerStyle {
+                onClicked: {
+                    console.log("The tumbler was clicked.");
+                    console.log(hundredsColumn.currentIndex);
+                    console.log(tensColumn.currentIndex);
+                    console.log(onesColumn.currentIndex);
+                }
+                visibleItemCount: 5
+                textHeight:temperatureEntry.height/visibleItemCount
+                textWidth: appColumnWidth
+                textAlignment: Text.AlignHCenter
+                NumberAnimation on textPointSize {
+                    from: 1
+                    to: 24
+                }
+                showKeypress: false
+            }
+            TumblerColumn {
+                id: hundredsColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
+            TumblerColumn {
+                id: tensColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
+            TumblerColumn {
+                id: onesColumn
+                width: appColumnWidth
+                model: [0,1,2,3,4,5,6,7,8,9]
+            }
         }
     }
 

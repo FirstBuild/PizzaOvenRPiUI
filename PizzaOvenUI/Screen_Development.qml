@@ -11,12 +11,6 @@ Item {
     property int smallButtonWidth: ((thisScreen.width - thisScreen.spacing) / 4) - thisScreen.spacing
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
-    TempEntryWithKeys {
-        id: tempEntry
-        enabled: false
-        visible: false
-        z: 10
-    }
 
     Column {
         id: dataColumn
@@ -96,6 +90,8 @@ Item {
             GearButton {
                 id: mainMenuGearButton
                 height: 20
+                x: 0
+                y: 0
                 onClicked: {
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
                 }
@@ -196,6 +192,18 @@ Item {
         }
         anchors.right: dataColumn.right
         anchors.bottom: dataColumn.bottom
+    }
+    TempEntryWithKeys {
+        id: tempEntry
+        enabled: false
+        visible: false
+        z: 1
+    }
+    DialogWithCheckbox {
+        id: messageDialog
+        dialogMessage: "The blah you blah is blah."
+        visible: false
+        z: 1
     }
 }
 

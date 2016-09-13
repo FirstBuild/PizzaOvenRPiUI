@@ -25,16 +25,6 @@ Item {
     PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26}
     OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic}
 
-    Rectangle {
-        width: screenWidth
-        height: leftButton.height
-        x: 0
-        y: 0
-        color: appBackgroundColor
-        border.color: "yellow"
-        border.width: 1
-    }
-
     SideButton {
         id: theButton
         width: parent.width

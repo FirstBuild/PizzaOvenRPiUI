@@ -20,6 +20,9 @@ Window {
     property bool halfTimeRotate: true
     property int powerSwitch: 0
     property int dlb: 0
+    property int oldDlb: 0
+    property int oldPowerSwitch: 0
+
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
     property int upperMaxTemp: 1250
@@ -130,10 +133,13 @@ Window {
     }
 
     function forceScreenTransition(newScreen) {
+        if (newScreen === stackView.currentItem) {
+            console.log("Screens are the same, why are we transitioning?");
+        }
+
         if (stackView.currentItem.cleanUpOnExit)
         {
             stackView.currentItem.cleanUpOnExit();
-        } else {
         }
         stackView.clear();
         stackView.push({item: newScreen, immediate:immediateTransitions});
@@ -160,22 +166,20 @@ Window {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
-            var oldDlb = dlb;
-            var oldPowerSwitch = powerSwitch;
-
             if (msg.data.powerSwitch && msg.data.l2DLB) {
                 dlb = msg.data.l2DLB*1;
                 powerSwitch = msg.data.powerSwitch*1;
             }
 
             var oldState = oldPowerSwitch + (oldDlb * 10);
-            var newState = powerSwitch + (dlb * 10);
+            var newState = powerSwitch + (dlb * 10);           
 
             if (oldDlb != dlb) {
                 console.log("DLB state is now " + dlb);
             }
             if (oldPowerSwitch != powerSwitch) {
                 console.log("Power switch state is now " + powerSwitch);
+                console.log("Old state: " + oldState + ", new state: " + newState);
                 if (powerSwitch == 1) {
                     sounds.powerOn.play();
                 } else {
@@ -187,24 +191,33 @@ Window {
                 return;
             }
 
+            oldDlb = dlb;
+            oldPowerSwitch = powerSwitch;
+
+
             switch(oldState) {
             case 00: // off
                 switch(newState) {
                 case 00:
                     if (ovenState == "Standby") {
+                        console.log("Transitioning to off. 194");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
                     if (ovenState == "Cooldown") {
+                        console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     }
                     break;
                 case 01:
+                    console.log("Transitioning to main menu.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
                 case 10:
+                    console.log("Transitioning to cooldown.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     break;
                 case 11:
+                    console.log("Transitioning to main menu.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
                 }
@@ -213,12 +226,15 @@ Window {
                 switch(newState) {
                 case 00:
                     if (ovenState == "Cooldown") {
+                        console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     } else {
+                        console.log("Transitioning to off. 223");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
                     break;
                 case 10:
+                    console.log("Transitioning to cooldown.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     break;
                 }
@@ -227,15 +243,19 @@ Window {
                 switch(newState) {
                 case 00:
                     if (ovenState == "Cooldown") {
+                        console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     } else {
+                        console.log("Transitioning to off. 240");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
                     break;
                 case 01:
+                    console.log("Transitioning to main menu.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
                 case 11:
+                    console.log("Transitioning to main menu.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
                 }
@@ -244,15 +264,19 @@ Window {
                 switch(newState) {
                 case 00:
                     if (ovenState == "Cooldown") {
+                        console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     } else {
+                        console.log("Transitioning to off. 261");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
                     break;
                 case 01:
+                    console.log("Transitioning to main menu.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                     break;
                 case 10:
+                    console.log("Transitioning to cooldown.");
                     forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
                     break;
                 }
@@ -311,7 +335,7 @@ Window {
         case "Door":
             doorStatus = msg.data.Status;
             doorCount = msg.data.Count;
-            console.log("Got a door message: " + JSON.stringify(msg));
+            //console.log("Got a door message: " + JSON.stringify(msg));
             break;
         default:
             console.log("Unknown message received: " + _msg);

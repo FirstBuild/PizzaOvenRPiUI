@@ -11,15 +11,6 @@ Item {
 
     property int myMargins: 15
 
-    MessageDialog {
-        id: messageDialog
-        title: "Wrong PIN"
-        text: "The PIN you entered is incorrect."
-        onAccepted: {
-            stackView.pop({immediate:immediateTransitions});
-        }
-    }
-
     TempEntryWithKeys {
         id: pinEntry
         z: 10
@@ -34,11 +25,16 @@ Item {
         onDialogCompleted: {
             console.log("Dialog value is " + value);
             if (value != "3142") {
-                messageDialog.open();
+                sounds.alarmUrgent.play();
+               messageDialog.visible = true;
             } else {
                 enabled = false;
                 visible = false;
             }
+        }
+        DialogWithCheckbox {
+            id: messageDialog
+            dialogMessage: "The PIN you entered is incorrect."
         }
     }
 

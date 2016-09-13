@@ -94,43 +94,25 @@ Item {
     Keyboard {
         id: keyboard
         anchors.bottom: parent.bottom
-        onOnePressed: {
-            entryScreen.value += "1";
-        }
-        onTwoPressed: {
-            entryScreen.value += "2";
-        }
-        onThreePressed: {
-            entryScreen.value += "3";
-        }
-        onFourPressed: {
-            entryScreen.value += "4";
-        }
-        onFivePressed: {
-            entryScreen.value += "5";
-        }
-        onSixPressed: {
-            entryScreen.value += "6";
-        }
-        onSevenPressed: {
-            entryScreen.value += "7";
-        }
-        onEightPressed: {
-            entryScreen.value += "8";
-        }
-        onNinePressed: {
-            entryScreen.value += "9";
-        }
-        onZeroPressed: {
-            entryScreen.value += "0";
-        }
-        onDeletePressed: {
-            if (entryScreen.value.length > 0) {
-                entryScreen.value = entryScreen.value.slice(0, -1);
+
+        onKeyPressed: {
+            if (key >= Qt.Key_0 && key <= Qt.Key_9)
+            {
+                entryScreen.value += String.fromCharCode(key);
+            } else {
+                switch(key) {
+                case Qt.Key_Backspace:
+                case Qt.Key_Delete:
+                    if (entryScreen.value.length > 0) {
+                        entryScreen.value = entryScreen.value.slice(0, -1);
+                    }
+                    break;
+                case Qt.Key_Enter:
+                case Qt.Key_Return:
+                    entryScreen.dialogCompleted();
+                    break;
+                }
             }
-        }
-        onEnterPressed: {
-            entryScreen.dialogCompleted();
         }
     }
 }

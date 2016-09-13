@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+#ifdef KILL
     qDebug() << "------------- Available devices --------------------------------";
     foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
     {
@@ -43,6 +44,7 @@ int main(int argc, char *argv[])
         qDebug() << "---> The default audio device is: " << defDev.deviceName();
     }
     qDebug() << "-----------------------------------------------------------------------------";
+#endif
 
     engine.rootContext()->setContextProperty("appSettings", &appSettings);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());

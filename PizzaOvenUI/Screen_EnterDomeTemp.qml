@@ -10,7 +10,6 @@ Item {
     width: parent.width
     height: parent.height
 
-    property int tumblerColumns: 4
     property int tumblerHeight: 1
     property int tumblerRows: 5
     property int titleTextPointSize: 1
