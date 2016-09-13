@@ -83,13 +83,16 @@ Item {
             name: "NEW YORK STYLE"
         }
         ListElement {
-            name: "NEOPOLITAN"
+            name: "NEAPOLITAN"
         }
         ListElement {
             name: "DETROIT STYLE"
         }
         ListElement {
-            name: "FLAT BREADS"
+            name: "FLATBREAD"
+        }
+        ListElement {
+            name: "CUSTOM"
         }
     }
 
@@ -108,7 +111,7 @@ Item {
                 demoTimeoutTimer.stop();
                 screenExitAnimation.start();
             }
-            visibleItemCount: 3
+            visibleItemCount: 5
             textHeight:100
             textWidth: parent.width
             padding.top: 0
