@@ -79,19 +79,19 @@ Item {
     ListModel {
         id: foodTypeListModel
         ListElement {
-            name: "NEW YORK STYLE"
-        }
-        ListElement {
             name: "NEAPOLITAN"
         }
         ListElement {
-            name: "DETROIT STYLE"
+            name: "NEW YORK STYLE"
         }
         ListElement {
             name: "FLATBREAD"
         }
         ListElement {
             name: "CUSTOM"
+        }
+        ListElement {
+            name: "DETROIT STYLE"
         }
     }
 
