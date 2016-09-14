@@ -133,10 +133,10 @@ Item {
                         lowerFront.setTemp = temp;
                         lowerRear.setTemp = lowerFront.setTemp - lowerTempDifferential;
 
-                        sendWebSocketMessage("Set LF SetPoint " +
+                        backEnd.sendMessage("Set LF SetPoint " +
                                              (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
                                              (lowerFront.setTemp + 0.5 * lowerFront.temperatureDeadband));
-                        sendWebSocketMessage("Set LR SetPoint " +
+                        backEnd.sendMessage("Set LR SetPoint " +
                                              (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
                                              (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
                     }
@@ -156,7 +156,7 @@ Item {
     DialogWithCheckbox {
         id: tempWarningDialog
         visible: false
-        dialogMessage: "You Must Select A Temperature Below " + tempToString(lowerMaxTemp)
+        dialogMessage: "You Must Select A Temperature Below " + utility.tempToString(lowerMaxTemp)
     }
 }
 

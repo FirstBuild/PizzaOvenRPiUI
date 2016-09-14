@@ -51,7 +51,7 @@ Item {
                                 (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
                                 (heater.setTemp + 0.5 * heater.temperatureDeadband);
                         console.log("Trying to set: " + msg);
-                        sendWebSocketMessage("Set " + heater.bank + " SetPoint " +
+                        backEnd.sendMessage("Set " + heater.bank + " SetPoint " +
                                              (heater.setTemp - 0.5 * heater.temperatureDeadband) + " " +
                                              (heater.setTemp + 0.5 * heater.temperatureDeadband));
                     }
@@ -90,7 +90,7 @@ Item {
                     disconnectAndDisable();
                     var msg = "Set "+ heater.bank + " OnPercent " + heater.onPercent;
                     console.log("Setting on percent to " + msg);
-                    sendWebSocketMessage("Set "+ heater.bank + " OnPercent " + heater.onPercent);
+                    backEnd.sendMessage("Set "+ heater.bank + " OnPercent " + heater.onPercent);
                 }
                 sounds.touch.play();
                 tempEntry.value = heater.onPercent;
@@ -126,7 +126,7 @@ Item {
                     disconnectAndDisable();
                     var msg = "Set " + heater.bank + " OffPercent " + heater.offPercent;
                     console.log("Setting off percent to " + msg);
-                    sendWebSocketMessage("Set " + heater.bank + " OffPercent " + heater.offPercent);
+                    backEnd.sendMessage("Set " + heater.bank + " OffPercent " + heater.offPercent);
                 }
                 sounds.touch.play();
                 tempEntry.value = heater.offPercent;

@@ -134,7 +134,7 @@ Item {
                     }
 
                     cookTime = timeEntryTumbler.getTime();
-                    sendWebSocketMessage("CookTime " + cookTime);
+                    backEnd.sendMessage("CookTime " + cookTime);
                     finalCheckTime = cookTime * 0.9
                 }
             }

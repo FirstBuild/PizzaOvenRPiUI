@@ -34,9 +34,9 @@ Item {
 
     CircleContent {
         id: circleContent
-        topString: tempToString(upperFront.setTemp)
-        middleString: tempToString(lowerFront.setTemp)
-        bottomString: tempToString(lowerFront.currentTemp)
+        topString: utility.tempToString(upperFront.setTemp)
+        middleString: utility.tempToString(lowerFront.setTemp)
+        bottomString: utility.tempToString(lowerFront.currentTemp)
     }
 
     NumberAnimation {

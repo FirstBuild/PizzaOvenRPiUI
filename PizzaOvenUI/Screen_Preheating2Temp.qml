@@ -34,10 +34,10 @@ Item {
 
     CircleContentTwoTemp {
         id: circleContent
-        line1String: tempToString(upperFront.setTemp)
-        line2String: tempToString(upperFront.currentTemp)
-        line3String: tempToString(lowerFront.setTemp)
-        line4String: tempToString(lowerFront.currentTemp)
+        line1String: utility.tempToString(upperFront.setTemp)
+        line2String: utility.tempToString(upperFront.currentTemp)
+        line3String: utility.tempToString(lowerFront.setTemp)
+        line4String: utility.tempToString(lowerFront.currentTemp)
     }
 
     NumberAnimation {

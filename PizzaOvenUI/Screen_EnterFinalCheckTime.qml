@@ -88,7 +88,7 @@ Item {
                         foodNameString = "CUSTOM"
                     }
                     finalCheckTime = timeEntryTumbler.getTime();
-                    sendWebSocketMessage("FinalCheckTime " + finalCheckTime);
+                    backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
                 }
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}

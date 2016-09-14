@@ -42,9 +42,9 @@ Item {
 
     CircleContent {
         id: dataCircle
-        topString: tempToString(upperFront.setTemp)
-        middleString: tempToString(lowerFront.setTemp)
-        bottomString: timeToString(cookTime)
+        topString: utility.tempToString(upperFront.setTemp)
+        middleString: utility.tempToString(lowerFront.setTemp)
+        bottomString: utility.timeToString(cookTime)
     }
 
     function screenEntry() {

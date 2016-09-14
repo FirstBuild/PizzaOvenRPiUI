@@ -127,11 +127,11 @@ Item {
                 onClicked: {
                     switch (ovenState) {
                     case "Cooking":
-                        sendWebSocketMessage("StopOven ");
+                        backEnd.sendMessage("StopOven ");
                         break;
                     default:
                         if (powerSwitch == 1) {
-                            sendWebSocketMessage("StartOven ");
+                            backEnd.sendMessage("StartOven ");
                         }
                         break;
                     }
@@ -185,10 +185,10 @@ Item {
         borderWidth: 1
         borderColor: appForegroundColor
         onClicked: {
-            sendWebSocketMessage("Get UF");
-            sendWebSocketMessage("Get UR");
-            sendWebSocketMessage("Get LF");
-            sendWebSocketMessage("Get LR");
+            backEnd.sendMessage("Get UF");
+            backEnd.sendMessage("Get UR");
+            backEnd.sendMessage("Get LF");
+            backEnd.sendMessage("Get LR");
         }
         anchors.right: dataColumn.right
         anchors.bottom: dataColumn.bottom

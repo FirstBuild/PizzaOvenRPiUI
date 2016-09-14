@@ -27,8 +27,8 @@ Item {
 
     CircleContent {
         id: circleContent
-        topString: tempToString(upperFront.setTemp)
-        middleString: tempToString(lowerFront.setTemp)
+        topString: utility.tempToString(upperFront.setTemp)
+        middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: "DONE"
     }
 

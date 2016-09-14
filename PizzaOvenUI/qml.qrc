@@ -68,5 +68,7 @@
         <file>Screen_EnterTime.qml</file>
         <file>Screen_EnterFinalCheckTime.qml</file>
         <file>newLineSpacing.png</file>
+        <file>BackEndConnection.qml</file>
+        <file>Utility.qml</file>
     </qresource>
 </RCC>

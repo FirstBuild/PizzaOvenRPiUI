@@ -75,7 +75,7 @@ Item {
             console.log("Demo mode was " + demoModeIsActive + " and will now be " + demoModeCheckbox.checked);
             demoModeIsActive = demoModeCheckbox.checked
             if (demoModeIsActive) {
-                sendWebSocketMessage("StopOven ");
+                backEnd.sendMessage("StopOven ");
             }
             console.log("Dev mode was " + developmentModeIsActive + " and will now be " + devModeCheckbox.checked);
             developmentModeIsActive = devModeCheckbox.checked

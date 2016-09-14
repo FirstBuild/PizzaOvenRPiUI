@@ -30,9 +30,9 @@ Item {
 
     CircleContent {
         id: circleContent
-        topString: tempToString(upperFront.setTemp)
-        middleString: tempToString(lowerFront.setTemp)
-        bottomString: timeToString(cookTime * dataCircle.circleValue / 100)
+        topString: utility.tempToString(upperFront.setTemp)
+        middleString: utility.tempToString(lowerFront.setTemp)
+        bottomString: utility.timeToString(cookTime * dataCircle.circleValue / 100)
     }
 
     PauseButton {

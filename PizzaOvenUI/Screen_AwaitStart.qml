@@ -47,7 +47,7 @@ Item {
                     preheatButton.opacity = 0.0;
                     circleContent.opacity = 0.0;
                     if (!demoModeIsActive) {
-                        sendWebSocketMessage("StartOven ");
+                        backEnd.sendMessage("StartOven ");
                     } else {
                         lowerFront.currentTemp = 75;
                     }
@@ -65,9 +65,9 @@ Item {
 
     CircleContent {
         id: circleContent
-        topString: tempToString(upperFront.setTemp)
-        middleString: tempToString(lowerFront.setTemp)
-        bottomString: timeToString(cookTime)
+        topString: utility.tempToString(upperFront.setTemp)
+        middleString: utility.tempToString(lowerFront.setTemp)
+        bottomString: utility.timeToString(cookTime)
     }
 }
 
