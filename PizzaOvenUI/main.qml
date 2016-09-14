@@ -25,8 +25,8 @@ Window {
 
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
-    property int upperMaxTemp: 1250
-    property int lowerMaxTemp: 800
+    property int upperMaxTemp: 3000
+    property int lowerMaxTemp: 3000
     property int doorStatus: 0
     property int doorCount: 0
     property string foodNameString: "FOOD NAME"
@@ -61,7 +61,7 @@ Window {
         id: upperFront
         bank: "UF"
         currentTemp: 75
-        setTemp: 1250
+        setTemp: 3000
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 0
@@ -73,7 +73,7 @@ Window {
         id: upperRear
         bank: "UR"
         currentTemp: 75
-        setTemp: 1150
+        setTemp: 3000
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 10
@@ -85,7 +85,7 @@ Window {
         id: lowerFront
         bank: "LF"
         currentTemp: 75
-        setTemp: 650
+        setTemp: 3000
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 0
@@ -98,7 +98,7 @@ Window {
         id: lowerRear
         bank: "LR"
         currentTemp: 75
-        setTemp: 625
+        setTemp: 3000
         elementDutyCycle: 10
         elementRelay: 0
         onPercent: 51
