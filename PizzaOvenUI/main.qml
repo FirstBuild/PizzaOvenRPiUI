@@ -58,6 +58,8 @@ Window {
 
     property string ovenState: "Standby"
 
+    property string currentScreen: ""
+
     BackEndConnection {
         id:backEnd
     }
@@ -123,9 +125,12 @@ Window {
     }
 
     function forceScreenTransition(newScreen) {
-        if (newScreen === stackView.currentItem) {
-            console.log("Screens are the same, why are we transitioning?");
+        if (currentScreen === JSON.stringify(newScreen))
+        {
+            return;
         }
+
+        currentScreen = JSON.stringify(newScreen);
 
         if (stackView.currentItem.cleanUpOnExit)
         {
