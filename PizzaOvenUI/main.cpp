@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <QObject>
 #include "programSettings.h"
+#include "menuSettings.h"
 
 #include <QDebug>
 #include <QtMultimedia/QAudioDeviceInfo>
@@ -14,8 +15,10 @@ QObject *appParentObj;
 int main(int argc, char *argv[])
 {
     ProgramSettings appSettings;
+    MenuSettings menuSettings;
 
     appSettings.loadSettings();
+    menuSettings.load();
 
     QGuiApplication app(argc, argv);
 
@@ -47,6 +50,7 @@ int main(int argc, char *argv[])
 #endif
 
     engine.rootContext()->setContextProperty("appSettings", &appSettings);
+    engine.rootContext()->setContextProperty("menuSettings", &menuSettings);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     appParentObj = engine.parent();

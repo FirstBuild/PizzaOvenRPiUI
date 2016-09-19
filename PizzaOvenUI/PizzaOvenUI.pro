@@ -4,7 +4,8 @@ QT += qml quick multimedia multimediawidgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    programSettings.cpp
+    programSettings.cpp \
+    menuSettings.cpp
 
 RESOURCES += qml.qrc
 
@@ -22,4 +23,5 @@ sounds.path = /home/pi/sounds
 INSTALLS += sounds
 
 HEADERS += \
-    programSettings.h
+    programSettings.h \
+    menuSettings.h

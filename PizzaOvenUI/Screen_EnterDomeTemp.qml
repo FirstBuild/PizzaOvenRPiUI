@@ -143,15 +143,17 @@ Item {
                             foodNameString = "CUSTOM"
                         }
 
-                        upperFront.setTemp = temp;
-                        upperRear.setTemp = upperFront.setTemp - 100;
+                        utility.setUpperTemps(temp)
 
-                        backEnd.sendMessage("Set UF SetPoint " +
-                                             (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
-                                             (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
-                        backEnd.sendMessage("Set UR SetPoint " +
-                                             (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
-                                             (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
+//                        upperFront.setTemp = temp;
+//                        upperRear.setTemp = upperFront.setTemp - upperTempDifferential;
+
+//                        backEnd.sendMessage("Set UF SetPoint " +
+//                                             (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
+//                                             (upperFront.setTemp + 0.5 * upperFront.temperatureDeadband));
+//                        backEnd.sendMessage("Set UR SetPoint " +
+//                                             (upperRear.setTemp - 0.5 * upperRear.temperatureDeadband) + " " +
+//                                             (upperRear.setTemp + 0.5 * upperRear.temperatureDeadband));
                     }
                 }
             }

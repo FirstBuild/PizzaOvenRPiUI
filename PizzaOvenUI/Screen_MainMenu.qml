@@ -76,23 +76,10 @@ Item {
         verticalAlignment: Text.AlignVCenter
     }
 
-    ListModel {
-        id: foodTypeListModel
-        ListElement {
-            name: "NEAPOLITAN"
-        }
-        ListElement {
-            name: "NEW YORK STYLE"
-        }
-        ListElement {
-            name: "FLATBREAD"
-        }
-        ListElement {
-            name: "CUSTOM"
-        }
-        ListElement {
-            name: "DETROIT STYLE"
-        }
+    JSONListModel {
+        id: jsonMenuItems
+        json: menuSettings.menuItems
+        query: "$.menuItems[*]"
     }
 
     property int tumblerWidth: parent.width*0.55;
@@ -106,6 +93,14 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
+                var settings = jsonMenuItems.model.get(theColumn.currentIndex);
+                console.log("Item selected: " + settings.name);
+                utility.setUpperTemps(settings.domeTemp)
+                utility.setLowerTemps(settings.stoneTemp)
+                cookTime = settings.cookTime;
+                backEnd.sendMessage("CookTime " + cookTime);
+                finalCheckTime = settings.finalCheckTime
+
                 sounds.select.play();
                 demoTimeoutTimer.stop();
                 screenExitAnimation.start();
@@ -121,7 +116,8 @@ Item {
         TumblerColumn {
             id: theColumn
             width: tumblerWidth
-            model: foodTypeListModel
+            model: jsonMenuItems.model
+            role: "name"
         }
     }
 
@@ -129,7 +125,7 @@ Item {
         id: screenExitAnimation
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
-                foodNameString = foodTypeListModel.get(theColumn.currentIndex).name;
+                foodNameString = jsonMenuItems.model.get(theColumn.currentIndex).name;
                 screenExit();
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }

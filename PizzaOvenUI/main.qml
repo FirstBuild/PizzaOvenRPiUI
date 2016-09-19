@@ -102,7 +102,6 @@ Window {
         elementRelay: 0
         onPercent: 0
         offPercent: 49
-        //        temperatureDeadband: 50
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }
@@ -115,7 +114,6 @@ Window {
         elementRelay: 0
         onPercent: 51
         offPercent: 100
-        //        temperatureDeadband: 50
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }

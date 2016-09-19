@@ -70,5 +70,7 @@
         <file>newLineSpacing.png</file>
         <file>BackEndConnection.qml</file>
         <file>Utility.qml</file>
+        <file>JSONListModel.qml</file>
+        <file>jsonpath.js</file>
     </qresource>
 </RCC>
