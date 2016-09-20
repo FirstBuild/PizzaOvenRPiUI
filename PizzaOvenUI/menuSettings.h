@@ -8,21 +8,21 @@
 class MenuSettings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString menuItems READ menuItems WRITE setMenuItems NOTIFY menuItemsHaveChange)
+    Q_PROPERTY(QJsonObject json READ json WRITE setJson NOTIFY jsonHasChanged)
 public:
     explicit MenuSettings(QObject *parent = 0);
 
     void load(void);
 
-    QString menuItems(void);
-    void setMenuItems(QString settings);
+    QJsonObject json(void);
+    void setJson(QJsonObject settings);
 
 signals:
-    void menuItemsHaveChange();
+    void jsonHasChanged();
 
 public slots:
 private:
-    QString m_menuItems;
+    QJsonObject m_json;
 };
 
 #endif // MENUSETTINGS_H

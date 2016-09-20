@@ -20,17 +20,33 @@ void MenuSettings::load(void)
         return;
     }
 
-    QString menuData(loadFile.readAll());
-    m_menuItems =  menuData;
+    QJsonDocument loadDoc(QJsonDocument::fromJson(loadFile.readAll()));
+    m_json =  loadDoc.object();
+
     qInfo("...menu settings loaded.");
+
+    loadFile.close();
 }
 
-QString MenuSettings::menuItems(void)
+QJsonObject MenuSettings::json(void)
 {
-    return m_menuItems;
+    return m_json;
 }
 
-void MenuSettings::setMenuItems(QString settings)
+void MenuSettings::setJson(QJsonObject settings)
 {
-    (void)settings;
+    QFile saveFile(menuSettingsFile);
+
+    qInfo("The menu settings have changed...");
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("...ERROR: could not open save file for menu data.");
+        return;
+    }
+
+    QJsonDocument saveDoc(settings);
+    saveFile.write(saveDoc.toJson());
+
+    qInfo("...menu settings saved.");
+    m_json = settings;
 }
