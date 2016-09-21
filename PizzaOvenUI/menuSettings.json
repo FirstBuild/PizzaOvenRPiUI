@@ -1,0 +1,44 @@
+{
+    "menuItems": [
+        {
+            "cookTime": 120,
+            "domeTemp": 1250,
+            "finalCheckTime": 105,
+            "halfTimeCheck": true,
+            "name": "NEW YORK STYLE",
+            "stoneTemp": 650
+        },
+        {
+            "cookTime": 120,
+            "domeTemp": 1250,
+            "finalCheckTime": 105,
+            "halfTimeCheck": true,
+            "name": "NEAPOLITAN",
+            "stoneTemp": 650
+        },
+        {
+            "cookTime": 120,
+            "domeTemp": 1250,
+            "finalCheckTime": 105,
+            "halfTimeCheck": true,
+            "name": "FlATBREAD",
+            "stoneTemp": 650
+        },
+        {
+            "cookTime": 120,
+            "domeTemp": 1250,
+            "finalCheckTime": 105,
+            "halfTimeCheck": true,
+            "name": "DETROIT STYLE",
+            "stoneTemp": 650
+        },
+        {
+            "cookTime": 120,
+            "domeTemp": 1000,
+            "finalCheckTime": 108,
+            "halfTimeCheck": true,
+            "name": "CUSTOM",
+            "stoneTemp": 650
+        }
+    ]
+}
