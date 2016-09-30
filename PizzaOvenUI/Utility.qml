@@ -3,6 +3,10 @@ import QtQuick 2.0
 Item {
     // define utility functions and other stuff.
 
+    function f2c(t) {
+        return (t - 32) * 5 / 9;
+    }
+
     function timeToString(t) {
         var first = Math.floor(t/60).toString()
         if (first.length == 1) first = "0" + first
@@ -12,7 +16,9 @@ Item {
     }
 
     function tempToString(t) {
-        return t.toFixed(0).toString() + String.fromCharCode(8457)
+        var temp = tempDisplayInF ? t : f2c(t);
+        var unit = tempDisplayInF ? String.fromCharCode(8457) : String.fromCharCode(8451);
+        return temp.toFixed(0).toString() + unit;
     }
 
     function setUpperTemps(temp) {

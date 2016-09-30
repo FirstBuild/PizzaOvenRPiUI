@@ -6,6 +6,8 @@ Item {
     width: 110
     height: 40
 
+    signal clicked()
+
     property int barHeight: 4
     property int barWidth: toggle.width * 0.4
     property color barColor: { toggle.state ? appForegroundColor : appGrayColor }
@@ -77,6 +79,8 @@ Item {
             anchors.fill: parent
             onClicked: {
                 toggle.state = !toggle.state;
+                sounds.touch.play();
+                toggle.clicked();
             }
         }
     }

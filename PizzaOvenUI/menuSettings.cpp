@@ -6,61 +6,6 @@ using namespace std;
 
 static QString menuSettingsFile("./menuSettings.json");
 
-//                            var settings = {
-//                                "domeTemp": upperFront.setTemp,
-//                                "stoneTemp": lowerFront.setTemp,
-//                                "cookTime": cookTime,
-//                                "finalCheckTime": finalCheckTime,
-//                                "halfTimeCheck": halfTimeRotate
-//                            }
-
-/*
- {
-    "menuItems": [
-        {
-            "cookTime": 120,
-            "domeTemp": 1000,
-            "finalCheckTime": 108,
-            "halfTimeCheck": true,
-            "name": "CUSTOM",
-            "stoneTemp": 650
-        },
-        {
-            "cookTime": 120,
-            "domeTemp": 1250,
-            "finalCheckTime": 105,
-            "halfTimeCheck": true,
-            "name": "NEAPOLITAN",
-            "stoneTemp": 650
-        },
-        {
-            "cookTime": 120,
-            "domeTemp": 1250,
-            "finalCheckTime": 105,
-            "halfTimeCheck": true,
-            "name": "DETROIT STYLE",
-            "stoneTemp": 650
-        },
-        {
-            "cookTime": 120,
-            "domeTemp": 1250,
-            "finalCheckTime": 105,
-            "halfTimeCheck": true,
-            "name": "FLATBREAD",
-            "stoneTemp": 650
-        },
-        {
-            "cookTime": 120,
-            "domeTemp": 1250,
-            "finalCheckTime": 105,
-            "halfTimeCheck": true,
-            "name": "NEW YORK STYLE",
-            "stoneTemp": 650
-        }
-    ]
-}
- */
-
 static QJsonObject NewYorkStyle
 {
     {"cookTime", 120},

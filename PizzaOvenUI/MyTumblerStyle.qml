@@ -43,48 +43,6 @@ TumblerStyle {
             anchors.centerIn: parent
         }
 
-        /*
-qml: styleData: QObject_QML_28(0x26c3b40)
-qml: objectName:
-qml: modelData: NEAPOLITAN
-qml: column: 0
-qml: activeFocus: false
-qml: displacement: 0
-qml: current: true
-qml: role:
-qml: value: NEAPOLITAN
-qml: index: 0
-qml: objectNameChanged: function() { [code] }
-qml: modelDataChanged: function() { [code] }
-qml: columnChanged: function() { [code] }
-qml: activeFocusChanged: function() { [code] }
-qml: displacementChanged: function() { [code] }
-qml: currentChanged: function() { [code] }
-qml: roleChanged: function() { [code] }
-qml: valueChanged: function() { [code] }
-qml: indexChanged: function() { [code] }
-
-qml: styleData: QObject_QML_22(0x1fc2200)
-qml: objectName:
-qml: modelData: TumblerColumn_QMLTYPE_15(0x1f985c0)
-qml: column: 0
-qml: activeFocus: false
-qml: displacement: 0
-qml: current: false
-qml: role:
-qml: value: TumblerColumn_QMLTYPE_15(0x1f985c0)
-qml: index: 0
-qml: objectNameChanged: function() { [code] }
-qml: modelDataChanged: function() { [code] }
-qml: columnChanged: function() { [code] }
-qml: activeFocusChanged: function() { [code] }
-qml: displacementChanged: function() { [code] }
-qml: currentChanged: function() { [code] }
-qml: roleChanged: function() { [code] }
-qml: valueChanged: function() { [code] }
-qml: indexChanged: function() { [code] }
-
-          */
         Text {
             id: selectionText
             height: textHeight
@@ -105,6 +63,8 @@ qml: indexChanged: function() { [code] }
             onClicked: {
                 if (styleData.current) {
                     tumblerStyle.clicked(styleData.value);
+                } else {
+                    control.setCurrentIndexAt(styleData.column, styleData.index, 200);
                 }
             }
             onPressed: {

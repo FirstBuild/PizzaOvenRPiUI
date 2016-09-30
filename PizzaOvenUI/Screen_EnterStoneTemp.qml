@@ -131,15 +131,6 @@ Item {
                             foodNameString = "CUSTOM"
                         }
                         utility.setLowerTemps(temp)
-//                        lowerFront.setTemp = temp;
-//                        lowerRear.setTemp = lowerFront.setTemp - lowerTempDifferential;
-
-//                        backEnd.sendMessage("Set LF SetPoint " +
-//                                             (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +
-//                                             (lowerFront.setTemp + 0.5 * lowerFront.temperatureDeadband));
-//                        backEnd.sendMessage("Set LR SetPoint " +
-//                                             (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
-//                                             (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
                     }
 
                 }

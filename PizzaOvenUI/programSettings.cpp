@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QProcess>
+#include <QDebug>
 
 using namespace std;
 
@@ -11,14 +12,19 @@ using namespace std;
 const int defaultTodOffset = 0;
 const int defaultScreenXOffset = 60;
 const int defaultScreenYOffset = 25;
-const bool defaultTwoTempMode = false;
+const bool defaultTwoTempMode = true;
+const bool defaultTempDisplayInF = true;
+const int defaultVolumeSetting = 5;
+const int defaultMaxVolume = 70;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
 
 #define BACKLIGHT_FILE ("/sys/class/backlight/rpi_backlight/bl_power")
 
+// Module static function prototypes
 static void writeBacklightStateToBacklightFile(bool state);
+static void setSystemVolume(int volume);
 
 ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 {
@@ -81,6 +87,9 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_screenXOffset = (settings.contains("screenOffsetX")) ? settings["screenOffsetX"].toInt() : defaultScreenXOffset;
     m_screenYOffset = (settings.contains("screenOffsetY")) ? settings["screenOffsetY"].toInt() : defaultScreenYOffset;
     m_twoTempMode = (settings.contains("twoTempMode")) ? settings["twoTempMode"].toBool() : defaultTwoTempMode;
+    m_tempDisplayInF = (settings.contains("tempDisplayInF")) ? settings["tempDisplayInF"].toBool() : defaultTempDisplayInF;
+    m_volumeSetting = (settings.contains("volumeSetting")) ? settings["volumeSetting"].toInt() : defaultVolumeSetting;
+    m_maxVolume = (settings.contains("maxVolume")) ? settings["maxVolume"].toInt() : defaultMaxVolume;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -89,6 +98,9 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["screenOffsetX"] = m_screenXOffset;
     settings["screenOffsetY"] = m_screenYOffset;
     settings["twoTempMode"] = m_twoTempMode;
+    settings["tempDisplayInF"] = m_tempDisplayInF;
+    settings["volumeSetting"] = m_volumeSetting;
+    settings["maxVolume"] = m_maxVolume;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -98,6 +110,8 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_screenXOffset = defaultScreenXOffset;
     m_screenYOffset = defaultScreenYOffset;
     m_twoTempMode = defaultTwoTempMode;
+    m_tempDisplayInF = defaultTempDisplayInF;
+    m_maxVolume = defaultMaxVolume;
     m_settingsInitialized = false;
 }
 
@@ -227,3 +241,59 @@ static void writeBacklightStateToBacklightFile(bool backlightOff)
     }
 }
 
+/*************** F/C Setting ***************/
+bool ProgramSettings::getTempDisplayInF(void)
+{
+    return m_tempDisplayInF;
+}
+void ProgramSettings::setTempDisplayInF(bool state)
+{
+    m_tempDisplayInF = state;
+    emit tempDisplayInFStateChanged();
+    saveSettings();
+}
+
+// "amixer -D pulse set Master 100% unmute"
+/*************** Volume Setting ***************/
+int ProgramSettings::getVolumeSetting(void)
+{
+    return m_volumeSetting;
+}
+void ProgramSettings::setVolumeSetting(int volume)
+{
+    int volumePercent = m_maxVolume * volume / 9;
+    m_volumeSetting = volume;
+
+    emit volumeSettingChanged();
+    qInfo("Volume setting is %d", volume);
+    qInfo("Max volume percent is %d", m_maxVolume);
+    qInfo("Percent setting is %d", volumePercent );
+    saveSettings();
+
+    setSystemVolume(volumePercent);
+}
+
+static void setSystemVolume(int volume)
+{
+    char cmd[] = "amixer sset Master 100%padpad";
+    sprintf(cmd, "amixer sset Master %d%%", volume);
+    qInfo("Command: %s", cmd);
+    QProcess process;
+    process.start(cmd);
+    process.waitForFinished(30000);
+    qDebug() << process.readAllStandardOutput();
+}
+
+/*************** Volume Max Setting Percent ***************/
+int ProgramSettings::getMaxVolume(void)
+{
+    return m_maxVolume;
+}
+void ProgramSettings::setMaxVolume(int volume)
+{
+    m_maxVolume = volume;
+    qInfo("Setting max volume to %d", volume);
+    emit maxVolumeChanged();
+    saveSettings();
+    setVolumeSetting(m_volumeSetting);
+}

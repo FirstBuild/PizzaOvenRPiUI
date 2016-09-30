@@ -90,7 +90,6 @@ Item {
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
-                console.log("Current temp: " + lowerFront.currentTemp);
             } else {
                 console.log("Temp data missing.");
             }
@@ -123,12 +122,13 @@ Item {
                 }
             }
 
-            if (developmentModeIsActive) {
-                return;
-            }
-
             oldDlb = dlb;
             oldPowerSwitch = powerSwitch;
+
+            if (developmentModeIsActive) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+                return;
+            }
 
 
             switch(oldState) {
@@ -272,6 +272,14 @@ Item {
             doorStatus = msg.data.Status;
             doorCount = msg.data.Count;
             //console.log("Got a door message: " + JSON.stringify(msg));
+            break;
+        case "ControlVersion":
+            console.log("Version: " + msg.data.ovenFirmwareVersion);
+            controlVersion = msg.data.ovenFirmwareVersion + "." + msg.data.ovenFirmwareBugfixVersion;
+            break;
+        case "BackendVersion":
+            console.log("Backend Version: " + msg.data.backendVersion);
+            backendVersion = msg.data.backendVersion;
             break;
         default:
             console.log("Unknown message received: " + _msg);

@@ -9,17 +9,17 @@ Item {
     signal clicked()
 
     Rectangle {
-        width: 17
-        height: 17
+        width: 19
+        height: width
         radius: width/2
         anchors.centerIn: parent
         color: appBackgroundColor
-        border.color: appForegroundColor
-        border.width: 1
+        border.color: appGrayText
+        border.width: 2
     }
     Rectangle {
-        width: 13
-        height: 13
+        width: 11
+        height: width
         radius: width/2
         anchors.centerIn: parent
         color: {radioButton.state ? appForegroundColor : appBackgroundColor}
@@ -27,6 +27,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            sounds.touch.play();
             radioButton.clicked();
         }
     }

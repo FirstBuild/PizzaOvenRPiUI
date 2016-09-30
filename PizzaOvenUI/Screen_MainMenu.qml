@@ -11,12 +11,16 @@ Item {
     height: parent.height
     width: parent.width
 
-    property int myMargins: 10
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
 
+    opacity: 0.0
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+
     function screenEntry() {
+        console.log("Entering main menu screen");
         foodListModel.clear();
         var menuItems = menuSettings.json.menuItems;
         for(var i=0; i<menuItems.length; i++)  {
@@ -27,6 +31,7 @@ Item {
             demoTimeoutTimer.restart();
         }
         keyhandler.focus = true;
+        screenEntryAnimation.start();
     }
 
     function screenExit() {
@@ -62,7 +67,7 @@ Item {
             ScriptAction {
                 script: {
                     screenExit();
-                    stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+                    stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
                 }
             }
         }

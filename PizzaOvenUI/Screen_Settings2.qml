@@ -1,23 +1,26 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Item {
-//    Image {
-//        id: pizzaOvenOffImage
-//        //            source: "pizza_oven_blank_screen.jpg"
-//        //        source: "PizzaOvenAwaitPreheat.png"
-//        //        source: "TwoTemps.png"
-//        //        source: "BackArrow.png"
-//        source: "SettingsTitleLocation.png"
-////        anchors.centerIn: parent
-//        y:18
-//        x:-1
-//    }
-
     id: thisScreen
+
+    opacity: 0.0
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+
+    property int listItemHeight: 50
+    property int listItemWidth: screenWidth - screenTitle.x - 30
+
+    function screenEntry() {
+        screenEntryAnimation.start();
+        console.log("Entering screen settings.");
+    }
 
     BackButton{
         id: backButton
         opacity: 0.5
+        onClicked: {
+            stackView.pop({immediate:immediateTransitions});
+        }
     }
 
 
@@ -35,16 +38,11 @@ Item {
         verticalAlignment: Text.AlignVCenter
     }
 
-
-    property int listItemHeight: 40
-    property int listItemWidth: screenWidth - screenTitle.x - 30
-
     Flickable {
+        id: menu
         width: listItemWidth
-        height: screenHeight - backButton.y - backButton.height - anchors.topMargin - 30
-        anchors.topMargin: 10
-        anchors.top: screenTitle.bottom
-//        anchors.horizontalCenter: parent.horizontalCenter
+        height: listItemHeight * 4.5
+        y: (screenHeight + screenTitle.y + screenTitle.height - menu.height)/2
         x: screenTitle.x
         contentWidth: listItemWidth
         contentHeight: settingsList.height
@@ -66,8 +64,82 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
+                Row {
+                    anchors.right: parent.right
+                    spacing: 10
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    Row {
+                        height: listItemHeight
+                        anchors.verticalCenter: parent.verticalCenter
+                        MyRadioButton {
+                            id: farenRadio
+                            state: tempDisplayInF
+                            onClicked: {
+                                if (!tempDisplayInF) {
+                                    tempDisplayInF = !tempDisplayInF;
+                                    appSettings.tempDisplayInF = tempDisplayInF;
+                                }
+                            }
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Text {
+                            text: String.fromCharCode(8457)
+                            color: appForegroundColor
+                            font.family: localFont.name
+                            font.pointSize: 18
+                            verticalAlignment: Text.AlignVCenter
+                            height: listItemHeight
+                        }
+                    }
+                    Row {
+                        height: listItemHeight
+                        MyRadioButton {
+                            id: celciusRadio
+                            state: !tempDisplayInF
+                            onClicked: {
+                                if (tempDisplayInF) {
+                                    tempDisplayInF = !tempDisplayInF;
+                                    appSettings.tempDisplayInF = tempDisplayInF;
+                                }
+                            }
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Text {
+                            text: String.fromCharCode(8451)
+                            color: appForegroundColor
+                            font.family: localFont.name
+                            font.pointSize: 18
+                            verticalAlignment: Text.AlignVCenter
+                            height: listItemHeight
+                        }
+                    }
+                }
+            }
+            Rectangle {
+                height: listItemHeight
+                width: parent.width
+                color: appBackgroundColor
+                Text {
+                    height: listItemHeight
+                    text: "TWO TEMP MODE"
+                    color: appForegroundColor
+                    font.family: localFont.name
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.left: parent.left
+                }
                 SlideOffOn{
+                    id: twoTempSlider
                     anchors.right: parent.right
+                    state: twoTempEntryModeIsActive
+                    onClicked: {
+                        if (twoTempEntryModeIsActive != twoTempSlider.state) {
+                            twoTempEntryModeIsActive = twoTempSlider.state;
+                            appSettings.twoTempMode = twoTempEntryModeIsActive;
+                        }
+                    }
                 }
             }
             Rectangle {
@@ -76,7 +148,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "WiFi"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -84,15 +156,12 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                SlideOffOn{
+                    id: wifiSlider
                     anchors.right: parent.right
+                    state: false
+                    onClicked: {
+                    }
                 }
             }
             Rectangle {
@@ -101,7 +170,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "CONTROL LOCKOUT"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -109,15 +178,9 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
             Rectangle {
@@ -126,7 +189,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "VOLUME"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -134,15 +197,16 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: SequentialAnimation {
+                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+                        ScriptAction {script: {
+                                stackView.push({item: Qt.resolvedUrl("Screen_SetVolume.qml"), immediate:immediateTransitions});
+                            }
+                        }
+                    }
                 }
             }
             Rectangle {
@@ -151,7 +215,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "DISPLAY BRIGHTNESS"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -159,15 +223,9 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
             Rectangle {
@@ -176,7 +234,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "CENTER SCREEN"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -184,15 +242,16 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: SequentialAnimation {
+                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+                        ScriptAction {script: {
+                                stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+                            }
+                        }
+                    }
                 }
             }
             Rectangle {
@@ -201,7 +260,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "ADVANCED"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -209,15 +268,16 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: SequentialAnimation {
+                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+                        ScriptAction {script: {
+                                stackView.push({item: Qt.resolvedUrl("Screen_SettingsAdvanced.qml"), immediate:immediateTransitions});
+                            }
+                        }
+                    }
                 }
             }
             Rectangle {
@@ -226,7 +286,7 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
-                    text: "TEMPERATURE UNITS"
+                    text: "ABOUT"
                     color: appForegroundColor
                     font.family: localFont.name
                     font.pointSize: 18
@@ -234,90 +294,16 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
+                ForwardButton {
                     anchors.right: parent.right
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                Text {
-                    height: listItemHeight
-                    text: "TEMPERATURE UNITS"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.right: parent.right
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                Text {
-                    height: listItemHeight
-                    text: "TEMPERATURE UNITS"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.right: parent.right
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                Text {
-                    height: listItemHeight
-                    text: "TEMPERATURE UNITS"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                }
-                Text {
-                    height: listItemHeight
-                    text: "F   C"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: SequentialAnimation {
+                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+                        ScriptAction {script: {
+                                stackView.push({item: Qt.resolvedUrl("Screen_About.qml"), immediate:immediateTransitions});
+                            }
+                        }
+                    }
                 }
             }
         }

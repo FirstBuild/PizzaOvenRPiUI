@@ -51,6 +51,14 @@ Window {
     property int smallTextSize: 24
     property int bigTextSize: 42
     property int appColumnWidth: 62
+    property bool tempDisplayInF: appSettings.tempDisplayInF
+    property int  volumeSetting: appSettings.volumeSetting
+    property int  maxVolume: appSettings.maxVolume
+
+    // some information
+    property string controlVersion: "255.255.255.255"
+    property string uiVersion: "0.1.0"
+    property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
 
@@ -156,22 +164,12 @@ Window {
             focus: true
             initialItem: {
                 appSettings.backlightOff = false;
-                //                Qt.resolvedUrl("Screen_Cooldown.qml")
-                //Qt.resolvedUrl("Screen_Settings2.qml")
                 if (appSettings.settingsInitialized) {
-//                    Qt.resolvedUrl("Screen_Off.qml");
-                    Qt.resolvedUrl("Screen_MainMenu.qml");
+                    Qt.resolvedUrl("Screen_Off.qml");
                 } else {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }
             }
-            //            initialItem: Qt.resolvedUrl("Screen_Off.qml")
-            //            initialItem: Qt.resolvedUrl("Screen_Development.qml")
-            //            initialItem: Qt.resolvedUrl("TempEntryWithKeys.qml")
-            //            initialItem: Qt.resolvedUrl("Keyboard.qml")
-            //            initialItem: Qt.resolvedUrl("Screen_MainMenu.qml")
-            //            initialItem: Qt.resolvedUrl("Screen_Preheating.qml")
-            //            initialItem: Qt.resolvedUrl("Screen_AwaitStart.qml")
             onCurrentItemChanged: {
                 if (currentItem) {
                     if (currentItem.screenEntry) {
@@ -193,7 +191,7 @@ Window {
         anchors.left: screenStackContainer.right
         anchors.verticalCenter: screenStackContainer.verticalCenter
         onClicked: {
-            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
     GearButton {
@@ -202,7 +200,25 @@ Window {
         anchors.top: screenStackContainer.bottom
         anchors.horizontalCenter: screenStackContainer.horizontalCenter
         onClicked: {
-            stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+        }
+    }
+    GearButton {
+        id: auxGear3
+        anchors.margins: 20
+        anchors.right: screenStackContainer.left
+        anchors.verticalCenter: screenStackContainer.verticalCenter
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+        }
+    }
+    GearButton {
+        id: auxGear4
+        anchors.margins: 20
+        anchors.bottom: screenStackContainer.top
+        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+        onClicked: {
+            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -234,18 +250,5 @@ Window {
 
         appSettings.todOffset = offset;
     }
-
-    //    Button {
-    //        id: quitButton
-    //        x: 10
-    //        y: rootWindow.height - quitButton.height - 10
-    //        height: width
-    //        action: Action {
-    //            onTriggered: {
-    //                Qt.quit();
-    //            }
-    //        }
-    //        text: "Quit"
-    //    }
 }
 

@@ -18,6 +18,9 @@ class ProgramSettings : public QObject
     Q_PROPERTY(bool twoTempMode READ getTwoTempMode WRITE setTwoTempMode NOTIFY twoTempModeChanged)
     Q_PROPERTY(bool settingsInitialized READ areSettingsInitialized WRITE intializeSettings NOTIFY initializationChanged)
     Q_PROPERTY(bool backlightOff READ getBacklightState WRITE setBacklightState NOTIFY backlightStateChanged)
+    Q_PROPERTY(bool tempDisplayInF READ getTempDisplayInF WRITE setTempDisplayInF NOTIFY tempDisplayInFStateChanged)
+    Q_PROPERTY(int volumeSetting READ getVolumeSetting WRITE setVolumeSetting NOTIFY volumeSettingChanged)
+    Q_PROPERTY(int maxVolume READ getMaxVolume WRITE setMaxVolume NOTIFY maxVolumeChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -26,17 +29,23 @@ public:
     void initializeSettingsToDefaults(void);
 
     void setTodOffset(int newOffset);
-    int todOffset();
+    int  todOffset();
     void setScreenoffsetX(int OffsetX);
     void setScreenoffsetY(int OffsetY);
     void setTwoTempMode(bool mode);
-    int getScreenOffsetX();
-    int getScreenOffsetY();
+    int  getScreenOffsetX();
+    int  getScreenOffsetY();
     bool getTwoTempMode();
     bool areSettingsInitialized();
     void intializeSettings(bool status);
     bool getBacklightState(void);
     void setBacklightState(bool state);
+    bool getTempDisplayInF(void);
+    void setTempDisplayInF(bool state);
+    int  getVolumeSetting(void);
+    void setVolumeSetting(int volume);
+    int  getMaxVolume(void);
+    void setMaxVolume(int volume);
 signals:
     void todOffsetChanged();
     void screenOffsetXChanged();
@@ -44,6 +53,9 @@ signals:
     void twoTempModeChanged();
     void initializationChanged();
     void backlightStateChanged();
+    void tempDisplayInFStateChanged();
+    void volumeSettingChanged();
+    void maxVolumeChanged();
 
 public slots:
 private:
@@ -53,6 +65,9 @@ private:
     bool m_twoTempMode;
     bool m_settingsInitialized;
     bool m_backlightOff;
+    bool m_tempDisplayInF;
+    int m_volumeSetting;
+    int m_maxVolume;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;

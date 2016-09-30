@@ -10,6 +10,19 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    opacity: 0.0
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+    OpacityAnimator {id: screenExitAnimation; target: thisScreen; from: 1.0; to: 0.0;
+        onStopped: {
+            stackView.pop({immediate:immediateTransitions});
+        }
+    }
+
+    function screenEntry() {
+        screenEntryAnimation.start();
+    }
+
     property int myMargins: 10
 
     Rectangle {
@@ -28,8 +41,7 @@ Item {
         onClicked: {
             appSettings.screenOffsetX = screenOffsetX;
             appSettings.screenOffsetY = screenOffsetY;
-            stackView.clear();
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+            screenExitAnimation.start();
         }
     }
     SideButton {

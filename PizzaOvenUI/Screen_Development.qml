@@ -93,7 +93,7 @@ Item {
                 x: 0
                 y: 0
                 onClicked: {
-                    stackView.push({item: Qt.resolvedUrl("Screen_Settings.qml"), immediate:immediateTransitions});
+                    stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
                 }
             }
         }
