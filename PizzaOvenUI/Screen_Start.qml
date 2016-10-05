@@ -20,6 +20,7 @@ Item {
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
     ButtonRight {

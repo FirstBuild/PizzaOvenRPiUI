@@ -12,11 +12,13 @@ Item {
     property bool screenSwitchInProgress: false
 
     function screenEntry() {
+        console.log("Entering preheat 2 temps");
         screenSwitchInProgress = false;
     }
 
     CircleScreenTemplate {
         id: dataCircle
+        needsAnimation: false
         circleValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
         titleText: "PREHEATING"
         onCircleValueChanged: {
@@ -26,14 +28,17 @@ Item {
 
     HomeButton {
         id: preheatingHomeButton
+        needsAnimation: false
     }
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
     CircleContentTwoTemp {
         id: circleContent
+        needsAnimation: false
         line1String: utility.tempToString(upperFront.setTemp)
         line2String: utility.tempToString(upperFront.currentTemp)
         line3String: utility.tempToString(lowerFront.setTemp)
@@ -67,7 +72,7 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimator
-        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+//'        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {
             script: {
                 stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});

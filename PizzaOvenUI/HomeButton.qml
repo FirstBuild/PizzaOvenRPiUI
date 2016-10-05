@@ -11,8 +11,9 @@ Rectangle {
     property color segmentColor: appForegroundColor
     x: 37
     y: 37
+    property bool needsAnimation: true
 
-    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
+    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation }
 
     Rectangle {
         id: buttonBox

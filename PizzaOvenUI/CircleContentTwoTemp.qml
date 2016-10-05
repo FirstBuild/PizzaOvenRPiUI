@@ -11,15 +11,16 @@ Item {
     property string line2String: "LINE 2"
     property string line3String: "LINE 3"
     property string line4String: "LINE 4"
-    property int textSize: 1
+    property int textSize: needsAnimation ? 1 : finalTextSize
     property int finalTextSize: 18
     property color textColor: appForegroundColor
     property int margins: 1
+    property bool needsAnimation: true
 
-    opacity: 0.0
+    opacity: needsAnimation ? 0.0 : 1.0
 
-    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic}
-    NumberAnimation on textSize {from: 1; to: finalTextSize}
+    OpacityAnimator on opacity {from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
+    NumberAnimation on textSize {from: 1; to: finalTextSize; running: needsAnimation}
 
     Rectangle {
         id: topLine

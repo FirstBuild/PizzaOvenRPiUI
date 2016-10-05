@@ -1,14 +1,21 @@
 import QtQuick 2.3
 
 Item {
+    id: thisButton
+
+    property bool needsAnimation: true
 
     function animate() {
-        editButton.animate();
+        if (thisButton.needsAnimation) {
+            console.log("Animating the button");
+            editButton.animate();
+        }
     }
 
     ButtonLeft {
         id: editButton
         text: "EDIT"
+        needsAnimation: thisButton.needsAnimation
         onClicked: SequentialAnimation {
             ScriptAction {
                 script: {

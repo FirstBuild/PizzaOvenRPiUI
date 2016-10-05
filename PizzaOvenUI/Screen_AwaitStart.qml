@@ -40,12 +40,12 @@ Item {
         id: preheatButton
         text: "PREHEAT"
         onClicked: SequentialAnimation {
-            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0; /*duration: 2000*/}
+//            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0; /*duration: 2000*/}
             ScriptAction {script: {
-                    homeButton.opacity = 0.0;
-                    editButton.opacity = 0.0;
-                    preheatButton.opacity = 0.0;
-                    circleContent.opacity = 0.0;
+//                    homeButton.opacity = 0.0;
+//                    editButton.opacity = 0.0;
+//                    preheatButton.opacity = 0.0;
+//                    circleContent.opacity = 0.0;
                     if (!demoModeIsActive) {
                         backEnd.sendMessage("StartOven ");
                     } else {

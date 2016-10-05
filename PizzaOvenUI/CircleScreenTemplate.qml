@@ -13,10 +13,11 @@ Item {
     property int circleValue: 25
     property string titleText: "TITLE TEXT"
     property int circleDiameter: 206
+    property bool needsAnimation: true
 
-    opacity: 0.0
+    opacity: needsAnimation ? 0.0 : 1.0
 
-    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic }
+    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation }
 
     function animate() {
         screenAnimation.start();
@@ -38,8 +39,8 @@ Item {
 //            height: parent.height
 //            width: parent.width
             currentValue: circleValue
-            NumberAnimation on width {id: circleWidthAnimation; from: 10; to: circleDiameter}
-            NumberAnimation on height {id: circleHeightAnimation; from: 10; to: circleDiameter}
+            NumberAnimation on width {id: circleWidthAnimation; from: 10; to: circleDiameter; running: needsAnimation}
+            NumberAnimation on height {id: circleHeightAnimation; from: 10; to: circleDiameter; running: needsAnimation}
             anchors.centerIn: parent
         }
     }
@@ -50,7 +51,7 @@ Item {
         width: 400
         height: 30
         x: (parent.width - width) / 2
-        //y: 41
+        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
         color: appBackgroundColor
         Text {
             id: idButtonText
@@ -60,7 +61,7 @@ Item {
             anchors.centerIn: parent
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
     }
 }
 

@@ -8,22 +8,27 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: leftButton
 
-    x: (screenWidth - width)/2
+    x: needsAnimation ? (screenWidth - width)/2 : 26
     y: 165 + (64 - lineSpacing) / 2
     width: 125
     height: lineSpacing
     property string text: "LABEL"
     signal clicked()
 
-    opacity: 0.0
+    property bool needsAnimation: true
+
+    opacity: needsAnimation ? 0.0 : 1.0
 
     function animate() {
-        opacityAnim.start();
-        movementAnim.start();
+        if (needsAnimation) {
+            console.log("Animating the left button");
+            opacityAnim.start();
+            movementAnim.start();
+        }
     }
 
-    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26}
-    OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic}
+    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26; running: needsAnimation}
+    OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
 
     SideButton {
         id: theButton
