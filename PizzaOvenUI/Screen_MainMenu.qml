@@ -14,13 +14,14 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
+    property int tumblerWidth: parent.width*0.55;
 
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     function screenEntry() {
-        console.log("Entering main menu screen");
+        // load up the list
         foodListModel.clear();
         var menuItems = menuSettings.json.menuItems;
         for(var i=0; i<menuItems.length; i++)  {
@@ -73,24 +74,9 @@ Item {
         }
     }
 
-    Text {
-        text: "Select"
-        font.family: localFont.name
-        font.pointSize: 18
-        color: appGrayText
-        width: 400
-        height: 30
-        anchors.right: foodType.right
-        y: 41
-        horizontalAlignment: Text.AlignRight
-        verticalAlignment: Text.AlignVCenter
-    }
-
     ListModel {
         id: foodListModel
     }
-
-    property int tumblerWidth: parent.width*0.55;
 
     Tumbler {
         id: foodType
@@ -101,16 +87,8 @@ Item {
 
         style:  MyTumblerStyle {
             onClicked: {
-                var settings = foodListModel.get(theColumn.currentIndex);
-                utility.setUpperTemps(settings.domeTemp)
-                utility.setLowerTemps(settings.stoneTemp)
-                cookTime = settings.cookTime;
-                backEnd.sendMessage("CookTime " + cookTime);
-                finalCheckTime = settings.finalCheckTime
-
                 sounds.select.play();
-                demoTimeoutTimer.stop();
-                screenExitAnimation.start();
+                acceptSelection();
             }
             visibleItemCount: 5
             textHeight:100
@@ -137,6 +115,18 @@ Item {
                 stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
             }
         }
+    }
+
+    function acceptSelection() {
+        var settings = foodListModel.get(theColumn.currentIndex);
+        utility.setUpperTemps(settings.domeTemp)
+        utility.setLowerTemps(settings.stoneTemp)
+        cookTime = settings.cookTime;
+        backEnd.sendMessage("CookTime " + cookTime);
+        finalCheckTime = settings.finalCheckTime
+
+        demoTimeoutTimer.stop();
+        screenExitAnimation.start();
     }
 
     Item {

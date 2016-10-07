@@ -12,7 +12,46 @@ Rectangle {
     x: 37
     y: 37
 
-    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
+    function animate() {
+        animation.start();
+    }
+
+    NumberAnimation on opacity {id: animation; from: 0; to: 1.0; easing.type: Easing.InCubic }
+
+    Rectangle {
+        height: lineSpacing
+        width: lineSpacing
+        anchors.centerIn: parent
+        color: buttonBox.color
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: SequentialAnimation {
+                    ScriptAction {
+                        script: {
+                            sounds.touch.play();
+                            rootWindow.cookTimer.stop();
+                        }
+                    }
+                    OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+                    ScriptAction {script: {
+                            homeButton.clicked();
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                        }
+                    }
+                }
+            onPressed: {
+                segmentColor = appBackgroundColor;
+                buttonBox.color = appForegroundColor;
+                drawing.requestPaint();
+            }
+            onReleased: {
+                segmentColor = appForegroundColor;
+                buttonBox.color = appBackgroundColor;
+                drawing.requestPaint();
+            }
+        }    }
 
     Rectangle {
         id: buttonBox
@@ -62,33 +101,5 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: buttonBox
-        onClicked: SequentialAnimation {
-                ScriptAction {
-                    script: {
-                        sounds.touch.play();
-                        rootWindow.cookTimer.stop();
-                    }
-                }
-                OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-                ScriptAction {script: {
-                        homeButton.clicked();
-                        stackView.clear();
-                        stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        onPressed: {
-            segmentColor = appBackgroundColor;
-            buttonBox.color = appForegroundColor;
-            drawing.requestPaint();
-        }
-        onReleased: {
-            segmentColor = appForegroundColor;
-            buttonBox.color = appBackgroundColor;
-            drawing.requestPaint();
-        }
-    }
+
 }

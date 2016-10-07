@@ -43,18 +43,16 @@ Item {
         to: titleTextToPointSize
     }
 
-    Text {
+    ClickableTextBox {
         text: "Select final check time"
-        font.family: localFont.name
-        font.pointSize: titleTextPointSize
-        color: appGrayText
-        width: 400
+        foregroundColor: appGrayText
+        width: 235
         height: 30
         x: screenWidth - width - 26
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
-        //        opacity: 0.5
+        onClicked: nextButton.clicked()
     }
 
     Item {

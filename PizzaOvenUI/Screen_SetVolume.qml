@@ -41,18 +41,15 @@ Item {
         }
     }
 
-    Text {
+    ClickableTextBox {
         id: screenTitle
         text: "VOLUME SETTING"
-        font.family: localFont.name
-        font.pointSize: 18
-        color: appGrayText
-        width: 400
-        height: 30
+        width: 210
         x: 80
         anchors.verticalCenter: backButton.verticalCenter
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
+        onClicked: backButton.clicked();
     }
 
     Tumbler {

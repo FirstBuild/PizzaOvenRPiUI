@@ -12,17 +12,30 @@ Rectangle {
     height: 40
     color: appBackgroundColor
 
+    Rectangle {
+        height: lineSpacing
+        width: lineSpacing
+        anchors.centerIn: parent
+        color: gearButton.color
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                sounds.touch.play();
+                gearButton.clicked();
+            }
+            onPressed: {
+                gearButton.color = appForegroundColor;
+            }
+            onReleased: {
+                gearButton.color = appBackgroundColor;
+            }
+        }
+    }
+
     Image {
         id: mainMenuGearIcon
         source: gearIconSource
         anchors.centerIn: parent
-    }
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            sounds.touch.play();
-            gearButton.clicked();
-        }
     }
 }
 

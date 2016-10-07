@@ -18,15 +18,29 @@ Item {
     opacity: 0.0
 
     function screenEntry() {
-        console.log("Starting animations.");
         editButton.animate();
         preheatButton.animate();
         theCircle.animate();
         circleContent.animate();
         screenEntryAnimation.start();
+        homeButton.animate();
     }
 
-    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic; /*duration: 2000*/}
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic; }
+
+    property string targetScreen: ""
+
+    OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;
+        onStopped: {
+            stackView.push({item:Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
+        }
+        running: false
+    }
+
+    function startExitToScreen(screen) {
+        targetScreen = screen;
+        screenFadeOut.start();
+    }
 
     HomeButton {
         id: homeButton
@@ -39,28 +53,19 @@ Item {
     ButtonRight {
         id: preheatButton
         text: "PREHEAT"
-        onClicked: SequentialAnimation {
-            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0; /*duration: 2000*/}
-            ScriptAction {script: {
-                    homeButton.opacity = 0.0;
-                    editButton.opacity = 0.0;
-                    preheatButton.opacity = 0.0;
-                    circleContent.opacity = 0.0;
-                    if (!demoModeIsActive) {
-                        backEnd.sendMessage("StartOven ");
-                    } else {
-                        lowerFront.currentTemp = 75;
-                    }
+        onClicked: {
+            if (!demoModeIsActive) {
+                backEnd.sendMessage("StartOven ");
+            } else {
+                lowerFront.currentTemp = 75;
+            }
 
-                    if (appSettings.twoTempMode) {
-                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating.qml"), immediate:immediateTransitions});
-                    }
-                }
+            if (appSettings.twoTempMode) {
+                startExitToScreen("Screen_Preheating2Temp.qml");
+            } else {
+                startExitToScreen("Screen_Preheating.qml");
             }
         }
-
     }
 
     CircleContent {
@@ -68,6 +73,15 @@ Item {
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(cookTime)
+        onTopStringClicked: {
+            startExitToScreen("Screen_EnterDomeTemp.qml");
+        }
+        onMiddleStringClicked: {
+            startExitToScreen("Screen_EnterStoneTemp.qml");
+        }
+        onBottomStringClicked: {
+            startExitToScreen("Screen_EnterTime.qml");
+        }
     }
 }
 

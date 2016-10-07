@@ -43,19 +43,17 @@ Item {
         to: titleTextToPointSize
     }
 
-    Text {
+    ClickableTextBox {
         text: "Select Cook Time"
-        font.family: localFont.name
-        font.pointSize: titleTextPointSize
-        color: appGrayText
-        width: 400
+        foregroundColor: appGrayText
+        width: 185
         height: 30
         x: screenWidth - width - 26
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
+        onClicked: nextButton.clicked()
     }
-
 
     Item {
         width: 300

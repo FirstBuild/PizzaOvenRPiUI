@@ -75,13 +75,14 @@ Item {
             color: ballColor
         }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                toggle.state = !toggle.state;
-                sounds.touch.play();
-                toggle.clicked();
-            }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            toggle.state = !toggle.state;
+            sounds.touch.play();
+            toggle.clicked();
         }
     }
 }

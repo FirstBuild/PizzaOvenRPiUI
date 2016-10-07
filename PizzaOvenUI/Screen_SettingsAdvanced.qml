@@ -5,6 +5,7 @@ Item {
 
     property int listItemHeight: 40
     property int listItemWidth: screenWidth - screenTitle.x - 30
+    property int listTextWidth: 300
 
     opacity: 0.0
 
@@ -14,7 +15,6 @@ Item {
         screenEntryAnimation.start();
         console.log("Entering advanced settings.");
     }
-
 
     Item {
         id: scroller
@@ -27,18 +27,15 @@ Item {
             }
         }
 
-        Text {
+        ClickableTextBox {
             id: screenTitle
             text: "ADVANCED SETTINGS"
-            font.family: localFont.name
-            font.pointSize: 18
-            color: appGrayText
-            width: 400
-            height: 30
             x: 80
+            width: 260
             anchors.verticalCenter: backButton.verticalCenter
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
+            onClicked: backButton.clicked()
         }
 
         Flickable {
@@ -57,15 +54,18 @@ Item {
                     height: listItemHeight
                     width: parent.width
                     color: appBackgroundColor
-                    Text {
+                    ClickableTextBox {
                         height: listItemHeight
+                        width: thisScreen.listTextWidth
                         text: "DEMO MODE"
-                        color: appForegroundColor
-                        font.family: localFont.name
-                        font.pointSize: 18
+                        foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         anchors.left: parent.left
+                        onClicked: {
+                            demoModeSlider.state = !demoModeSlider.state
+                            demoModeSlider.clicked();
+                        }
                     }
                     SlideOffOn{
                         id: demoModeSlider
@@ -82,15 +82,18 @@ Item {
                     height: listItemHeight
                     width: parent.width
                     color: appBackgroundColor
-                    Text {
+                    ClickableTextBox {
                         height: listItemHeight
+                        width: thisScreen.listTextWidth
                         text: "DEVELOPMENT MODE"
-                        color: appForegroundColor
-                        font.family: localFont.name
-                        font.pointSize: 18
+                        foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         anchors.left: parent.left
+                        onClicked: {
+                            devModeSlider.state = !devModeSlider.state
+                            devModeSlider.clicked();
+                        }
                     }
                     SlideOffOn{
                         id: devModeSlider
@@ -107,17 +110,20 @@ Item {
                     height: listItemHeight
                     width: parent.width
                     color: appBackgroundColor
-                    Text {
+                    ClickableTextBox {
                         height: listItemHeight
+                        width: thisScreen.listTextWidth
                         text: "MAX VOLUME"
-                        color: appForegroundColor
-                        font.family: localFont.name
-                        font.pointSize: 18
+                        foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         anchors.left: parent.left
+                        onClicked: {
+                            maxVolumeForwardButton.clicked();
+                        }
                     }
                     ForwardButton {
+                        id: maxVolumeForwardButton
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         onClicked: SequentialAnimation {

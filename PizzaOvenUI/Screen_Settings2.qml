@@ -9,6 +9,7 @@ Item {
 
     property int listItemHeight: 50
     property int listItemWidth: screenWidth - screenTitle.x - 30
+    property int listTextWidth: 300
 
     function screenEntry() {
         screenEntryAnimation.start();
@@ -23,19 +24,23 @@ Item {
         }
     }
 
-
-    Text {
+    // title text
+    Rectangle {
         id: screenTitle
-        text: "SETTINGS"
-        font.family: localFont.name
-        font.pointSize: 18
-        color: appGrayText
         width: 400
         height: 30
-        x: 80
-        anchors.verticalCenter: backButton.verticalCenter
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
+        x: (parent.width - width) / 2
+        //y: 41
+        color: appBackgroundColor
+        Text {
+            id: idButtonText
+            text: "SETTINGS"
+            font.family: localFont.name
+            font.pointSize: 17
+            anchors.centerIn: parent
+            color: appGrayText
+        }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
     Flickable {
@@ -54,65 +59,53 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "TEMPERATURE UNITS"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: {
+                        if (farenRadio.state) {
+                            celciusRadio.clicked();
+                        } else {
+                            farenRadio.clicked();
+                        }
+                    }
                 }
+
                 Row {
                     anchors.right: parent.right
                     spacing: 10
                     height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
-                    Row {
+                    MyRadioButton {
+                        id: farenRadio
+                        state: tempDisplayInF
                         height: listItemHeight
+                        text: String.fromCharCode(8457)
+                        onClicked: {
+                            if (!tempDisplayInF) {
+                                tempDisplayInF = !tempDisplayInF;
+                                appSettings.tempDisplayInF = tempDisplayInF;
+                            }
+                        }
                         anchors.verticalCenter: parent.verticalCenter
-                        MyRadioButton {
-                            id: farenRadio
-                            state: tempDisplayInF
-                            onClicked: {
-                                if (!tempDisplayInF) {
-                                    tempDisplayInF = !tempDisplayInF;
-                                    appSettings.tempDisplayInF = tempDisplayInF;
-                                }
-                            }
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                        Text {
-                            text: String.fromCharCode(8457)
-                            color: appForegroundColor
-                            font.family: localFont.name
-                            font.pointSize: 18
-                            verticalAlignment: Text.AlignVCenter
-                            height: listItemHeight
-                        }
                     }
-                    Row {
+                    MyRadioButton {
+                        id: celciusRadio
+                        state: !tempDisplayInF
                         height: listItemHeight
-                        MyRadioButton {
-                            id: celciusRadio
-                            state: !tempDisplayInF
-                            onClicked: {
-                                if (tempDisplayInF) {
-                                    tempDisplayInF = !tempDisplayInF;
-                                    appSettings.tempDisplayInF = tempDisplayInF;
-                                }
+                        text: String.fromCharCode(8451)
+                        onClicked: {
+                            if (tempDisplayInF) {
+                                tempDisplayInF = !tempDisplayInF;
+                                appSettings.tempDisplayInF = tempDisplayInF;
                             }
-                            anchors.verticalCenter: parent.verticalCenter
                         }
-                        Text {
-                            text: String.fromCharCode(8451)
-                            color: appForegroundColor
-                            font.family: localFont.name
-                            font.pointSize: 18
-                            verticalAlignment: Text.AlignVCenter
-                            height: listItemHeight
-                        }
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                 }
             }
@@ -120,15 +113,18 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "TWO TEMP MODE"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: {
+                        twoTempSlider.state = !twoTempSlider.state
+                        twoTempSlider.clicked();
+                    }
                 }
                 SlideOffOn{
                     id: twoTempSlider
@@ -146,15 +142,18 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "WiFi"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: {
+                        wifiSlider.state = !wifiSlider.state
+                        wifiSlider.clicked();
+                    }
                 }
                 SlideOffOn{
                     id: wifiSlider
@@ -168,12 +167,11 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "CONTROL LOCKOUT"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -187,17 +185,18 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "VOLUME"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: volumeForwardButton.clicked();
                 }
                 ForwardButton {
+                    id: volumeForwardButton
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
@@ -213,12 +212,11 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "DISPLAY BRIGHTNESS"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -232,17 +230,18 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "CENTER SCREEN"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: centerForwardButton.clicked()
                 }
                 ForwardButton {
+                    id: centerForwardButton
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
@@ -268,7 +267,18 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
+                ClickableTextBox {
+                    height: listItemHeight
+                    width: thisScreen.listTextWidth
+                    text: "ADVANCED"
+                    foregroundColor: appForegroundColor
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.left: parent.left
+                    onClicked: advancedForwardButton.clicked()
+                }
                 ForwardButton {
+                    id: advancedForwardButton
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
@@ -284,17 +294,18 @@ Item {
                 height: listItemHeight
                 width: parent.width
                 color: appBackgroundColor
-                Text {
+                ClickableTextBox {
                     height: listItemHeight
+                    width: thisScreen.listTextWidth
                     text: "ABOUT"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
+                    foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: aboutForwardButton.clicked()
                 }
                 ForwardButton {
+                    id: aboutForwardButton
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {

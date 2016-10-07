@@ -25,19 +25,15 @@ Item {
         }
     }
 
-
-    Text {
+    ClickableTextBox {
         id: screenTitle
         text: "ABOUT"
-        font.family: localFont.name
-        font.pointSize: 18
-        color: appGrayText
-        width: 400
-        height: 30
+        width: 85
         x: 80
         anchors.verticalCenter: backButton.verticalCenter
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
+        onClicked: backButton.clicked();
     }
 
     Flickable {
