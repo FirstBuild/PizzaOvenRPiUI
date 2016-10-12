@@ -25,15 +25,25 @@ Item {
         }
     }
 
-    ClickableTextBox {
+    // title text
+    Rectangle {
         id: screenTitle
-        text: "ABOUT"
-        width: 85
-        x: 80
+        width: 400
+        height: 30
+        x: (parent.width - width) / 2
+        color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-        onClicked: backButton.clicked();
+        Text {
+            id: idButtonText
+            text: "ABOUT"
+            font.family: localFont.name
+            font.pointSize: 17
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            color: appGrayText
+        }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
     Flickable {
@@ -41,7 +51,7 @@ Item {
         height: screenHeight - backButton.y - backButton.height - anchors.topMargin - 30
         anchors.topMargin: 10
         anchors.top: screenTitle.bottom
-        x: screenTitle.x
+        x: 80
         contentWidth: listItemWidth
         contentHeight: settingsList.height
         clip: true

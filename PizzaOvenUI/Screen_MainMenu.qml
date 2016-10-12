@@ -69,6 +69,7 @@ Item {
                 script: {
                     screenExit();
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
+//                    stackView.push({item: Qt.resolvedUrl("Screen_Settings3.qml"), immediate:immediateTransitions});
                 }
             }
         }

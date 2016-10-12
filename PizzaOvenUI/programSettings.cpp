@@ -12,7 +12,6 @@ using namespace std;
 const int defaultTodOffset = 0;
 const int defaultScreenXOffset = 60;
 const int defaultScreenYOffset = 25;
-const bool defaultTwoTempMode = true;
 const bool defaultTempDisplayInF = true;
 const int defaultVolumeSetting = 5;
 const int defaultMaxVolume = 70;
@@ -86,7 +85,6 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_todOffset = (settings.contains("todOffset")) ? settings["todOffset"].toInt() : defaultTodOffset;
     m_screenXOffset = (settings.contains("screenOffsetX")) ? settings["screenOffsetX"].toInt() : defaultScreenXOffset;
     m_screenYOffset = (settings.contains("screenOffsetY")) ? settings["screenOffsetY"].toInt() : defaultScreenYOffset;
-    m_twoTempMode = (settings.contains("twoTempMode")) ? settings["twoTempMode"].toBool() : defaultTwoTempMode;
     m_tempDisplayInF = (settings.contains("tempDisplayInF")) ? settings["tempDisplayInF"].toBool() : defaultTempDisplayInF;
     m_volumeSetting = (settings.contains("volumeSetting")) ? settings["volumeSetting"].toInt() : defaultVolumeSetting;
     m_maxVolume = (settings.contains("maxVolume")) ? settings["maxVolume"].toInt() : defaultMaxVolume;
@@ -97,7 +95,6 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["todOffset"] = m_todOffset;
     settings["screenOffsetX"] = m_screenXOffset;
     settings["screenOffsetY"] = m_screenYOffset;
-    settings["twoTempMode"] = m_twoTempMode;
     settings["tempDisplayInF"] = m_tempDisplayInF;
     settings["volumeSetting"] = m_volumeSetting;
     settings["maxVolume"] = m_maxVolume;
@@ -109,7 +106,6 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_todOffset = defaultTodOffset;
     m_screenXOffset = defaultScreenXOffset;
     m_screenYOffset = defaultScreenYOffset;
-    m_twoTempMode = defaultTwoTempMode;
     m_tempDisplayInF = defaultTempDisplayInF;
     m_maxVolume = defaultMaxVolume;
     m_settingsInitialized = false;
@@ -157,22 +153,6 @@ void ProgramSettings::setScreenoffsetY(int OffsetY)
 int ProgramSettings::getScreenOffsetY()
 {
     return m_screenYOffset;
-}
-
-/*************** Two Temp Mode ***************/
-void ProgramSettings::setTwoTempMode(bool mode)
-{
-    cout << "Setting two temp mode to " << mode << endl;
-    if (mode != m_twoTempMode) {
-        m_twoTempMode = mode;
-        emit twoTempModeChanged();
-        saveSettings();
-    }
-}
-
-bool ProgramSettings::getTwoTempMode()
-{
-    return m_twoTempMode;
 }
 
 /*************** Settings initialized ***************/

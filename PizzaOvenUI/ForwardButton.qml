@@ -11,7 +11,9 @@ Rectangle {
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
 
-    NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
+    property real maxOpacity: 1.0
+
+    NumberAnimation on opacity { from: 0; to: maxOpacity; easing.type: Easing.InCubic }
 
     Canvas {
         id: drawing
@@ -43,16 +45,6 @@ Rectangle {
         onClicked: {
             sounds.touch.play();
             forwardButton.clicked();
-        }
-        onPressed: {
-            segmentColor = appBackgroundColor;
-            forwardButton.color = appForegroundColor;
-            drawing.requestPaint();
-        }
-        onReleased: {
-            segmentColor = appForegroundColor;
-            forwardButton.color = appBackgroundColor;
-            drawing.requestPaint();
         }
     }
 }

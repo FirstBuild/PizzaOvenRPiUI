@@ -76,5 +76,6 @@
         <file>Screen_SettingMaxVolume.qml</file>
         <file>Screen_About.qml</file>
         <file>ClickableTextBox.qml</file>
+        <file>Screen_Settings3.qml</file>
     </qresource>
 </RCC>

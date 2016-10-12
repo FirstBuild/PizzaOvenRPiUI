@@ -41,15 +41,25 @@ Item {
         }
     }
 
-    ClickableTextBox {
+    // title text
+    Rectangle {
         id: screenTitle
-        text: "VOLUME SETTING"
-        width: 210
-        x: 80
+        width: 400
+        height: 30
+        x: (parent.width - width) / 2
+        color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-        onClicked: backButton.clicked();
+        Text {
+            id: idButtonText
+            text: "VOLUME SETTING"
+            font.family: localFont.name
+            font.pointSize: 17
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            color: appGrayText
+        }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
     Tumbler {

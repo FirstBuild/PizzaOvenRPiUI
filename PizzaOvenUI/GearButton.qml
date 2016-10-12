@@ -23,12 +23,6 @@ Rectangle {
                 sounds.touch.play();
                 gearButton.clicked();
             }
-            onPressed: {
-                gearButton.color = appForegroundColor;
-            }
-            onReleased: {
-                gearButton.color = appBackgroundColor;
-            }
         }
     }
 

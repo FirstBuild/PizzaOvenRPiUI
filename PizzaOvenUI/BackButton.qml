@@ -43,16 +43,6 @@ Rectangle {
                     }
                 }
             }
-            onPressed: {
-                segmentColor = appBackgroundColor;
-                backButton.color = appForegroundColor;
-                drawing.requestPaint();
-            }
-            onReleased: {
-                segmentColor = appForegroundColor;
-                backButton.color = appBackgroundColor;
-                drawing.requestPaint();
-            }
         }
     }
 

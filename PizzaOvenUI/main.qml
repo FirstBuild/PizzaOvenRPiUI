@@ -34,13 +34,13 @@ Window {
     // Things related to how the app looks and operates
     property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
-    property bool twoTempEntryModeIsActive: appSettings.twoTempMode
 
     property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
     property color appGrayColor: "#707070"
     property color appGrayText: "#B0B0B0"
 
+    property int centerCircleTextHeight: 24
     property string gearIconSource: "Gear-Icon-white-2.svg"
     property bool immediateTransitions: true
     property int screenWidth: 559
@@ -154,8 +154,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

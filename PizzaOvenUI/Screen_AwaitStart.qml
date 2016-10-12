@@ -60,11 +60,7 @@ Item {
                 lowerFront.currentTemp = 75;
             }
 
-            if (appSettings.twoTempMode) {
-                startExitToScreen("Screen_Preheating2Temp.qml");
-            } else {
-                startExitToScreen("Screen_Preheating.qml");
-            }
+            startExitToScreen("Screen_Preheating2Temp.qml");
         }
     }
 

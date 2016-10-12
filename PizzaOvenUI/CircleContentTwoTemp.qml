@@ -12,9 +12,11 @@ Item {
     property string line3String: "LINE 3"
     property string line4String: "LINE 4"
     property int textSize: 1
-    property int finalTextSize: 18
+    property int finalTextSize: centerCircleTextHeight
     property color textColor: appForegroundColor
     property int margins: 1
+    property int boxHeight: 33
+    property int boxWidth: 100
 
     opacity: 0.0
 
@@ -22,68 +24,99 @@ Item {
     NumberAnimation on textSize {from: 1; to: finalTextSize}
 
     Rectangle {
-        id: topLine
-        width: 75
+        id: midLine
+        width: 125
         height: 1
         color: appGrayColor
         x: (screenWidth - width) / 2
-        y: 197 - lineSpacing / 2
+        y: 197
     }
 
     Rectangle {
-        id: bottomLine
-        width: 75
-        height: 1
-        color: appGrayColor
-        x: (screenWidth - width) / 2
-        y: 196 + lineSpacing / 2
-        anchors.bottomMargin: margins
+        id: topBox
+        width: boxWidth
+        height: boxHeight
+        border.color: "yellow"
+        border.width: 0
+        anchors.horizontalCenter: midLine.horizontalCenter
+        y: 155 - height
+        color: appBackgroundColor
+        Text {
+            text: circleContent.line1String
+            font.family: localFont.name
+            font.pointSize: textSize
+            color: appGrayText
+            width: parent.width
+            height: parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 
-    Text {
-        text: circleContent.line1String
-        font.family: localFont.name
-        font.pointSize: textSize
-        color: textColor
-        width: 100
-        x: (screenWidth - width) / 2
-        anchors.bottom: topLine.top
-        horizontalAlignment: Text.AlignHCenter
+    Rectangle {
+        id: centerTopBox
+        width: boxWidth
+        height: boxHeight
+        border.color: "yellow"
+        border.width: 0
+        anchors.horizontalCenter: midLine.horizontalCenter
+        anchors.top: topBox.bottom
+        color: appBackgroundColor
+        Text {
+            text: circleContent.line2String
+            font.family: localFont.name
+            font.pointSize: textSize
+            color: textColor
+            width: parent.width
+            height: parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 
-    Text {
-        text: circleContent.line2String
-        font.family: localFont.name
-        font.pointSize: textSize
-        color: textColor
-        width: 100
-        x: (screenWidth - width) / 2
-        anchors.top: topLine.bottom
-        horizontalAlignment: Text.AlignHCenter
-        anchors.topMargin: margins
+    Rectangle {
+        id: centerBottomBox
+        width: boxWidth
+        height: boxHeight
+        border.color: "yellow"
+        border.width: 0
+        anchors.horizontalCenter: midLine.horizontalCenter
+        y: 239 - height
+        color: appBackgroundColor
+        Text {
+            text: circleContent.line3String
+            font.family: localFont.name
+            font.pointSize: textSize
+            color: appGrayText
+            width: parent.width
+            height: parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 
-    Text {
-        text: circleContent.line3String
-        font.family: localFont.name
-        font.pointSize: textSize
-        color: textColor
-        width: 100
-        x: (screenWidth - width) / 2
-        anchors.bottom: bottomLine.top
-        horizontalAlignment: Text.AlignHCenter
-        anchors.bottomMargin: margins
-    }
-
-    Text {
-        text: circleContent.line4String
-        font.family: localFont.name
-        font.pointSize: textSize
-        color: textColor
-        width: 100
-        x: (screenWidth - width) / 2
-        anchors.top: bottomLine.bottom
-        horizontalAlignment: Text.AlignHCenter
-        anchors.topMargin: margins
+    Rectangle {
+        id: bottomBox
+        width: boxWidth
+        height: boxHeight
+        border.color: "yellow"
+        border.width: 0
+        anchors.horizontalCenter: midLine.horizontalCenter
+        anchors.top: centerBottomBox.bottom
+        color: appBackgroundColor
+        Text {
+            text: circleContent.line4String
+            font.family: localFont.name
+            font.pointSize: textSize
+            color: textColor
+            width: parent.width
+            height: parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 }

@@ -116,35 +116,6 @@ Item {
                 ClickableTextBox {
                     height: listItemHeight
                     width: thisScreen.listTextWidth
-                    text: "TWO TEMP MODE"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: {
-                        twoTempSlider.state = !twoTempSlider.state
-                        twoTempSlider.clicked();
-                    }
-                }
-                SlideOffOn{
-                    id: twoTempSlider
-                    anchors.right: parent.right
-                    state: twoTempEntryModeIsActive
-                    onClicked: {
-                        if (twoTempEntryModeIsActive != twoTempSlider.state) {
-                            twoTempEntryModeIsActive = twoTempSlider.state;
-                            appSettings.twoTempMode = twoTempEntryModeIsActive;
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
                     text: "WiFi"
                     foregroundColor: appForegroundColor
                     horizontalAlignment: Text.AlignLeft
@@ -176,10 +147,6 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                ForwardButton {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                }
             }
             Rectangle {
                 height: listItemHeight
@@ -193,12 +160,6 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
-                    onClicked: volumeForwardButton.clicked();
-                }
-                ForwardButton {
-                    id: volumeForwardButton
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
                         NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
                         ScriptAction {script: {
@@ -221,10 +182,6 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
                 }
-                ForwardButton {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                }
             }
             Rectangle {
                 height: listItemHeight
@@ -238,12 +195,6 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
-                    onClicked: centerForwardButton.clicked()
-                }
-                ForwardButton {
-                    id: centerForwardButton
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
                         NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
                         ScriptAction {script: {
@@ -275,12 +226,6 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
-                    onClicked: advancedForwardButton.clicked()
-                }
-                ForwardButton {
-                    id: advancedForwardButton
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
                         NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
                         ScriptAction {script: {
@@ -302,12 +247,6 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
-                    onClicked: aboutForwardButton.clicked()
-                }
-                ForwardButton {
-                    id: aboutForwardButton
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
                     onClicked: SequentialAnimation {
                         NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
                         ScriptAction {script: {

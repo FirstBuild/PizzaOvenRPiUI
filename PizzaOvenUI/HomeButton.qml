@@ -40,18 +40,9 @@ Rectangle {
                             stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
                         }
                     }
-                }
-            onPressed: {
-                segmentColor = appBackgroundColor;
-                buttonBox.color = appForegroundColor;
-                drawing.requestPaint();
             }
-            onReleased: {
-                segmentColor = appForegroundColor;
-                buttonBox.color = appBackgroundColor;
-                drawing.requestPaint();
-            }
-        }    }
+        }
+    }
 
     Rectangle {
         id: buttonBox
