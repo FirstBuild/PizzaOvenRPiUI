@@ -21,6 +21,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 sounds.touch.play();
+                bookmarkCurrentScreen();
                 gearButton.clicked();
             }
         }

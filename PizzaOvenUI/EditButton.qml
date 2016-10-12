@@ -19,6 +19,7 @@ Item {
             ScriptAction {
                 script: {
                     stackView.clear();
+                    singleSettingOnly = false;
                     stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
                 }
             }

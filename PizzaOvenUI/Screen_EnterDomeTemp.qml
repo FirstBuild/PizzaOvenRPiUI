@@ -122,7 +122,7 @@ Item {
 
     ButtonRight {
         id: nextButton
-        text: "NEXT"
+        text: singleSettingOnly ? "DONE" : "NEXT"
         height: lineSpacing
         onClicked: SequentialAnimation {
             id: screenExitAnimation
@@ -140,15 +140,20 @@ Item {
                     } else {
                         if (temp !== upperFront.setTemp) {
                             foodNameString = "CUSTOM"
+                            utility.setUpperTemps(temp)
+                            utility.saveCurrentSettingsAsCustom();
                         }
-                        utility.setUpperTemps(temp)
                     }
                 }
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
             ScriptAction {script: {
-                    //                stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
-                    stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                    if (singleSettingOnly) {
+                        restoreBookmarkedScreen();
+                    } else {
+
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                    }
                 }
             }
         }

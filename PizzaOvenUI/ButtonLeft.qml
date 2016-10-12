@@ -18,14 +18,12 @@ Item {
     opacity: 0.0
 
     function animate() {
-        console.log("left button is animating");
         opacityAnim.start();
         movementAnim.start();
     }
 
     PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26}
     OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic
-        onStopped: console.log("Left button animation ended.");
     }
 
     SideButton {

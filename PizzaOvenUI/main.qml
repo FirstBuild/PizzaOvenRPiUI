@@ -67,6 +67,8 @@ Window {
     property string ovenState: "Standby"
 
     property string currentScreen: ""
+    property Item screenBookmark
+    property bool singleSettingOnly: false
 
     BackEndConnection {
         id:backEnd
@@ -146,6 +148,13 @@ Window {
         stackView.push({item: newScreen, immediate:immediateTransitions});
     }
 
+    function bookmarkCurrentScreen() {
+        screenBookmark = stackView.currentItem;
+    }
+    function restoreBookmarkedScreen() {
+        stackView.pop({item:screenBookmark, immediate:immediateTransitions});
+    }
+
     // Define the active screen area.  All screens live here.
     Rectangle {
         id: screenStackContainer
@@ -191,6 +200,7 @@ Window {
         anchors.left: screenStackContainer.right
         anchors.verticalCenter: screenStackContainer.verticalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -200,6 +210,7 @@ Window {
         anchors.top: screenStackContainer.bottom
         anchors.horizontalCenter: screenStackContainer.horizontalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -209,6 +220,7 @@ Window {
         anchors.right: screenStackContainer.left
         anchors.verticalCenter: screenStackContainer.verticalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -218,6 +230,7 @@ Window {
         anchors.bottom: screenStackContainer.top
         anchors.horizontalCenter: screenStackContainer.horizontalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }

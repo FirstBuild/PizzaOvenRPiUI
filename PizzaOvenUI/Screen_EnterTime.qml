@@ -129,11 +129,11 @@ Item {
                     var temp = timeEntryTumbler.getTime();
                     if (temp !== cookTime) {
                         foodNameString = "CUSTOM"
+                        cookTime = timeEntryTumbler.getTime();
+                        backEnd.sendMessage("CookTime " + cookTime);
+                        finalCheckTime = cookTime * 0.9
+                        utility.saveCurrentSettingsAsCustom();
                     }
-
-                    cookTime = timeEntryTumbler.getTime();
-                    backEnd.sendMessage("CookTime " + cookTime);
-                    finalCheckTime = cookTime * 0.9
                 }
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}

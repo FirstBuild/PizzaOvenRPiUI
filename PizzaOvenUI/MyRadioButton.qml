@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.6
 
 Item {
     id: radioButton
@@ -8,6 +8,8 @@ Item {
     property bool state: true
     signal clicked()
     property string text: "LABEL"
+    property real spacing: 5
+    property bool silent: false
 
     Rectangle {
         id: background
@@ -17,7 +19,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                sounds.touch.play();
+                if (!silent) sounds.touch.play();
                 radioButton.clicked();
             }
             onPressed: {
@@ -35,12 +37,12 @@ Item {
         height: parent.height
         width: parent.width
         anchors.verticalCenter: parent.verticalCenter
+        spacing: radioButton.spacing
         Rectangle {
             width: 19
             height: width
             radius: width/2
             anchors.verticalCenter: parent.verticalCenter
-//            anchors.centerIn: parent
             color: appBackgroundColor
             border.color: appGrayText
             border.width: 2
@@ -54,7 +56,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    sounds.touch.play();
+                    if (!silent) sounds.touch.play();
                     radioButton.clicked();
                 }
                 onPressed: {

@@ -9,6 +9,7 @@ Item {
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+    OpacityAnimator {id: screenExitAnimation; target: thisScreen; from: 1.0; to: 0.0; running:false}
 
     function screenEntry() {
         screenEntryAnimation.start();
@@ -20,14 +21,13 @@ Item {
     property int titleTextPointSize: 1
     property int titleTextToPointSize: 18
 
-    property int currentIndex: volumeEntry.currentIndexAt(0)
+    property int currentVolume: volumeSetting
 
     property bool uiLoaded: false
 
-    onCurrentIndexChanged: {
+    onCurrentVolumeChanged: {
         if (uiLoaded){
             console.log("The volume tumbler index changed.");
-            volumeSetting = volumeEntry.currentIndexAt(0);
             console.log("Volume is now " + volumeSetting);
             appSettings.volumeSetting = volumeSetting;
             sounds.touch.play();
@@ -44,11 +44,13 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
+        width: 300
         height: 30
         x: (parent.width - width) / 2
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
+//        border.color: "orange"
+//        border.width: 1
         Text {
             id: idButtonText
             text: "VOLUME SETTING"
@@ -62,37 +64,81 @@ Item {
         NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
-    Tumbler {
-        id: volumeEntry
-        height: tumblerHeight
-        anchors.bottomMargin: 20
-        anchors.bottom: parent.bottom
+    Rectangle {
+        id: radioBox
         anchors.horizontalCenter: parent.horizontalCenter
-
-        NumberAnimation on opacity {
-            id: anim;
-            from: 0.0;
-            to: 1.0;
-            easing.type: Easing.InCubic;
+        //y: (screenTitle.y + screenTitle.height - radioBox.height + screenHeight) / 2
+        anchors.verticalCenter: doneButton.verticalCenter
+        width: 115
+        height: 4 * lineSpacing + 2
+//        border.color: "orange"
+//        border.width: 1
+        color: appBackgroundColor
+        Column {
+            Component.onCompleted: {
+                uiLoaded = true;
+            }
+            width: parent.width - 2
+            height: parent.height - 2
+            x: 1
+            y: 1
+            MyRadioButton {
+                id: radioOff
+                text: "Off"
+                width: parent.width
+                height: lineSpacing
+                state: volumeSetting === 0
+                silent: true
+                onClicked: {
+                    volumeSetting = 0
+                }
+            }
+            MyRadioButton {
+                id: radioLow
+                text: "Low"
+                width: parent.width
+                height: lineSpacing
+                state: volumeSetting === 7
+                silent: true
+                onClicked: {
+                    volumeSetting = 7
+                }
+            }
+            MyRadioButton {
+                id: radioMedium
+                text: "Medium"
+                width: parent.width
+                height: lineSpacing
+                state: volumeSetting === 8
+                silent: true
+                onClicked: {
+                    volumeSetting = 8
+                }
+            }
+            MyRadioButton {
+                id: radioHigh
+                text: "High"
+                width: parent.width
+                height: lineSpacing
+                state: volumeSetting === 9
+                silent: true
+                onClicked: {
+                    volumeSetting = 9
+                }
+            }
         }
+    }
 
-        Component.onCompleted: {
-            volumeEntry.setCurrentIndexAt(0, volumeSetting);
-            anim.start();
-            uiLoaded = true;
-        }
-
-        style:  MyTumblerStyle {
-            visibleItemCount: tumblerRows
-            textHeight:volumeEntry.height/visibleItemCount
-            textWidth: appColumnWidth
-            textAlignment: Text.AlignHCenter
-            showKeypress: false
-        }
-        TumblerColumn {
-            id: volumeColumn
-            width: appColumnWidth
-            model: [0,1,2,3,4,5,6,7,8,9]
+    ButtonRight {
+        id: doneButton
+        text: "DONE"
+        onClicked: SequentialAnimation {
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; /*easing.type: Easing.InCubic*/}
+            ScriptAction {
+                script: {
+                    restoreBookmarkedScreen();
+                }
+            }
         }
     }
 }

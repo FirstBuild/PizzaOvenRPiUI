@@ -70,12 +70,18 @@ Item {
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(cookTime)
         onTopStringClicked: {
+            singleSettingOnly = true;
+            bookmarkCurrentScreen();
             startExitToScreen("Screen_EnterDomeTemp.qml");
         }
         onMiddleStringClicked: {
+            singleSettingOnly = true;
+            bookmarkCurrentScreen();
             startExitToScreen("Screen_EnterStoneTemp.qml");
         }
         onBottomStringClicked: {
+            singleSettingOnly = true;
+            bookmarkCurrentScreen();
             startExitToScreen("Screen_EnterTime.qml");
         }
     }

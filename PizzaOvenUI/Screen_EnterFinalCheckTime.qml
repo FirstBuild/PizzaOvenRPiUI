@@ -84,37 +84,21 @@ Item {
                     var temp = timeEntryTumbler.getTime();
                     if (temp !== finalCheckTime) {
                         foodNameString = "CUSTOM"
+                        finalCheckTime = timeEntryTumbler.getTime();
+                        utility.saveCurrentSettingsAsCustom();
+                        backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
                     }
-                    var allSettings = menuSettings.json;
-                    for(var i=0; i<allSettings.menuItems.length; i++) {
-                        if (allSettings.menuItems[i].name === "CUSTOM") {
-                            console.log("Custom found at index " + i);
-//                            var settings = {
-//                                "domeTemp": upperFront.setTemp,
-//                                "stoneTemp": lowerFront.setTemp,
-//                                "cookTime": cookTime,
-//                                "finalCheckTime": finalCheckTime,
-//                                "halfTimeCheck": halfTimeRotate
-//                            }
-
-                            allSettings.menuItems[i].domeTemp = upperFront.setTemp;
-                            allSettings.menuItems[i].stoneTemp = lowerFront.setTemp;
-                            allSettings.menuItems[i].cookTime = cookTime;
-                            allSettings.menuItems[i].finalCheckTime = finalCheckTime;
-                            allSettings.menuItems[i].halfTimeCheck = halfTimeRotate;
-                            menuSettings.json = allSettings;
-                        }
-                    }
-
-                    finalCheckTime = timeEntryTumbler.getTime();
-                    backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
                 }
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    if (singleSettingOnly) {
+                        restoreBookmarkedScreen();
+                    } else {
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    }
                 }
             }
         }

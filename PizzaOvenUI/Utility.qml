@@ -44,4 +44,19 @@ Item {
                              (lowerRear.setTemp - 0.5 * lowerRear.temperatureDeadband) + " " +
                              (lowerRear.setTemp + 0.5 * lowerRear.temperatureDeadband));
     }
+
+    function saveCurrentSettingsAsCustom() {
+        var allSettings = menuSettings.json;
+        for(var i=0; i<allSettings.menuItems.length; i++) {
+            if (allSettings.menuItems[i].name === "CUSTOM") {
+                console.log("Custom found at index " + i);
+                allSettings.menuItems[i].domeTemp = upperFront.setTemp;
+                allSettings.menuItems[i].stoneTemp = lowerFront.setTemp;
+                allSettings.menuItems[i].cookTime = cookTime;
+                allSettings.menuItems[i].finalCheckTime = finalCheckTime;
+                allSettings.menuItems[i].halfTimeCheck = halfTimeRotate;
+                menuSettings.json = allSettings;
+            }
+        }
+    }
 }

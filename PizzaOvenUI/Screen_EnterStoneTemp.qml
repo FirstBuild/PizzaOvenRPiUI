@@ -112,7 +112,7 @@ Item {
 
     ButtonRight {
         id: nextButton
-        text: "NEXT"
+        text: singleSettingOnly ? "DONE" : "NEXT"
         onClicked: SequentialAnimation {
             id: screenExitAnimation
             ScriptAction {
@@ -128,8 +128,9 @@ Item {
                     } else {
                         if (temp !== lowerFront.setTemp) {
                             foodNameString = "CUSTOM"
+                            utility.setLowerTemps(temp)
+                            utility.saveCurrentSettingsAsCustom();
                         }
-                        utility.setLowerTemps(temp)
                     }
 
                 }
@@ -137,8 +138,11 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
-                    //                stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
-                    stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
+                    if (singleSettingOnly) {
+                        restoreBookmarkedScreen();
+                    } else {
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
+                    }
                 }
             }
         }
