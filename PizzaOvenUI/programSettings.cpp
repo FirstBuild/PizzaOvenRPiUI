@@ -76,7 +76,7 @@ void ProgramSettings::loadSettings(void)
 
     loadSettingsFromJsonObject(loadDoc.object());
 
-    setSystemVolume(m_volumeSetting);
+    setSystemVolume(m_maxVolume * m_volumeSetting / 9);
     setLcdBrightness(m_brightness);
 
     qInfo("Done loading application settings.");
@@ -322,6 +322,8 @@ static void setLcdBrightness(int brightness)
     QFile file(BRIGHTNESS_FILE);
     char brightnessMsg[] = "255xx";
     sprintf(brightnessMsg, "%d", brightness);
+
+    qInfo("Setting system brightness to %d", brightness);
 
     if (brightnessFileExists)
     {

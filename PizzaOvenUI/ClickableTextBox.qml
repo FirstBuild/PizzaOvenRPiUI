@@ -37,27 +37,27 @@ Item {
                 box.clicked();
             }
 
-            onPressed: {
-                textBackgroundOnReleased.stop();
-                textBackgroundOnPressed.start();
-                selectionTextOnReleased.stop();
-                selectionTextOnPressed.start();
-            }
-            onReleased: {
-                textBackgroundOnPressed.stop();
-                textBackgroundOnReleased.start();
-                selectionTextOnPressed.stop();
-                selectionTextOnReleased.start();
-            }
-            onPositionChanged: {
-                textBackgroundOnReleased.stop();
-                selectionTextOnReleased.stop();
-                textBackgroundOnPressed.stop();
-                selectionTextOnPressed.stop();
-                selectionTextOnReleased.start();
-                background.color = box.backgroundColor;
-                theText.color = box.foregroundColor;
-            }
+//            onPressed: {
+//                textBackgroundOnReleased.stop();
+//                textBackgroundOnPressed.start();
+//                selectionTextOnReleased.stop();
+//                selectionTextOnPressed.start();
+//            }
+//            onReleased: {
+//                textBackgroundOnPressed.stop();
+//                textBackgroundOnReleased.start();
+//                selectionTextOnPressed.stop();
+//                selectionTextOnReleased.start();
+//            }
+//            onPositionChanged: {
+//                textBackgroundOnReleased.stop();
+//                selectionTextOnReleased.stop();
+//                textBackgroundOnPressed.stop();
+//                selectionTextOnPressed.stop();
+//                selectionTextOnReleased.start();
+//                background.color = box.backgroundColor;
+//                theText.color = box.foregroundColor;
+//            }
         }
     }
 

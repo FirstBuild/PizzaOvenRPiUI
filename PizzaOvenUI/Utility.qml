@@ -22,9 +22,6 @@ Item {
     function tempToString(t) {
         var temp = tempDisplayInF ? t : f2c(t);
         var unit = tempDisplayInF ? String.fromCharCode(8457) : String.fromCharCode(8451);
-        console.log("Converting temp to string.");
-        console.log("Entered temp is " + t);
-        console.log("Temp is " + temp);
         return temp.toFixed(0).toString() + unit;
     }
 

@@ -32,7 +32,7 @@ Item {
         id: circleContent
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
-        bottomString: utility.timeToString(cookTime * dataCircle.circleValue / 100)
+        bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)
     }
 
     PauseButton {
