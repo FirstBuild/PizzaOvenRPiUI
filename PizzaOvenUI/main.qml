@@ -163,8 +163,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+//        border.color: "red"
+//        border.width: 1
         StackView {
             id: stackView
             width: parent.width
