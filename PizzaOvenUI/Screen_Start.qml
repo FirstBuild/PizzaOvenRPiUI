@@ -12,10 +12,12 @@ Item {
     CircleScreenTemplate {
         circleValue: 0
         titleText: "READY"
+        needsAnimation: false
     }
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
@@ -26,6 +28,7 @@ Item {
     ButtonRight {
         id: startButton
         text: "START"
+        needsAnimation: false
         onClicked: SequentialAnimation {
             ScriptAction {
                 script: {
@@ -46,6 +49,7 @@ Item {
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(cookTime)
+        needsAnimation: false
     }
 
     function screenEntry() {

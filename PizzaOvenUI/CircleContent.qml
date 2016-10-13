@@ -8,10 +8,10 @@ Item {
     property string topString: "TOP"
     property string middleString: "MIDDLE"
     property string bottomString: "BOTTOM"
+    property bool needsAnimation: true
+    opacity: needsAnimation ? 0.0 : 1.0
 
-    opacity: 0.0
-
-    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic}
+    OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
 
     function animate() {
         screenAnimation.start();
@@ -44,7 +44,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text1Animation; from: 1; to: 17}
+        NumberAnimation on font.pointSize {id: text1Animation; from: 1; to: 17; running: needsAnimation}
     }
 
     Text {
@@ -59,7 +59,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text2Animation; from: 1; to: 36}
+        NumberAnimation on font.pointSize {id: text2Animation; from: 1; to: 36; running: needsAnimation}
     }
 
     // Stuff for three lines of text
@@ -84,7 +84,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text3Animation; from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text3Animation; from: 1; to: 27; running: needsAnimation}
     }
 
     Text {
@@ -99,7 +99,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text4Animation; from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text4Animation; from: 1; to: 27; running: needsAnimation}
     }
 
     Text {
@@ -114,6 +114,6 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text5Animation; from: 1; to: 27}
+        NumberAnimation on font.pointSize {id: text5Animation; from: 1; to: 27; running: needsAnimation}
     }
 }
