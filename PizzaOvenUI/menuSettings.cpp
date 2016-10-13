@@ -30,7 +30,7 @@ static QJsonObject Flatbread
     {"domeTemp", 1250},
     {"finalCheckTime", 105},
     {"halfTimeCheck", true},
-    {"name", "FlATBREAD"},
+    {"name", "FLATBREAD"},
     {"stoneTemp", 650}
 };
 static QJsonObject DetroitStyle

@@ -12,19 +12,22 @@ using namespace std;
 const int defaultTodOffset = 0;
 const int defaultScreenXOffset = 60;
 const int defaultScreenYOffset = 25;
-const bool defaultTwoTempMode = true;
 const bool defaultTempDisplayInF = true;
 const int defaultVolumeSetting = 5;
 const int defaultMaxVolume = 70;
+const int defaultBrightness = 255;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
+bool brightnessFileExists = false;
 
 #define BACKLIGHT_FILE ("/sys/class/backlight/rpi_backlight/bl_power")
+#define BRIGHTNESS_FILE "/sys/class/backlight/rpi_backlight/brightness"
 
 // Module static function prototypes
 static void writeBacklightStateToBacklightFile(bool state);
 static void setSystemVolume(int volume);
+static void setLcdBrightness(int brightness);
 
 ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 {
@@ -45,6 +48,18 @@ void ProgramSettings::loadSettings(void)
         backlightFileExists = false;
     }
 
+    if (QFile(BRIGHTNESS_FILE).exists())
+    {
+        qInfo("Brightness file exists, brightness control is possible.");
+        brightnessFileExists = true;
+    }
+    else
+    {
+        qInfo("Brightness file not found, cannot control brightness.");
+        brightnessFileExists = false;
+    }
+
+
     qInfo("Loading application settings...");
     QFile loadFile(QStringLiteral("settings.json"));
 
@@ -60,6 +75,9 @@ void ProgramSettings::loadSettings(void)
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
 
     loadSettingsFromJsonObject(loadDoc.object());
+
+    setSystemVolume(m_maxVolume * m_volumeSetting / 9);
+    setLcdBrightness(m_brightness);
 
     qInfo("Done loading application settings.");
 }
@@ -86,10 +104,10 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_todOffset = (settings.contains("todOffset")) ? settings["todOffset"].toInt() : defaultTodOffset;
     m_screenXOffset = (settings.contains("screenOffsetX")) ? settings["screenOffsetX"].toInt() : defaultScreenXOffset;
     m_screenYOffset = (settings.contains("screenOffsetY")) ? settings["screenOffsetY"].toInt() : defaultScreenYOffset;
-    m_twoTempMode = (settings.contains("twoTempMode")) ? settings["twoTempMode"].toBool() : defaultTwoTempMode;
     m_tempDisplayInF = (settings.contains("tempDisplayInF")) ? settings["tempDisplayInF"].toBool() : defaultTempDisplayInF;
     m_volumeSetting = (settings.contains("volumeSetting")) ? settings["volumeSetting"].toInt() : defaultVolumeSetting;
     m_maxVolume = (settings.contains("maxVolume")) ? settings["maxVolume"].toInt() : defaultMaxVolume;
+    m_brightness = (settings.contains("brightness")) ? settings["brightness"].toInt() : defaultBrightness;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -97,10 +115,10 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["todOffset"] = m_todOffset;
     settings["screenOffsetX"] = m_screenXOffset;
     settings["screenOffsetY"] = m_screenYOffset;
-    settings["twoTempMode"] = m_twoTempMode;
     settings["tempDisplayInF"] = m_tempDisplayInF;
     settings["volumeSetting"] = m_volumeSetting;
     settings["maxVolume"] = m_maxVolume;
+    settings["brightness"] = m_brightness;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -109,9 +127,9 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_todOffset = defaultTodOffset;
     m_screenXOffset = defaultScreenXOffset;
     m_screenYOffset = defaultScreenYOffset;
-    m_twoTempMode = defaultTwoTempMode;
     m_tempDisplayInF = defaultTempDisplayInF;
     m_maxVolume = defaultMaxVolume;
+    m_brightness = defaultBrightness;
     m_settingsInitialized = false;
 }
 
@@ -157,22 +175,6 @@ void ProgramSettings::setScreenoffsetY(int OffsetY)
 int ProgramSettings::getScreenOffsetY()
 {
     return m_screenYOffset;
-}
-
-/*************** Two Temp Mode ***************/
-void ProgramSettings::setTwoTempMode(bool mode)
-{
-    cout << "Setting two temp mode to " << mode << endl;
-    if (mode != m_twoTempMode) {
-        m_twoTempMode = mode;
-        emit twoTempModeChanged();
-        saveSettings();
-    }
-}
-
-bool ProgramSettings::getTwoTempMode()
-{
-    return m_twoTempMode;
 }
 
 /*************** Settings initialized ***************/
@@ -297,3 +299,50 @@ void ProgramSettings::setMaxVolume(int volume)
     saveSettings();
     setVolumeSetting(m_volumeSetting);
 }
+
+/*************** Brightness Setting ***************/
+int ProgramSettings::getBrightness(void)
+{
+    return m_brightness;
+}
+void ProgramSettings::setBrightness(int brightness)
+{
+    m_brightness = (brightness > 0) ? brightness : 1;
+    m_brightness = (brightness < 256) ? brightness : 255;
+
+    emit brightnessChanged();
+    qInfo("Brightness setting is %d", m_brightness);
+    saveSettings();
+
+    setLcdBrightness(m_brightness);
+}
+
+static void setLcdBrightness(int brightness)
+{
+    QFile file(BRIGHTNESS_FILE);
+    char brightnessMsg[] = "255xx";
+    sprintf(brightnessMsg, "%d", brightness);
+
+    qInfo("Setting system brightness to %d", brightness);
+
+    if (brightnessFileExists)
+    {
+
+        if (file.open(QIODevice::WriteOnly))
+        {
+            file.write(brightnessMsg);
+
+            file.flush();
+            file.close();
+        }
+        else
+        {
+            qWarning("Unable to open the brightness file.");
+        }
+    }
+    else
+    {
+        qWarning("The brightness file does not exist.");
+    }
+}
+

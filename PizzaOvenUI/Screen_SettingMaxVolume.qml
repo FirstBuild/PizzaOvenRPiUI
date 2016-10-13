@@ -31,18 +31,25 @@ Item {
         }
     }
 
-    Text {
+    // title text
+    Rectangle {
         id: screenTitle
-        text: "MAX VOLUME SETTING"
-        font.family: localFont.name
-        font.pointSize: 18
-        color: appGrayText
         width: 400
         height: 30
-        x: 80
+        x: (parent.width - width) / 2
+        color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
+        Text {
+            id: idButtonText
+            text: "MAX VOLUME SETTING"
+            font.family: localFont.name
+            font.pointSize: 17
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            color: appGrayText
+        }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
     Tumbler {

@@ -18,13 +18,16 @@ Item {
         onCircleValueChanged: {
             doExitCheck();
         }
+        needsAnimation: false
     }
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
+        needsAnimation: false
     }
 
     CircleContent {
@@ -32,10 +35,12 @@ Item {
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(cookTime * dataCircle.circleValue / 100)
+        needsAnimation: false
     }
 
     PauseButton {
         id: pauseButton
+        needsAnimation: false
     }
 
     function doExitCheck() {
@@ -48,7 +53,6 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script:{
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
             }

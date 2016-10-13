@@ -14,14 +14,17 @@ Item {
         id: dataCircle
         circleValue: 100
         titleText: "COOKING"
+        needsAnimation: false
     }
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
 
@@ -30,25 +33,25 @@ Item {
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: "DONE"
+        needsAnimation: false
     }
 
     ButtonRight {
         id: startButton
         text: "START"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {script: {
                     stackView.clear();
                     if (demoModeIsActive) {
                         lowerFront.currentTemp = 75;
                     }
-
-                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                    rootWindow.cookTimer.start();
+                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
                 }
             }
 
         }
-
+        needsAnimation: false
     }
 
     function screenEntry() {

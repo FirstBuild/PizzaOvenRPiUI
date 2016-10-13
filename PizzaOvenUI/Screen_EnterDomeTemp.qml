@@ -43,17 +43,16 @@ Item {
         to: titleTextToPointSize
     }
 
-    Text {
+    ClickableTextBox {
         text: "Select Dome Temperature"
-        font.family: localFont.name
-        font.pointSize: titleTextPointSize
-        color: appGrayText
-        width: 400
+        foregroundColor: appGrayText
+        width: 275
         height: 30
         x: screenWidth - width - 26
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
+        onClicked: nextButton.clicked()
     }
 
     Item {
@@ -76,10 +75,12 @@ Item {
             }
 
             Component.onCompleted: {
-                var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
-                var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
-                var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
-                var ones = (upperFront.setTemp%10).toFixed(0);
+                var temp = tempDisplayInF ? upperFront.setTemp : utility.f2c(upperFront.setTemp);
+                console.log("Temp is " + temp);
+                var thous = ((temp - temp%1000)/1000).toFixed(0);
+                var hunds = ((temp%1000 - temp%100)/100).toFixed(0);
+                var tens = ((temp%100 - temp%10)/10).toFixed(0);
+                var ones = (temp%10).toFixed(0);
                 temperatureEntry.setCurrentIndexAt(0, thous);
                 temperatureEntry.setCurrentIndexAt(1, hunds);
                 temperatureEntry.setCurrentIndexAt(2, tens);
@@ -102,6 +103,7 @@ Item {
                 id: thousandsColumn
                 width: appColumnWidth
                 model: [0,1,2,3,4,5,6,7,8,9]
+                visible: tempDisplayInF
             }
             TumblerColumn {
                 id: hundredsColumn
@@ -123,7 +125,7 @@ Item {
 
     ButtonRight {
         id: nextButton
-        text: "NEXT"
+        text: singleSettingOnly ? "DONE" : "NEXT"
         height: lineSpacing
         onClicked: SequentialAnimation {
             id: screenExitAnimation
@@ -134,6 +136,15 @@ Item {
                     temp += tensColumn.currentIndex * 10;
                     temp += onesColumn.currentIndex;
 
+                    console.log("Temp entered is " + temp);
+
+                    if (!tempDisplayInF)
+                    {
+                        temp = utility.c2f(temp);
+                        console.log("Temp was in C and is now in F as " + temp);
+                        console.log("Max temp in C is " + utility.f2c(upperMaxTemp));
+                    }
+
                     if (temp > upperMaxTemp) {
                         screenExitAnimation.stop();
                         sounds.alarmUrgent.play();
@@ -141,15 +152,20 @@ Item {
                     } else {
                         if (temp !== upperFront.setTemp) {
                             foodNameString = "CUSTOM"
+                            utility.setUpperTemps(temp)
+                            utility.saveCurrentSettingsAsCustom();
                         }
-                        utility.setUpperTemps(temp)
                     }
                 }
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
             ScriptAction {script: {
-                    //                stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
-                    stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                    if (singleSettingOnly) {
+                        restoreBookmarkedScreen();
+                    } else {
+
+                        stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                    }
                 }
             }
         }

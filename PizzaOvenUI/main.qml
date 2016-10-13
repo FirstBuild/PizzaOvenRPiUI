@@ -34,13 +34,13 @@ Window {
     // Things related to how the app looks and operates
     property bool demoModeIsActive: true
     property bool developmentModeIsActive: false
-    property bool twoTempEntryModeIsActive: appSettings.twoTempMode
 
     property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
     property color appGrayColor: "#707070"
     property color appGrayText: "#B0B0B0"
 
+    property int centerCircleTextHeight: 24
     property string gearIconSource: "Gear-Icon-white-2.svg"
     property bool immediateTransitions: true
     property int screenWidth: 559
@@ -54,6 +54,7 @@ Window {
     property bool tempDisplayInF: appSettings.tempDisplayInF
     property int  volumeSetting: appSettings.volumeSetting
     property int  maxVolume: appSettings.maxVolume
+    property int brightnessSetting: appSettings.brightness
 
     // some information
     property string controlVersion: "255.255.255.255"
@@ -67,6 +68,8 @@ Window {
     property string ovenState: "Standby"
 
     property string currentScreen: ""
+    property Item screenBookmark
+    property bool singleSettingOnly: false
 
     BackEndConnection {
         id:backEnd
@@ -146,6 +149,13 @@ Window {
         stackView.push({item: newScreen, immediate:immediateTransitions});
     }
 
+    function bookmarkCurrentScreen() {
+        screenBookmark = stackView.currentItem;
+    }
+    function restoreBookmarkedScreen() {
+        stackView.pop({item:screenBookmark, immediate:immediateTransitions});
+    }
+
     // Define the active screen area.  All screens live here.
     Rectangle {
         id: screenStackContainer
@@ -191,6 +201,7 @@ Window {
         anchors.left: screenStackContainer.right
         anchors.verticalCenter: screenStackContainer.verticalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -200,6 +211,7 @@ Window {
         anchors.top: screenStackContainer.bottom
         anchors.horizontalCenter: screenStackContainer.horizontalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -209,6 +221,7 @@ Window {
         anchors.right: screenStackContainer.left
         anchors.verticalCenter: screenStackContainer.verticalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }
@@ -218,6 +231,7 @@ Window {
         anchors.bottom: screenStackContainer.top
         anchors.horizontalCenter: screenStackContainer.horizontalCenter
         onClicked: {
+            console.log("Extra gear, transitioning to shift screen.");
             stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
         }
     }

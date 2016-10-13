@@ -19,14 +19,17 @@ Item {
         onCircleValueChanged: {
             doExitCheck();
         }
+        needsAnimation: false
     }
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
 
@@ -64,7 +67,6 @@ Item {
         id: continueButton
         text: "CONTINUE"
         onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
                     screenSwitchInProgress = true;
@@ -72,14 +74,11 @@ Item {
                 }
             }
         }
+        needsAnimation: false
     }
 
     function doExitCheck() {
         if (screenSwitchInProgress) return;
-//        if (dataCircle.circleValue >= 100) {
-//            screenSwitchInProgress = true;
-//            screenExitAnimation.start();
-//        }
         if (cookTime * dataCircle.circleValue / 100 >= finalCheckTime) {
             screenSwitchInProgress = true;
             screenExitAnimation.start();
@@ -88,10 +87,8 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {
             script: {
-//                stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
                 stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
             }
         }

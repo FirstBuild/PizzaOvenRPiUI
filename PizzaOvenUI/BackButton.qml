@@ -13,6 +13,39 @@ Rectangle {
 
     NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic }
 
+    Rectangle {
+        height: lineSpacing
+        width: lineSpacing
+        anchors.centerIn: parent
+        color: backButton.color
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: SequentialAnimation {
+                ScriptAction {
+                    script: {
+                        sounds.touch.play();
+                    }
+                }
+                OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+                ScriptAction {
+                    script: {
+                        console.log("Current stack depth: " + stackView.depth);
+                        if (stackView.depth > 1) {
+                            backButton.clicked();
+                        }
+                        else
+                        {
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
     Canvas {
         id: drawing
         width: parent.width
@@ -37,41 +70,6 @@ Rectangle {
             ctx.restore();
         }
     }
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: SequentialAnimation {
-            ScriptAction {
-                script: {
-                    sounds.touch.play();
-                }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    console.log("Current stack depth: " + stackView.depth);
-                    if (stackView.depth > 1) {
-                        backButton.clicked();
-                    }
-                    else
-                    {
-                        stackView.clear();
-                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    }
 
-                }
-            }
-        }
-        onPressed: {
-            segmentColor = appBackgroundColor;
-            backButton.color = appForegroundColor;
-            drawing.requestPaint();
-        }
-        onReleased: {
-            segmentColor = appForegroundColor;
-            backButton.color = appBackgroundColor;
-            drawing.requestPaint();
-        }
-    }
 }
 

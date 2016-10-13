@@ -67,35 +67,35 @@ TumblerStyle {
                     control.setCurrentIndexAt(styleData.column, styleData.index, 200);
                 }
             }
-            onPressed: {
-                tumblerDelegate.z = 10
-                if (styleData.current && showKeypress) {
-                    textBackgroundOnReleased.stop();
-                    textBackgroundOnPressed.start();
-                    selectionTextOnReleased.stop();
-                    selectionTextOnPressed.start();
-                }
-            }
-            onReleased: {
-                tumblerDelegate.z = 0
-                if (styleData.current && showKeypress) {
-                    textBackgroundOnPressed.stop();
-                    textBackgroundOnReleased.start();
-                    selectionTextOnPressed.stop();
-                    selectionTextOnReleased.start();
-                }
-            }
-            onPositionChanged: {
-                if (styleData.current && showKeypress) {
-                    textBackgroundOnReleased.stop();
-                    selectionTextOnReleased.stop();
-                    textBackgroundOnPressed.stop();
-                    selectionTextOnPressed.stop();
-                    selectionTextOnReleased.start();
-                    textBackground.color = appBackgroundColor;
-                    selectionText.color = appForegroundColor;
-                }
-            }
+//            onPressed: {
+//                tumblerDelegate.z = 10
+//                if (styleData.current && showKeypress) {
+//                    textBackgroundOnReleased.stop();
+//                    textBackgroundOnPressed.start();
+//                    selectionTextOnReleased.stop();
+//                    selectionTextOnPressed.start();
+//                }
+//            }
+//            onReleased: {
+//                tumblerDelegate.z = 0
+//                if (styleData.current && showKeypress) {
+//                    textBackgroundOnPressed.stop();
+//                    textBackgroundOnReleased.start();
+//                    selectionTextOnPressed.stop();
+//                    selectionTextOnReleased.start();
+//                }
+//            }
+//            onPositionChanged: {
+//                if (styleData.current && showKeypress) {
+//                    textBackgroundOnReleased.stop();
+//                    selectionTextOnReleased.stop();
+//                    textBackgroundOnPressed.stop();
+//                    selectionTextOnPressed.stop();
+//                    selectionTextOnReleased.start();
+//                    textBackground.color = appBackgroundColor;
+//                    selectionText.color = appForegroundColor;
+//                }
+//            }
         }
         ColorAnimation {
             id: textBackgroundOnPressed

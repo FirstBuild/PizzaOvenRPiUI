@@ -13,11 +13,6 @@ Item {
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
-    OpacityAnimator {id: screenExitAnimation; target: thisScreen; from: 1.0; to: 0.0;
-        onStopped: {
-            stackView.pop({immediate:immediateTransitions});
-        }
-    }
 
     function screenEntry() {
         screenEntryAnimation.start();
@@ -38,12 +33,22 @@ Item {
         buttonText: "DONE"
         anchors.margins: myMargins
         anchors.centerIn: parent
-        onClicked: {
-            appSettings.screenOffsetX = screenOffsetX;
-            appSettings.screenOffsetY = screenOffsetY;
-            screenExitAnimation.start();
+        onClicked: SequentialAnimation {
+            ScriptAction {
+                script: {
+                    appSettings.screenOffsetX = screenOffsetX;
+                    appSettings.screenOffsetY = screenOffsetY;
+                }
+            }
+            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; /*easing.type: Easing.InCubic*/}
+            ScriptAction {
+                script: {
+                    restoreBookmarkedScreen();
+                }
+            }
         }
     }
+
     SideButton {
         id: upButton
         buttonText: "UP"

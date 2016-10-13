@@ -13,7 +13,7 @@ Item {
 
     function screenEntry() {
         screenEntryAnimation.start();
-        console.log("Entering volume settings.");
+        console.log("Brightness value is " + brightnessSetting);
     }
 
     property int tumblerHeight: 250
@@ -21,15 +21,15 @@ Item {
     property int titleTextPointSize: 1
     property int titleTextToPointSize: 18
 
-    property int currentVolume: volumeSetting
+    property int currentBrightness: brightnessSetting
 
     property bool uiLoaded: false
 
-    onCurrentVolumeChanged: {
+    onCurrentBrightnessChanged: {
         if (uiLoaded){
-            console.log("The volume tumbler index changed.");
-            console.log("Volume is now " + volumeSetting);
-            appSettings.volumeSetting = volumeSetting;
+            console.log("The brightness tumbler index changed.");
+            console.log("Brightness is now " + brightnessSetting);
+            appSettings.brightness = brightnessSetting;
             sounds.touch.play();
         }
     }
@@ -53,7 +53,7 @@ Item {
 //        border.width: 1
         Text {
             id: idButtonText
-            text: "VOLUME SETTING"
+            text: "BRIGHTNESS SETTING"
             font.family: localFont.name
             font.pointSize: 17
             anchors.centerIn: parent
@@ -70,7 +70,7 @@ Item {
         //y: (screenTitle.y + screenTitle.height - radioBox.height + screenHeight) / 2
         anchors.verticalCenter: doneButton.verticalCenter
         width: 115
-        height: 4 * lineSpacing + 2
+        height: 3 * lineSpacing + 2
 //        border.color: "orange"
 //        border.width: 1
         color: appBackgroundColor
@@ -83,25 +83,13 @@ Item {
             x: 1
             y: 1
             MyRadioButton {
-                id: radioOff
-                text: "Off"
-                width: parent.width
-                height: lineSpacing
-                state: volumeSetting === 0
-                silent: true
-                onClicked: {
-                    volumeSetting = 0
-                }
-            }
-            MyRadioButton {
                 id: radioLow
                 text: "Low"
                 width: parent.width
                 height: lineSpacing
-                state: volumeSetting === 7
-                silent: true
+                state: brightnessSetting === 20
                 onClicked: {
-                    volumeSetting = 7
+                    brightnessSetting = 20
                 }
             }
             MyRadioButton {
@@ -109,10 +97,9 @@ Item {
                 text: "Medium"
                 width: parent.width
                 height: lineSpacing
-                state: volumeSetting === 8
-                silent: true
+                state: brightnessSetting === 80
                 onClicked: {
-                    volumeSetting = 8
+                    brightnessSetting = 80
                 }
             }
             MyRadioButton {
@@ -120,10 +107,9 @@ Item {
                 text: "High"
                 width: parent.width
                 height: lineSpacing
-                state: volumeSetting === 9
-                silent: true
+                state: brightnessSetting === 255
                 onClicked: {
-                    volumeSetting = 9
+                    brightnessSetting = 255
                 }
             }
         }

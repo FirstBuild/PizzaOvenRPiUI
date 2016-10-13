@@ -12,108 +12,69 @@ Item {
     opacity: needsAnimation ? 0.0 : 1.0
 
     OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
+    signal topStringClicked()
+    signal middleStringClicked()
+    signal bottomStringClicked()
+
+    property int boxHeight: 40
+
+
 
     function animate() {
         screenAnimation.start();
-        text1Animation.start();
-        text2Animation.start();
         text3Animation.start();
         text4Animation.start();
         text5Animation.start();
     }
 
-    // Stuff for two lines of text
-    Rectangle {
-        width: 75
-        height: 1
-        color: appGrayColor
-        x: (screenWidth - width) / 2
-        y: 197 - lineSpacing/2
-        visible: !twoTempEntryModeIsActive
-    }
-
-    Text {
-        text: parent.middleString
-        font.family: localFont.name
-        font.pointSize: 17
-        color: appForegroundColor
-        width: 100
-        height: 30
-        x: (screenWidth - width) / 2
-        y: 125
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text1Animation; from: 1; to: 17; running: needsAnimation}
-    }
-
-    Text {
-        text: parent.bottomString
-        font.family: localFont.name
-        font.pointSize: 36
-        color: appForegroundColor
-        width: 150
-        height: 45
-        x: (screenWidth - width) / 2
-        y: 200
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        visible: !twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text2Animation; from: 1; to: 36; running: needsAnimation}
-    }
-
-    // Stuff for three lines of text
+   // Stuff for three lines of text
     Rectangle {
         width: 75
         height: 1
         color: appGrayColor
         x: (screenWidth - width) / 2
         y: 196 + lineSpacing/2
-        visible: twoTempEntryModeIsActive
     }
 
-    Text {
+    ClickableTextBox {
         text: parent.topString
-        font.family: localFont.name
-        font.pointSize: 27
-        color: appForegroundColor
-        width: 100
-        height: 30
+        pointSize: centerCircleTextHeight
+        foregroundColor: appForegroundColor
+        width: 120
+        height: boxHeight
         x: (screenWidth - width) / 2
         y: 134
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text3Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text3Animation; from: 1; to: 27; running: needsAnimation}
+        onClicked: topStringClicked();
     }
 
-    Text {
+    ClickableTextBox {
         text: parent.middleString
-        font.family: localFont.name
-        font.pointSize: 27
-        color: appForegroundColor
+        pointSize: centerCircleTextHeight
+        foregroundColor: appForegroundColor
         width: 100
-        height: 30
+        height: boxHeight
         x: (screenWidth - width) / 2
-        y: 180
+        y: 175
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text4Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text4Animation; from: 1; to: 27; running: needsAnimation}
+        onClicked: middleStringClicked();
     }
 
-    Text {
+    ClickableTextBox {
         text: parent.bottomString
-        font.family: localFont.name
-        font.pointSize: 27
-        color: appForegroundColor
+        pointSize: centerCircleTextHeight
+        foregroundColor: appForegroundColor
         width: 100
-        height: 30
+        height: boxHeight
         x: (screenWidth - width) / 2
-        y: 248
+        y: 235
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        visible: twoTempEntryModeIsActive
-        NumberAnimation on font.pointSize {id: text5Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text5Animation; from: 1; to: 27; running: needsAnimation}
+        onClicked: bottomStringClicked();
     }
 }

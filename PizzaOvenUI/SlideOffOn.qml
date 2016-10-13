@@ -17,6 +17,8 @@ Item {
     property string trueText: "ON"
     property string falseText: "OFF"
 
+    onStateChanged: drawing.requestPaint()
+
     Text {
         text: { toggle.state ? trueText : falseText }
         font.family: localFont.name
@@ -30,58 +32,48 @@ Item {
         verticalAlignment: Text.AlignVCenter
     }
 
-    Item {
-        id: toggleBar
+    Canvas {
+        id: drawing
         width: toggle.barWidth
         height: parent.height
+        antialiasing: true
         anchors.right: parent.right
+        property int ballStart: toggle.state ? width - ballRadius - 1 : ballRadius
 
-        Rectangle {
-            id: leftBarEnd
-            height: barHeight
-            width: barHeight
-            radius: barHeight/2
-            x: 0
-            anchors.verticalCenter: parent.verticalCenter
-            color: barColor
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = barColor;
+
+            ctx.beginPath();
+            ctx.strokeStyle = barColor;
+            ctx.lineCap = "round";
+            ctx.lineWidth = barHeight;
+            ctx.moveTo(barHeight/2, height/2);
+            ctx.lineTo(width - barHeight, height/2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = barColor;
+            ctx.fillStyle = barColor;
+            ctx.lineWidth = 1;
+            ctx.arc(ballStart, height/2, ballRadius, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.restore();
         }
+    }
 
-        Rectangle {
-            id:rightBarEnd
-            height: barHeight
-            width: barHeight
-            radius: barHeight/2
-            x: parent.width - barHeight
-            anchors.verticalCenter: parent.verticalCenter
-            color: barColor
-        }
 
-        Rectangle {
-            id: bar
-            height: barHeight
-            width: parent.width - barHeight
-            x: barHeight/2
-            anchors.verticalCenter: parent.verticalCenter
-            color: barColor
-        }
-
-        Rectangle {
-            id: ball
-            width: ballRadius * 2
-            height: width
-            radius: ballRadius
-            anchors.verticalCenter: parent.verticalCenter
-            x: {toggle.state ? (parent.width - ballRadius * 2) : 0}
-            color: ballColor
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                toggle.state = !toggle.state;
-                sounds.touch.play();
-                toggle.clicked();
-            }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            toggle.state = !toggle.state;
+            sounds.touch.play();
+            toggle.clicked();
         }
     }
 }

@@ -12,7 +12,6 @@ Item {
     property bool screenSwitchInProgress: false
 
     function screenEntry() {
-        console.log("Entering preheat 2 temps");
         screenSwitchInProgress = false;
     }
 
@@ -72,7 +71,6 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimator
-//'        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {
             script: {
                 stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});

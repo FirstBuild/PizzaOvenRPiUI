@@ -16,6 +16,32 @@ Rectangle {
     NumberAnimation on opacity { from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation }
 
     Rectangle {
+        height: lineSpacing
+        width: lineSpacing
+        anchors.centerIn: parent
+        color: buttonBox.color
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: SequentialAnimation {
+                    ScriptAction {
+                        script: {
+                            sounds.touch.play();
+                            rootWindow.cookTimer.stop();
+                        }
+                    }
+                    OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+                    ScriptAction {script: {
+                            homeButton.clicked();
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                        }
+                    }
+            }
+        }
+    }
+
+    Rectangle {
         id: buttonBox
         width: 30
         height: 30
@@ -63,33 +89,5 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: buttonBox
-        onClicked: SequentialAnimation {
-                ScriptAction {
-                    script: {
-                        sounds.touch.play();
-                        rootWindow.cookTimer.stop();
-                    }
-                }
-                OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-                ScriptAction {script: {
-                        homeButton.clicked();
-                        stackView.clear();
-                        stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                    }
-                }
-            }
-        onPressed: {
-            segmentColor = appBackgroundColor;
-            buttonBox.color = appForegroundColor;
-            drawing.requestPaint();
-        }
-        onReleased: {
-            segmentColor = appForegroundColor;
-            buttonBox.color = appBackgroundColor;
-            drawing.requestPaint();
-        }
-    }
+
 }

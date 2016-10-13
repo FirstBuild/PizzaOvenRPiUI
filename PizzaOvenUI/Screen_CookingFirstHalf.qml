@@ -15,6 +15,7 @@ Item {
         id: dataCircle
         circleValue: rootWindow.cookTimer.value
         titleText: "COOKING"
+        needsAnimation: false
         onCircleValueChanged: {
             doExitCheck();
         }
@@ -22,21 +23,25 @@ Item {
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
     CircleContent {
         id: circleContent
+        needsAnimation: false
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
-        bottomString: utility.timeToString(cookTime * dataCircle.circleValue / 100)
+        bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)
     }
 
     PauseButton {
         id: pauseButton
+        needsAnimation: false
     }
 
     function doExitCheck() {
@@ -49,7 +54,6 @@ Item {
 
     SequentialAnimation {
         id: screenExitAnimation
-        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
                 if (halfTimeRotate)
                 {

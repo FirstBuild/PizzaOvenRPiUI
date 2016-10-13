@@ -29,18 +29,9 @@ Item {
         id: startButton
         text: "START"
         needsAnimation: false
-        onClicked: SequentialAnimation {
-            ScriptAction {
-                script: {
-                    rootWindow.cookTimer.start();
-                }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
-                }
-            }
+        onClicked: {
+            rootWindow.cookTimer.start();
+            stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
         }
     }
 
