@@ -75,10 +75,12 @@ Item {
             }
 
             Component.onCompleted: {
-                var thous = ((upperFront.setTemp - upperFront.setTemp%1000)/1000).toFixed(0);
-                var hunds = ((upperFront.setTemp%1000 - upperFront.setTemp%100)/100).toFixed(0);
-                var tens = ((upperFront.setTemp%100 - upperFront.setTemp%10)/10).toFixed(0);
-                var ones = (upperFront.setTemp%10).toFixed(0);
+                var temp = tempDisplayInF ? upperFront.setTemp : utility.f2c(upperFront.setTemp);
+                console.log("Temp is " + temp);
+                var thous = ((temp - temp%1000)/1000).toFixed(0);
+                var hunds = ((temp%1000 - temp%100)/100).toFixed(0);
+                var tens = ((temp%100 - temp%10)/10).toFixed(0);
+                var ones = (temp%10).toFixed(0);
                 temperatureEntry.setCurrentIndexAt(0, thous);
                 temperatureEntry.setCurrentIndexAt(1, hunds);
                 temperatureEntry.setCurrentIndexAt(2, tens);
@@ -101,6 +103,7 @@ Item {
                 id: thousandsColumn
                 width: appColumnWidth
                 model: [0,1,2,3,4,5,6,7,8,9]
+                visible: tempDisplayInF
             }
             TumblerColumn {
                 id: hundredsColumn
@@ -132,6 +135,15 @@ Item {
                     temp += hundredsColumn.currentIndex * 100;
                     temp += tensColumn.currentIndex * 10;
                     temp += onesColumn.currentIndex;
+
+                    console.log("Temp entered is " + temp);
+
+                    if (!tempDisplayInF)
+                    {
+                        temp = utility.c2f(temp);
+                        console.log("Temp was in C and is now in F as " + temp);
+                        console.log("Max temp in C is " + utility.f2c(upperMaxTemp));
+                    }
 
                     if (temp > upperMaxTemp) {
                         screenExitAnimation.stop();

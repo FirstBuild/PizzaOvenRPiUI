@@ -4,7 +4,11 @@ Item {
     // define utility functions and other stuff.
 
     function f2c(t) {
-        return (t - 32) * 5 / 9;
+        return Math.floor((t - 32) * 5 / 9);
+    }
+
+    function c2f(t) {
+        return Math.floor((t * 9 / 5) + 32);
     }
 
     function timeToString(t) {
@@ -18,6 +22,9 @@ Item {
     function tempToString(t) {
         var temp = tempDisplayInF ? t : f2c(t);
         var unit = tempDisplayInF ? String.fromCharCode(8457) : String.fromCharCode(8451);
+        console.log("Converting temp to string.");
+        console.log("Entered temp is " + t);
+        console.log("Temp is " + temp);
         return temp.toFixed(0).toString() + unit;
     }
 

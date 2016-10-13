@@ -76,9 +76,10 @@ Item {
             }
 
             Component.onCompleted: {
-                var hunds = ((lowerFront.setTemp - lowerFront.setTemp%100)/100).toFixed(0);
-                var tens = ((lowerFront.setTemp%100 - lowerFront.setTemp%10)/10).toFixed(0);
-                var ones = (lowerFront.setTemp%10).toFixed(0);
+                var temp = tempDisplayInF ? lowerFront.setTemp : utility.f2c(lowerFront.setTemp);
+                var hunds = ((temp - temp%100)/100).toFixed(0);
+                var tens = ((temp%100 - temp%10)/10).toFixed(0);
+                var ones = (temp%10).toFixed(0);
                 temperatureEntry.setCurrentIndexAt(0, hunds);
                 temperatureEntry.setCurrentIndexAt(1, tens);
                 temperatureEntry.setCurrentIndexAt(2, ones);
@@ -120,6 +121,14 @@ Item {
                     var temp = hundredsColumn.currentIndex * 100;
                     temp += tensColumn.currentIndex * 10;
                     temp += onesColumn.currentIndex;
+
+                    if (!tempDisplayInF)
+                    {
+                        console.log("Temp in C is " + temp);
+                        temp = utility.c2f(temp);
+                        console.log("Temp in F is " + temp);
+                        console.log("Max temp is " + lowerMaxTemp);
+                    }
 
                     if (temp > lowerMaxTemp) {
                         sounds.alarmUrgent.play();
