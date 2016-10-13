@@ -181,6 +181,13 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
+                    onClicked: SequentialAnimation {
+                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+                        ScriptAction {script: {
+                                stackView.push({item: Qt.resolvedUrl("Screen_SetBrightness.qml"), immediate:immediateTransitions});
+                            }
+                        }
+                    }
                 }
             }
             Rectangle {

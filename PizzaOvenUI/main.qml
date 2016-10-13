@@ -54,6 +54,7 @@ Window {
     property bool tempDisplayInF: appSettings.tempDisplayInF
     property int  volumeSetting: appSettings.volumeSetting
     property int  maxVolume: appSettings.maxVolume
+    property int brightnessSetting: appSettings.brightness
 
     // some information
     property string controlVersion: "255.255.255.255"

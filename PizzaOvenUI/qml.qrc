@@ -77,5 +77,6 @@
         <file>Screen_About.qml</file>
         <file>ClickableTextBox.qml</file>
         <file>Screen_Settings3.qml</file>
+        <file>Screen_SetBrightness.qml</file>
     </qresource>
 </RCC>

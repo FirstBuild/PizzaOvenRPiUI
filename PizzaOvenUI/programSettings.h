@@ -20,6 +20,7 @@ class ProgramSettings : public QObject
     Q_PROPERTY(bool tempDisplayInF READ getTempDisplayInF WRITE setTempDisplayInF NOTIFY tempDisplayInFStateChanged)
     Q_PROPERTY(int volumeSetting READ getVolumeSetting WRITE setVolumeSetting NOTIFY volumeSettingChanged)
     Q_PROPERTY(int maxVolume READ getMaxVolume WRITE setMaxVolume NOTIFY maxVolumeChanged)
+    Q_PROPERTY(int brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -43,6 +44,8 @@ public:
     void setVolumeSetting(int volume);
     int  getMaxVolume(void);
     void setMaxVolume(int volume);
+    int  getBrightness(void);
+    void setBrightness(int brightness);
 signals:
     void todOffsetChanged();
     void screenOffsetXChanged();
@@ -52,6 +55,7 @@ signals:
     void tempDisplayInFStateChanged();
     void volumeSettingChanged();
     void maxVolumeChanged();
+    void brightnessChanged();
 
 public slots:
 private:
@@ -63,6 +67,7 @@ private:
     bool m_tempDisplayInF;
     int m_volumeSetting;
     int m_maxVolume;
+    int m_brightness;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;
