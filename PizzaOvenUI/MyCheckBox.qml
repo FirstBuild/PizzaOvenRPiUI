@@ -12,6 +12,7 @@ Item {
 
     Row {
         spacing: 10
+        anchors.verticalCenter: parent.verticalCenter
 
         Rectangle {
             id: tick
@@ -40,7 +41,7 @@ Item {
     }
     MouseArea {
         anchors.fill: parent
-        onClicked:{
+        onClicked:{            
             sounds.touch.play();
             checkbox.checked = !checkbox.checked;
         }

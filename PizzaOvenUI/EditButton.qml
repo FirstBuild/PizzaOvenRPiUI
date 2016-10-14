@@ -7,7 +7,6 @@ Item {
 
     function animate() {
         if (thisButton.needsAnimation) {
-            console.log("Animating the button");
             editButton.animate();
         }
     }

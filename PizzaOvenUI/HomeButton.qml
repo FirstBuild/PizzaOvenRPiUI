@@ -26,15 +26,15 @@ Rectangle {
             onClicked: SequentialAnimation {
                     ScriptAction {
                         script: {
-                            sounds.touch.play();
                             rootWindow.cookTimer.stop();
+                            backEnd.sendMessage("StopOven ");
+                            sounds.touch.play();
                         }
                     }
                     OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
                     ScriptAction {script: {
                             homeButton.clicked();
-                            stackView.clear();
-                            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                         }
                     }
             }

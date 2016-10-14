@@ -57,13 +57,12 @@ Item {
         ScriptAction {script: {
                 if (halfTimeRotate)
                 {
-                    stackView.push({item:Qt.resolvedUrl("Screen_RotatePizza.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_RotatePizza.qml"));
                 }
                 else
                 {
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingSecondHalf.qml"));
                 }
-
             }
         }
     }

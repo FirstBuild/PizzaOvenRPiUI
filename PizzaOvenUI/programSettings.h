@@ -21,6 +21,8 @@ class ProgramSettings : public QObject
     Q_PROPERTY(int volumeSetting READ getVolumeSetting WRITE setVolumeSetting NOTIFY volumeSettingChanged)
     Q_PROPERTY(int maxVolume READ getMaxVolume WRITE setMaxVolume NOTIFY maxVolumeChanged)
     Q_PROPERTY(int brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
+    Q_PROPERTY(bool rotatePizza READ getRotatePizza WRITE setRotatePizza NOTIFY rotatePizzaChanged)
+    Q_PROPERTY(bool finalCheck READ getFinalCheck WRITE setFinalCheck NOTIFY finalCheckChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -46,6 +48,11 @@ public:
     void setMaxVolume(int volume);
     int  getBrightness(void);
     void setBrightness(int brightness);
+    bool getRotatePizza(void);
+    void setRotatePizza(bool rotatePizza);
+    bool getFinalCheck(void);
+    void setFinalCheck(bool finalCheck);
+
 signals:
     void todOffsetChanged();
     void screenOffsetXChanged();
@@ -56,6 +63,8 @@ signals:
     void volumeSettingChanged();
     void maxVolumeChanged();
     void brightnessChanged();
+    void rotatePizzaChanged();
+    void finalCheckChanged();
 
 public slots:
 private:
@@ -68,6 +77,8 @@ private:
     int m_volumeSetting;
     int m_maxVolume;
     int m_brightness;
+    bool m_rotatePizza;
+    bool m_finalCheck;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;

@@ -70,7 +70,7 @@ Item {
             ScriptAction {
                 script: {
                     screenSwitchInProgress = true;
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingSecondHalf.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingSecondHalf.qml"));
                 }
             }
         }
@@ -89,7 +89,7 @@ Item {
         id: screenExitAnimation
         ScriptAction {
             script: {
-                stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
+                forceScreenTransition(Qt.resolvedUrl("Screen_CookingFinalCheck.qml"));
             }
         }
     }

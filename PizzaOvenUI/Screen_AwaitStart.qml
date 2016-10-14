@@ -40,11 +40,7 @@ Item {
 
     function startExitToScreen(screen) {
         targetScreen = screen;
-        if (thisScreen.needsAnimation) {
-            screenFadeOut.start();
-        } else {
-            stackView.push({item:Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
-        }
+        screenFadeOut.start();
     }
 
     HomeButton {
@@ -65,8 +61,7 @@ Item {
                 lowerFront.currentTemp = 75;
             }
 
-            thisScreen.needsAnimation = false;
-            startExitToScreen("Screen_Preheating2Temp.qml");
+            forceScreenTransition(Qt.resolvedUrl("Screen_Preheating2Temp.qml"));
         }
     }
 

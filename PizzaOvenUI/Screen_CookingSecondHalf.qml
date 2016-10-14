@@ -56,7 +56,14 @@ Item {
         id: screenExitAnimator
         ScriptAction {
             script: {
-                stackView.push({item:Qt.resolvedUrl("Screen_CookingFinalCheck.qml"), immediate:immediateTransitions});
+                if (finalCheck)
+                {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingFinalCheck.qml"));
+                }
+                else
+                {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingFinal.qml"));
+                }
             }
         }
     }

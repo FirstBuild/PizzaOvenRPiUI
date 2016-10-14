@@ -21,7 +21,6 @@ Item {
 
     function animate() {
         if (needsAnimation) {
-            console.log("Animating the left button");
             opacityAnim.start();
             movementAnim.start();
         }

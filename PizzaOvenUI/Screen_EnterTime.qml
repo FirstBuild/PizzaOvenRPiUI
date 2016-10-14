@@ -74,51 +74,6 @@ Item {
         }
     }
 
-    Rectangle {
-        id: tick
-        width: 30
-        height: 30
-        border.width: 2
-        border.color: appForegroundColor
-        color: appBackgroundColor
-        anchors.topMargin: 20
-        anchors.left: nextButton.left
-        anchors.top: nextButton.bottom
-
-        Text {
-            text: halfTimeRotate ? "X" : ""
-            anchors.centerIn: parent
-            color: appForegroundColor
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked:{
-                halfTimeRotate = !halfTimeRotate;
-            }
-        }
-    }
-
-    Text {
-        text: "Half Time"
-        color: appGrayText
-        font.family: localFont.name
-        font.pointSize: 15
-        y: tick.y + 12
-        anchors.left: tick.right
-        anchors.leftMargin: 10
-
-    }
-    Text {
-        text: "Check Notice"
-        color: appGrayText
-        font.family: localFont.name
-        font.pointSize: 15
-        anchors.left: tick.left
-        anchors.top: tick.bottom
-        anchors.topMargin: 7
-
-    }
-
     ButtonRight {
         id: nextButton
         text: "NEXT"
@@ -132,6 +87,7 @@ Item {
                         cookTime = timeEntryTumbler.getTime();
                         backEnd.sendMessage("CookTime " + cookTime);
                         finalCheckTime = cookTime * 0.9
+                        backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
                         utility.saveCurrentSettingsAsCustom();
                     }
                 }
@@ -139,7 +95,8 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
-                    stackView.push({item:Qt.resolvedUrl("Screen_EnterFinalCheckTime.qml"), immediate:immediateTransitions});
+//                    stackView.push({item:Qt.resolvedUrl("Screen_EnterFinalCheckTime.qml"), immediate:immediateTransitions});
+                    stackView.push({item:Qt.resolvedUrl("Screen_EnterChecks.qml"), immediate:immediateTransitions});
                 }
             }
         }

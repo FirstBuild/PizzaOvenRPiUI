@@ -46,7 +46,7 @@ Item {
                         lowerFront.currentTemp = 75;
                     }
                     rootWindow.cookTimer.start();
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFirstHalf.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingFirstHalf.qml"));
                 }
             }
 

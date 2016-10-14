@@ -17,7 +17,8 @@ Window {
     // Things related to the cooking of the oven
     property int cookTime: 30
     property int finalCheckTime: cookTime * 0.9
-    property bool halfTimeRotate: true
+    property bool halfTimeRotate: appSettings.rotatePizza
+    property bool finalCheck: appSettings.finalCheck
     property int powerSwitch: 0
     property int dlb: 0
     property int oldDlb: 0
@@ -141,9 +142,11 @@ Window {
 
         currentScreen = JSON.stringify(newScreen);
 
-        if (stackView.currentItem.cleanUpOnExit)
-        {
-            stackView.currentItem.cleanUpOnExit();
+        if (stackView.depth > 0) {
+            if (stackView.currentItem.cleanUpOnExit)
+            {
+                stackView.currentItem.cleanUpOnExit();
+            }
         }
         stackView.clear();
         stackView.push({item: newScreen, immediate:immediateTransitions});

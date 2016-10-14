@@ -54,7 +54,7 @@ Item {
     SequentialAnimation {
         id: screenExitAnimation
         ScriptAction {script:{
-                stackView.push({item:Qt.resolvedUrl("Screen_CookingDone.qml"), immediate:immediateTransitions});
+                forceScreenTransition(Qt.resolvedUrl("Screen_CookingDone.qml"));
             }
         }
     }

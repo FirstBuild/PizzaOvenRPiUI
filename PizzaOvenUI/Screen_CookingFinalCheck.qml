@@ -67,7 +67,7 @@ Item {
         text: "CONTINUE"
         onClicked: SequentialAnimation {
             ScriptAction {script: {
-                    stackView.push({item:Qt.resolvedUrl("Screen_CookingFinal.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_CookingFinal.qml"));
                 }
             }
         }

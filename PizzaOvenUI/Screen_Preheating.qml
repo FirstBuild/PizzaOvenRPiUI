@@ -69,7 +69,7 @@ Item {
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {
             script: {
-                stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                forceScreenTransition(Qt.resolvedUrl("Screen_Start.qml"));
             }
         }
     }

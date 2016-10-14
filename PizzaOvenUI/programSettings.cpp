@@ -16,6 +16,8 @@ const bool defaultTempDisplayInF = true;
 const int defaultVolumeSetting = 5;
 const int defaultMaxVolume = 70;
 const int defaultBrightness = 255;
+const bool defaultRotatePizza = true;
+const bool defaultFinalCheck = true;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
@@ -108,6 +110,8 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_volumeSetting = (settings.contains("volumeSetting")) ? settings["volumeSetting"].toInt() : defaultVolumeSetting;
     m_maxVolume = (settings.contains("maxVolume")) ? settings["maxVolume"].toInt() : defaultMaxVolume;
     m_brightness = (settings.contains("brightness")) ? settings["brightness"].toInt() : defaultBrightness;
+    m_rotatePizza = (settings.contains("rotatePizza")) ? settings["rotatePizza"].toBool() : defaultRotatePizza;
+    m_finalCheck = (settings.contains("finalCheck")) ? settings["finalCheck"].toBool() : defaultFinalCheck;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -119,6 +123,8 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["volumeSetting"] = m_volumeSetting;
     settings["maxVolume"] = m_maxVolume;
     settings["brightness"] = m_brightness;
+    settings["rotatePizza"] = m_rotatePizza;
+    settings["finalCheck"] = m_finalCheck;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -131,6 +137,8 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_maxVolume = defaultMaxVolume;
     m_brightness = defaultBrightness;
     m_settingsInitialized = false;
+    m_rotatePizza = defaultRotatePizza;
+    m_finalCheck = defaultFinalCheck;
 }
 
 /*************** TOD Offset ***************/
@@ -346,3 +354,30 @@ static void setLcdBrightness(int brightness)
     }
 }
 
+/*************** Rotate Pizza Notification ***************/
+void ProgramSettings::setRotatePizza(bool rotatePizza)
+{
+    cout << "Setting rotate pizza to " << rotatePizza << endl;
+    m_rotatePizza = rotatePizza;
+    emit rotatePizzaChanged();
+    saveSettings();
+}
+
+bool ProgramSettings::getRotatePizza()
+{
+    return m_rotatePizza;
+}
+
+/*************** Final Check Notification ***************/
+void ProgramSettings::setFinalCheck(bool finalCheck)
+{
+    cout << "Setting final check to " << finalCheck << endl;
+    m_finalCheck = finalCheck;
+    emit finalCheckChanged();
+    saveSettings();
+}
+
+bool ProgramSettings::getFinalCheck()
+{
+    return m_finalCheck;
+}

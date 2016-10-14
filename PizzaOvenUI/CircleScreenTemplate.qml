@@ -12,6 +12,9 @@ Item {
 
     property int circleValue: 25
     property string titleText: "TITLE TEXT"
+    property bool titleVisible: true
+    property string rightTest: "RIGHT TEXT"
+    property bool rightTextVisible: false
     property int circleDiameter: 206
     property bool needsAnimation: true
 
@@ -54,7 +57,6 @@ Item {
         y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
         color: appBackgroundColor
         Text {
-            id: idButtonText
             text: titleText
             font.family: localFont.name
             font.pointSize: 17

@@ -48,8 +48,7 @@ Item {
             ScriptAction {
                 script: {
                     screenExit();
-                    stackView.clear();
-                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                 }
             }
         }
@@ -114,7 +113,7 @@ Item {
         ScriptAction {script: {
                 foodNameString = foodListModel.get(theColumn.currentIndex).name;
                 screenExit();
-                stackView.push({item: Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
             }
         }
     }
