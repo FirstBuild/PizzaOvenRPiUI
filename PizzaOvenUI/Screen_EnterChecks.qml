@@ -27,29 +27,6 @@ Item {
         }
     }
 
-    // title text
-//    Rectangle {
-//        id: screenTitle
-//        width: 300
-//        height: 30
-//        x: (parent.width - width) / 2
-//        color: appBackgroundColor
-//        anchors.verticalCenter: backButton.verticalCenter
-////        border.color: "orange"
-////        border.width: 1
-//        Text {
-//            id: idButtonText
-//            text: "NOTIFICATIONS"
-//            font.family: localFont.name
-//            font.pointSize: 17
-//            anchors.centerIn: parent
-//            horizontalAlignment: Text.AlignLeft
-//            verticalAlignment: Text.AlignVCenter
-//            color: appGrayText
-//        }
-//        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
-//    }
-
     ClickableTextBox {
         text: "Notification Selections"
         foregroundColor: appGrayText
@@ -68,8 +45,6 @@ Item {
         anchors.verticalCenter: doneButton.verticalCenter
         width: 200
         height: 2 * lineSpacing + 2
-        border.color: "orange"
-        border.width: 1
         color: appBackgroundColor
         Column {
             Component.onCompleted: {

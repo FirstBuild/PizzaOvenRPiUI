@@ -13,8 +13,8 @@ Item {
     property int circleValue: 25
     property string titleText: "TITLE TEXT"
     property bool titleVisible: true
-    property string rightTest: "RIGHT TEXT"
-    property bool rightTextVisible: false
+    property string noticeText: "RIGHT TEXT"
+    property bool noticeVisible: false
     property int circleDiameter: 206
     property bool needsAnimation: true
 
@@ -27,6 +27,7 @@ Item {
         circleWidthAnimation.start();
         circleHeightAnimation.start();
         titleAnimation.start();
+        noticeAnimation.start();
     }
 
     // center circle
@@ -39,8 +40,6 @@ Item {
 
         ProgressCircle {
             id: dataCircle
-//            height: parent.height
-//            width: parent.width
             currentValue: circleValue
             NumberAnimation on width {id: circleWidthAnimation; from: 10; to: circleDiameter; running: needsAnimation}
             NumberAnimation on height {id: circleHeightAnimation; from: 10; to: circleDiameter; running: needsAnimation}
@@ -51,6 +50,7 @@ Item {
     // title text
     Rectangle {
         id: titleBox
+        visible: titleVisible
         width: 400
         height: 30
         x: (parent.width - width) / 2
@@ -64,6 +64,25 @@ Item {
             color: appGrayText
         }
         NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
+    }
+
+    // notification text
+    Rectangle {
+        id: noticeBox
+        visible: noticeVisible
+        width: screenWidth - 60
+        height: 30
+        x: 30
+        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
+        color: appBackgroundColor
+        Text {
+            text: noticeText
+            font.family: localFont.name
+            font.pointSize: 17
+            anchors.centerIn: parent
+            color: appGrayText
+        }
+        NumberAnimation on y {id: noticeAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
     }
 }
 
