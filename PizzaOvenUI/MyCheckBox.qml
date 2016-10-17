@@ -22,13 +22,11 @@ Item {
             border.color: appForegroundColor
             color: appBackgroundColor
 
-            Text {
-                text: checkbox.checked ? "X" : ""
+            Rectangle {
+                width: parent.width - 10
+                height: width
+                color: checkbox.checked ? appForegroundColor : appBackgroundColor
                 anchors.centerIn: parent
-                color: appForegroundColor
-                font.family: localFont.name
-                font.pointSize: 18
-                font.bold: true
             }
         }
         Text {

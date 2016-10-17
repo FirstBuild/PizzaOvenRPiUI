@@ -12,15 +12,33 @@ Item {
 
     property int circleValue: 25
     property string titleText: "TITLE TEXT"
-    property bool titleVisible: true
+    property bool showTitle: true
+    property bool showNotice: false
     property string noticeText: "RIGHT TEXT"
-    property bool noticeVisible: false
     property int circleDiameter: 206
     property bool needsAnimation: true
+    property string newTitleText: "NEW TITLE"
+    property bool fadeInTitle: false
 
     opacity: needsAnimation ? 0.0 : 1.0
 
     OpacityAnimator on opacity {id: screenAnimation; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation }
+    OpacityAnimator on opacity {id: fadeTitleIn; target: titleBox; from: 0.0; to: 1.0; easing.type: Easing.InCubic; running: false }
+    OpacityAnimator on opacity {id: fadeTitleOut; target: titleBox; from: 1.0; to: 0.0; easing.type: Easing.InCubic; running: false }
+
+    onShowTitleChanged: {
+        if (showTitle) {
+            showNotice = false;
+            showTitleBox.start();
+        }
+    }
+
+    onShowNoticeChanged: {
+        if (showNotice) {
+            showTitle = false;
+            showNoticeBox.start();
+        }
+    }
 
     function animate() {
         screenAnimation.start();
@@ -28,6 +46,22 @@ Item {
         circleHeightAnimation.start();
         titleAnimation.start();
         noticeAnimation.start();
+    }
+
+    function fadeOutTitleText() {
+        fadeTitleOut.start();
+    }
+
+    function fadeInTitleText() {
+        fadeTitleIn.start();
+    }
+
+    onNewTitleTextChanged: SequentialAnimation {
+        OpacityAnimator {target: titleBox; from: 1.0; to: 0.0}
+        ScriptAction {
+            script: {titleText = newTitleText;}
+        }
+        OpacityAnimator {target: titleBox; from: 0.0; to: 1.0}
     }
 
     // center circle
@@ -50,9 +84,9 @@ Item {
     // title text
     Rectangle {
         id: titleBox
-        visible: titleVisible
         width: 400
         height: 30
+        opacity: fadeInTitle ? 0.0 : 1.0
         x: (parent.width - width) / 2
         y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
         color: appBackgroundColor
@@ -63,15 +97,16 @@ Item {
             anchors.centerIn: parent
             color: appGrayText
         }
+        OpacityAnimator {target: titleBox; from: 0.0; to: 1.0; running: fadeInTitle}
         NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
     }
 
     // notification text
     Rectangle {
         id: noticeBox
-        visible: noticeVisible
         width: screenWidth - 60
         height: 30
+        opacity: 0.0
         x: 30
         y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
         color: appBackgroundColor
@@ -79,10 +114,25 @@ Item {
             text: noticeText
             font.family: localFont.name
             font.pointSize: 17
-            anchors.centerIn: parent
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
         NumberAnimation on y {id: noticeAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
+    }
+
+    ParallelAnimation {
+        id: showTitleBox
+        running: false
+        NumberAnimation {target: noticeBox; property: "opacity"; from: 1.0; to: 0.0; }
+        NumberAnimation {target: titleBox; property: "opacity"; from: 0.0; to: 1.0; }
+    }
+    ParallelAnimation {
+        id: showNoticeBox
+        running: false
+        NumberAnimation {target: noticeBox; property: "opacity"; from: 0.0; to: 1.0; }
+        NumberAnimation {target: titleBox; property: "opacity"; from: 1.0; to: 0.0; }
     }
 }
 

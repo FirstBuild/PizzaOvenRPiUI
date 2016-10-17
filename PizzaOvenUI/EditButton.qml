@@ -24,6 +24,7 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
+                    rootWindow.cookTimer.reset();
                     stackView.clear();
                     singleSettingOnly = false;
                     stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});

@@ -37,4 +37,7 @@ Item {
         animation.resume();
     }
 
+    function reset() {
+        value = 0.0;
+    }
 }

@@ -11,15 +11,54 @@ Item {
 
     property bool screenSwitchInProgress: false
 
+    property real upperExitValue: 100 * upperFront.currentTemp / upperFront.setTemp
+    property real lowerExitValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
+
+    property string targetScreen: ""
+
+    property bool needsAnimation: false
+
     function screenEntry() {
+        console.log("Entering preheat screen");
         screenSwitchInProgress = false;
+        if (opacity < 1.0) {
+            screenFadeIn.start();
+        }
+        if (demoModeIsActive) {
+            if (lowerFrontAnimation.paused) lowerFrontAnimation.resume();
+            if (upperFrontAnimation.paused) upperFrontAnimation.resume();
+            if (!lowerFrontAnimation.running) lowerFrontAnimation.start();
+            if (!upperFrontAnimation.running) upperFrontAnimation.start();
+        }
+    }
+
+    OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;
+        onStopped: {
+            stackView.push({item:Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
+        }
+        running: false
+    }
+    OpacityAnimator {id: screenFadeIn; target: thisScreen; from: 0.1; to: 1.0;  easing.type: Easing.OutCubic;
+        running: false
+    }
+
+    function startExitToScreen(screen) {
+        if (lowerFrontAnimation.running) lowerFrontAnimation.pause();
+        if (upperFrontAnimation.running) upperFrontAnimation.pause();
+        targetScreen = screen;
+        singleSettingOnly = true;
+        bookmarkCurrentScreen();
+        needsAnimation = true;
+        screenFadeOut.start();
     }
 
     CircleScreenTemplate {
         id: dataCircle
         needsAnimation: false
-        circleValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
+        circleValue: upperExitValue < lowerExitValue ? upperExitValue : lowerExitValue
         titleText: "PREHEATING"
+        noticeText: ""
+        fadeInTitle: true
         onCircleValueChanged: {
             doExitCheck();
         }
@@ -28,6 +67,10 @@ Item {
     HomeButton {
         id: preheatingHomeButton
         needsAnimation: false
+        onClicked: {
+            lowerFrontAnimation.stop();
+            upperFrontAnimation.stop();
+        }
     }
 
     EditButton {
@@ -37,14 +80,27 @@ Item {
 
     CircleContentTwoTemp {
         id: circleContent
-        needsAnimation: false
+        needsAnimation: true
         line1String: utility.tempToString(upperFront.setTemp)
         line2String: utility.tempToString(upperFront.currentTemp)
         line3String: utility.tempToString(lowerFront.setTemp)
         line4String: utility.tempToString(lowerFront.currentTemp)
+        onTopStringClicked: {
+            startExitToScreen("Screen_EnterDomeTemp.qml");
+        }
+        onCenterTopStringClicked: {
+            startExitToScreen("Screen_EnterDomeTemp.qml");
+        }
+        onCenterBottomStringClicked: {
+            startExitToScreen("Screen_EnterStoneTemp.qml");
+        }
+        onBottomStringClicked: {
+            startExitToScreen("Screen_EnterStoneTemp.qml");
+        }
     }
 
     NumberAnimation {
+        id: lowerFrontAnimation
         target: lowerFront;
         property: "currentTemp";
         from: 75;
@@ -53,17 +109,19 @@ Item {
         running: demoModeIsActive
     }
     NumberAnimation {
+        id: upperFrontAnimation
         target: upperFront;
         property: "currentTemp";
         from: 75;
         to: upperFront.setTemp;
-        duration: 4000
+        duration: 1000
         running: demoModeIsActive
     }
 
     function doExitCheck() {
         if (screenSwitchInProgress) return;
         if (dataCircle.circleValue >= 100) {
+            preheatComplete = true
             screenSwitchInProgress = true;
             screenExitAnimator.start();
         }
@@ -73,7 +131,10 @@ Item {
         id: screenExitAnimator
         ScriptAction {
             script: {
-                stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                sounds.notification.play();
+                rootWindow.cookTimer.stop();
+                rootWindow.cookTimer.reset();
+                stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
             }
         }
     }

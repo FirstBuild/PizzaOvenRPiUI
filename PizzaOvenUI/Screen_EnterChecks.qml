@@ -41,9 +41,9 @@ Item {
 
     Rectangle {
         id: checksBoxes
-        x: 200
+        x: 75
         anchors.verticalCenter: doneButton.verticalCenter
-        width: 200
+        width: 300
         height: 2 * lineSpacing + 2
         color: appBackgroundColor
         Column {
@@ -56,18 +56,45 @@ Item {
             y: 1
             MyCheckBox {
                 id: radioRotate
-                text: "Rotate Pizza"
+                text: "ROTATE PIZZA"
                 width: parent.width
                 height: lineSpacing
                 checked: rootWindow.halfTimeRotate
             }
             MyCheckBox {
                 id: radioFinalCheck
-                text: "Final Check"
+                text: "FINAL CHECK"
                 width: parent.width
                 height: lineSpacing
                 checked: rootWindow.finalCheck
             }
+//            Rectangle {
+//                height: lineSpacing
+//                width: parent.width
+//                color: appBackgroundColor
+//                ClickableTextBox {
+//                    height: lineSpacing
+//                    width: thisScreen.listTextWidth
+//                    text: "FINAL CHECK"
+//                    foregroundColor: appForegroundColor
+//                    horizontalAlignment: Text.AlignLeft
+//                    verticalAlignment: Text.AlignVCenter
+//                    anchors.left: parent.left
+//                    pointSize: 18
+//                    onClicked: {
+//                        finalCheckSlider.state = !finalCheckSlider.state
+//                        finalCheckSlider.clicked();
+//                    }
+//                }
+//                SlideOffOn{
+//                    id: finalCheckSlider
+//                    anchors.right: parent.right
+//                    state: finalCheck
+//                    onClicked: {
+//                    }
+//                    anchors.verticalCenter: parent.verticalCenter
+//                }
+//            }
         }
     }
 
@@ -86,7 +113,12 @@ Item {
                         restoreBookmarkedScreen();
                     } else {
                         stackView.clear();
-                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                        if (preheatComplete) {
+                            stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+//                            stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
+                        } else {
+                            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                        }
                     }
                 }
             }

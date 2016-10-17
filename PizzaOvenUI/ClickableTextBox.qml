@@ -11,7 +11,8 @@ Item {
     property int verticalAlignment: Text.AlignVCenter
     property color backgroundColor: appBackgroundColor
     property color foregroundColor: appGrayText
-    property int titleTextPointSize: 1
+    property int titleTextPointSize: needsAnimation ? 1 : pointSize
+    property bool needsAnimation: true
 
     signal clicked()
 
@@ -19,6 +20,7 @@ Item {
         id: titleTextAnim
         from: 1
         to: pointSize
+        running: needsAnimation
     }
 
     Rectangle {
@@ -27,8 +29,6 @@ Item {
         height: parent.height
         anchors.centerIn: parent
         color: box.backgroundColor
-//        border.color: "orange"
-//        border.width: 1
         MouseArea {
             id: mouseArea
             anchors.fill: parent
@@ -36,28 +36,6 @@ Item {
                 sounds.touch.play();
                 box.clicked();
             }
-
-//            onPressed: {
-//                textBackgroundOnReleased.stop();
-//                textBackgroundOnPressed.start();
-//                selectionTextOnReleased.stop();
-//                selectionTextOnPressed.start();
-//            }
-//            onReleased: {
-//                textBackgroundOnPressed.stop();
-//                textBackgroundOnReleased.start();
-//                selectionTextOnPressed.stop();
-//                selectionTextOnReleased.start();
-//            }
-//            onPositionChanged: {
-//                textBackgroundOnReleased.stop();
-//                selectionTextOnReleased.stop();
-//                textBackgroundOnPressed.stop();
-//                selectionTextOnPressed.stop();
-//                selectionTextOnReleased.start();
-//                background.color = box.backgroundColor;
-//                theText.color = box.foregroundColor;
-//            }
         }
     }
 
@@ -72,34 +50,4 @@ Item {
         horizontalAlignment: box.horizontalAlignment
         verticalAlignment: box.verticalAlignment
     }
-
-    ColorAnimation {
-        id: textBackgroundOnPressed
-        target: background
-        property: "color"
-        to: box.foregroundColor
-        running: false
-    }
-    ColorAnimation {
-        id: textBackgroundOnReleased
-        target: background
-        property: "color"
-        to: box.backgroundColor
-        running: false
-    }
-    ColorAnimation {
-        id: selectionTextOnPressed
-        target: theText
-        property: "color"
-        to: box.backgroundColor
-        running: false
-    }
-    ColorAnimation {
-        id: selectionTextOnReleased
-        target: theText
-        property: "color"
-        to: box.foregroundColor
-        running: false
-    }
-
 }

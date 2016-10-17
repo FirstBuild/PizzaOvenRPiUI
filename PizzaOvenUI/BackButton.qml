@@ -37,7 +37,13 @@ Rectangle {
                         else
                         {
                             stackView.clear();
-                            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                            if (preheatComplete) {
+                                stackView.clear();
+                                stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+                            } else {
+                                stackView.clear();
+                                stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                            }
                         }
 
                     }

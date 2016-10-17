@@ -21,6 +21,8 @@ Item {
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     function screenEntry() {
+        backEnd.sendMessage("StopOven ");
+        preheatComplete = false;
         console.log("Entering the main screen.");
         // load up the list
         foodListModel.clear();

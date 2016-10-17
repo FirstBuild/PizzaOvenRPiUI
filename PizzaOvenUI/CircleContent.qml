@@ -18,8 +18,6 @@ Item {
 
     property int boxHeight: 40
 
-
-
     function animate() {
         screenAnimation.start();
         text3Animation.start();
@@ -46,8 +44,9 @@ Item {
         y: 134
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        NumberAnimation on pointSize {id: text3Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text3Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
         onClicked: topStringClicked();
+        needsAnimation: false
     }
 
     ClickableTextBox {
@@ -60,8 +59,9 @@ Item {
         y: 175
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        NumberAnimation on pointSize {id: text4Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text4Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
         onClicked: middleStringClicked();
+        needsAnimation: false
     }
 
     ClickableTextBox {
@@ -74,7 +74,8 @@ Item {
         y: 235
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        NumberAnimation on pointSize {id: text5Animation; from: 1; to: 27; running: needsAnimation}
+        NumberAnimation on pointSize {id: text5Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
         onClicked: bottomStringClicked();
+        needsAnimation: false
     }
 }

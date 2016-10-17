@@ -15,6 +15,7 @@ Item {
         id: theCircle
         circleValue: 0
         titleText: foodNameString
+        fadeInTitle: false
     }
 
     opacity: 0.0
@@ -54,14 +55,27 @@ Item {
     ButtonRight {
         id: preheatButton
         text: "PREHEAT"
-        onClicked: {
-            if (!demoModeIsActive) {
-                backEnd.sendMessage("StartOven ");
-            } else {
-                lowerFront.currentTemp = 75;
+        onClicked: SequentialAnimation {
+            ScriptAction {
+                script: {
+                    theCircle.fadeOutTitleText();
+                }
             }
+            OpacityAnimator {target: circleContent; from: 1.0; to: 0.0}
+            ScriptAction {
+                script: {
 
-            forceScreenTransition(Qt.resolvedUrl("Screen_Preheating2Temp.qml"));
+                    console.log("Preheat clicked.");
+                    if (!demoModeIsActive) {
+                        backEnd.sendMessage("StartOven ");
+                    } else {
+                        lowerFront.currentTemp = 75;
+                    }
+
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                }
+            }
         }
     }
 

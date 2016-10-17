@@ -9,6 +9,28 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property string targetScreen: ""
+
+    function screenEntry() {
+        if (opacity < 1.0) screenEntryAnimation.start();
+    }
+
+    function startExitToScreen(screen) {
+        targetScreen = screen;
+        singleSettingOnly = true;
+        bookmarkCurrentScreen();
+        screenFadeOut.start();
+    }
+
+    OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic; running: false}
+
+    OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;
+        onStopped: {
+            stackView.push({item:Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
+        }
+        running: false
+    }
+
     CircleScreenTemplate {
         circleValue: 0
         titleText: "READY"
@@ -31,7 +53,7 @@ Item {
         needsAnimation: false
         onClicked: {
             rootWindow.cookTimer.start();
-            forceScreenTransition(Qt.resolvedUrl("Screen_CookingFirstHalf.qml"));
+            forceScreenTransition(Qt.resolvedUrl("Screen_Cooking.qml"));
         }
     }
 
@@ -41,10 +63,15 @@ Item {
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(cookTime)
         needsAnimation: false
-    }
-
-    function screenEntry() {
-        sounds.notification.play();
+        onTopStringClicked: {
+            startExitToScreen("Screen_EnterDomeTemp.qml");
+        }
+        onMiddleStringClicked: {
+            startExitToScreen("Screen_EnterStoneTemp.qml");
+        }
+        onBottomStringClicked: {
+            startExitToScreen("Screen_EnterTime.qml");
+        }
     }
 }
 

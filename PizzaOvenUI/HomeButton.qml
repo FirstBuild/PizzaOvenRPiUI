@@ -27,7 +27,6 @@ Rectangle {
                     ScriptAction {
                         script: {
                             rootWindow.cookTimer.stop();
-                            backEnd.sendMessage("StopOven ");
                             sounds.touch.play();
                         }
                     }

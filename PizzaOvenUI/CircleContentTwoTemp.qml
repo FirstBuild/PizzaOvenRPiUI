@@ -18,6 +18,10 @@ Item {
     property int margins: 1
     property int boxHeight: 33
     property int boxWidth: 100
+    signal topStringClicked()
+    signal centerTopStringClicked()
+    signal centerBottomStringClicked()
+    signal bottomStringClicked()
 
     opacity: needsAnimation ? 0.0 : 1.0
 
@@ -33,91 +37,68 @@ Item {
         y: 197
     }
 
-    Rectangle {
+    ClickableTextBox {
         id: topBox
         width: boxWidth
         height: boxHeight
-        border.color: "yellow"
-        border.width: 0
         anchors.horizontalCenter: midLine.horizontalCenter
         y: 155 - height
-        color: appBackgroundColor
-        Text {
-            text: circleContent.line1String
-            font.family: localFont.name
-            font.pointSize: textSize
-            color: appGrayText
-            width: parent.width
-            height: parent.height
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
+
+        foregroundColor: appGrayText
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: circleContent.line1String
+        pointSize: centerCircleTextHeight
+        needsAnimation: false
+        NumberAnimation on pointSize {id: text1Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
+        onClicked: topStringClicked();
     }
 
-    Rectangle {
+    ClickableTextBox {
         id: centerTopBox
         width: boxWidth
         height: boxHeight
-        border.color: "yellow"
-        border.width: 0
         anchors.horizontalCenter: midLine.horizontalCenter
         anchors.top: topBox.bottom
-        color: appBackgroundColor
-        Text {
-            text: circleContent.line2String
-            font.family: localFont.name
-            font.pointSize: textSize
-            color: textColor
-            width: parent.width
-            height: parent.height
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
+        foregroundColor: appForegroundColor
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: circleContent.line2String
+        pointSize: centerCircleTextHeight
+        needsAnimation: false
+        NumberAnimation on pointSize {id: text2Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
+        onClicked: centerTopStringClicked();
     }
 
-    Rectangle {
+    ClickableTextBox {
         id: centerBottomBox
         width: boxWidth
         height: boxHeight
-        border.color: "yellow"
-        border.width: 0
         anchors.horizontalCenter: midLine.horizontalCenter
         y: 239 - height
-        color: appBackgroundColor
-        Text {
-            text: circleContent.line3String
-            font.family: localFont.name
-            font.pointSize: textSize
-            color: appGrayText
-            width: parent.width
-            height: parent.height
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
+        foregroundColor: appGrayText
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: circleContent.line3String
+        pointSize: centerCircleTextHeight
+        needsAnimation: false
+        NumberAnimation on pointSize {id: text3Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
+        onClicked: centerBottomStringClicked();
     }
 
-    Rectangle {
+    ClickableTextBox {
         id: bottomBox
         width: boxWidth
         height: boxHeight
-        border.color: "yellow"
-        border.width: 0
         anchors.horizontalCenter: midLine.horizontalCenter
         anchors.top: centerBottomBox.bottom
-        color: appBackgroundColor
-        Text {
-            text: circleContent.line4String
-            font.family: localFont.name
-            font.pointSize: textSize
-            color: textColor
-            width: parent.width
-            height: parent.height
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
+        foregroundColor: appForegroundColor
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: circleContent.line4String
+        pointSize: centerCircleTextHeight
+        needsAnimation: false
+        NumberAnimation on pointSize {id: text4Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
+        onClicked: bottomStringClicked();
     }
 }

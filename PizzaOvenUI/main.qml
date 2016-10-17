@@ -23,6 +23,7 @@ Window {
     property int dlb: 0
     property int oldDlb: 0
     property int oldPowerSwitch: 0
+    property bool preheatComplete: false
 
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
@@ -167,8 +168,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

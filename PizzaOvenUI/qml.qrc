@@ -79,5 +79,6 @@
         <file>Screen_Settings3.qml</file>
         <file>Screen_SetBrightness.qml</file>
         <file>Screen_EnterChecks.qml</file>
+        <file>Screen_Cooking.qml</file>
     </qresource>
 </RCC>
