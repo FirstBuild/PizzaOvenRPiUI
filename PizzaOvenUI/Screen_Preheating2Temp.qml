@@ -11,16 +11,27 @@ Item {
 
     property bool screenSwitchInProgress: false
 
-    property real upperExitValue: 100 * upperFront.currentTemp / upperFront.setTemp
-    property real lowerExitValue: 100 * lowerFront.currentTemp / lowerFront.setTemp
+    property real upperExitValue: 100 * (upperTempLocked ? upperFront.setTemp : upperTemp) / upperFront.setTemp
+    property real lowerExitValue: 100 * (lowerTempLocked ? lowerFront.setTemp : lowerTemp) / lowerFront.setTemp
 
     property string targetScreen: ""
 
     property bool needsAnimation: false
 
+    property bool upperTempLocked: false
+    property bool lowerTempLocked: false
+
+    property real upperTempDemoValue: 75.0
+    property real lowerTempDemoValue: 75.0
+
+    property real upperTemp: demoModeIsActive ? upperTempDemoValue : upperFront.currentTemp
+    property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : lowerFront.currentTemp
+
     function screenEntry() {
         console.log("Entering preheat screen");
         screenSwitchInProgress = false;
+        upperTempLocked = false;
+        lowerTempLocked = false;
         if (opacity < 1.0) {
             screenFadeIn.start();
         }
@@ -59,9 +70,6 @@ Item {
         titleText: "PREHEATING"
         noticeText: ""
         fadeInTitle: true
-        onCircleValueChanged: {
-            doExitCheck();
-        }
     }
 
     HomeButton {
@@ -82,9 +90,9 @@ Item {
         id: circleContent
         needsAnimation: true
         line1String: utility.tempToString(upperFront.setTemp)
-        line2String: utility.tempToString(upperFront.currentTemp)
+        line2String: utility.tempToString(upperTempLocked ? upperFront.setTemp : upperTemp)
         line3String: utility.tempToString(lowerFront.setTemp)
-        line4String: utility.tempToString(lowerFront.currentTemp)
+        line4String: utility.tempToString(lowerTempLocked ? lowerFront.setTemp : lowerTemp)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
         }
@@ -99,28 +107,52 @@ Item {
         }
     }
 
+    onUpperTempChanged: {
+        if (upperTemp >= upperFront.setTemp) {
+            if (!upperTempLocked) {
+                console.log("Locking upper temp");
+                upperTempLocked = true;
+                doExitCheck();
+            }
+        }
+    }
+
+    onLowerTempChanged: {
+        if (lowerTemp >= lowerFront.setTemp) {
+            if (!lowerTempLocked) {
+                console.log("Locking lower temp");
+                lowerTempLocked = true;
+                doExitCheck();
+            }
+        }
+    }
+
     NumberAnimation {
-        id: lowerFrontAnimation
-        target: lowerFront;
-        property: "currentTemp";
+        id: upperFrontAnimation
+        target: thisScreen;
+        property: "upperTempDemoValue";
         from: 75;
-        to: lowerFront.setTemp;
-        duration: 4000
+        to: upperFront.setTemp;
+        duration: 7000
         running: demoModeIsActive
     }
     NumberAnimation {
-        id: upperFrontAnimation
-        target: upperFront;
-        property: "currentTemp";
+        id: lowerFrontAnimation
+        target: thisScreen;
+        property: "lowerTempDemoValue";
         from: 75;
-        to: upperFront.setTemp;
-        duration: 1000
+        to: lowerFront.setTemp;
+        duration: 10000
         running: demoModeIsActive
+        onStopped: screenExitAnimator.start()
     }
 
     function doExitCheck() {
+        console.log("In doExitCheck");
+        console.log("Upper lock: " + upperTempLocked);
+        console.log("Lower lock: " + lowerTempLocked);
         if (screenSwitchInProgress) return;
-        if (dataCircle.circleValue >= 100) {
+        if (upperTempLocked && lowerTempLocked) {
             preheatComplete = true
             screenSwitchInProgress = true;
             screenExitAnimator.start();
