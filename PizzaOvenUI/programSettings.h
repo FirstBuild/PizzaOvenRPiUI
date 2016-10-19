@@ -21,8 +21,9 @@ class ProgramSettings : public QObject
     Q_PROPERTY(int volumeSetting READ getVolumeSetting WRITE setVolumeSetting NOTIFY volumeSettingChanged)
     Q_PROPERTY(int maxVolume READ getMaxVolume WRITE setMaxVolume NOTIFY maxVolumeChanged)
     Q_PROPERTY(int brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
-    Q_PROPERTY(bool rotatePizza READ getRotatePizza WRITE setRotatePizza NOTIFY rotatePizzaChanged)
-    Q_PROPERTY(bool finalCheck READ getFinalCheck WRITE setFinalCheck NOTIFY finalCheckChanged)
+    Q_PROPERTY(bool rotatePizzaAlertEnabled READ getRotatePizzaAlert WRITE setRotatePizzaAlert NOTIFY rotatePizzaAlertChanged)
+    Q_PROPERTY(bool finalCheckAlertEnabled READ getFinalCheckAlert WRITE setFinalCheckAlert NOTIFY finalCheckAlertChanged)
+    Q_PROPERTY(bool doneAlertEnabled READ getDoneAlert WRITE setDoneAlert NOTIFY doneAlertChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -48,10 +49,12 @@ public:
     void setMaxVolume(int volume);
     int  getBrightness(void);
     void setBrightness(int brightness);
-    bool getRotatePizza(void);
-    void setRotatePizza(bool rotatePizza);
-    bool getFinalCheck(void);
-    void setFinalCheck(bool finalCheck);
+    bool getRotatePizzaAlert(void);
+    void setRotatePizzaAlert(bool rotatePizzaAlertEnabled);
+    bool getFinalCheckAlert(void);
+    void setFinalCheckAlert(bool finalCheckAlertEnabled);
+    bool getDoneAlert(void);
+    void setDoneAlert(bool finalCheckAlertEnabled);
 
 signals:
     void todOffsetChanged();
@@ -63,8 +66,9 @@ signals:
     void volumeSettingChanged();
     void maxVolumeChanged();
     void brightnessChanged();
-    void rotatePizzaChanged();
-    void finalCheckChanged();
+    void rotatePizzaAlertChanged();
+    void finalCheckAlertChanged();
+    void doneAlertChanged();
 
 public slots:
 private:
@@ -77,8 +81,9 @@ private:
     int m_volumeSetting;
     int m_maxVolume;
     int m_brightness;
-    bool m_rotatePizza;
-    bool m_finalCheck;
+    bool m_rotatePizzaAlertEnabled;
+    bool m_finalCheckAlertEnabled;
+    bool m_doneAlertEnabled;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;

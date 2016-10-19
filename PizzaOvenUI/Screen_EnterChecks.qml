@@ -17,6 +17,8 @@ Item {
 
     property int titleTextPointSize: 1
     property int titleTextToPointSize: 18
+    property int textWidth: 150
+    property int optionLabelSize: 20
 
     property bool uiLoaded: false
 
@@ -28,7 +30,7 @@ Item {
     }
 
     ClickableTextBox {
-        text: "Notification Selections"
+        text: "PIZZA CHECK REMINDERS"
         foregroundColor: appGrayText
         width: 185
         height: 30
@@ -40,11 +42,11 @@ Item {
     }
 
     Rectangle {
-        id: checksBoxes
-        x: 75
+        id: checkBoxes
         anchors.verticalCenter: doneButton.verticalCenter
+        x: 85
         width: 300
-        height: 2 * lineSpacing + 2
+        height: 3 * lineSpacing + 2
         color: appBackgroundColor
         Column {
             Component.onCompleted: {
@@ -54,47 +56,112 @@ Item {
             height: parent.height - 2
             x: 1
             y: 1
-            MyCheckBox {
-                id: radioRotate
-                text: "ROTATE PIZZA"
-                width: parent.width
-                height: lineSpacing
-                checked: rootWindow.halfTimeRotate
-            }
-            MyCheckBox {
-                id: radioFinalCheck
-                text: "FINAL CHECK"
-                width: parent.width
-                height: lineSpacing
-                checked: rootWindow.finalCheck
-            }
-//            Rectangle {
-//                height: lineSpacing
+//            MyCheckBox {
+//                id: radioRotate
+//                text: "Half Done"
 //                width: parent.width
-//                color: appBackgroundColor
-//                ClickableTextBox {
-//                    height: lineSpacing
-//                    width: thisScreen.listTextWidth
-//                    text: "FINAL CHECK"
-//                    foregroundColor: appForegroundColor
-//                    horizontalAlignment: Text.AlignLeft
-//                    verticalAlignment: Text.AlignVCenter
-//                    anchors.left: parent.left
-//                    pointSize: 18
-//                    onClicked: {
-//                        finalCheckSlider.state = !finalCheckSlider.state
-//                        finalCheckSlider.clicked();
-//                    }
-//                }
-//                SlideOffOn{
-//                    id: finalCheckSlider
-//                    anchors.right: parent.right
-//                    state: finalCheck
-//                    onClicked: {
-//                    }
-//                    anchors.verticalCenter: parent.verticalCenter
-//                }
+//                height: lineSpacing
+//                checked: rootWindow.halfTimeRotateAlertEnabled
+//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
+//                enabled: !rootWindow.pizzaAlertsDisabled
 //            }
+//            MyCheckBox {
+//                id: radioFinalCheck
+//                text: "Nearly Done"
+//                width: parent.width
+//                height: lineSpacing
+//                checked: rootWindow.finalCheckAlertEnabled
+//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
+//                enabled: !rootWindow.pizzaAlertsDisabled
+//            }
+//            MyCheckBox {
+//                id: radioDone
+//                text: "Finished"
+//                width: parent.width
+//                height: lineSpacing
+//                checked: rootWindow.pizzaDoneAlertEnabled
+//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
+//                enabled: !rootWindow.pizzaAlertsDisabled
+//            }
+
+            Row {
+                width: parent.width
+                height: lineSpacing
+                anchors.right: parent.right
+                spacing: 20
+                ClickableTextBox {
+                    height: lineSpacing
+                    width: textWidth
+                    text: "Rotate Pizza"
+                    pointSize: optionLabelSize
+                    onClicked: {
+                        halfSlider.state = !halfSlider.state;
+                    }
+                    horizontalAlignment: Text.AlignRight
+                    foregroundColor: appForegroundColor
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SlideOffOn{
+                    id: halfSlider
+                    anchors.verticalCenter: parent.verticalCenter
+                    state: rootWindow.halfTimeRotateAlertEnabled
+                    trueText: "On"
+                    falseText: "Off"
+                }
+            }
+            Row {
+                width: parent.width
+                height: lineSpacing
+                anchors.right: parent.right
+                spacing: 20
+                ClickableTextBox {
+                    height: lineSpacing
+                    width: textWidth
+                    text: "Final Check"
+                    pointSize: optionLabelSize
+                    onClicked: {
+                        finalSlider.state = !finalSlider.state;
+                    }
+                    horizontalAlignment: Text.AlignRight
+                    foregroundColor: appForegroundColor
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SlideOffOn{
+                    id: finalSlider
+                    anchors.verticalCenter: parent.verticalCenter
+                    state: rootWindow.finalCheckAlertEnabled
+                    trueText: "On"
+                    falseText: "Off"
+                }
+            }
+            Row {
+                width: parent.width
+                height: lineSpacing
+                anchors.right: parent.right
+                spacing: 20
+                ClickableTextBox {
+                    height: lineSpacing
+                    width: textWidth
+                    text: "Done"
+                    pointSize: optionLabelSize
+                    onClicked: {
+                        finishedSlider.state = !finishedSlider.state;
+                    }
+                    horizontalAlignment: Text.AlignRight
+                    foregroundColor: appForegroundColor
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SlideOffOn{
+                    id: finishedSlider
+                    anchors.verticalCenter: parent.verticalCenter
+                    state: rootWindow.pizzaDoneAlertEnabled
+                    trueText: "On"
+                    falseText: "Off"
+                }
+            }
         }
     }
 
@@ -105,17 +172,20 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
             ScriptAction {
                 script: {
-                    halfTimeRotate = radioRotate.checked;
-                    finalCheck = radioFinalCheck.checked;
-                    appSettings.rotatePizza = halfTimeRotate;
-                    appSettings.finalCheck = finalCheck;
+//                    halfTimeRotateAlertEnabled = radioRotate.checked;
+//                    finalCheckAlertEnabled = radioFinalCheck.checked;
+                    halfTimeRotateAlertEnabled = halfSlider.state;
+                    finalCheckAlertEnabled = finalSlider.state;
+                    rootWindow.pizzaDoneAlertEnabled = finishedSlider.state;
+                    appSettings.rotatePizzaAlertEnabled = halfTimeRotateAlertEnabled;
+                    appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
+                    appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
                     if (singleSettingOnly) {
                         restoreBookmarkedScreen();
                     } else {
                         stackView.clear();
                         if (preheatComplete) {
                             stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
-//                            stackView.push({item:Qt.resolvedUrl("Screen_Start.qml"), immediate:immediateTransitions});
                         } else {
                             stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
                         }

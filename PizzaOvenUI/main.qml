@@ -17,8 +17,9 @@ Window {
     // Things related to the cooking of the oven
     property int cookTime: 30
     property int finalCheckTime: cookTime * 0.9
-    property bool halfTimeRotate: appSettings.rotatePizza
-    property bool finalCheck: appSettings.finalCheck
+    property bool halfTimeRotateAlertEnabled: appSettings.rotatePizzaAlertEnabled
+    property bool finalCheckAlertEnabled: appSettings.finalCheckAlertEnabled
+    property bool pizzaDoneAlertEnabled: appSettings.doneAlertEnabled
     property int powerSwitch: 0
     property int dlb: 0
     property int oldDlb: 0
@@ -60,7 +61,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.0"
+    property string uiVersion: "0.1.1"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
@@ -168,8 +169,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+//        border.color: "red"
+//        border.width: 1
         StackView {
             id: stackView
             width: parent.width
@@ -268,5 +269,24 @@ Window {
 
         appSettings.todOffset = offset;
     }
+
+//    Rectangle {
+//        id: upperGuideline
+//        x: 0
+//        y: 170 + screenOffsetY
+//        z: 100
+//        width: 800
+//        height: 1
+//        color: "yellow"
+//    }
+//    Rectangle {
+//        id: lowerGuideline
+//        x: 0
+//        y: upperGuideline.y + lineSpacing
+//        z: 100
+//        width: 800
+//        height: 1
+//        color: "yellow"
+//    }
 }
 

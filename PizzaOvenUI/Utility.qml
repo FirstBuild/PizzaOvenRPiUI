@@ -58,7 +58,7 @@ Item {
                 allSettings.menuItems[i].stoneTemp = lowerFront.setTemp;
                 allSettings.menuItems[i].cookTime = cookTime;
                 allSettings.menuItems[i].finalCheckTime = finalCheckTime;
-                allSettings.menuItems[i].halfTimeCheck = halfTimeRotate;
+                allSettings.menuItems[i].halfTimeCheck = halfTimeRotateAlertEnabled;
                 menuSettings.json = allSettings;
             }
         }

@@ -83,25 +83,14 @@ Item {
             x: 1
             y: 1
             MyRadioButton {
-                id: radioOff
-                text: "Off"
+                id: radioHigh
+                text: "High"
                 width: parent.width
                 height: lineSpacing
-                state: volumeSetting === 0
+                state: volumeSetting === 9
                 silent: true
                 onClicked: {
-                    volumeSetting = 0
-                }
-            }
-            MyRadioButton {
-                id: radioLow
-                text: "Low"
-                width: parent.width
-                height: lineSpacing
-                state: volumeSetting === 7
-                silent: true
-                onClicked: {
-                    volumeSetting = 7
+                    volumeSetting = 9
                 }
             }
             MyRadioButton {
@@ -116,14 +105,25 @@ Item {
                 }
             }
             MyRadioButton {
-                id: radioHigh
-                text: "High"
+                id: radioLow
+                text: "Low"
                 width: parent.width
                 height: lineSpacing
-                state: volumeSetting === 9
+                state: volumeSetting === 7
                 silent: true
                 onClicked: {
-                    volumeSetting = 9
+                    volumeSetting = 7
+                }
+            }
+            MyRadioButton {
+                id: radioOff
+                text: "Off"
+                width: parent.width
+                height: lineSpacing
+                state: volumeSetting === 0
+                silent: true
+                onClicked: {
+                    volumeSetting = 0
                 }
             }
         }

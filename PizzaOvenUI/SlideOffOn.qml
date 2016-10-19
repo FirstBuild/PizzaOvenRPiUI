@@ -28,7 +28,7 @@ Item {
         height: parent.height
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        horizontalAlignment: Text.AlignLeft
+        horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
 

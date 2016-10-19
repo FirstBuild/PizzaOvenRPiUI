@@ -9,6 +9,7 @@ Item {
 
     property string text: "Label"
     property bool checked: false
+    signal checkChanged()
 
     Row {
         spacing: 10
@@ -19,7 +20,7 @@ Item {
             width: 30
             height: 30
             border.width: 2
-            border.color: appForegroundColor
+            border.color: appGrayColor
             color: appBackgroundColor
 
             Rectangle {
@@ -42,6 +43,7 @@ Item {
         onClicked:{            
             sounds.touch.play();
             checkbox.checked = !checkbox.checked;
+            checkChanged();
         }
     }
 }

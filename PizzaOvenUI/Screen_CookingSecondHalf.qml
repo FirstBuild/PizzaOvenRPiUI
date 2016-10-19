@@ -56,7 +56,7 @@ Item {
         id: screenExitAnimator
         ScriptAction {
             script: {
-                if (finalCheck)
+                if (finalCheckAlertEnabled)
                 {
                     forceScreenTransition(Qt.resolvedUrl("Screen_CookingFinalCheck.qml"));
                 }

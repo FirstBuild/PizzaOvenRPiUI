@@ -1,11 +1,29 @@
 import QtQuick 2.3
+import QtQuick.Extras 1.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtMultimedia 5.0
 
 Item {
     id: thisScreen
+    height: parent.height
+    width: parent.width
+
+    property string targetScreen: ""
 
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
+
+    SequentialAnimation {
+        id: screenExitAnimator
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
+        ScriptAction {
+            script: {
+                stackView.push({item: Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
+            }
+        }
+    }
 
     property int listItemHeight: 50
     property int listItemWidth: screenWidth - screenTitle.x - 30
@@ -13,7 +31,19 @@ Item {
 
     function screenEntry() {
         screenEntryAnimation.start();
-        console.log("Entering screen settings.");
+    }
+
+    function acceptSelection() {
+        var settings = settingsModel.get(theColumn.currentIndex);
+
+        console.log(settings.name + " selected.");
+
+        if (settings.screen) {
+            singleSettingOnly = true;
+            bookmarkCurrentScreen();
+            targetScreen = settings.screen
+            screenExitAnimator.start();
+        }
     }
 
     BackButton{
@@ -36,233 +66,49 @@ Item {
             id: idButtonText
             text: "SETTINGS"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: 18
             anchors.centerIn: parent
             color: appGrayText
         }
         NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
-    Flickable {
-        id: menu
-        width: listItemWidth
-        height: listItemHeight * 4.5
-        y: (screenHeight + screenTitle.y + screenTitle.height - menu.height)/2
-        x: screenTitle.x
-        contentWidth: listItemWidth
-        contentHeight: settingsList.height
-        clip: true
-        Column {
-            id: settingsList
-            width: parent.width
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "TEMPERATURE UNITS"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: {
-                        if (farenRadio.state) {
-                            celciusRadio.clicked();
-                        } else {
-                            farenRadio.clicked();
-                        }
-                    }
-                }
+    ListModel {
+        id: settingsModel
+        ListElement { name: "CHECK PIZZA REMINDERS"; screen: "Screen_EnterChecks.qml" }
+        ListElement { name: "PREFERENCES"; screen: "Screen_Preferences.qml" }
+        ListElement { name: "CONTROL LOCKOUT" }
+        ListElement { name: "VOLUME"; screen: "Screen_SetVolume.qml" }
+        ListElement { name: "DISPLAY BRIGHTNESS"; screen: "Screen_SetBrightness.qml" }
+    }
 
-                Row {
-                    anchors.right: parent.right
-                    spacing: 10
-                    height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    MyRadioButton {
-                        id: farenRadio
-                        state: tempDisplayInF
-                        height: listItemHeight
-                        text: String.fromCharCode(8457)
-                        onClicked: {
-                            if (!tempDisplayInF) {
-                                tempDisplayInF = !tempDisplayInF;
-                                appSettings.tempDisplayInF = tempDisplayInF;
-                            }
-                        }
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    MyRadioButton {
-                        id: celciusRadio
-                        state: !tempDisplayInF
-                        height: listItemHeight
-                        text: String.fromCharCode(8451)
-                        onClicked: {
-                            if (tempDisplayInF) {
-                                tempDisplayInF = !tempDisplayInF;
-                                appSettings.tempDisplayInF = tempDisplayInF;
-                            }
-                        }
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
+    Tumbler {
+        id: settingsTumbler
+        height: 225
+        width: 375
+        x: 105
+        y: 85
+
+        style:  MyTumblerStyle {
+            onClicked: {
+                sounds.select.play();
+                acceptSelection();
             }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "WiFi"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: {
-                        wifiSlider.state = !wifiSlider.state
-                        wifiSlider.clicked();
-                    }
-                }
-                SlideOffOn{
-                    id: wifiSlider
-                    anchors.right: parent.right
-                    state: false
-                    onClicked: {
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "CONTROL LOCKOUT"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "VOLUME"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: SequentialAnimation {
-                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                        ScriptAction {script: {
-                                stackView.push({item: Qt.resolvedUrl("Screen_SetVolume.qml"), immediate:immediateTransitions});
-                            }
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "DISPLAY BRIGHTNESS"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: SequentialAnimation {
-                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                        ScriptAction {script: {
-                                stackView.push({item: Qt.resolvedUrl("Screen_SetBrightness.qml"), immediate:immediateTransitions});
-                            }
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "CENTER SCREEN"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: SequentialAnimation {
-                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                        ScriptAction {script: {
-                                stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-                            }
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                Text {
-                    height: listItemHeight
-                    text: "ADVANCED"
-                    color: appForegroundColor
-                    font.family: localFont.name
-                    font.pointSize: 18
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                }
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "ADVANCED"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: SequentialAnimation {
-                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                        ScriptAction {script: {
-                                stackView.push({item: Qt.resolvedUrl("Screen_SettingsAdvanced.qml"), immediate:immediateTransitions});
-                            }
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                height: listItemHeight
-                width: parent.width
-                color: appBackgroundColor
-                ClickableTextBox {
-                    height: listItemHeight
-                    width: thisScreen.listTextWidth
-                    text: "ABOUT"
-                    foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
-                    onClicked: SequentialAnimation {
-                        NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                        ScriptAction {script: {
-                                stackView.push({item: Qt.resolvedUrl("Screen_About.qml"), immediate:immediateTransitions});
-                            }
-                        }
-                    }
-                }
-            }
+            visibleItemCount: 5
+            textHeight:settingsTumbler.height/visibleItemCount
+            textWidth: settingsTumbler.width
+            padding.top: 0
+            padding.bottom: 0
+            padding.left: 0
+            padding.right: 0
+            spacing: 100
+            textPointSize: 20
+        }
+        TumblerColumn {
+            id: theColumn
+            width: settingsTumbler.width
+            model: settingsModel
+            role: "name"
         }
     }
 }

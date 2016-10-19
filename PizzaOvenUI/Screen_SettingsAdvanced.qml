@@ -3,7 +3,7 @@ import QtQuick 2.3
 Item {
     id: thisScreen
 
-    property int listItemHeight: 40
+    property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30
     property int listTextWidth: 300
 
@@ -127,20 +127,66 @@ Item {
                     ClickableTextBox {
                         height: listItemHeight
                         width: thisScreen.listTextWidth
-                        text: "MAX VOLUME"
+                        text: "CENTER SCREEN"
                         foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         anchors.left: parent.left
-                        onClicked:  SequentialAnimation {
-                            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
-                            ScriptAction {script: {
-                                    stackView.push({item: Qt.resolvedUrl("Screen_SettingMaxVolume.qml"), immediate:immediateTransitions});
+                        onClicked: SequentialAnimation {
+                            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
+                            ScriptAction {
+                                script: {
+                                    bookmarkCurrentScreen();
+                                    stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
                                 }
                             }
                         }
                     }
                 }
+                Rectangle {
+                    height: listItemHeight
+                    width: parent.width
+                    color: appBackgroundColor
+                    ClickableTextBox {
+                        height: listItemHeight
+                        width: thisScreen.listTextWidth
+                        text: "ABOUT"
+                        foregroundColor: appForegroundColor
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.left: parent.left
+                        onClicked: SequentialAnimation {
+                            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
+                            ScriptAction {
+                                script: {
+                                    bookmarkCurrentScreen();
+                                    stackView.push({item: Qt.resolvedUrl("Screen_About.qml"), immediate:immediateTransitions});
+                                }
+                            }
+                        }
+                    }
+                }
+//                Rectangle {
+//                    height: listItemHeight
+//                    width: parent.width
+//                    color: appBackgroundColor
+//                    ClickableTextBox {
+//                        height: listItemHeight
+//                        width: thisScreen.listTextWidth
+//                        text: "MAX VOLUME"
+//                        foregroundColor: appForegroundColor
+//                        horizontalAlignment: Text.AlignLeft
+//                        verticalAlignment: Text.AlignVCenter
+//                        anchors.left: parent.left
+//                        onClicked:  SequentialAnimation {
+//                            NumberAnimation {target: thisScreen; property: "opacity"; from: 1.0; to: 0.0;}
+//                            ScriptAction {script: {
+//                                    stackView.push({item: Qt.resolvedUrl("Screen_SettingMaxVolume.qml"), immediate:immediateTransitions});
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }

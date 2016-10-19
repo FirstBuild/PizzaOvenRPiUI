@@ -7,7 +7,7 @@ Item {
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
-    property int listItemHeight: 40
+    property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30
 
     function screenEntry() {

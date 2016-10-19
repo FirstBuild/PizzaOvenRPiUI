@@ -16,8 +16,9 @@ const bool defaultTempDisplayInF = true;
 const int defaultVolumeSetting = 5;
 const int defaultMaxVolume = 70;
 const int defaultBrightness = 255;
-const bool defaultRotatePizza = true;
-const bool defaultFinalCheck = true;
+const bool defaultRotatePizzaAlert = true;
+const bool defaultFinalCheckAlert = true;
+const bool defaultDoneAlert = true;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
@@ -110,8 +111,9 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_volumeSetting = (settings.contains("volumeSetting")) ? settings["volumeSetting"].toInt() : defaultVolumeSetting;
     m_maxVolume = (settings.contains("maxVolume")) ? settings["maxVolume"].toInt() : defaultMaxVolume;
     m_brightness = (settings.contains("brightness")) ? settings["brightness"].toInt() : defaultBrightness;
-    m_rotatePizza = (settings.contains("rotatePizza")) ? settings["rotatePizza"].toBool() : defaultRotatePizza;
-    m_finalCheck = (settings.contains("finalCheck")) ? settings["finalCheck"].toBool() : defaultFinalCheck;
+    m_rotatePizzaAlertEnabled = (settings.contains("rotatePizzaAlertEnabled")) ? settings["rotatePizzaAlertEnabled"].toBool() : defaultRotatePizzaAlert;
+    m_finalCheckAlertEnabled = (settings.contains("finalCheckAlertEnabled")) ? settings["finalCheckAlertEnabled"].toBool() : defaultFinalCheckAlert;
+    m_doneAlertEnabled = (settings.contains("doneAlertEnabled")) ? settings["doneAlertEnabled"].toBool() : defaultDoneAlert;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -123,8 +125,9 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["volumeSetting"] = m_volumeSetting;
     settings["maxVolume"] = m_maxVolume;
     settings["brightness"] = m_brightness;
-    settings["rotatePizza"] = m_rotatePizza;
-    settings["finalCheck"] = m_finalCheck;
+    settings["rotatePizzaAlertEnabled"] = m_rotatePizzaAlertEnabled;
+    settings["finalCheckAlertEnabled"] = m_finalCheckAlertEnabled;
+    settings["doneAlertEnabled"] = m_doneAlertEnabled;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -137,8 +140,8 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_maxVolume = defaultMaxVolume;
     m_brightness = defaultBrightness;
     m_settingsInitialized = false;
-    m_rotatePizza = defaultRotatePizza;
-    m_finalCheck = defaultFinalCheck;
+    m_rotatePizzaAlertEnabled = defaultRotatePizzaAlert;
+    m_finalCheckAlertEnabled = defaultFinalCheckAlert;
 }
 
 /*************** TOD Offset ***************/
@@ -355,29 +358,43 @@ static void setLcdBrightness(int brightness)
 }
 
 /*************** Rotate Pizza Notification ***************/
-void ProgramSettings::setRotatePizza(bool rotatePizza)
+void ProgramSettings::setRotatePizzaAlert(bool rotatePizzaAlertEnabled)
 {
-    cout << "Setting rotate pizza to " << rotatePizza << endl;
-    m_rotatePizza = rotatePizza;
-    emit rotatePizzaChanged();
+    cout << "Setting rotate pizza alert to " << rotatePizzaAlertEnabled << endl;
+    m_rotatePizzaAlertEnabled = rotatePizzaAlertEnabled;
+    emit rotatePizzaAlertChanged();
     saveSettings();
 }
 
-bool ProgramSettings::getRotatePizza()
+bool ProgramSettings::getRotatePizzaAlert()
 {
-    return m_rotatePizza;
+    return m_rotatePizzaAlertEnabled;
 }
 
 /*************** Final Check Notification ***************/
-void ProgramSettings::setFinalCheck(bool finalCheck)
+void ProgramSettings::setFinalCheckAlert(bool finalCheckAlertEnabled)
 {
-    cout << "Setting final check to " << finalCheck << endl;
-    m_finalCheck = finalCheck;
-    emit finalCheckChanged();
+    cout << "Setting final check alert to " << finalCheckAlertEnabled << endl;
+    m_finalCheckAlertEnabled = finalCheckAlertEnabled;
+    emit finalCheckAlertChanged();
     saveSettings();
 }
 
-bool ProgramSettings::getFinalCheck()
+bool ProgramSettings::getFinalCheckAlert()
 {
-    return m_finalCheck;
+    return m_finalCheckAlertEnabled;
+}
+
+/*************** Done Notification ***************/
+void ProgramSettings::setDoneAlert(bool doneAlertEnabled)
+{
+    cout << "Setting done  alert to " << doneAlertEnabled << endl;
+    m_doneAlertEnabled = doneAlertEnabled;
+    emit doneAlertChanged();
+    saveSettings();
+}
+
+bool ProgramSettings::getDoneAlert()
+{
+    return m_doneAlertEnabled;
 }

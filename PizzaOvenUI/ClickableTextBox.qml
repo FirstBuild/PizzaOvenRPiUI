@@ -29,6 +29,8 @@ Item {
         height: parent.height
         anchors.centerIn: parent
         color: box.backgroundColor
+//        border.color: "orange"
+//        border.width: 1
         MouseArea {
             id: mouseArea
             anchors.fill: parent

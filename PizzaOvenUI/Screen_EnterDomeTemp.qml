@@ -98,6 +98,10 @@ Item {
                     to: 24
                 }
                 showKeypress: false
+                padding.top: 0
+                padding.bottom: 0
+                padding.left: 0
+                padding.right: 0
             }
             TumblerColumn {
                 id: thousandsColumn

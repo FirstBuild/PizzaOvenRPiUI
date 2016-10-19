@@ -47,6 +47,10 @@ Item {
             textWidth: columnWidth
             textAlignment: Text.AlignHCenter
             showKeypress: false
+            padding.top: 0
+            padding.bottom: 0
+            padding.left: 0
+            padding.right: 0
         }
         TumblerColumn {
             id: minutesTensColumn
@@ -90,6 +94,10 @@ Item {
             textWidth: columnWidth
             textAlignment: Text.AlignHCenter
             showKeypress: false
+            padding.top: 0
+            padding.bottom: 0
+            padding.left: 0
+            padding.right: 0
         }
         TumblerColumn {
             id: secondsTensColumn

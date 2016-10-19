@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.4
 TumblerStyle {
     id: tumblerStyle
 
-    property int textHeight: 64
+    property int textHeight: lineSpacing
     property int textWidth: 64
     property int textAlignment: Text.AlignLeft
     property int textPointSize: 24
@@ -14,7 +14,7 @@ TumblerStyle {
 
     frame: Rectangle {
 //        border.color: "red"
-//        border.width: 1
+//        border.width: 2
         color: appBackgroundColor
     }
 
@@ -33,28 +33,31 @@ TumblerStyle {
 
     delegate: Item {
         id: tumblerDelegate
-        implicitHeight: (control.height - padding.top - padding.bottom) / tumblerStyle.visibleItemCount
+        implicitHeight: textHeight
+        implicitWidth: textWidth
 
         Rectangle {
             id: textBackground
             color: appBackgroundColor
-            height: lineSpacing
-            width: parent.width
-            anchors.centerIn: parent
-        }
-
-        Text {
-            id: selectionText
             height: textHeight
             width: textWidth
-            font.family: localFont.name
-            font.pointSize: textPointSize
-            text: styleData.value
             anchors.centerIn: parent
-            horizontalAlignment: textAlignment
-            verticalAlignment: Text.AlignVCenter
-            color: appForegroundColor
-            opacity: Math.pow(2.7183, -Math.abs(styleData.displacement))
+//            border.color: "orange"
+//            border.width: 1
+            Text {
+                id: selectionText
+                height: parent.height
+                width: parent.width
+                font.family: localFont.name
+                font.pointSize: textPointSize
+                text: styleData.value
+                anchors.left: parent.left
+                horizontalAlignment: textAlignment
+                verticalAlignment: Text.AlignVCenter
+                color: appForegroundColor
+                opacity: Math.pow(2.7183, -Math.abs(styleData.displacement))
+            }
+
         }
 
         MouseArea {
@@ -67,61 +70,7 @@ TumblerStyle {
                     control.setCurrentIndexAt(styleData.column, styleData.index, 200);
                 }
             }
-//            onPressed: {
-//                tumblerDelegate.z = 10
-//                if (styleData.current && showKeypress) {
-//                    textBackgroundOnReleased.stop();
-//                    textBackgroundOnPressed.start();
-//                    selectionTextOnReleased.stop();
-//                    selectionTextOnPressed.start();
-//                }
-//            }
-//            onReleased: {
-//                tumblerDelegate.z = 0
-//                if (styleData.current && showKeypress) {
-//                    textBackgroundOnPressed.stop();
-//                    textBackgroundOnReleased.start();
-//                    selectionTextOnPressed.stop();
-//                    selectionTextOnReleased.start();
-//                }
-//            }
-//            onPositionChanged: {
-//                if (styleData.current && showKeypress) {
-//                    textBackgroundOnReleased.stop();
-//                    selectionTextOnReleased.stop();
-//                    textBackgroundOnPressed.stop();
-//                    selectionTextOnPressed.stop();
-//                    selectionTextOnReleased.start();
-//                    textBackground.color = appBackgroundColor;
-//                    selectionText.color = appForegroundColor;
-//                }
-//            }
         }
-        ColorAnimation {
-            id: textBackgroundOnPressed
-            target: textBackground
-            property: "color"
-            to: appForegroundColor
-        }
-        ColorAnimation {
-            id: textBackgroundOnReleased
-            target: textBackground
-            property: "color"
-            to: appBackgroundColor
-        }
-        ColorAnimation {
-            id: selectionTextOnPressed
-            target: selectionText
-            property: "color"
-            to: appBackgroundColor
-        }
-        ColorAnimation {
-            id: selectionTextOnReleased
-            target: selectionText
-            property: "color"
-            to: appForegroundColor
-        }
-
     }
 
 

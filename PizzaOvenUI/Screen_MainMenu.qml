@@ -94,7 +94,7 @@ Item {
                 acceptSelection();
             }
             visibleItemCount: 5
-            textHeight:100
+            textHeight:foodType.height / visibleItemCount
             textWidth: parent.width
             padding.top: 0
             padding.bottom: 0

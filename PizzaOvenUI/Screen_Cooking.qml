@@ -77,7 +77,10 @@ Item {
         console.log("State is now " + state);
         if (state === "rotate-pizza") sounds.alarmMid.play();
         if (state === "final-check") sounds.alarmUrgent.play();
-        if (state === "done") sounds.cycleComplete.play();
+        if (state === "done" && pizzaDoneAlertEnabled) {
+            console.log("Done alert is enabled.");
+            sounds.cycleComplete.play();
+        }
     }
 
     onCookTimeValueShadowChanged: {
@@ -86,7 +89,7 @@ Item {
             break;
         case "first-half":
             if (dataCircle.circleValue >= 50) {
-                if (halfTimeRotate) {
+                if (halfTimeRotateAlertEnabled) {
                     thisScreen.state = "rotate-pizza";
                 } else {
                     thisScreen.state = "second-half";
@@ -100,7 +103,7 @@ Item {
             break;
         case "second-half":
             if (dataCircle.circleValue >= 85) {
-                if (finalCheck) {
+                if (finalCheckAlertEnabled) {
                     thisScreen.state = "final-check";
                 } else {
                     thisScreen.state = "final";
@@ -143,7 +146,7 @@ Item {
 
     CircleContent {
         id: circleContent
-        needsAnimation: false
+        needsAnimation: true
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
         bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)

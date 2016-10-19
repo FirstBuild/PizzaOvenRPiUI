@@ -55,7 +55,7 @@ Item {
     SequentialAnimation {
         id: screenExitAnimation
         ScriptAction {script: {
-                if (halfTimeRotate)
+                if (halfTimeRotateAlertEnabled)
                 {
                     forceScreenTransition(Qt.resolvedUrl("Screen_RotatePizza.qml"));
                 }
