@@ -28,7 +28,7 @@ Window {
 
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
-    property int upperMaxTemp: 1250
+    property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
     property int doorStatus: 0
     property int doorCount: 0
@@ -61,7 +61,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.1"
+    property string uiVersion: "0.1.2"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
