@@ -27,6 +27,14 @@ Item {
     property real upperTemp: demoModeIsActive ? upperTempDemoValue : upperFront.currentTemp
     property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : lowerFront.currentTemp
 
+    property bool preheatMaxTimerRunning: rootWindow.maxPreheatTimer.running
+
+    onPreheatMaxTimerRunningChanged: {
+        if (!rootWindow.maxPreheatTimer.running) {
+            doExitCheck();
+        }
+    }
+
     function screenEntry() {
         console.log("Entering preheat screen");
         screenSwitchInProgress = false;
@@ -152,9 +160,14 @@ Item {
         console.log("Upper lock: " + upperTempLocked);
         console.log("Lower lock: " + lowerTempLocked);
         if (screenSwitchInProgress) return;
-        if (upperTempLocked && lowerTempLocked) {
-            preheatComplete = true
+        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running) {
             screenSwitchInProgress = true;
+            preheatComplete = true
+            rootWindow.maxPreheatTimer.stop();
+            if (demoModeIsActive) {
+                upperFrontAnimation.stop();
+                lowerFrontAnimation.stop();
+            }
             screenExitAnimator.start();
         }
     }

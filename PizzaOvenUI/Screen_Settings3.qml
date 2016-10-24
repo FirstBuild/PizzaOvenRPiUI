@@ -1,8 +1,13 @@
-import QtQuick 2.6
+import QtQuick 2.5
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.4
+//import QtQuick.Controls 2.0
+import Qt.labs.controls 1.0
+//import Qt.labs.templates 1.0 as T
 
 Item {
+    width: screenWidth
+    height: screenHeight
 
     Component {
         id: theDelegate
@@ -44,25 +49,58 @@ Item {
         ListElement { name: "Seven"; color: "gray"; display: true }
     }
 
-    Tumbler {
+//    Rectangle {
+//        color: "yellow"
+//        height: 1
+//        width: listViewTumbler.width + 20
+//        x: listViewTumbler.x - 10
+//        y: listViewTumbler.y + listViewTumbler.height/2 - lineSpacing / 2
+//    }
+//    Rectangle {
+//        color: "yellow"
+//        height: 1
+//        width: listViewTumbler.width + 20
+//        x: listViewTumbler.x - 10
+//        y: listViewTumbler.y + listViewTumbler.height/2 + lineSpacing / 2
+//    }
+
+    MyTumbler {
         id: listViewTumbler
-        height: 5 * lineSpacing
-        width: 350
-        anchors.centerIn: parent
+        height: 250
+        width: 300
+        x: 180
+        y: 85
+        font.pointSize: 24
+        font.family: localFont.name
 
-        style: MyTumblerStyle {
-            visibleItemCount: 5
-            textHeight:lineSpacing
-            padding.top: 0
-            padding.bottom: 0
-            padding.left: 0
-            padding.right: 0
-            delegate: theDelegate
+        model: settingsModel
+        visibleItemCount: 5
+
+        foregroundColor: appForegroundColor
+
+        onClicked: {
+//            if (name !== listView.currentItem.text) {
+//                for (var i=0; i<settingsModel.count; i++) {
+//                    if (settingsModel.get(i).name === name) {
+//                        listView.positionViewAtIndex(i, ListView.Center);
+//                        return;
+//                    }
+//                }
+//            } else {
+//                console.log(name + " was clicked.");
+//            }
         }
 
-        TumblerColumn {
-            model: settingsModel
-            width: 350
-        }
+//        contentItem: ListView {
+//            id: listView
+//            model: listViewTumbler.model
+//            snapMode: ListView.SnapToItem
+//            anchors.fill: parent
+//            delegate: listViewTumbler.delegate
+//            highlightRangeMode: ListView.StrictlyEnforceRange
+//            preferredHighlightBegin: height / 2 - (height / listViewTumbler.visibleItemCount / 2)
+//            preferredHighlightEnd: height / 2  + (height / listViewTumbler.visibleItemCount / 2)
+//            clip: true
+//        }
     }
 }

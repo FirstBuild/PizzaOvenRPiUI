@@ -67,6 +67,15 @@ Window {
     property int lineSpacing: 54
 
     property CookTimer cookTimer: CookTimer {}
+    property Timer maxPreheatTimer: Timer {
+        interval: 1000*60*30 // 30 minutes
+        repeat: false
+        running: false
+        onTriggered: {
+            console.log("Preheat max timer expired.");
+        }
+    }
+
 
     property string ovenState: "Standby"
 
@@ -179,11 +188,7 @@ Window {
             focus: true
             initialItem: {
                 appSettings.backlightOff = false;
-                if (appSettings.settingsInitialized) {
-                    Qt.resolvedUrl("Screen_Off.qml");
-                } else {
-                    Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
-                }
+                Qt.resolvedUrl("Screen_AmpBoardTest.qml");
             }
             onCurrentItemChanged: {
                 if (currentItem) {

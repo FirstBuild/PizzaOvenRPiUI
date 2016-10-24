@@ -3,6 +3,9 @@ import QtWebSockets 1.0
 
 Item {
 
+    // The reset line is active high on the Pi and active low on the control board.
+    property bool resetLineState: false
+
     function start() {
         webSocketConnectionTimer.start();
     }
@@ -92,6 +95,15 @@ Item {
                 lowerRear.currentTemp = msg.data.LR;
             } else {
                 console.log("Temp data missing.");
+            }
+            break;
+        case "Reset":
+            if (msg.data.pin) {
+                if (msg.data.pin == 1) {
+                    resetLineState = true;
+                } else {
+                    resetLineState = true;
+                }
             }
             break;
         case "SetTemp":

@@ -64,8 +64,8 @@ Item {
             OpacityAnimator {target: circleContent; from: 1.0; to: 0.0}
             ScriptAction {
                 script: {
-
                     console.log("Preheat clicked.");
+                    rootWindow.maxPreheatTimer.restart();
                     if (!demoModeIsActive) {
                         backEnd.sendMessage("StartOven ");
                     } else {
