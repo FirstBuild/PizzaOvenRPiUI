@@ -99,11 +99,7 @@ Item {
             break;
         case "Reset":
             if (msg.data.pin) {
-                if (msg.data.pin == 1) {
-                    resetLineState = true;
-                } else {
-                    resetLineState = true;
-                }
+                resetLineState = (msg.data.pin == 1);
             }
             break;
         case "SetTemp":
@@ -113,6 +109,7 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
+            return;
             if (msg.data.powerSwitch && msg.data.l2DLB) {
                 dlb = msg.data.l2DLB*1;
                 powerSwitch = msg.data.powerSwitch*1;
