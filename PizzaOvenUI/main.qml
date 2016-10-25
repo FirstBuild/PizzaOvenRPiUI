@@ -188,7 +188,11 @@ Window {
             focus: true
             initialItem: {
                 appSettings.backlightOff = false;
-                Qt.resolvedUrl("Screen_AmpBoardTest.qml");
+                if (appSettings.settingsInitialized) {
+                    Qt.resolvedUrl("Screen_Off.qml");
+                } else {
+                    Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
+                }
             }
             onCurrentItemChanged: {
                 if (currentItem) {
