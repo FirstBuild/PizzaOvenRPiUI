@@ -62,35 +62,41 @@ Item {
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
                 text: "Duty Cycles:"
+                width: screenWidth/6
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
                 text: " UF: " + upperFront.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
+                width: screenWidth/6
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
                 text: " UR: " + upperRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
+                width: screenWidth/6
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
                 text: " LF: " + lowerFront.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
+                width: screenWidth/6
             }
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
                 font.pointSize: idDutyCycleRow.textSize
                 text: " LR: " + lowerRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
+                width: screenWidth/6
             }
             GearButton {
                 id: mainMenuGearButton
                 height: 20
-                x: 0
+                width: screenWidth/6
+                x: screenWidth/6 - 20
                 y: 0
                 onClicked: {
                     stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
@@ -173,12 +179,19 @@ Item {
                         font.pointSize: 14
                         text: "Count: " + doorCount
                     }
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 14
+                        text: "TCO: " + (tco == 0 ? "Off" : "On")
+                    }
                 }
             }
         }
     }
     MyButton {
         id: idRefreshData
+        z: 1
         text: "Refresh"
         width: smallButtonWidth
         height: smallButtonHeight*.6

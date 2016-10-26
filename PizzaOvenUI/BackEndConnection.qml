@@ -113,9 +113,13 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
+            console.log("Power message: " + JSON.stringify(msg));
             if (msg.data.powerSwitch && msg.data.l2DLB) {
                 dlb = msg.data.l2DLB*1;
                 powerSwitch = msg.data.powerSwitch*1;
+            }
+            if (msg.data.tco) {
+                tco = msg.data.tco*1;
             }
 
             var oldState = oldPowerSwitch + (oldDlb * 10);

@@ -70,8 +70,8 @@ Item {
             ScriptAction {
                 script: {
                     screenExit();
-//                    stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
-                    stackView.push({item: Qt.resolvedUrl("Screen_Settings3.qml"), immediate:immediateTransitions});
+                    stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
+//                    stackView.push({item: Qt.resolvedUrl("Screen_Settings3.qml"), immediate:immediateTransitions});
                 }
             }
         }
@@ -108,16 +108,16 @@ Item {
             role: "name"
         }
     }
-    Rectangle {
-        x: foodType.x
-        y: foodType.y
-        width: foodType.width
-        height: foodType.height
-        color: appBackgroundColor
-        border.color: "yellow"
-        border.width: 1
-        opacity: 0.25
-    }
+//    Rectangle {
+//        x: foodType.x
+//        y: foodType.y
+//        width: foodType.width
+//        height: foodType.height
+//        color: appBackgroundColor
+//        border.color: "yellow"
+//        border.width: 1
+//        opacity: 0.25
+//    }
 
     SequentialAnimation {
         id: screenExitAnimation

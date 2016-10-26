@@ -22,6 +22,7 @@ Window {
     property bool pizzaDoneAlertEnabled: appSettings.doneAlertEnabled
     property int powerSwitch: 0
     property int dlb: 0
+    property int tco: 0
     property int oldDlb: 0
     property int oldPowerSwitch: 0
     property bool preheatComplete: false

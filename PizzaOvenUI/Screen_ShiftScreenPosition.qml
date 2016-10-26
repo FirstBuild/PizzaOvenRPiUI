@@ -43,7 +43,8 @@ Item {
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; /*easing.type: Easing.InCubic*/}
             ScriptAction {
                 script: {
-                    restoreBookmarkedScreen();
+                    stackView.clear();
+                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
                 }
             }
         }

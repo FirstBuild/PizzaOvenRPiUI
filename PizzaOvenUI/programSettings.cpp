@@ -13,7 +13,7 @@ const int defaultTodOffset = 0;
 const int defaultScreenXOffset = 60;
 const int defaultScreenYOffset = 25;
 const bool defaultTempDisplayInF = true;
-const int defaultVolumeSetting = 5;
+const int defaultVolumeSetting = 8;
 const int defaultMaxVolume = 70;
 const int defaultBrightness = 255;
 const bool defaultRotatePizzaAlert = true;
@@ -67,17 +67,24 @@ void ProgramSettings::loadSettings(void)
     QFile loadFile(QStringLiteral("settings.json"));
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file, initializing...");
-        return;
+        qInfo("...from defaults.");
+        initializeSettingsToDefaults();
+        qInfo("Creating new settings file.");
+        saveSettings();
+        // set to false so that we get the initial center screen screen
+        m_settingsInitialized = false;
+
+    } else {
+        qInfo("...from JSON file.");
+
+        QByteArray saveData = loadFile.readAll();
+
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+
+        loadSettingsFromJsonObject(loadDoc.object());
+
+        m_settingsInitialized = true;
     }
-
-    m_settingsInitialized = true;
-
-    QByteArray saveData = loadFile.readAll();
-
-    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-
-    loadSettingsFromJsonObject(loadDoc.object());
 
     setSystemVolume(m_maxVolume * m_volumeSetting / 9);
     setLcdBrightness(m_brightness);
@@ -137,11 +144,13 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_screenXOffset = defaultScreenXOffset;
     m_screenYOffset = defaultScreenYOffset;
     m_tempDisplayInF = defaultTempDisplayInF;
+    m_volumeSetting = defaultVolumeSetting;
     m_maxVolume = defaultMaxVolume;
     m_brightness = defaultBrightness;
     m_settingsInitialized = false;
     m_rotatePizzaAlertEnabled = defaultRotatePizzaAlert;
     m_finalCheckAlertEnabled = defaultFinalCheckAlert;
+    m_doneAlertEnabled = defaultDoneAlert;
 }
 
 /*************** TOD Offset ***************/
