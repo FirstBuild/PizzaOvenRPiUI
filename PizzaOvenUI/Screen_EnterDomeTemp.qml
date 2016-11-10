@@ -177,6 +177,7 @@ Item {
 
     DialogWithCheckbox {
         id: messageDialog
+        pointSize: 17
         dialogMessage: "You Must Select A Temperature Below " + utility.tempToString(upperMaxTemp)
     }
 }

@@ -5,7 +5,8 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
     visible: false
-    property string dialogMessage: "Dialog Message"
+    property alias dialogMessage: msg.text
+    property alias pointSize: msg.font.pointSize
 
     Rectangle {
         width: parent.width
@@ -35,12 +36,13 @@ Item {
 
         Text {
             id: msg
-            text: dialogWithCheckbox.dialogMessage
+            text: "Dialog Message"
             wrapMode: Text.Wrap
             font.family: localFont.name
             font.pointSize: 18
             color: appForegroundColor
             width: parent.width / 1.4142
+            height: parent.height
             y: 36
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
