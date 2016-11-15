@@ -7,6 +7,7 @@ Item {
     property real value: 0.0
     property bool running: animation.running && !animation.paused
     property real timerValue: cookTime * value / 100
+    property real timeRemaining: cookTime - timerValue
 
     signal cooktimeComplete()
 

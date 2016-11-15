@@ -44,7 +44,8 @@ Item {
         State {
             name: "first-half"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "COOKING"}
-            PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)}
+//            PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)}
+            PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)}
             PropertyChanges {target: startButton; visible: false}
             PropertyChanges {target: pauseButton; visible: true}
         },
@@ -149,7 +150,8 @@ Item {
         needsAnimation: true
         topString: utility.tempToString(upperFront.setTemp)
         middleString: utility.tempToString(lowerFront.setTemp)
-        bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)
+//        bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)
+        bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
         }
