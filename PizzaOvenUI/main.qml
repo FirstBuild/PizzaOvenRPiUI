@@ -36,7 +36,7 @@ Window {
     property string foodNameString: "FOOD NAME"
 
     // Things related to how the app looks and operates
-    property bool demoModeIsActive: true
+    property bool demoModeIsActive: appSettings.demoModeActive
     property bool developmentModeIsActive: false
 
     property color appBackgroundColor: "#202020"
@@ -62,7 +62,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.3"
+    property string uiVersion: "0.1.4"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54

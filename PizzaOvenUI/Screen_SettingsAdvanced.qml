@@ -88,6 +88,7 @@ Item {
                         onClicked: {
                             if (demoModeIsActive != demoModeSlider.state) {
                                 demoModeIsActive = demoModeSlider.state;
+                                appSettings.demoModeActive = demoModeIsActive;
                             }
                         }
                     }
