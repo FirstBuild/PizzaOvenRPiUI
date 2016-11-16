@@ -19,6 +19,7 @@ const int defaultBrightness = 255;
 const bool defaultRotatePizzaAlert = true;
 const bool defaultFinalCheckAlert = true;
 const bool defaultDoneAlert = true;
+const bool defaultDemoMode = true;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
@@ -31,6 +32,8 @@ bool brightnessFileExists = false;
 static void writeBacklightStateToBacklightFile(bool state);
 static void setSystemVolume(int volume);
 static void setLcdBrightness(int brightness);
+
+static QString settingsFileName("../settings/settings.json");
 
 ProgramSettings::ProgramSettings(QObject *parent) : QObject(parent)
 {
@@ -64,7 +67,7 @@ void ProgramSettings::loadSettings(void)
 
 
     qInfo("Loading application settings...");
-    QFile loadFile(QStringLiteral("settings.json"));
+    QFile loadFile(settingsFileName);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qInfo("...from defaults.");
@@ -94,7 +97,7 @@ void ProgramSettings::loadSettings(void)
 
 void ProgramSettings::saveSettings(void)
 {
-    QFile saveFile(QStringLiteral("settings.json"));
+    QFile saveFile(settingsFileName);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
@@ -121,6 +124,7 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_rotatePizzaAlertEnabled = (settings.contains("rotatePizzaAlertEnabled")) ? settings["rotatePizzaAlertEnabled"].toBool() : defaultRotatePizzaAlert;
     m_finalCheckAlertEnabled = (settings.contains("finalCheckAlertEnabled")) ? settings["finalCheckAlertEnabled"].toBool() : defaultFinalCheckAlert;
     m_doneAlertEnabled = (settings.contains("doneAlertEnabled")) ? settings["doneAlertEnabled"].toBool() : defaultDoneAlert;
+    m_demoModeState = (settings.contains("demoModeEnable")) ? settings["demoModeEnable"].toBool() : defaultDemoMode;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -135,6 +139,7 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["rotatePizzaAlertEnabled"] = m_rotatePizzaAlertEnabled;
     settings["finalCheckAlertEnabled"] = m_finalCheckAlertEnabled;
     settings["doneAlertEnabled"] = m_doneAlertEnabled;
+    settings["demoModeEnable"] = m_demoModeState;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -151,6 +156,7 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_rotatePizzaAlertEnabled = defaultRotatePizzaAlert;
     m_finalCheckAlertEnabled = defaultFinalCheckAlert;
     m_doneAlertEnabled = defaultDoneAlert;
+    m_demoModeState = defaultDemoMode;
 }
 
 /*************** TOD Offset ***************/
@@ -407,3 +413,18 @@ bool ProgramSettings::getDoneAlert()
 {
     return m_doneAlertEnabled;
 }
+
+/*************** Demo Mode ***************/
+void ProgramSettings::setDemoModeState(bool demoMode)
+{
+    cout << "Setting demo mode to " << demoMode << endl;
+    m_demoModeState = demoMode;
+    emit demoModeChanged();
+    saveSettings();
+}
+
+bool ProgramSettings::getDemoModeState()
+{
+    return m_demoModeState;
+}
+

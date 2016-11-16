@@ -4,7 +4,7 @@
 #include <QJsonArray>
 using namespace std;
 
-static QString menuSettingsFile("./menuSettings.json");
+static QString menuSettingsFile("../settings/menuSettings.json");
 
 static QJsonObject NewYorkStyle
 {

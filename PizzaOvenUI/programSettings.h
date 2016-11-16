@@ -24,6 +24,7 @@ class ProgramSettings : public QObject
     Q_PROPERTY(bool rotatePizzaAlertEnabled READ getRotatePizzaAlert WRITE setRotatePizzaAlert NOTIFY rotatePizzaAlertChanged)
     Q_PROPERTY(bool finalCheckAlertEnabled READ getFinalCheckAlert WRITE setFinalCheckAlert NOTIFY finalCheckAlertChanged)
     Q_PROPERTY(bool doneAlertEnabled READ getDoneAlert WRITE setDoneAlert NOTIFY doneAlertChanged)
+    Q_PROPERTY(bool demoModeActive READ getDemoModeState WRITE setDemoModeState NOTIFY demoModeChanged)
 public:
     explicit ProgramSettings(QObject *parent = 0);
 
@@ -55,6 +56,8 @@ public:
     void setFinalCheckAlert(bool finalCheckAlertEnabled);
     bool getDoneAlert(void);
     void setDoneAlert(bool finalCheckAlertEnabled);
+    bool getDemoModeState(void);
+    void setDemoModeState(bool demoMode);
 
 signals:
     void todOffsetChanged();
@@ -69,6 +72,7 @@ signals:
     void rotatePizzaAlertChanged();
     void finalCheckAlertChanged();
     void doneAlertChanged();
+    void demoModeChanged();
 
 public slots:
 private:
@@ -84,6 +88,7 @@ private:
     bool m_rotatePizzaAlertEnabled;
     bool m_finalCheckAlertEnabled;
     bool m_doneAlertEnabled;
+    bool m_demoModeState;
 
     void loadSettingsFromJsonObject(const QJsonObject &settings);
     void storeSettingsToJsonObject(QJsonObject &settings) const;
