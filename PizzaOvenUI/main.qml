@@ -62,7 +62,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.4"
+    property string uiVersion: "0.1.5"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
@@ -179,8 +179,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+        //border.color: "red"
+        //border.width: 1
         StackView {
             id: stackView
             width: parent.width
