@@ -8,39 +8,39 @@ static QString menuSettingsFile("../settings/menuSettings.json");
 
 static QJsonObject NewYorkStyle
 {
-    {"cookTime", 120},
-    {"domeTemp", 1250},
-    {"finalCheckTime", 105},
+    {"cookTime", 360},
+    {"domeTemp", 1000},
+    {"finalCheckTime", 324},
     {"halfTimeCheck", true},
     {"name", "NEW YORK STYLE"},
-    {"stoneTemp", 650}
+    {"stoneTemp", 600}
 };
 static QJsonObject Neapolitan
 {
     {"cookTime", 120},
-    {"domeTemp", 1250},
+    {"domeTemp", 1300},
     {"finalCheckTime", 105},
     {"halfTimeCheck", true},
     {"name", "NEAPOLITAN"},
-    {"stoneTemp", 650}
+    {"stoneTemp", 675}
 };
 static QJsonObject Flatbread
 {
-    {"cookTime", 120},
-    {"domeTemp", 1250},
+    {"cookTime", 90},
+    {"domeTemp", 1000},
     {"finalCheckTime", 105},
-    {"halfTimeCheck", true},
+    {"halfTimeCheck", false},
     {"name", "FLATBREAD"},
-    {"stoneTemp", 650}
+    {"stoneTemp", 625}
 };
 static QJsonObject DetroitStyle
 {
-    {"cookTime", 120},
-    {"domeTemp", 1250},
-    {"finalCheckTime", 105},
+    {"cookTime", 420},
+    {"domeTemp", 900},
+    {"finalCheckTime", 378},
     {"halfTimeCheck", true},
     {"name", "DETROIT STYLE"},
-    {"stoneTemp", 650}
+    {"stoneTemp", 700}
 };
 static QJsonObject Custom
 {

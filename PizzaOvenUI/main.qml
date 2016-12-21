@@ -28,8 +28,8 @@ Window {
     property bool preheatComplete: false
     property bool callServiceFailure: false
 
-    property int upperTempDifferential: 100
-    property int lowerTempDifferential: 50
+    property int upperTempDifferential: 0
+    property int lowerTempDifferential: 0
     property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
     property int doorStatus: 0
@@ -63,7 +63,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.5"
+    property string uiVersion: "0.1.6"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
