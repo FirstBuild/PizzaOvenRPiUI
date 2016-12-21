@@ -15,6 +15,17 @@ Item {
         screenSwitchInProgress = false;
     }
 
+    function handleOvenStateMsg(state) {
+        switch(state) {
+        case "Standby":
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
+        case "Cooldown":
+            forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+            break;
+        }
+    }
+
     CircleScreenTemplate {
         id: dataCircle
         circleValue: 100 * lowerFront.currentTemp / lowerFront.setTemp

@@ -29,9 +29,26 @@ Item {
 
     property bool preheatMaxTimerRunning: rootWindow.maxPreheatTimer.running
 
+    property int ovenStateCount: 3
+
     onPreheatMaxTimerRunningChanged: {
         if (!rootWindow.maxPreheatTimer.running) {
             doExitCheck();
+        }
+    }
+
+    function handleOvenStateMsg(state) {
+        if (ovenStateCount > 0) {
+            ovenStateCount--;
+            return;
+        }
+        switch(state) {
+        case "Standby":
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
+        case "Cooldown":
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
         }
     }
 
@@ -49,6 +66,7 @@ Item {
             if (!lowerFrontAnimation.running) lowerFrontAnimation.start();
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
         }
+        ovenStateCount = 3;
     }
 
     OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;

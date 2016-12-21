@@ -9,12 +9,14 @@ Item {
     property bool screenSwitchInProgress: false
     property string targetScreen: ""
     property real cookTimeValueShadow: rootWindow.cookTimer.value
+    property int ovenStateCount: 3
 
     function screenEntry() {
         console.log("Entering cooking screen");
         screenSwitchInProgress = false;
         if (opacity < 1.0) screenEntryAnimation.start();
         if (!rootWindow.cookTimer.running) thisScreen.state = "start";
+        ovenStateCount = 3;
     }
 
     function startExitToScreen(screen) {
@@ -22,6 +24,21 @@ Item {
         singleSettingOnly = true;
         bookmarkCurrentScreen();
         screenFadeOut.start();
+    }
+
+    function handleOvenStateMsg(state) {
+        if (ovenStateCount > 0) {
+            ovenStateCount--;
+            return;
+        }
+        switch(state) {
+        case "Standby":
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
+        case "Cooldown":
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
+        }
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic; running: false}
@@ -192,6 +209,7 @@ Item {
             console.log("Starting cook timer.");
             rootWindow.cookTimer.start();
             thisScreen.state = "first-half"
+            backEnd.sendMessage("StartOven ");
         }
         needsAnimation: false
     }

@@ -271,6 +271,11 @@ Item {
             break;
         case "OvenState":
             ovenState = msg.data;
+            if (stackView.currentItem.handleOvenStateMsg)
+            {
+                stackView.currentItem.handleOvenStateMsg(ovenState);
+            }
+
             break;
         case "PidDutyCycles":
             upperFront.elementDutyCycle = msg.data.UF;
