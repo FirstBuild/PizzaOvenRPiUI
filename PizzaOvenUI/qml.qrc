@@ -83,5 +83,6 @@
         <file>Screen_Preferences.qml</file>
         <file>MyTumbler.qml</file>
         <file>Screen_AmpBoardTest.qml</file>
+        <file>Screen_CallService.qml</file>
     </qresource>
 </RCC>

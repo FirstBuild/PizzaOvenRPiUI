@@ -26,6 +26,7 @@ Window {
     property int oldDlb: 0
     property int oldPowerSwitch: 0
     property bool preheatComplete: false
+    property bool callServiceFailure: false
 
     property int upperTempDifferential: 100
     property int lowerTempDifferential: 50
@@ -190,7 +191,13 @@ Window {
             initialItem: {
                 appSettings.backlightOff = false;
                 if (appSettings.settingsInitialized) {
-                    Qt.resolvedUrl("Screen_Off.qml");
+                    if (callServiceFailure == false) {
+
+                        Qt.resolvedUrl("Screen_Off.qml");
+                    } else {
+                        Qt.resolvedUrl("Screen_CallService.qml");
+                    }
+
                 } else {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }

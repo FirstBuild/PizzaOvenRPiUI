@@ -151,7 +151,7 @@ Item {
             case 00: // off
                 switch(newState) {
                 case 00:
-                    if (ovenState == "Standby") {
+                    if ((ovenState == "Standby") && (callServiceFailure == false)) {
                         console.log("Transitioning to off. 194");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
@@ -180,7 +180,7 @@ Item {
                     if (ovenState == "Cooldown") {
                         console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else {
+                    } else if (callServiceFailure == false) {
                         console.log("Transitioning to off. 223");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
@@ -197,7 +197,7 @@ Item {
                     if (ovenState == "Cooldown") {
                         console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else {
+                    } else if (callServiceFailure == false) {
                         console.log("Transitioning to off. 240");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
@@ -218,7 +218,7 @@ Item {
                     if (ovenState == "Cooldown") {
                         console.log("Transitioning to cooldown.");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else {
+                    } else if (callServiceFailure == false) {
                         console.log("Transitioning to off. 261");
                         forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
                     }
@@ -283,6 +283,10 @@ Item {
             upperRear.elementRelay = msg.data.UR;
             lowerFront.elementRelay = msg.data.LF;
             lowerRear.elementRelay = msg.data.LR;
+            break;
+        case "Failure":
+            callServiceFailure = true;
+            forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
             break;
         case "Door":
             doorStatus = msg.data.Status;
