@@ -27,6 +27,7 @@ Item {
     }
 
     function handleOvenStateMsg(state) {
+        if (demoModeIsActive) return;
         if (ovenStateCount > 0) {
             ovenStateCount--;
             return;
@@ -209,7 +210,9 @@ Item {
             console.log("Starting cook timer.");
             rootWindow.cookTimer.start();
             thisScreen.state = "first-half"
-            backEnd.sendMessage("StartOven ");
+            if (!demoModeIsActive) {
+                backEnd.sendMessage("StartOven ");
+            }
         }
         needsAnimation: false
     }

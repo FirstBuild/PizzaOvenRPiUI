@@ -16,6 +16,7 @@ Item {
     }
 
     function handleOvenStateMsg(state) {
+        if (demoModeIsActive) return;
         switch(state) {
         case "Standby":
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));

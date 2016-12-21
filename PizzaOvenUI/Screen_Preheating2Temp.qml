@@ -38,6 +38,7 @@ Item {
     }
 
     function handleOvenStateMsg(state) {
+        if (demoModeIsActive) return;
         if (ovenStateCount > 0) {
             ovenStateCount--;
             return;
