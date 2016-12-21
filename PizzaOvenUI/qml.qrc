@@ -7,21 +7,14 @@
         <file>Screen_AwaitStart.qml</file>
         <file>Screen_MainMenu.qml</file>
         <file>Screen_PizzaType.qml</file>
-        <file>Screen_Preheating.qml</file>
         <file>SideButton.qml</file>
         <file>fonts/FreeSans.ttf</file>
         <file>ProgressCircle.qml</file>
         <file>Screen_Start.qml</file>
-        <file>Screen_CookingFirstHalf.qml</file>
-        <file>Screen_RotatePizza.qml</file>
-        <file>Screen_CookingSecondHalf.qml</file>
         <file>Screen_TemperatureEntry.qml</file>
         <file>Screen_Off.qml</file>
         <file>Screen_Cooldown.qml</file>
         <file>Gear-Icon-white.svg</file>
-        <file>Screen_CookingFinalCheck.qml</file>
-        <file>Screen_CookingDone.qml</file>
-        <file>Screen_CookingFinal.qml</file>
         <file>pizza_oven_blank_screen.jpg</file>
         <file>Keyboard.qml</file>
         <file>MyButton.qml</file>
