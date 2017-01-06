@@ -51,8 +51,8 @@ Item {
             ScriptAction {
                 script: {
                     screenExit();
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                }
+                    stackView.clear();
+                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});                }
             }
         }
     }

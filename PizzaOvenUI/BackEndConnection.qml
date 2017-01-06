@@ -113,7 +113,7 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
-            console.log("Power message: " + JSON.stringify(msg));
+            //console.log("Power message: " + JSON.stringify(msg));
             if (msg.data.powerSwitch && msg.data.l2DLB) {
                 dlb = msg.data.l2DLB*1;
                 powerSwitch = msg.data.powerSwitch*1;
@@ -300,7 +300,7 @@ Item {
             break;
         case "ControlVersion":
             controlVersion = msg.data.ovenFirmwareVersion + "." + msg.data.ovenFirmwareBugfixVersion;
-            console.log("Version: " + controlVersion);
+            //console.log("Version: " + controlVersion);
             break;
         case "BackendVersion":
             console.log("Backend Version: " + msg.data.backendVersion);
