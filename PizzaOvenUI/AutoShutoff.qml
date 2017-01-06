@@ -3,8 +3,7 @@ import QtQuick 2.3
 Item {
     id: thisTimer
 
-//    property int maxRuntimeMinutes: 12 * 60
-    property int maxRuntimeMinutes: 2
+    property int maxRuntimeMinutes: 3 * 60
     property int timeRemaining: maxRuntimeMinutes
 
     signal autoShutoffTimeoutComplete()
@@ -34,13 +33,12 @@ Item {
         onTriggered: {
             if (timeRemaining > 0) {
                 timeRemaining--;
-                console.log("Time remaining is " + timeRemaining);
+                console.log("Time remaining is " + timeRemaining + " (" + Math.floor(timeRemaining/60) + " hours, " + timeRemaining%60 + " minutes)");
                 if (timeRemaining == 0) {
                     maxTimer.running = false;
                     autoShutoffTimeoutComplete();
                 }
-//                if (timeRemaining == 5) {
-                if (timeRemaining == 1) {
+                if (timeRemaining == 5) {
                     autoShutoffTimeoutWarning();
                 }
             }
