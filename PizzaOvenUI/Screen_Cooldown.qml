@@ -12,6 +12,10 @@ Item {
 
     property int myMargins: 10
 
+    function screenEntry() {
+        autoShutoff.stop();
+    }
+
     CircleScreenTemplate {
         circleValue: 0
         titleText: "COOLING DOWN"
