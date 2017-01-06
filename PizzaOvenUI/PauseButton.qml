@@ -3,6 +3,7 @@ import QtQuick 2.3
 Item {
     id: thisButton
     property bool needsAnimation: true
+    signal clicked()
 
     ButtonRight {
         id: pauseButton
@@ -19,6 +20,7 @@ Item {
                 rootWindow.cookTimer.resume();
                 pauseButton.text = "PAUSE"
             }
+            thisButton.clicked();
         }
     }
 

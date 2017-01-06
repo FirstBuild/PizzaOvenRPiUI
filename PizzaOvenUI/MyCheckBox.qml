@@ -41,6 +41,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked:{            
+            autoShutoff.reset();
             sounds.touch.play();
             checkbox.checked = !checkbox.checked;
             checkChanged();

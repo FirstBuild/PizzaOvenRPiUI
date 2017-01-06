@@ -24,6 +24,7 @@ Rectangle {
             onClicked: SequentialAnimation {
                 ScriptAction {
                     script: {
+                        autoShutoff.reset();
                         sounds.touch.play();
                     }
                 }

@@ -26,6 +26,7 @@ Rectangle {
             onClicked: SequentialAnimation {
                     ScriptAction {
                         script: {
+                            autoShutoff.reset();
                             rootWindow.maxPreheatTimer.stop();
                             rootWindow.cookTimer.stop();
                             sounds.touch.play();

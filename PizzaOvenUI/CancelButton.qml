@@ -42,6 +42,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            autoShutoff.reset();
             sounds.cancel.play();
             cancleButton.clicked();
         }

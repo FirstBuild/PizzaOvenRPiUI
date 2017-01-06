@@ -52,7 +52,9 @@ Item {
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
-        onClicked: nextButton.clicked()
+        onClicked: {
+            nextButton.clicked();
+        }
     }
 
     Item {

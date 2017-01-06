@@ -64,6 +64,7 @@ TumblerStyle {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
+                autoShutoff.reset();
                 if (styleData.current) {
                     tumblerStyle.clicked(styleData.value);
                 } else {

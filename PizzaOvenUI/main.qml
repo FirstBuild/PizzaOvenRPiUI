@@ -78,6 +78,32 @@ Window {
         }
     }
 
+    property AutoShutoff autoShutoff: AutoShutoff {
+        id: autoShutoff
+        onAutoShutoffTimeoutWarning: {
+            console.log("--------> Timeout warning signal received.");
+            shutdownWarningDialog.visible = true;
+        }
+        onAutoShutoffTimeoutComplete: {
+            console.log("--------> Timeout complete signal received.");
+            shutdownWarningDialog.visible = false;
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+        }
+    }
+
+    DialogWithCheckbox {
+        z: 100
+        x: screenStackContainer.x
+        y: screenStackContainer.y
+        width: screenStackContainer.width
+        height: screenStackContainer.height
+        id: shutdownWarningDialog
+        visible: false
+        dialogMessage: "Oven shutting down, continue cooking?"
+        onClicked: {
+            autoShutoff.reset()
+        }
+    }
 
     property string ovenState: "Standby"
 

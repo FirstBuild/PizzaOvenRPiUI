@@ -17,6 +17,7 @@ Item {
         if (opacity < 1.0) screenEntryAnimation.start();
         if (!rootWindow.cookTimer.running) thisScreen.state = "start";
         ovenStateCount = 3;
+        autoShutoff.start();
     }
 
     function startExitToScreen(screen) {
@@ -210,9 +211,6 @@ Item {
             console.log("Starting cook timer.");
             rootWindow.cookTimer.start();
             thisScreen.state = "first-half"
-            if (!demoModeIsActive) {
-                backEnd.sendMessage("StartOven ");
-            }
         }
         needsAnimation: false
     }

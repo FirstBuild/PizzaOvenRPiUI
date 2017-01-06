@@ -51,7 +51,9 @@ Item {
         pointSize: centerCircleTextHeight
         needsAnimation: false
         NumberAnimation on pointSize {id: text1Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: topStringClicked();
+        onClicked: {
+            topStringClicked();
+        }
     }
 
     ClickableTextBox {
@@ -67,7 +69,9 @@ Item {
         pointSize: centerCircleTextHeight
         needsAnimation: false
         NumberAnimation on pointSize {id: text2Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: centerTopStringClicked();
+        onClicked: {
+            centerTopStringClicked();
+        }
     }
 
     ClickableTextBox {
@@ -83,7 +87,9 @@ Item {
         pointSize: centerCircleTextHeight
         needsAnimation: false
         NumberAnimation on pointSize {id: text3Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: centerBottomStringClicked();
+        onClicked: {
+            centerBottomStringClicked();
+        }
     }
 
     ClickableTextBox {
@@ -99,6 +105,8 @@ Item {
         pointSize: centerCircleTextHeight
         needsAnimation: false
         NumberAnimation on pointSize {id: text4Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: bottomStringClicked();
+        onClicked: {
+            bottomStringClicked();
+        }
     }
 }

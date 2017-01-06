@@ -68,6 +68,7 @@ Item {
                     rootWindow.maxPreheatTimer.restart();
                     if (!demoModeIsActive) {
                         backEnd.sendMessage("StartOven ");
+                        autoShutoff.start();
                     } else {
                         lowerFront.currentTemp = 75;
                     }

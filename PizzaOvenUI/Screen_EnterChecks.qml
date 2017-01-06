@@ -38,7 +38,9 @@ Item {
         y: 41
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
-        onClicked: doneButton.clicked()
+        onClicked: {
+            doneButton.clicked();
+        }
     }
 
     Rectangle {

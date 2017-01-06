@@ -4,6 +4,7 @@ Item {
     id: thisButton
 
     property bool needsAnimation: true
+    signal clicked()
 
     function animate() {
         if (thisButton.needsAnimation) {
@@ -27,6 +28,7 @@ Item {
                     rootWindow.cookTimer.reset();
                     stackView.clear();
                     singleSettingOnly = false;
+                    thisButton.clicked();
                     stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});
                 }
             }

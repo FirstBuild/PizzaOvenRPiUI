@@ -299,8 +299,8 @@ Item {
             //console.log("Got a door message: " + JSON.stringify(msg));
             break;
         case "ControlVersion":
-            console.log("Version: " + msg.data.ovenFirmwareVersion);
             controlVersion = msg.data.ovenFirmwareVersion + "." + msg.data.ovenFirmwareBugfixVersion;
+            console.log("Version: " + controlVersion);
             break;
         case "BackendVersion":
             console.log("Backend Version: " + msg.data.backendVersion);

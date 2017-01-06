@@ -65,6 +65,7 @@ T.Tumbler {
             id: mouseArea
             anchors.fill: parent
             onClicked: {
+                autoShutoff.reset();
                 control.clicked(text);
                 if (name !== listView.currentItem.text) {
                     for (var i=0; i<control.count; i++) {

@@ -20,6 +20,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                autoShutoff.reset();
                 sounds.touch.play();
                 bookmarkCurrentScreen();
                 gearButton.clicked();

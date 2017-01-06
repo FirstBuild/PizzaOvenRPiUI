@@ -19,6 +19,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            autoShutoff.reset();
             if (demoModeIsActive) {
                 appSettings.backlightOff = false;
                 stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});

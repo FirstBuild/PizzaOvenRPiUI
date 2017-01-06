@@ -45,7 +45,9 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         NumberAnimation on pointSize {id: text3Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: topStringClicked();
+        onClicked: {
+            topStringClicked();
+        }
         needsAnimation: false
     }
 
@@ -60,7 +62,9 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         NumberAnimation on pointSize {id: text4Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: middleStringClicked();
+        onClicked: {
+            middleStringClicked();
+        }
         needsAnimation: false
     }
 
@@ -75,7 +79,9 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         NumberAnimation on pointSize {id: text5Animation; from: 1; to: centerCircleTextHeight; running: needsAnimation}
-        onClicked: bottomStringClicked();
+        onClicked: {
+            bottomStringClicked();
+        }
         needsAnimation: false
     }
 }

@@ -61,6 +61,7 @@ Item {
             height: parent.height
             anchors.centerIn: parent
             onClicked: {
+                autoShutoff.reset();
                 twoValueBox.clicked();
             }
         }

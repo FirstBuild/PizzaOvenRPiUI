@@ -43,6 +43,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
+            autoShutoff.reset();
             sounds.touch.play();
             forwardButton.clicked();
         }

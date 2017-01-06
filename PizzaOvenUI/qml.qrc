@@ -77,5 +77,6 @@
         <file>MyTumbler.qml</file>
         <file>Screen_AmpBoardTest.qml</file>
         <file>Screen_CallService.qml</file>
+        <file>AutoShutoff.qml</file>
     </qresource>
 </RCC>

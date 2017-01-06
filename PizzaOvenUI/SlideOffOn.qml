@@ -71,6 +71,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            autoShutoff.reset();
             toggle.state = !toggle.state;
             sounds.touch.play();
             toggle.clicked();

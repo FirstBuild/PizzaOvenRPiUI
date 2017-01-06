@@ -7,6 +7,7 @@ Item {
     visible: false
     property alias dialogMessage: msg.text
     property alias pointSize: msg.font.pointSize
+    signal clicked()
 
     Rectangle {
         width: parent.width
@@ -71,8 +72,10 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
+                    autoShutoff.reset();
                     sounds.select.play();
                     dialogWithCheckbox.visible = false;
+                    dialogWithCheckbox.clicked();
                 }
             }
         }

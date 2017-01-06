@@ -138,6 +138,7 @@ Item {
                     default:
                         if (powerSwitch == 1) {
                             backEnd.sendMessage("StartOven ");
+                            autoShutoff.start();
                         }
                         break;
                     }

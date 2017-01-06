@@ -22,6 +22,7 @@ Item {
 
     function screenEntry() {
         backEnd.sendMessage("StopOven ");
+        autoShutoff.stop();
         preheatComplete = false;
         console.log("Entering the main screen.");
         // load up the list

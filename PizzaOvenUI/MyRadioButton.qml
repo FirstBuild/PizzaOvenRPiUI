@@ -19,6 +19,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                autoShutoff.reset();
                 if (!silent) sounds.touch.play();
                 radioButton.clicked();
             }
