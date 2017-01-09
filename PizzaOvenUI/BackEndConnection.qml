@@ -16,6 +16,24 @@ Item {
         }
     }
 
+    function checkDifferentials() {
+        if (upperFrontRelayParametersReceived &&
+                upperRearRelayParametersReceived &&
+                lowerFrontRelayParametersReceived &&
+                lowerRearRelayParametersReceived) {
+            if (Math.abs(upperFront.setTemp - upperRear.setTemp) > 500) {
+                utility.setUpperTemps(upperFront.setTemp);
+            }
+            if (Math.abs(lowerFront.setTemp - lowerRear.setTemp) > 250) {
+                utility.setLowerTemps(lowerFront.setTemp);
+            }
+        }
+    }
+
+    property bool upperFrontRelayParametersReceived: false
+    property bool upperRearRelayParametersReceived: false
+    property bool lowerFrontRelayParametersReceived: false
+    property bool lowerRearRelayParametersReceived: false
 
     WebSocket {
         id: socket
@@ -245,12 +263,14 @@ Item {
                         upperFront.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
                         upperFront.onPercent = parseInt(msg.data.onPercent);
                         upperFront.offPercent = parseInt(msg.data.offPercent);
+                        upperFrontRelayParametersReceived = true;
                         break;
                     case "UR":
                         console.log("Setting the data for UR.");
                         upperRear.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
                         upperRear.onPercent = parseInt(msg.data.onPercent);
                         upperRear.offPercent = parseInt(msg.data.offPercent);
+                        upperRearRelayParametersReceived = true;
                         break;
                     case "LF":
                         console.log("Setting the data for LF.");
@@ -258,12 +278,14 @@ Item {
                         lowerFront.onPercent = parseInt(msg.data.onPercent);
                         lowerFront.offPercent = parseInt(msg.data.offPercent);
                         lowerFront.setTemp = lowerFront.setTemp;
+                        lowerFrontRelayParametersReceived = true;
                         break;
                     case "LR":
                         console.log("Setting the data for LR.");
                         lowerRear.setTemp = (parseInt(msg.data.onTemp) + parseInt(msg.data.offTemp)) / 2;
                         lowerRear.onPercent = parseInt(msg.data.onPercent);
                         lowerRear.offPercent = parseInt(msg.data.offPercent);
+                        lowerRearRelayParametersReceived = true;
                         break;
                     }
                 }
@@ -292,6 +314,7 @@ Item {
         case "Failure":
             callServiceFailure = true;
             forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
+            checkDifferentials();
             break;
         case "Door":
             doorStatus = msg.data.Status;
