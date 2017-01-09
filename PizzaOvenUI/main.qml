@@ -63,7 +63,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.1.7"
+    property string uiVersion: "0.1.8"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
