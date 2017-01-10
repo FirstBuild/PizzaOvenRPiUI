@@ -68,6 +68,8 @@ Window {
 
     property int lineSpacing: 54
 
+    property bool controlBoardProgrammingInProgress: false
+
     property CookTimer cookTimer: CookTimer {}
     property Timer maxPreheatTimer: Timer {
         interval: 1000*60*30 // 30 minutes
@@ -206,8 +208,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        //border.color: "red"
-        //border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

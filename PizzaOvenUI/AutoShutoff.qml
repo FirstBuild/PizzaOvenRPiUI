@@ -12,17 +12,14 @@ Item {
     function start() {
         timeRemaining = maxRuntimeMinutes;
         maxTimer.running = true;
-        console.log("Auto shutoff timer started.");
     }
 
     function stop() {
         maxTimer.running = false;
-        console.log("Auto shutoff timer stopped.");
     }
 
     function reset() {
         timeRemaining = maxRuntimeMinutes;
-        console.log("Auto shutoff timer reset.");
     }
 
     Timer {

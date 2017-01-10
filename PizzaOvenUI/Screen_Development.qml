@@ -213,11 +213,5 @@ Item {
         visible: false
         z: 1
     }
-    DialogWithCheckbox {
-        id: messageDialog
-        dialogMessage: "The blah you blah is blah."
-        visible: false
-        z: 1
-    }
 }
 

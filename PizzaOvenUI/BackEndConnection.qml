@@ -329,6 +329,15 @@ Item {
             console.log("Backend Version: " + msg.data.backendVersion);
             backendVersion = msg.data.backendVersion;
             break;
+        case "ControlBoardProgrammingState":
+            console.log("Control board programming state: " + msg.data.state);
+            if (msg.data.state === "idle") {
+                controlBoardProgrammingInProgress = false;
+            }
+            if (msg.data.state === "programming") {
+                controlBoardProgrammingInProgress = true;
+            }
+            break;
         default:
             console.log("Unknown message received: " + _msg);
             break

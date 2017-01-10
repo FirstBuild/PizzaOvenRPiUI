@@ -13,6 +13,9 @@ Rectangle {
 
     property real maxOpacity: 1.0
 
+//    border.color: "yellow"
+//    border.width: 1
+
     NumberAnimation on opacity { from: 0; to: maxOpacity; easing.type: Easing.InCubic }
 
     Canvas {

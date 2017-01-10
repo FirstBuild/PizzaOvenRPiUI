@@ -17,7 +17,7 @@ Item {
 
     Item {
         id: scroller
-        visible: false
+        visible: true
         z: 1
         x: 0
         y: 0
@@ -70,24 +70,23 @@ Item {
                     ClickableTextBox {
                         height: listItemHeight
                         width: thisScreen.listTextWidth
-                        text: "DEMO MODE"
+                        text: "DEVELOPMENT MODE"
                         foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         anchors.left: parent.left
                         onClicked: {
-                            demoModeSlider.state = !demoModeSlider.state
-                            demoModeSlider.clicked();
+                            devModeSlider.state = !devModeSlider.state
+                            devModeSlider.clicked();
                         }
                     }
                     SlideOffOn{
-                        id: demoModeSlider
+                        id: devModeSlider
                         anchors.right: parent.right
-                        state: demoModeIsActive
+                        state: developmentModeIsActive
                         onClicked: {
-                            if (demoModeIsActive != demoModeSlider.state) {
-                                demoModeIsActive = demoModeSlider.state;
-                                appSettings.demoModeActive = demoModeIsActive;
+                            if (developmentModeIsActive != devModeSlider.state) {
+                                developmentModeIsActive = devModeSlider.state;
                             }
                         }
                     }
@@ -99,7 +98,7 @@ Item {
                     ClickableTextBox {
                         height: listItemHeight
                         width: thisScreen.listTextWidth
-                        text: "CENTER SCREEN"
+                        text: "PROGRAM CONTROL"
                         foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
@@ -109,63 +108,9 @@ Item {
                             ScriptAction {
                                 script: {
                                     bookmarkCurrentScreen();
-                                    stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+                                    stackView.push({item: Qt.resolvedUrl("Screen_ProgramControl.qml"), immediate:immediateTransitions});
                                 }
                             }
-                        }
-                    }
-                }
-                Rectangle {
-                    height: listItemHeight
-                    width: parent.width
-                    color: appBackgroundColor
-                    ClickableTextBox {
-                        height: listItemHeight
-                        width: thisScreen.listTextWidth
-                        text: "ABOUT"
-                        foregroundColor: appForegroundColor
-                        horizontalAlignment: Text.AlignLeft
-                        verticalAlignment: Text.AlignVCenter
-                        anchors.left: parent.left
-                        onClicked: SequentialAnimation {
-                            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
-                            ScriptAction {
-                                script: {
-                                    bookmarkCurrentScreen();
-                                    stackView.push({item: Qt.resolvedUrl("Screen_About.qml"), immediate:immediateTransitions});
-                                }
-                            }
-                        }
-                    }
-                }
-                Rectangle {
-                    height: listItemHeight
-                    width: parent.width
-                    color: appBackgroundColor
-                    ClickableTextBox {
-                        id: nextScreen
-                        height: listItemHeight
-                        width: thisScreen.listTextWidth
-                        text: "NEXT"
-                        foregroundColor: appForegroundColor
-                        horizontalAlignment: Text.AlignLeft
-                        verticalAlignment: Text.AlignVCenter
-                        anchors.left: parent.left
-                        onClicked: SequentialAnimation {
-                            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
-                            ScriptAction {
-                                script: {
-                                    bookmarkCurrentScreen();
-                                    stackView.push({item: Qt.resolvedUrl("Screen_SettingsAdvanced2.qml"), immediate:immediateTransitions});
-                                }
-                            }
-                        }
-                    }
-                    ForwardButton {
-                        anchors.right: parent.right
-                        anchors.verticalCenter: nextScreen.verticalCenter
-                        onClicked: {
-                            nextScreen.clicked();
                         }
                     }
                 }
@@ -176,8 +121,8 @@ Item {
     TempEntryWithKeys {
         id: pinEntry
         z: 10
-        enabled: true
-        visible: true
+        enabled: false
+        visible: false
         obscureEntry: true
         header: "Enter PIN"
         value: ""
