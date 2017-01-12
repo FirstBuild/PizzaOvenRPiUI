@@ -4,11 +4,13 @@ Item {
     // define utility functions and other stuff.
 
     function f2c(t) {
-        return Math.floor((t - 32) * 5 / 9);
+//        return Math.floor((t - 32) * 5 / 9);
+        return ((t - 32) * 5 / 9);
     }
 
     function c2f(t) {
-        return Math.floor((t * 9 / 5) + 32);
+//        return Math.floor((t * 9 / 5) + 32);
+        return ((t * 9 / 5) + 32);
     }
 
     function timeToString(t) {
@@ -26,8 +28,8 @@ Item {
     }
 
     function setUpperTemps(temp) {
-        upperFront.setTemp = temp;
-        upperRear.setTemp = upperFront.setTemp - upperTempDifferential;
+        upperFront.setTemp = Math.floor(temp);
+        upperRear.setTemp = Math.floor(upperFront.setTemp - upperTempDifferential);
 
         backEnd.sendMessage("Set UF SetPoint " +
                              (upperFront.setTemp - 0.5 * upperFront.temperatureDeadband) + " " +
@@ -38,8 +40,8 @@ Item {
     }
 
     function setLowerTemps(temp) {
-        lowerFront.setTemp = temp;
-        lowerRear.setTemp = lowerFront.setTemp - lowerTempDifferential;
+        lowerFront.setTemp = Math.floor(temp);
+        lowerRear.setTemp = Math.floor(lowerFront.setTemp - lowerTempDifferential);
 
         backEnd.sendMessage("Set LF SetPoint " +
                              (lowerFront.setTemp - 0.5 * lowerFront.temperatureDeadband) + " " +

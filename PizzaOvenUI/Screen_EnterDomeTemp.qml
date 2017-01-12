@@ -151,6 +151,9 @@ Item {
                         console.log("Max temp in C is " + utility.f2c(upperMaxTemp));
                     }
 
+                    console.log("Entered temp is: " + temp);
+                    console.log("Max temp is " + upperMaxTemp);
+
                     if (temp > upperMaxTemp) {
                         screenExitAnimation.stop();
                         sounds.alarmUrgent.play();

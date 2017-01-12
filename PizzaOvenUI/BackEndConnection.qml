@@ -145,7 +145,7 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
-            console.log("Power message: " + JSON.stringify(msg));
+            //console.log("Power message: " + JSON.stringify(msg));
             if (msg.data.ac) {
                 acPowerIsPresent = msg.data.ac*1;
             }

@@ -211,9 +211,6 @@ Item {
     }
 
     function doExitCheck() {
-        console.log("In doExitCheck");
-        console.log("Upper lock: " + upperTempLocked);
-        console.log("Lower lock: " + lowerTempLocked);
         if (screenSwitchInProgress) return;
         if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running) {
             screenSwitchInProgress = true;
