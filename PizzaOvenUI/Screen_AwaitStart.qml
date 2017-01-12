@@ -28,6 +28,12 @@ Item {
         screenEntryAnimation.start();
     }
 
+    function handlePowerSwitchStateChanged() {
+        if (powerSwitch == 0) {
+            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+        }
+    }
+
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}
 
     property string targetScreen: ""
@@ -52,30 +58,39 @@ Item {
         id: editButton
     }
 
+    SequentialAnimation {
+        id: exitToPreheatAnimation
+        running: false
+        ScriptAction {
+            script: {
+                theCircle.fadeOutTitleText();
+            }
+        }
+        OpacityAnimator {target: circleContent; from: 1.0; to: 0.0}
+        ScriptAction {
+            script: {
+                rootWindow.maxPreheatTimer.restart();
+                if (!demoModeIsActive) {
+                    backEnd.sendMessage("StartOven ");
+                    autoShutoff.start();
+                } else {
+                    lowerFront.currentTemp = 75;
+                }
+
+                stackView.clear();
+                stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+            }
+        }
+    }
+
     ButtonRight {
         id: preheatButton
         text: "PREHEAT"
-        onClicked: SequentialAnimation {
-            ScriptAction {
-                script: {
-                    theCircle.fadeOutTitleText();
-                }
-            }
-            OpacityAnimator {target: circleContent; from: 1.0; to: 0.0}
-            ScriptAction {
-                script: {
-                    console.log("Preheat clicked.");
-                    rootWindow.maxPreheatTimer.restart();
-                    if (!demoModeIsActive) {
-                        backEnd.sendMessage("StartOven ");
-                        autoShutoff.start();
-                    } else {
-                        lowerFront.currentTemp = 75;
-                    }
-
-                    stackView.clear();
-                    stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-                }
+        onClicked: {
+            if((powerSwitch == 1) || (demoModeIsActive)){
+                exitToPreheatAnimation.running = true;
+            } else {
+                pressPowerDialog.visible = true;
             }
         }
     }
@@ -103,6 +118,11 @@ Item {
             thisScreen.needsAnimation = true;
             startExitToScreen("Screen_EnterTime.qml");
         }
+    }
+
+    DialogWithCheckbox {
+        id: pressPowerDialog
+        dialogMessage: "Press power button to continue"
     }
 }
 

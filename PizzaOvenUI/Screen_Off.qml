@@ -12,22 +12,42 @@ Item {
 
     property int myMargins: 10
 
+    property int powerSwitchShadow: powerSwitch
+
+    function handlePowerSwitchStateChanged() {
+        if (powerSwitch == 1) {
+            transitionOutOfOff();
+        }
+    }
+
+    function handleOvenStateMsg(state) {
+        switch(state) {
+        case "Cooldown":
+            appSettings.backlightOff = false;
+            if (powerSwitch == 1) forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            else forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+            break;
+        }
+    }
+
     function screenEntry() {
         appSettings.backlightOff = true;
+    }
+
+    function transitionOutOfOff() {
+        if (developmentModeIsActive) {
+            appSettings.backlightOff = false;
+            stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
+        } else {
+            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+        }
     }
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
             autoShutoff.reset();
-            if (demoModeIsActive) {
-                appSettings.backlightOff = false;
-                stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-            }
-            if (developmentModeIsActive) {
-                appSettings.backlightOff = false;
-                stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
-            }
+            transitionOutOfOff();
         }
     }
 }

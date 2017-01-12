@@ -20,20 +20,67 @@ Window {
     property bool halfTimeRotateAlertEnabled: appSettings.rotatePizzaAlertEnabled
     property bool finalCheckAlertEnabled: appSettings.finalCheckAlertEnabled
     property bool pizzaDoneAlertEnabled: appSettings.doneAlertEnabled
-    property int powerSwitch: 0
+
     property int dlb: 0
     property int tco: 0
-    property int oldDlb: 0
-    property int oldPowerSwitch: 0
+    property int acPowerIsPresent: 0
+    onAcPowerIsPresentChanged: {
+        console.log("AC Power is now " + acPowerIsPresent);
+    }
+    property int powerSwitch: 0
+    onPowerSwitchChanged: {
+        if (acPowerIsPresent == 0) {
+            return;
+        }
+        if (powerSwitch == 1) {
+            sounds.powerOn.play();
+            if (stackView.currentItem.handlePowerSwitchStateChanged)
+            {
+                stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
+            }
+        } else {
+            sounds.powerOff.play();
+            if (!callServiceFailure) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            }
+        }
+    }
+
     property bool preheatComplete: false
-    property bool callServiceFailure: false
 
     property int upperTempDifferential: 0
     property int lowerTempDifferential: 0
     property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
-    property int doorStatus: 0
+
+    property bool callServiceFailure: false
+    onCallServiceFailureChanged: {
+        if (callServiceFailure) {
+            forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
+        }
+    }
+
     property int doorCount: 0
+    property int doorStatus: 0
+    onDoorStatusChanged: {
+        if (doorStatus == 1) {
+            callServiceFailure = true;
+        }
+    }
+
+    property bool controlBoardCommsFailed: false
+    onControlBoardCommsFailedChanged: {
+        if (controlBoardCommsFailed) {
+            console.log("Comms with control board failed.");
+        } else {
+            console.log("Comms with control board restored.");
+        }
+        if (stackView.currentItem.handleControlBoardCommsChanged)
+        {
+            stackView.currentItem.handleControlBoardCommsChanged();
+        }
+    }
+
     property string foodNameString: "FOOD NAME"
 
     // Things related to how the app looks and operates

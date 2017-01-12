@@ -16,6 +16,21 @@ Item {
         autoShutoff.stop();
     }
 
+    function handlePowerSwitchStateChanged() {
+        if (powerSwitch == 1) {
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+        }
+    }
+
+    function handleOvenStateMsg(state) {
+        switch(state) {
+        case "Standby":
+            if (powerSwitch == 1) forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            else forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            break;
+        }
+    }
+
     CircleScreenTemplate {
         circleValue: 0
         titleText: "COOLING DOWN"
@@ -38,5 +53,13 @@ Item {
         font.pointSize: 18
         wrapMode: Text.Wrap
         color: appForegroundColor
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            autoShutoff.reset();
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+        }
     }
 }

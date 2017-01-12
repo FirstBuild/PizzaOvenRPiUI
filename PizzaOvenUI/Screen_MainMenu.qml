@@ -20,6 +20,14 @@ Item {
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
+    function handlePowerSwitchStateChanged() {
+        if (powerSwitch == 0) {
+            screenExit();
+            stackView.clear();
+            stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+        }
+    }
+
     function screenEntry() {
         backEnd.sendMessage("StopOven ");
         autoShutoff.stop();
@@ -32,7 +40,8 @@ Item {
             foodListModel.append(menuItems[i]);
         }
         appSettings.backlightOff = false;
-        if (demoModeIsActive) {
+        //if (demoModeIsActive) {
+        if (powerSwitch == 0) {
             demoTimeoutTimer.restart();
         }
         keyhandler.focus = true;
@@ -41,6 +50,7 @@ Item {
 
     function screenExit() {
         keyhandler.focus = false;
+        demoTimeoutTimer.running = false;
     }
 
     Timer {
@@ -52,7 +62,8 @@ Item {
                 script: {
                     screenExit();
                     stackView.clear();
-                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});                }
+                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }

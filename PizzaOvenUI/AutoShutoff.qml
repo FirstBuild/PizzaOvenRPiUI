@@ -3,7 +3,7 @@ import QtQuick 2.3
 Item {
     id: thisTimer
 
-    property int maxRuntimeMinutes: 3 * 60
+    readonly property int maxRuntimeMinutes: 3 * 60
     property int timeRemaining: maxRuntimeMinutes
 
     signal autoShutoffTimeoutComplete()
@@ -19,7 +19,9 @@ Item {
     }
 
     function reset() {
+        maxTimer.restart();
         timeRemaining = maxRuntimeMinutes;
+        console.log("Time has been reset, it is now " + timeRemaining);
     }
 
     Timer {

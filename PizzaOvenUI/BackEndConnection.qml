@@ -102,6 +102,19 @@ Item {
         }
     }
 
+    readonly property int commFailResetCount: 3
+    property int commFailCount: commFailResetCount
+    Timer {
+        id: commPresentTimer
+        interval: 1000
+        repeat: true
+        running: true
+        onTriggered: {
+            if (commFailCount > 0) commFailCount--;
+            controlBoardCommsFailed = commFailCount == 0;
+        }
+    }
+
     function handleWebSocketMessage(_msg) {
         var  msg = JSON.parse(_msg);
         switch (msg.id){
@@ -111,6 +124,7 @@ Item {
                 upperRear.currentTemp = msg.data.UR;
                 lowerFront.currentTemp = msg.data.LF;
                 lowerRear.currentTemp = msg.data.LR;
+                commFailCount = commFailResetCount;
             } else {
                 console.log("Temp data missing.");
             }
@@ -131,7 +145,10 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
-            //console.log("Power message: " + JSON.stringify(msg));
+            console.log("Power message: " + JSON.stringify(msg));
+            if (msg.data.ac) {
+                acPowerIsPresent = msg.data.ac*1;
+            }
             if (msg.data.powerSwitch && msg.data.l2DLB) {
                 dlb = msg.data.l2DLB*1;
                 powerSwitch = msg.data.powerSwitch*1;
@@ -140,117 +157,8 @@ Item {
                 tco = msg.data.tco*1;
             }
 
-            var oldState = oldPowerSwitch + (oldDlb * 10);
-            var newState = powerSwitch + (dlb * 10);
-
-            if (oldDlb != dlb) {
-                console.log("DLB state is now " + dlb);
-            }
-            if (oldPowerSwitch != powerSwitch) {
-                console.log("Power switch state is now " + powerSwitch);
-                console.log("Old state: " + oldState + ", new state: " + newState);
-                if (powerSwitch == 1) {
-                    sounds.powerOn.play();
-                } else {
-                    sounds.powerOff.play();
-                }
-            }
-
-            oldDlb = dlb;
-            oldPowerSwitch = powerSwitch;
-
             if (developmentModeIsActive) {
                 forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
-                return;
-            }
-
-
-            switch(oldState) {
-            case 00: // off
-                switch(newState) {
-                case 00:
-                    if ((ovenState == "Standby") && (callServiceFailure == false)) {
-                        console.log("Transitioning to off. 194");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                    }
-                    if (ovenState == "Cooldown") {
-                        console.log("Transitioning to cooldown.");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    }
-                    break;
-                case 01:
-                    console.log("Transitioning to main menu.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-                    break;
-                case 10:
-                    console.log("Transitioning to cooldown.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    break;
-                case 11:
-                    console.log("Transitioning to main menu.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-                    break;
-                }
-                break;
-            case 01: // powered on
-                switch(newState) {
-                case 00:
-                    if (ovenState == "Cooldown") {
-                        console.log("Transitioning to cooldown.");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else if (callServiceFailure == false) {
-                        console.log("Transitioning to off. 223");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                    }
-                    break;
-                case 10:
-                    console.log("Transitioning to cooldown.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    break;
-                }
-                break;
-            case 10: // cooling
-                switch(newState) {
-                case 00:
-                    if (ovenState == "Cooldown") {
-                        console.log("Transitioning to cooldown.");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else if (callServiceFailure == false) {
-                        console.log("Transitioning to off. 240");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                    }
-                    break;
-                case 01:
-                    console.log("Transitioning to main menu.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-                    break;
-                case 11:
-                    console.log("Transitioning to main menu.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-                    break;
-                }
-                break;
-            case 11: // cooking or other
-                switch(newState) {
-                case 00:
-                    if (ovenState == "Cooldown") {
-                        console.log("Transitioning to cooldown.");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    } else if (callServiceFailure == false) {
-                        console.log("Transitioning to off. 261");
-                        forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                    }
-                    break;
-                case 01:
-                    console.log("Transitioning to main menu.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-                    break;
-                case 10:
-                    console.log("Transitioning to cooldown.");
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
-                    break;
-                }
-                break;
             }
             break;
         case "RelayParameters":
@@ -313,7 +221,6 @@ Item {
             break;
         case "Failure":
             callServiceFailure = true;
-            forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
             checkDifferentials();
             break;
         case "Door":

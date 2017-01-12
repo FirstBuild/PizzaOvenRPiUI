@@ -38,7 +38,7 @@ Item {
     }
 
     function handleOvenStateMsg(state) {
-        if (demoModeIsActive) return;
+        if (demoModeIsActive || (acPowerIsPresent == 0)) return;
         if (ovenStateCount > 0) {
             ovenStateCount--;
             return;
@@ -50,6 +50,30 @@ Item {
         case "Cooldown":
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
             break;
+        }
+    }
+
+    function handlePowerSwitchStateChanged() {
+        if (powerSwitch == 1) {
+            // restart cooking, if needed
+            handleControlBoardCommsChanged();
+        }
+    }
+
+    function handleControlBoardCommsChanged() {
+        if (controlBoardCommsFailed) {
+            console.log("In preheat and comms failed.");
+            ovenStateCount = 5
+        } else {
+            console.log("In preheat and comms restored.");
+            if (powerSwitch == 1) {
+                console.log("Power switch is on.");
+                ovenStateCount = 5
+                if (!demoModeIsActive) {
+                    console.log("We are not in demo mode so restarting oven.");
+                    backEnd.sendMessage("StartOven ");
+                }
+            }
         }
     }
 
