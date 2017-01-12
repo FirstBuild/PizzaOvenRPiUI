@@ -24,15 +24,39 @@ Item {
     property real upperTempDemoValue: 75.0
     property real lowerTempDemoValue: 75.0
 
-    property real upperTemp: demoModeIsActive ? upperTempDemoValue : upperFront.currentTemp
-    property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : lowerFront.currentTemp
-
-    property bool preheatMaxTimerRunning: rootWindow.maxPreheatTimer.running
+    property real upperTemp: demoModeIsActive ? upperTempDemoValue : ((upperFront.currentTemp < upperFront.setTemp) ? upperFront.currentTemp : upperFront.setTemp)
+    property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : ((lowerFront.currentTemp < lowerFront.setTemp) ? lowerFront.currentTemp : lowerFront.setTemp)
 
     property int ovenStateCount: 3
 
-    onPreheatMaxTimerRunningChanged: {
-        if (!rootWindow.maxPreheatTimer.running) {
+    Timer {
+        id: displayUpdateTimer
+        interval: 1000
+        repeat: true
+        running: !demoModeIsActive
+        onTriggered: {
+            var currentDisplayTemp = upperTemp;
+            if (upperFront.currentTemp < upperFront.setTemp) {
+                if (upperFront.currentTemp > upperTemp) {
+                    upperTemp = upperFront.currentTemp;
+                } else {
+                    upperTemp = currentDisplayTemp;
+                }
+            } else {
+                upperTemp = upperFront.setTemp;
+                upperTempLocked = true;
+            }
+            currentDisplayTemp = lowerTemp;
+            if (lowerFront.currentTemp < lowerFront.setTemp) {
+                if (lowerFront.currentTemp > lowerTemp) {
+                    lowerTemp = lowerFront.currentTemp;
+                } else {
+                    lowerTemp = currentDisplayTemp;
+                }
+            } else {
+                lowerTemp = lowerFront.setTemp;
+                lowerTempLocked = true;
+            }
             doExitCheck();
         }
     }
@@ -91,6 +115,7 @@ Item {
             if (!lowerFrontAnimation.running) lowerFrontAnimation.start();
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
         }
+
         ovenStateCount = 3;
     }
 
@@ -107,6 +132,7 @@ Item {
     function startExitToScreen(screen) {
         if (lowerFrontAnimation.running) lowerFrontAnimation.pause();
         if (upperFrontAnimation.running) upperFrontAnimation.pause();
+        displayUpdateTimer.stop();
         targetScreen = screen;
         singleSettingOnly = true;
         bookmarkCurrentScreen();
@@ -129,21 +155,27 @@ Item {
         onClicked: {
             lowerFrontAnimation.stop();
             upperFrontAnimation.stop();
+            displayUpdateTimer.stop();
         }
     }
 
     EditButton {
         id: editButton
         needsAnimation: false
+        onClicked: {
+            lowerFrontAnimation.stop();
+            upperFrontAnimation.stop();
+            displayUpdateTimer.stop();
+        }
     }
 
     CircleContentTwoTemp {
         id: circleContent
         needsAnimation: true
         line1String: utility.tempToString(upperFront.setTemp)
-        line2String: utility.tempToString(upperTempLocked ? upperFront.setTemp : upperTemp)
+        line2String: utility.tempToString(upperTemp)
         line3String: utility.tempToString(lowerFront.setTemp)
-        line4String: utility.tempToString(lowerTempLocked ? lowerFront.setTemp : lowerTemp)
+        line4String: utility.tempToString(lowerTemp)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
         }
@@ -155,26 +187,6 @@ Item {
         }
         onBottomStringClicked: {
             startExitToScreen("Screen_EnterStoneTemp.qml");
-        }
-    }
-
-    onUpperTempChanged: {
-        if (upperTemp >= upperFront.setTemp) {
-            if (!upperTempLocked) {
-                console.log("Locking upper temp");
-                upperTempLocked = true;
-                doExitCheck();
-            }
-        }
-    }
-
-    onLowerTempChanged: {
-        if (lowerTemp >= lowerFront.setTemp) {
-            if (!lowerTempLocked) {
-                console.log("Locking lower temp");
-                lowerTempLocked = true;
-                doExitCheck();
-            }
         }
     }
 
@@ -211,6 +223,7 @@ Item {
                 upperFrontAnimation.stop();
                 lowerFrontAnimation.stop();
             }
+            displayUpdateTimer.stop();
             screenExitAnimator.start();
         }
     }
