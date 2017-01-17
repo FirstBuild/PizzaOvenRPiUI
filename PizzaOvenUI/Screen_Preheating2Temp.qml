@@ -114,6 +114,8 @@ Item {
             if (upperFrontAnimation.paused) upperFrontAnimation.resume();
             if (!lowerFrontAnimation.running) lowerFrontAnimation.start();
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
+        } else {
+            displayUpdateTimer.running = true;
         }
 
         ovenStateCount = 3;
