@@ -30,6 +30,10 @@ Item {
         }
     }
 
+    function screenEntry() {
+        backEnd.sendMessage("GetReset no_params");
+    }
+
     Column {
         width: screenWidth
         anchors.top: screenTitle.bottom
@@ -84,7 +88,7 @@ Item {
             font.pointSize: 18
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Comms says reset is " +  (backEnd.resetLineState ? "HIGH" : "low")
-            color: backEnd.resetLineState ?  appForegroundColor : appGrayText
+            color: (backEnd.resetLineState ==  resetLineSlider.state) ?  "green" : "red"
         }
     }
 
