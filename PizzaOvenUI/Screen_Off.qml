@@ -15,6 +15,7 @@ Item {
     property int powerSwitchShadow: powerSwitch
 
     function handlePowerSwitchStateChanged() {
+        console.log("Power switch state changed call in the off screen");
         if (powerSwitch == 1) {
             transitionOutOfOff();
         }
@@ -24,22 +25,26 @@ Item {
         switch(state) {
         case "Cooldown":
             appSettings.backlightOff = false;
-            if (powerSwitch == 1) forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-            else forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+            if (powerSwitch == 1) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            } else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
+            }
             break;
         }
     }
 
     function screenEntry() {
+        console.log("Entering the off screen.");
         appSettings.backlightOff = true;
     }
 
     function transitionOutOfOff() {
         if (developmentModeIsActive) {
-            appSettings.backlightOff = false;
-            stackView.push({item:Qt.resolvedUrl("Screen_Development.qml"), immediate:immediateTransitions});
+            forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
         } else {
-            stackView.push({item:Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+            console.log("Transitioning from off to main menu.");
+            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
         }
     }
 

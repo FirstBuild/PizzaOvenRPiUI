@@ -73,7 +73,11 @@ Item {
             }
             console.log("Dev mode was " + developmentModeIsActive + " and will now be " + devModeCheckbox.checked);
             developmentModeIsActive = devModeCheckbox.checked
-            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            if (developmentModeIsActive) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            } else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            }
         }
     }
 

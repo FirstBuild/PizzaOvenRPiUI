@@ -28,12 +28,6 @@ Item {
         screenEntryAnimation.start();
     }
 
-    function handlePowerSwitchStateChanged() {
-        if (powerSwitch == 0) {
-            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-        }
-    }
-
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}
 
     property string targetScreen: ""

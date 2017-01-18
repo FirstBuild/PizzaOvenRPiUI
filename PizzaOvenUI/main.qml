@@ -33,7 +33,12 @@ Window {
             return;
         }
         if (powerSwitch == 1) {
+            console.log("The power switch is now on.");
             sounds.powerOn.play();
+            if (developmentModeIsActive) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+                return;
+            }
             if (stackView.currentItem.handlePowerSwitchStateChanged)
             {
                 stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
@@ -41,6 +46,7 @@ Window {
         } else {
             sounds.powerOff.play();
             if (!callServiceFailure) {
+                console.log("The power switch is now off, transitioning to the off screen.");
                 forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
             }
         }
@@ -136,7 +142,11 @@ Window {
         onAutoShutoffTimeoutComplete: {
             console.log("--------> Timeout complete signal received.");
             shutdownWarningDialog.visible = false;
-            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            if (developmentModeIsActive) {
+                backEnd.sendMessage("StopOven ");
+            } else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            }
         }
     }
 
@@ -225,7 +235,7 @@ Window {
     function forceScreenTransition(newScreen) {
         if (currentScreen === JSON.stringify(newScreen))
         {
-            return;
+            //return;
         }
 
         currentScreen = JSON.stringify(newScreen);

@@ -11,6 +11,9 @@ Item {
     property int smallButtonWidth: ((thisScreen.width - thisScreen.spacing) / 4) - thisScreen.spacing
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
+    function screenEntry() {
+        appSettings.backlightOff = false;
+    }
 
     Column {
         id: dataColumn

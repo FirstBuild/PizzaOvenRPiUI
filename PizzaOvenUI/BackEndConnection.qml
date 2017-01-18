@@ -156,10 +156,6 @@ Item {
             if (msg.data.tco) {
                 tco = msg.data.tco*1;
             }
-
-            if (developmentModeIsActive) {
-                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
-            }
             break;
         case "RelayParameters":
             console.log("Received relay parameters: " + _msg);

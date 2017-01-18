@@ -25,8 +25,16 @@ Item {
     function handleOvenStateMsg(state) {
         switch(state) {
         case "Standby":
-            if (powerSwitch == 1) forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-            else forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            if (powerSwitch == 1) {
+                if (developmentModeIsActive) {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+                } else {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                }
+            }
+            else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            }
             break;
         }
     }
@@ -59,7 +67,11 @@ Item {
         anchors.fill: parent
         onClicked: {
             autoShutoff.reset();
-            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            if (developmentModeIsActive) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+            } else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            }
         }
     }
 }

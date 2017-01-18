@@ -87,6 +87,11 @@ Item {
                         onClicked: {
                             if (developmentModeIsActive != devModeSlider.state) {
                                 developmentModeIsActive = devModeSlider.state;
+                                if (developmentModeIsActive) {
+                                    forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+                                } else {
+                                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                                }
                             }
                         }
                     }
