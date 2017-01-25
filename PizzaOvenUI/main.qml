@@ -372,6 +372,16 @@ Window {
         appSettings.todOffset = offset;
     }
 
+    Timer {
+        id: powerLossScreenOffTimer
+        running: !acPowerIsPresent
+        interval: 10000
+        repeat: false
+        onTriggered: {
+            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+        }
+    }
+
 //    Rectangle {
 //        id: upperGuideline
 //        x: 0
