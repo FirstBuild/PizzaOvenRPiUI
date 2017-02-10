@@ -111,7 +111,7 @@ Item {
             spacing: 10
             MyButton {
                 id: idStartStopButton
-                text: ovenState == "Cooking" ? "Stop" : "Start"
+                text: (ovenState == "Standby") || (ovenState == "Cooldown") ? "Start" : "Stop"
                 width: smallButtonWidth
                 height: smallButtonHeight*.6
                 borderWidth: 3
@@ -119,30 +119,35 @@ Item {
                 function getButtonColor () {
                     console.log("Oven state: <" + ovenState + ">");
                     var color = "orange"
-                    if (ovenState == "Cooking") {
-                        console.log("Setting color to red.");
-                        color = "red"
+                    if (powerSwitch==0) {
+                        console.log("Setting color to gray.");
+                        color = "gray"
                     } else {
-                        if (powerSwitch==0) {
-                            console.log("Setting color to gray.");
-                            color = "gray"
-                        } else {
+                        switch (ovenState) {
+                        case "Standby":
+                        case "Cooldown":
                             console.log("Setting color to green.");
                             color = "green"
+                            break;
+                        default:
+                            console.log("Setting color to red.");
+                            color = "red"
                         }
                     }
+
                     return color;
                 }
                 onClicked: {
                     switch (ovenState) {
-                    case "Cooking":
-                        backEnd.sendMessage("StopOven ");
-                        break;
-                    default:
+                    case "Standby":
+                    case "Cooldown":
                         if (powerSwitch == 1) {
                             backEnd.sendMessage("StartOven ");
                             autoShutoff.start();
                         }
+                        break;
+                    default:
+                        backEnd.sendMessage("StopOven ");
                         break;
                     }
                 }

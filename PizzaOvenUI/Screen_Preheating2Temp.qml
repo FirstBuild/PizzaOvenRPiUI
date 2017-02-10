@@ -146,7 +146,7 @@ Item {
         id: dataCircle
         needsAnimation: false
         circleValue: upperExitValue < lowerExitValue ? upperExitValue : lowerExitValue
-        titleText: "PREHEATING"
+        titleText: "PREHEATING 2 STAGE"
         noticeText: ""
         fadeInTitle: true
     }
