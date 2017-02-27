@@ -10,6 +10,7 @@ Item {
     property string targetScreen: ""
     property real cookTimeValueShadow: rootWindow.cookTimer.value
     property int ovenStateCount: 3
+    property bool topPreheated: true
 
     function screenEntry() {
         console.log("Entering cooking screen");
@@ -161,7 +162,19 @@ Item {
             break;
         case "final":
             if (dataCircle.circleValue >= 100) {
-                thisScreen.state = "done";
+                if (domeToggle.state) {
+                    if (topPreheated) {
+                        thisScreen.state = "done";
+                    } else {
+                        // go to preheating
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                    }
+                } else {
+                    // go to stone hold
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
+                }
             }
             break;
         case "done":
@@ -188,12 +201,43 @@ Item {
         needsAnimation: false
     }
 
+    property real upperTemp: upperFront.setTemp
+
+    Timer {
+        id: displayUpdateTimer
+        interval: 1000
+        repeat: true
+        running: !demoModeIsActive
+        onTriggered: {
+            if (topPreheated) {
+                upperTemp = upperFront.setTemp;
+            } else {
+                if (domeToggle.state == false) {
+                    if (upperFront.currentTemp < upperFront.setTemp) {
+                        upperTemp = upperFront.currentTemp;
+                    }
+                }
+                else {
+                    var currentDisplayTemp = upperTemp;
+                    if (upperFront.currentTemp < upperFront.setTemp) {
+                        if (upperFront.currentTemp > upperTemp) {
+                            upperTemp = upperFront.currentTemp;
+                        } else {
+                            upperTemp = currentDisplayTemp;
+                        }
+                    } else {
+                        upperTemp = upperFront.setTemp;
+                        topPreheated = true;
+                    }
+                }
+            }
+        }
+    }
     CircleContent {
         id: circleContent
         needsAnimation: true
-        topString: utility.tempToString(upperFront.setTemp)
+        topString: domeToggle.state ? utility.tempToString(upperTemp) : "OFF"
         middleString: utility.tempToString(lowerFront.setTemp)
-//        bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)
         bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
@@ -237,6 +281,28 @@ Item {
             thisScreen.state = "first-half"
         }
         needsAnimation: false
+    }
+
+    DomeToggle {
+        id: domeToggle;
+        text: "DOME"
+        needsAnimation: false
+        state: rootWindow.domeIsOn
+        onClicked: {
+            console.log("Dome toggle clicked.");
+            topPreheated = false;
+            if (domeToggle.state == false) {
+                switch (thisScreen.state) {
+                case "start":
+                case "done":
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
+                    break;
+                }
+            } else {
+                backEnd.sendMessage("StartOven ");
+            }
+        }
     }
 }
 

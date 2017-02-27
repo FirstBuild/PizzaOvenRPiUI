@@ -26,10 +26,13 @@ Item {
         color: { toggle.state ? appForegroundColor : appGrayText }
         width: parent.width/2
         height: parent.height
-        anchors.left: parent.left
+        //anchors.left: parent.left
+        anchors.right: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        horizontalAlignment: Text.AlignRight
+//        horizontalAlignment: Text.AlignRight
+        horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        anchors.rightMargin: 5
     }
 
     Canvas {
@@ -37,7 +40,9 @@ Item {
         width: toggle.barWidth
         height: parent.height
         antialiasing: true
-        anchors.right: parent.right
+        //anchors.right: parent.right
+        anchors.left: parent.horizontalCenter
+        anchors.leftMargin: 5
         property int ballStart: toggle.state ? width - ballRadius - 1 : ballRadius
 
         onPaint: {
@@ -75,6 +80,7 @@ Item {
             toggle.state = !toggle.state;
             sounds.touch.play();
             toggle.clicked();
+            console.log("Slide width: " + toggle.width);
         }
     }
 }

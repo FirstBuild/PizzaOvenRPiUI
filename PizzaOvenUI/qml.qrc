@@ -81,5 +81,7 @@
         <file>Screen_SettingsAdvanced2.qml</file>
         <file>Screen_ProgramControl.qml</file>
         <file>DialogNotifyNoButton.qml</file>
+        <file>DomeToggle.qml</file>
+        <file>Screen_Idle.qml</file>
     </qresource>
 </RCC>

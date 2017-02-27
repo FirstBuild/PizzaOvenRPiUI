@@ -9,23 +9,27 @@ Item {
     width: parent.width
     height: parent.height
 
-    property bool needsAnimation: true
+    property bool needsAnimation: (opacity < 1.0) ? true : false
 
     CircleScreenTemplate {
         id: theCircle
         circleValue: 0
-        titleText: foodNameString
-        fadeInTitle: false
+        titleText: "STONE TEMP HOLDING"
+        fadeInTitle: true
+        needsAnimation: false
     }
 
-    opacity: 0.0
+    opacity: 1.0
 
     function screenEntry() {
-        editButton.animate();
-        preheatButton.animate();
-        theCircle.animate();
-        circleContent.animate();
-        screenEntryAnimation.start();
+        if (thisScreen.opacity < 1.0)
+        {
+            editButton.animate();
+            preheatButton.animate();
+            theCircle.animate();
+            circleContent.animate();
+            screenEntryAnimation.start();
+        }
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}
@@ -46,10 +50,12 @@ Item {
 
     HomeButton {
         id: homeButton
+        needsAnimation: false
     }
 
     EditButton {
         id: editButton
+        needsAnimation: false
     }
 
     SequentialAnimation {
@@ -77,46 +83,46 @@ Item {
         }
     }
 
+    function preheatClicked() {
+        if((powerSwitch == 1) || (demoModeIsActive)){
+            exitToPreheatAnimation.running = true;
+        }
+    }
+
     ButtonRight {
         id: preheatButton
-        text: "PREHEAT"
+        text: "CONTINUE"
         onClicked: {
-            if((powerSwitch == 1) || (demoModeIsActive)){
-                exitToPreheatAnimation.running = true;
-            } else {
-                pressPowerDialog.visible = true;
-            }
+            rootWindow.domeIsOn = true;
+            preheatClicked();
         }
+        needsAnimation: false
     }
 
     CircleContent {
         id: circleContent
-        topString: utility.tempToString(upperFront.setTemp)
+        topString: "OFF"
         middleString: utility.tempToString(lowerFront.setTemp)
-        bottomString: utility.timeToString(cookTime)
+        bottomString: ""
+        needsAnimation: false
         onTopStringClicked: {
             singleSettingOnly = true;
             bookmarkCurrentScreen();
-            thisScreen.needsAnimation = true;
+            thisScreen.needsAnimation = false;
             startExitToScreen("Screen_EnterDomeTemp.qml");
         }
         onMiddleStringClicked: {
             singleSettingOnly = true;
             bookmarkCurrentScreen();
-            thisScreen.needsAnimation = true;
+            thisScreen.needsAnimation = false;
             startExitToScreen("Screen_EnterStoneTemp.qml");
         }
         onBottomStringClicked: {
             singleSettingOnly = true;
             bookmarkCurrentScreen();
-            thisScreen.needsAnimation = true;
+            thisScreen.needsAnimation = false;
             startExitToScreen("Screen_EnterTime.qml");
         }
-    }
-
-    DialogWithCheckbox {
-        id: pressPowerDialog
-        dialogMessage: "Press power button to continue"
     }
 
     DomeToggle {
@@ -125,7 +131,7 @@ Item {
         needsAnimation: false
         state: rootWindow.domeIsOn
         onClicked: {
-            console.log("Dome toggle clicked.");
+            preheatClicked()
         }
     }
 }

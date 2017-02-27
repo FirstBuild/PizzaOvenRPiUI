@@ -13,6 +13,7 @@ Item {
 
     property real upperExitValue: 100 * (upperTempLocked ? upperFront.setTemp : upperTemp) / upperFront.setTemp
     property real lowerExitValue: 100 * (lowerTempLocked ? lowerFront.setTemp : lowerTemp) / lowerFront.setTemp
+    property real preheatProgressValue: (rootWindow.domeIsOn) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
 
     property string targetScreen: ""
 
@@ -28,6 +29,8 @@ Item {
     property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : ((lowerFront.currentTemp < lowerFront.setTemp) ? lowerFront.currentTemp : lowerFront.setTemp)
 
     property int ovenStateCount: 3
+
+    property string localOvenState: "Preheat1"
 
     Timer {
         id: displayUpdateTimer
@@ -67,12 +70,17 @@ Item {
             ovenStateCount--;
             return;
         }
+        localOvenState = state;
         switch(state) {
         case "Standby":
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
             break;
         case "Cooldown":
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            break;
+        case "Idle":
+            stackView.clear();
+            stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
             break;
         }
     }
@@ -116,6 +124,7 @@ Item {
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
         } else {
             displayUpdateTimer.running = true;
+            backEnd.sendMessage("SetDome " + (rootWindow.domeIsOn ? "1" : "0"));
         }
 
         ovenStateCount = 3;
@@ -145,8 +154,9 @@ Item {
     CircleScreenTemplate {
         id: dataCircle
         needsAnimation: false
-        circleValue: upperExitValue < lowerExitValue ? upperExitValue : lowerExitValue
-        titleText: "PREHEATING 2 STAGE"
+        //circleValue: upperExitValue < lowerExitValue ? upperExitValue : lowerExitValue
+        circleValue: preheatProgressValue
+        titleText: (domeToggle.state) ? "PREHEATING" : "STONE PREHEATING"
         noticeText: ""
         fadeInTitle: true
     }
@@ -175,7 +185,7 @@ Item {
         id: circleContent
         needsAnimation: true
         line1String: utility.tempToString(upperFront.setTemp)
-        line2String: utility.tempToString(upperTemp)
+        line2String: domeToggle.state ? utility.tempToString(upperTemp) : "OFF"
         line3String: utility.tempToString(lowerFront.setTemp)
         line4String: utility.tempToString(lowerTemp)
         onTopStringClicked: {
@@ -214,7 +224,7 @@ Item {
 
     function doExitCheck() {
         if (screenSwitchInProgress) return;
-        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running) {
+        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
             screenSwitchInProgress = true;
             preheatComplete = true
             rootWindow.maxPreheatTimer.stop();
@@ -235,6 +245,18 @@ Item {
                 rootWindow.cookTimer.stop();
                 rootWindow.cookTimer.reset();
                 stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+            }
+        }
+    }
+
+    DomeToggle {
+        id: domeToggle;
+        text: "DOME"
+        state: rootWindow.domeIsOn
+        onClicked: {
+            console.log("Dome toggle clicked.");
+            if (state == false && lowerTempLocked) {
+                handleOvenStateMsg("Idle");
             }
         }
     }
