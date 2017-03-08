@@ -26,7 +26,7 @@ Item {
             ScriptAction {
                 script: {
                     rootWindow.cookTimer.reset();
-                    stackView.clear();
+                    //stackView.clear();
                     singleSettingOnly = false;
                     thisButton.clicked();
                     stackView.push({item:Qt.resolvedUrl("Screen_EnterDomeTemp.qml"), immediate:immediateTransitions});

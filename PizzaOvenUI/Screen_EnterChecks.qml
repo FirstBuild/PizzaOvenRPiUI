@@ -183,11 +183,22 @@ Item {
                     appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
                     appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
                     if (singleSettingOnly) {
-                        restoreBookmarkedScreen();
+                        if (!preheatComplete && ovenIsRunning()) {
+                            rootWindow.maxPreheatTimer.restart();
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                        } else {
+                            restoreBookmarkedScreen();
+                        }
                     } else {
                         stackView.clear();
-                        if (preheatComplete) {
-                            stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+                        if (ovenIsRunning()) {
+                            if (!preheatComplete) {
+                                rootWindow.maxPreheatTimer.restart();
+                                stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                            } else {
+                                stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+                            }
                         } else {
                             stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
                         }

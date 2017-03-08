@@ -27,6 +27,7 @@ Item {
     BackButton {
         id: backButton
         onClicked: {
+            console.log("Back button onClick fired.");
             stackView.pop({immediate:immediateTransitions});
         }
     }
@@ -160,6 +161,9 @@ Item {
                         messageDialog.visible = true;
                     } else {
                         if (temp !== upperFront.setTemp) {
+                            if (temp > upperFront.setTemp) {
+                                preheatComplete = false;
+                            }
                             foodNameString = "CUSTOM"
                             utility.setUpperTemps(temp)
                             utility.saveCurrentSettingsAsCustom();
@@ -169,8 +173,15 @@ Item {
             }
             OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
             ScriptAction {script: {
+                    console.log("Single setting: " + singleSettingOnly + ", ovenState: " + ovenState);
                     if (singleSettingOnly) {
-                        restoreBookmarkedScreen();
+                        if (!preheatComplete && ovenIsRunning()) {
+                            rootWindow.maxPreheatTimer.restart();
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                        } else {
+                            restoreBookmarkedScreen();
+                        }
                     } else {
 
                         stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});

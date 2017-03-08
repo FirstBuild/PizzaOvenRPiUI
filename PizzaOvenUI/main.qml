@@ -263,6 +263,14 @@ Window {
         stackView.pop({item:screenBookmark, immediate:immediateTransitions});
     }
 
+    function ovenIsRunning() {
+        if (ovenState == "Cooldown" || ovenState == "Standby") {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     // Define the active screen area.  All screens live here.
     Rectangle {
         id: screenStackContainer
@@ -271,8 +279,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+//        border.color: "red"
+//        border.width: 1
         StackView {
             id: stackView
             width: parent.width

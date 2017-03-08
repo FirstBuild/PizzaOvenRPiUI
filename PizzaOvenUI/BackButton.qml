@@ -37,13 +37,17 @@ Rectangle {
                         }
                         else
                         {
+                            console.log("Preheat complete is " + preheatComplete);
+                            console.log("clearing stack view");
                             stackView.clear();
                             if (preheatComplete) {
-                                stackView.clear();
                                 stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
                             } else {
-                                stackView.clear();
-                                stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                                if (ovenIsRunning()) {
+                                    stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                                } else {
+                                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                                }
                             }
                         }
 

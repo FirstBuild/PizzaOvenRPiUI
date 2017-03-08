@@ -225,6 +225,11 @@ Item {
     function doExitCheck() {
         if (screenSwitchInProgress) return;
         if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
+            if (ovenState == "Idle") {
+                handleOvenStateMsg("Idle");
+                return;
+            }
+
             screenSwitchInProgress = true;
             preheatComplete = true
             rootWindow.maxPreheatTimer.stop();

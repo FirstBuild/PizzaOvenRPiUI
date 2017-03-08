@@ -140,6 +140,9 @@ Item {
                         tempWarningDialog.visible = true;
                     } else {
                         if (temp !== lowerFront.setTemp) {
+                            if (temp > lowerFront.setTemp) {
+                                preheatComplete = false;
+                            }
                             foodNameString = "CUSTOM"
                             utility.setLowerTemps(temp)
                             utility.saveCurrentSettingsAsCustom();
@@ -152,7 +155,13 @@ Item {
             ScriptAction {
                 script: {
                     if (singleSettingOnly) {
-                        restoreBookmarkedScreen();
+                        if (!preheatComplete && ovenIsRunning()) {
+                            rootWindow.maxPreheatTimer.restart();
+                            stackView.clear();
+                            stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                        } else {
+                            restoreBookmarkedScreen();
+                        }
                     } else {
                         stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
                     }

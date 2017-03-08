@@ -167,6 +167,7 @@ Item {
                         thisScreen.state = "done";
                     } else {
                         // go to preheating
+                        rootWindow.maxPreheatTimer.restart();
                         stackView.clear();
                         stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
                     }
