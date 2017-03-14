@@ -194,7 +194,7 @@ Window {
         elementRelay: 0
         onPercent: 0
         offPercent: 90
-        temperatureDeadband: 100
+        temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
     HeaterBankData {
@@ -206,7 +206,7 @@ Window {
         elementRelay: 0
         onPercent: 10
         offPercent: 90
-        temperatureDeadband: 100
+        temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
     HeaterBankData {
