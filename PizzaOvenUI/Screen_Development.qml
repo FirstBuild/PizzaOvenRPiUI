@@ -158,19 +158,19 @@ Item {
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: ovenState
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: "Power: " + (powerSwitch == 0 ? "Off" : "On")
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: "DLB: " + (dlb == 0 ? "Off" : "On")
                     }
                 }
@@ -179,20 +179,26 @@ Item {
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: "Door: " + doorStatus
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: "Count: " + doorCount
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 14
+                        font.pointSize: 12
                         text: "TCO: " + (tco == 0 ? "Off" : "On")
+                    }
+                    Text {
+                        color: appForegroundColor
+                        font.family: localFont.name
+                        font.pointSize: 12
+                        text: "AC: " + (acPowerIsPresent == 0 ? "Off" : "On")
                     }
                 }
             }
