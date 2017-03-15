@@ -291,7 +291,9 @@ Item {
         state: rootWindow.domeIsOn
         onClicked: {
             console.log("Dome toggle clicked.");
-            topPreheated = false;
+            if (!demoModeIsActive) {
+                topPreheated = false;
+            }
             if (domeToggle.state == false) {
                 switch (thisScreen.state) {
                 case "start":
@@ -301,7 +303,10 @@ Item {
                     break;
                 }
             } else {
-                backEnd.sendMessage("StartOven ");
+                if (!demoModeIsActive) {
+                    console.log("We are not in demo mode so restarting oven.");
+                    backEnd.sendMessage("StartOven ");
+                }
             }
         }
     }

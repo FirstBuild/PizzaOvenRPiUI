@@ -53,6 +53,7 @@ Window {
     }
 
     property bool preheatComplete: false
+    property bool stoneIsPreheated: false
     property bool domeIsOn: true
 
     onDomeIsOnChanged: {

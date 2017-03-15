@@ -26,7 +26,8 @@ Item {
     property real lowerTempDemoValue: 75.0
 
     property real upperTemp: demoModeIsActive ? upperTempDemoValue : ((upperFront.currentTemp < upperFront.setTemp) ? upperFront.currentTemp : upperFront.setTemp)
-    property real lowerTemp: demoModeIsActive ? lowerTempDemoValue : ((lowerFront.currentTemp < lowerFront.setTemp) ? lowerFront.currentTemp : lowerFront.setTemp)
+    property real lowerTemp: demoModeIsActive ? (stoneIsPreheated ? lowerFront.setTemp : lowerTempDemoValue) :
+                                                (((lowerFront.currentTemp < lowerFront.setTemp) && !stoneIsPreheated) ? lowerFront.currentTemp : lowerFront.setTemp)
 
     property int ovenStateCount: 3
 
@@ -50,7 +51,7 @@ Item {
                 upperTempLocked = true;
             }
             currentDisplayTemp = lowerTemp;
-            if (lowerFront.currentTemp < lowerFront.setTemp) {
+            if ((lowerFront.currentTemp < lowerFront.setTemp) && !stoneIsPreheated) {
                 if (lowerFront.currentTemp > lowerTemp) {
                     lowerTemp = lowerFront.currentTemp;
                 } else {
@@ -59,6 +60,7 @@ Item {
             } else {
                 lowerTemp = lowerFront.setTemp;
                 lowerTempLocked = true;
+                stoneIsPreheated = true;
             }
             doExitCheck();
         }
@@ -113,7 +115,8 @@ Item {
         console.log("Entering preheat screen");
         screenSwitchInProgress = false;
         upperTempLocked = false;
-        lowerTempLocked = false;
+        lowerTempLocked = stoneIsPreheated;
+
         if (opacity < 1.0) {
             screenFadeIn.start();
         }
@@ -210,6 +213,11 @@ Item {
         to: upperFront.setTemp;
         duration: 7000
         running: demoModeIsActive
+        onStopped: {
+            if (stoneIsPreheated) {
+                screenExitAnimator.start();
+            }
+        }
     }
     NumberAnimation {
         id: lowerFrontAnimation
@@ -218,8 +226,11 @@ Item {
         from: 75;
         to: lowerFront.setTemp;
         duration: 10000
-        running: demoModeIsActive
-        onStopped: screenExitAnimator.start()
+        running: demoModeIsActive & !stoneIsPreheated
+        onStopped: {
+            stoneIsPreheated = true;
+            screenExitAnimator.start();
+        }
     }
 
     function doExitCheck() {
@@ -249,7 +260,12 @@ Item {
                 sounds.notification.play();
                 rootWindow.cookTimer.stop();
                 rootWindow.cookTimer.reset();
-                stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+                stackView.clear();
+                if (rootWindow.domeIsOn) {
+                    stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
+                } else {
+                    stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }

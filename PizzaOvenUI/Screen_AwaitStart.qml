@@ -83,6 +83,7 @@ Item {
         onClicked: {
             if((powerSwitch == 1) || (demoModeIsActive)){
                 exitToPreheatAnimation.running = true;
+                stoneIsPreheated = false;
             } else {
                 pressPowerDialog.visible = true;
             }

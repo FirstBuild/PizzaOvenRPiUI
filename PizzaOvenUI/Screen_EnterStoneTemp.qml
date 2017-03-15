@@ -142,6 +142,7 @@ Item {
                         if (temp !== lowerFront.setTemp) {
                             if (temp > lowerFront.setTemp) {
                                 preheatComplete = false;
+                                stoneIsPreheated = false;
                             }
                             foodNameString = "CUSTOM"
                             utility.setLowerTemps(temp)
