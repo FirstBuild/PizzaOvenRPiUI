@@ -123,7 +123,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.2.4"
+    property string uiVersion: "0.2.5"
     property string backendVersion: "255.255.255.255"
 
     property int lineSpacing: 54
