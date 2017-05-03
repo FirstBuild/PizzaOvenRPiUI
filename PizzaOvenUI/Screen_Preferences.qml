@@ -89,19 +89,39 @@ Item {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: {
-                        wifiSlider.state = !wifiSlider.state
-                        wifiSlider.clicked();
-                    }
-                }
-                SlideOffOn{
-                    id: wifiSlider
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    state: false
-                    onClicked: {
+                        targetScreen = "Screen_WiFi.qml";
+                        singleSettingOnly = true;
+                        bookmarkCurrentScreen();
+                        screenExitAnimator.start();
                     }
                 }
             }
+//            Item {
+//                height: lineSpacing
+//                width: parent.width
+//                ClickableTextBox {
+//                    height: lineSpacing
+//                    width: 200
+//                    text: "WI-FI"
+//                    foregroundColor: appForegroundColor
+//                    horizontalAlignment: Text.AlignLeft
+//                    verticalAlignment: Text.AlignVCenter
+//                    anchors.left: parent.left
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    onClicked: {
+//                        wifiSlider.state = !wifiSlider.state
+//                        wifiSlider.clicked();
+//                    }
+//                }
+//                SlideOffOn{
+//                    id: wifiSlider
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    state: false
+//                    onClicked: {
+//                    }
+//                }
+//            }
             ClickableTextBox {
                 text: "RESET DEFAULTS"
                 width: parent.width

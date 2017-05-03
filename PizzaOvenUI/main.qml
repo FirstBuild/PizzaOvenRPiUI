@@ -125,6 +125,8 @@ Window {
     property string controlVersion: "255.255.255.255"
     property string uiVersion: "0.2.6"
     property string backendVersion: "255.255.255.255"
+    property string wifiMacId: "FF:FF:FF:FF:FF:FF"
+    property int wifiConnectionState: 0
 
     property int lineSpacing: 54
 

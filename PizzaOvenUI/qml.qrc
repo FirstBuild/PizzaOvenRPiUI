@@ -83,5 +83,6 @@
         <file>DialogNotifyNoButton.qml</file>
         <file>DomeToggle.qml</file>
         <file>Screen_Idle.qml</file>
+        <file>Screen_WiFi.qml</file>
     </qresource>
 </RCC>

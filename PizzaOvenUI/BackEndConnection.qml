@@ -241,6 +241,13 @@ Item {
                 controlBoardProgrammingInProgress = true;
             }
             break;
+        case "WifiMacAddress":
+            wifiMacId = msg.data;
+            break;
+        case "WifiConnectionState":
+            console.log("Received a connection state response and the data is " + msg.data);
+            wifiConnectionState = msg.data;
+            break;
         default:
             console.log("Unknown message received: " + _msg);
             break
