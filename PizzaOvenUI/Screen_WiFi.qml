@@ -11,6 +11,8 @@ Item {
 
     property string targetScreen: ""
 
+    property variant wifiStateNames: ["OFF", "AP MODE", "CONNECTING", "CONNECTED", "CONNECTED/OFF", "SCANNING", "RECONNECTING"]
+
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     SequentialAnimation {
@@ -18,6 +20,7 @@ Item {
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
         ScriptAction {
             script: {
+                queryWifiState.stop();
                 stackView.push({item: Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
             }
         }
@@ -27,11 +30,23 @@ Item {
         screenEntryAnimation.start();
         backEnd.sendMessage("Wifi_Get_MAC ");
         backEnd.sendMessage("Wifi_GetConnectionState ");
+        queryWifiState.start();
+    }
+
+    Timer {
+        id: queryWifiState
+        repeat: true
+        running: false
+        interval: 10000
+        onTriggered: {
+            backEnd.sendMessage("Wifi_GetConnectionState ");
+        }
     }
 
     BackButton{
         id: backButton
         onClicked: {
+            queryWifiState.stop();
             stackView.pop({immediate:immediateTransitions});
         }
     }
@@ -80,7 +95,6 @@ Item {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: {
-                        wifiSlider.state = !wifiSlider.state
                         wifiSlider.clicked();
                     }
                 }
@@ -90,11 +104,22 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     state: wifiConnectionState != 0
                     onClicked: {
+                        queryWifiState.restart();
+                        switch (wifiConnectionState) {
+                        case 0:
+                            wifiConnectionState = 1;
+                            backEnd.sendMessage("Wifi_SetConnectionState 1");
+                            break;
+                        case 1:
+                            wifiConnectionState = 0;
+                            backEnd.sendMessage("Wifi_SetConnectionState 0");
+                            break;
+                        }
                     }
                 }
             }
             ClickableTextBox {
-                text: "WIFI STATE: " + wifiConnectionState
+                text: "WIFI STATE: " + (wifiConnectionState < 7 ? wifiStateNames[wifiConnectionState] : "INVALID")
                 width: parent.width
                 horizontalAlignment: Text.AlignLeft
                 foregroundColor: appForegroundColor
