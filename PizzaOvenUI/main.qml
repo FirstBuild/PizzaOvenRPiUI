@@ -55,6 +55,7 @@ Window {
     property bool preheatComplete: false
     property bool stoneIsPreheated: false
     property bool domeIsOn: true
+    property bool domeActualState: true
 
     onDomeIsOnChanged: {
         backEnd.sendMessage("SetDome " + (domeIsOn ? "1" : "0"));

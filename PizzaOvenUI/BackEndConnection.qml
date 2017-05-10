@@ -245,9 +245,61 @@ Item {
             wifiMacId = msg.data;
             break;
         case "WifiConnectionState":
-            console.log("Received a connection state response and the data is " + msg.data);
             wifiConnectionState = msg.data;
             break;
+        case "RequestTempDisplayUnits":
+            sendMessage("TempDisplayUnitsResponse id " + msg.data.id + " units " + (tempDisplayInF ? 0 : 1));
+            break;
+        case "RequestVolumeLevel": {
+            var volumeResponse = "VolumeLevelResponse id " + msg.data.id + " units ";
+            console.log("Received a request for the volume level." + JSON.stringify(msg));
+            switch (volumeSetting) {
+            case 7:
+                volumeResponse += "1";
+                break;
+            case 8:
+                volumeResponse += "2";
+                break;
+            case 9:
+                volumeResponse += "3";
+                break;
+            default:
+                volumeResponse += "0";
+                break;
+            }
+            console.log("Sending response: " + volumeResponse);
+            sendMessage(volumeResponse);
+        }
+            break;
+        case "DomeState":
+            if (msg.data == "Off") {
+                if (domeActualState) {
+                    console.log("The actual dome state is now off.");
+                }
+                domeActualState = false;
+            } else {
+                if (!domeActualState) {
+                    console.log("The actual dome state is now on.");
+                }
+                domeActualState = true;
+            }
+
+            break;
+        case "RequestTimerSetting":
+            sendMessage("TimerSettingResponse id " + msg.data.id + " time " + cookTime);
+            break;
+        case "RequestTimeRemaining":
+            sendMessage("TimeRemainingResponse id " + msg.data.id + " time " + cookTimer.timeRemaining);
+            break;
+        case "RequestReminderSettings":
+            console.log("Got a request for the reminder settings, sending a response.");
+            sendMessage("ReminderSettingsResponse id " + msg.data.id +
+                        " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
+                        " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
+                        " done " + (pizzaDoneAlertEnabled ? 1 : 0)
+                        );
+            break;
+
         default:
             console.log("Unknown message received: " + _msg);
             break
