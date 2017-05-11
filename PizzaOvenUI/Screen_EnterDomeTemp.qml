@@ -165,6 +165,7 @@ Item {
                                 preheatComplete = false;
                             }
                             foodNameString = "CUSTOM"
+                            foodIndex = 4;
                             utility.setUpperTemps(temp)
                             utility.saveCurrentSettingsAsCustom();
                         }

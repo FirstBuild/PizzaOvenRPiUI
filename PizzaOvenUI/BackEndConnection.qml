@@ -288,18 +288,33 @@ Item {
         case "RequestTimerSetting":
             sendMessage("TimerSettingResponse id " + msg.data.id + " time " + cookTime);
             break;
+        case "RequestTimerState":
+            console.log("Got RequestTimerState");
+            if (cookTimer.running) {
+                sendMessage("TimerStateResponse id " + msg.data.id + " state 1");
+            } else if (cookTimer.value < 100.0) {
+                sendMessage("TimerStateResponse id " + msg.data.id + " state 0");
+            } else {
+                sendMessage("TimerStateResponse id " + msg.data.id + " state 2");
+            }
+            break;
         case "RequestTimeRemaining":
             sendMessage("TimeRemainingResponse id " + msg.data.id + " time " + cookTimer.timeRemaining);
             break;
         case "RequestReminderSettings":
-            console.log("Got a request for the reminder settings, sending a response.");
             sendMessage("ReminderSettingsResponse id " + msg.data.id +
                         " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
                         " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
                         " done " + (pizzaDoneAlertEnabled ? 1 : 0)
                         );
             break;
-
+        case "RequestPizzaStyle":
+            if (foodNameString == "CUSTOM") {
+                sendMessage("PizzaStyleResponse id " + msg.data.id + " style 4");
+            } else {
+                sendMessage("PizzaStyleResponse id " + msg.data.id + " style " + foodIndex);
+            }
+            break;
         default:
             console.log("Unknown message received: " + _msg);
             break

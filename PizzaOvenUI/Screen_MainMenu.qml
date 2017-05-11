@@ -45,6 +45,7 @@ Item {
             demoTimeoutTimer.restart();
         }
         keyhandler.focus = true;
+        foodType.setCurrentIndexAt(0, foodIndex, 0);
         screenEntryAnimation.start();
     }
 
@@ -135,6 +136,7 @@ Item {
         id: screenExitAnimation
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
+                foodIndex = theColumn.currentIndex
                 foodNameString = foodListModel.get(theColumn.currentIndex).name;
                 screenExit();
                 forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));

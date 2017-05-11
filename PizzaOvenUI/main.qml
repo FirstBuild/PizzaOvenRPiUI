@@ -96,6 +96,7 @@ Window {
     }
 
     property string foodNameString: "FOOD NAME"
+    property int foodIndex: 0
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive

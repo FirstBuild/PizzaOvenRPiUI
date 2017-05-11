@@ -86,6 +86,7 @@ Item {
                     var temp = timeEntryTumbler.getTime();
                     if (temp !== finalCheckTime) {
                         foodNameString = "CUSTOM"
+                        foodIndex = 4;
                         finalCheckTime = timeEntryTumbler.getTime();
                         utility.saveCurrentSettingsAsCustom();
                         backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
