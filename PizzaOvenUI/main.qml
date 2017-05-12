@@ -73,6 +73,9 @@ Window {
             forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
         }
     }
+    Failures {
+        id: failures
+    }
 
     property int doorCount: 0
     property int doorStatus: 0

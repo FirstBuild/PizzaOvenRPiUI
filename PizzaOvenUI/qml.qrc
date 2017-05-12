@@ -84,5 +84,6 @@
         <file>DomeToggle.qml</file>
         <file>Screen_Idle.qml</file>
         <file>Screen_WiFi.qml</file>
+        <file>Failures.qml</file>
     </qresource>
 </RCC>

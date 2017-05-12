@@ -216,17 +216,19 @@ Item {
             lowerRear.elementRelay = msg.data.LR;
             break;
         case "Failure":
+            failures.logFailure(msg.data.event);
             callServiceFailure = true;
             checkDifferentials();
+            break;
+        case "Warning":
+            failures.logFailure(msg.data.event);
             break;
         case "Door":
             doorStatus = msg.data.Status;
             doorCount = msg.data.Count;
-            //console.log("Got a door message: " + JSON.stringify(msg));
             break;
         case "ControlVersion":
             controlVersion = msg.data.ovenFirmwareVersion + "." + msg.data.ovenFirmwareBugfixVersion;
-            //console.log("Version: " + controlVersion);
             break;
         case "BackendVersion":
             console.log("Backend Version: " + msg.data.backendVersion);
