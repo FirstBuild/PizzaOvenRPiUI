@@ -130,8 +130,10 @@ Window {
     property string controlVersion: "255.255.255.255"
     property string uiVersion: "0.2.6"
     property string backendVersion: "255.255.255.255"
-    property string wifiMacId: "FF:FF:FF:FF:FF:FF"
+    property string wifiMacId: ""
     property int wifiConnectionState: 0
+    property string wifiSsid: ""
+    property string wifiPassphrase: ""
 
     property int lineSpacing: 54
 
@@ -287,8 +289,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width

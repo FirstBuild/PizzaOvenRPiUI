@@ -12,6 +12,9 @@ Item {
     property string targetScreen: ""
 
     property variant wifiStateNames: ["OFF", "AP MODE", "CONNECTING", "CONNECTED", "CONNECTED/OFF", "SCANNING", "RECONNECTING"]
+    property int pointSize: 18
+    property int textPointSize: 1
+    property int labelWidth: 200
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
@@ -26,10 +29,14 @@ Item {
         }
     }
 
+    NumberAnimation on textPointSize {
+        id: titleTextAnim
+        from: 1
+        to: pointSize
+        running: true
+    }
     function screenEntry() {
         screenEntryAnimation.start();
-        backEnd.sendMessage("Wifi_Get_MAC ");
-        backEnd.sendMessage("Wifi_GetConnectionState ");
         queryWifiState.start();
     }
 
@@ -37,8 +44,10 @@ Item {
         id: queryWifiState
         repeat: true
         running: false
-        interval: 10000
+        interval: 2000
+        triggeredOnStart: true
         onTriggered: {
+            console.log("Connection state is currently " + wifiConnectionState);
             backEnd.sendMessage("Wifi_GetConnectionState ");
         }
     }
@@ -61,7 +70,7 @@ Item {
         color: appBackgroundColor
         Text {
             id: idButtonText
-            text: "WIFI SETTINGS"
+            text: "WI-FI SETTINGS"
             font.family: localFont.name
             font.pointSize: 17
             anchors.centerIn: parent
@@ -70,29 +79,37 @@ Item {
         NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
     }
 
+    WifiIcon {
+        id: wifiIcon
+        anchors.verticalCenter: screenTitle.verticalCenter
+        anchors.left: screenTitle.right
+        anchors.leftMargin: 10
+        blinking: !((wifiConnectionState == 3) || (wifiConnectionState == 4) || (wifiConnectionState == 0))
+        color: (wifiConnectionState == 0) ? appBackgroundColor : ((wifiConnectionState == 4) ? appGrayColor : appForegroundColor)
+    }
+
     Rectangle {
         id: content
-        width: 400
-        height: 4 * lineSpacing
         x: 80
         y: 85
+        width: 400
+        height: parent.height - y - 1
         color: appBackgroundColor
         Column {
             width: parent.width
-            height: parent.height
+            height: parent.height - 1
             anchors.left: parent.left
 
-            Item {
-                height: lineSpacing
+            Row {
                 width: parent.width
+                height: parent.height/5
                 ClickableTextBox {
-                    height: lineSpacing
-                    width: 200
+                    height: parent.height
+                    width: labelWidth
+                    horizontalAlignment: Text.AlignLeft
                     text: "WI-FI"
                     foregroundColor: appForegroundColor
-                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
-                    anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: {
                         wifiSlider.clicked();
@@ -100,35 +117,103 @@ Item {
                 }
                 SlideOffOn{
                     id: wifiSlider
-                    anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    state: wifiConnectionState != 0
+                    state: (wifiConnectionState != 0) && (wifiConnectionState != 4)
                     onClicked: {
                         queryWifiState.restart();
                         switch (wifiConnectionState) {
                         case 0:
-                            wifiConnectionState = 1;
                             backEnd.sendMessage("Wifi_SetConnectionState 1");
+                            wifiConnectionState = 1;
                             break;
                         case 1:
-                            wifiConnectionState = 0;
                             backEnd.sendMessage("Wifi_SetConnectionState 0");
+                            wifiConnectionState = 0;
+                            break;
+                        case 3:
+                            backEnd.sendMessage("Wifi_SetConnectionState 4");
+                            wifiConnectionState = 4;
+                            break;
+                        case 4:
+                            backEnd.sendMessage("Wifi_SetConnectionState 6");
+                            wifiConnectionState = 6;
                             break;
                         }
                     }
                 }
             }
-            ClickableTextBox {
-                text: "WIFI STATE: " + (wifiConnectionState < 7 ? wifiStateNames[wifiConnectionState] : "INVALID")
+            Row {
+                height: parent.height/5
                 width: parent.width
-                horizontalAlignment: Text.AlignLeft
-                foregroundColor: appForegroundColor
+                Text {
+                    text: "SSID"
+                    width: labelWidth
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    color: appGrayText
+                    height: parent.height
+                    font.family: localFont.name
+                    font.pointSize: textPointSize
+                }
+                Text {
+                    text: wifiSsid
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    color: appGrayText
+                    height: parent.height
+                    font.family: localFont.name
+                    font.pointSize: textPointSize
+                }
+            }
+            Row {
+                height: parent.height/5
+                width: parent.width
+                Text {
+                    text: "PASSPHRASE"
+                    width: labelWidth
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    color: appGrayText
+                    height: parent.height
+                    font.family: localFont.name
+                    font.pointSize: textPointSize
+                }
+                Text {
+                    text: wifiPassphrase
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    color: appGrayText
+                    height: parent.height
+                    font.family: localFont.name
+                    font.pointSize: textPointSize
+                }
             }
             ClickableTextBox {
-                text: "MAC ID: " + wifiMacId
                 width: parent.width
+                height: parent.height/5
+                text: wifiConnectionState == 0 ? "ENABLE APP CONTROL" : "DISABLE APP CONTROL"
                 horizontalAlignment: Text.AlignLeft
                 foregroundColor: appForegroundColor
+                onClicked: {
+                    if (wifiConnectionState == 0) {
+                        wifiSlider.clicked();
+                    } else {
+                        messageDialog.visible = true
+                    }
+                }
+            }
+        }
+    }
+
+    DialogWithYesNoButtons {
+        id: messageDialog
+        pointSize: 17
+        dialogMessage: "ARE YOU SURE YOU WANT TO DISABLE APP CONTROL?"
+        onClicked: {
+            console.log("The result is " + messageDialog.result);
+            if (messageDialog.result == "YES") {
+                backEnd.sendMessage("Wifi_SetConnectionState 0");
+                wifiConnectionState = 0;
             }
         }
     }

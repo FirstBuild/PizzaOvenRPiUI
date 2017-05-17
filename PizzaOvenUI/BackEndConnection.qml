@@ -89,6 +89,7 @@ Item {
                 break;
             case WebSocket.Open:
                 webSocketConnectionTimer.stop();
+                wifiDataRequestor.start();
                 break;
             case WebSocket.Closing:
                 console.log("Web socket is closing.");
@@ -113,6 +114,10 @@ Item {
             if (commFailCount > 0) commFailCount--;
             controlBoardCommsFailed = commFailCount == 0;
         }
+    }
+
+    WifiDataRequestor {
+        id: wifiDataRequestor
     }
 
     function handleWebSocketMessage(_msg) {
@@ -248,6 +253,12 @@ Item {
             break;
         case "WifiConnectionState":
             wifiConnectionState = msg.data;
+            break;
+        case "WifiSsid":
+            wifiSsid = msg.data;
+            break;
+        case "WifiPassphrase":
+            wifiPassphrase = msg.data;
             break;
         case "RequestTempDisplayUnits":
             sendMessage("TempDisplayUnitsResponse id " + msg.data.id + " units " + (tempDisplayInF ? 0 : 1));
