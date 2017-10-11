@@ -20,6 +20,9 @@ Window {
     property bool halfTimeRotateAlertEnabled: appSettings.rotatePizzaAlertEnabled
     property bool finalCheckAlertEnabled: appSettings.finalCheckAlertEnabled
     property bool pizzaDoneAlertEnabled: appSettings.doneAlertEnabled
+    property bool halfTimeRotateAlertOccurred: false
+    property bool finalCheckAlertOccurred: false
+    property bool pizzaDoneAlertOccurred: false
 
     property int dlb: 0
     property int tco: 0

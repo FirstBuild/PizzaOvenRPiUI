@@ -263,6 +263,16 @@ Item {
         case "RequestTempDisplayUnits":
             sendMessage("TempDisplayUnitsResponse id " + msg.data.id + " units " + (tempDisplayInF ? 0 : 1));
             break;
+        case "WriteTempDisplayUnits":
+            if (msg.data.units && msg.data.units < 2) {
+                tempDisplayInF = msg.data.units == 0 ? 1 : 0;
+                appSettings.tempDisplayInF = tempDisplayInF;
+                sendMessage("WriteTempDisplayUnitsResponse id " + msg.data.id + " result success");
+            } else {
+                console.log("Got a message to set the temp display units, but request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WriteTempDisplayUnitsResponse id " + msg.data.id + " result failure");
+            }
+            break;
         case "RequestVolumeLevel": {
             var volumeResponse = "VolumeLevelResponse id " + msg.data.id + " units ";
             console.log("Received a request for the volume level." + JSON.stringify(msg));
@@ -284,15 +294,28 @@ Item {
             sendMessage(volumeResponse);
         }
             break;
+        case "WriteVolumeLevel":
+            if (msg.data.level && msg.data.level>=0 && msg.data.level<=3) {
+                var level = [0, 7, 8, 9];
+                volumeSetting = level[msg.data.level];
+                appSettings.volumeSetting = volumeSetting;
+                sendMessage("WriteVolumeLevelResponse id " + msg.data.id + " result success");
+            } else {
+                console.log("Got a message to set the volume level, but request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WriteVolumeLevelResponse id " + msg.data.id + " result failure");
+            }
+            break;
         case "DomeState":
             if (msg.data == "Off") {
                 if (domeActualState) {
                     console.log("The actual dome state is now off.");
+                    rootWindow.domeIsOn = false;
                 }
                 domeActualState = false;
             } else {
                 if (!domeActualState) {
                     console.log("The actual dome state is now on.");
+                    rootWindow.domeIsOn = true;
                 }
                 domeActualState = true;
             }
@@ -300,6 +323,15 @@ Item {
             break;
         case "RequestTimerSetting":
             sendMessage("TimerSettingResponse id " + msg.data.id + " time " + cookTime);
+            break;
+        case "WriteTimerSetting":
+            if (msg.data.time && msg.data.time>=0 && msg.data.time<=65535) {
+                cookTime = msg.data.time;
+                sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result success");
+            } else {
+                console.log("Got a message to set the timer setting, but request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result failure");
+            }
             break;
         case "RequestTimerState":
             console.log("Got RequestTimerState");
@@ -327,6 +359,21 @@ Item {
             } else {
                 sendMessage("PizzaStyleResponse id " + msg.data.id + " style " + foodIndex);
             }
+            break;
+        case "RequestRotatePizzaState":
+            sendMessage("RotatePizzaStateResponse id " + msg.data.id +
+                        " state " + (halfTimeRotateAlertOccurred ? 1 : 0)
+                        );
+            break;
+        case "RequestFinalCheckState":
+            sendMessage("FinalCheckStateResponse id " + msg.data.id +
+                        " state " + (finalCheckAlertOccurred ? 1 : 0)
+                        );
+            break;
+        case "RequestPizzaDoneState":
+            sendMessage("PizzaDoneStateResponse id " + msg.data.id +
+                        " state " + (pizzaDoneAlertOccurred ? 1 : 0)
+                        );
             break;
         default:
             console.log("Unknown message received: " + _msg);

@@ -120,11 +120,31 @@ Item {
 
     onStateChanged: {
         console.log("State is now " + state);
-        if (state === "rotate-pizza") sounds.alarmMid.play();
-        if (state === "final-check") sounds.alarmUrgent.play();
-        if (state === "done" && pizzaDoneAlertEnabled) {
-            console.log("Done alert is enabled.");
-            sounds.cycleComplete.play();
+        switch(state) {
+        case "start":
+        case "first-half":
+            halfTimeRotateAlertOccurred = false;
+            finalCheckAlertOccurred = false;
+            pizzaDoneAlertOccurred = false;
+            break;
+        case "rotate-pizza":
+            halfTimeRotateAlertOccurred = true;
+            if (halfTimeRotateAlertEnabled) {
+                sounds.alarmMid.play();
+            }
+            break;
+        case "final-check":
+            if(finalCheckAlertEnabled) {
+                finalCheckAlertOccurred = true;
+                sounds.alarmUrgent.play()
+            }
+            break;
+        case "done":
+            pizzaDoneAlertOccurred = true;
+            if (pizzaDoneAlertEnabled) {
+                sounds.cycleComplete.play();
+            }
+            break;
         }
     }
 
