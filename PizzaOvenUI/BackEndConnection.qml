@@ -343,6 +343,60 @@ Item {
                 sendMessage("TimerStateResponse id " + msg.data.id + " state 2");
             }
             break;
+        case "WriteTimerState":
+            function handleWriteTimerState(msg) {
+                console.log("Got WriteTimerState and ovenState is " + ovenState);
+                console.log("The cook timer running state is " + cookTimer.running);
+                console.log("The cook timer paused state is " + cookTimer.paused);
+                console.log("The timer value is " + cookTimer.value);
+                console.log("Type of state is " + typeof(msg.data.state));
+                /*
+                  Before running, running is false, paused is false, and value is zero.
+                  When running, running is true, paused is false, and value is not zero.
+                  When paused, running is faluse, paused is true, and value is not zero.
+                  When resumed, running is true, paused is false, and value is not zero.
+                  When expired, running is false, paused is false, and value is 100.
+                  */
+                var state = parseInt(msg.data.state);
+                if (state>=0 && state<=2) {
+                    sendMessage("WriteTimerStateResponse id " + msg.data.id + " result success");
+                    switch(state) {
+                    case 0:
+                        console.log("Stopping the cook timer.");
+                        cookTimer.stop();
+                        break;
+                    case 1:
+                        if (!cookTimer.running && !cookTimer.paused) {
+                            console.log("Starting the cook timer.");
+                            cookTimer.start();
+                        } else if (!cookTimer.running && cookTimer.paused) {
+                            console.log("Resuming the cook timer.");
+                            cookTimer.resume();
+                        } else {
+                            console.log("Doing nothing for the cook timer.");
+                        }
+                        break;
+                    case 2:
+                        if (cookTimer.running) {
+                            console.log("Pausing the cook timer.");
+                            cookTimer.pause();
+                        } else {
+                            console.log("Doing nothing for the cook timer.");
+                        }
+                        break;
+                    }
+                } else {
+                    console.log("Cook timer state is out of range: " + msg.data.state);
+                    sendMessage("WriteTimerStateResponse id " + msg.data.id + " result failure");
+                }
+            }
+            if (msg.data.state && ovenState=="Cooking") {
+                handleWriteTimerState(msg);
+            } else {
+                console.log("Got a message to set the timer state, but request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WriteTimerStateResponse id " + msg.data.id + " result failure");
+            }
+            break;
         case "RequestTimeRemaining":
             sendMessage("TimeRemainingResponse id " + msg.data.id + " time " + cookTimer.timeRemaining);
             break;
@@ -353,11 +407,62 @@ Item {
                         " done " + (pizzaDoneAlertEnabled ? 1 : 0)
                         );
             break;
+        case "WriteReminderSettings":
+            if (msg.data && msg.data.rotatePizza && msg.data.finalCheck && msg.data.done &&
+                    (msg.data.rotatePizza === "0" || msg.data.rotatePizza === "1") &&
+                    (msg.data.finalCheck === "0" || msg.data.finalCheck === "1") &&
+                    (msg.data.done === "0" || msg.data.done === "1")) {
+                halfTimeRotateAlertEnabled = msg.data.rotatePizza === "1";
+                finalCheckAlertEnabled = msg.data.finalCheck === "1";
+                pizzaDoneAlertEnabled = msg.data.done === "1";
+                appSettings.rotatePizzaAlertEnabled = halfTimeRotateAlertEnabled;
+                appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
+                appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
+                sendMessage("WriteReminderSettingsResponse id " + msg.data.id + " result success");
+            } else {
+                console.log("Got a message to set the reminder settings, but the request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WriteReminderSettingsResponse id " + msg.data.id + " result failure");
+            }
+            break;
         case "RequestPizzaStyle":
             if (foodNameString == "CUSTOM") {
                 sendMessage("PizzaStyleResponse id " + msg.data.id + " style 4");
             } else {
                 sendMessage("PizzaStyleResponse id " + msg.data.id + " style " + foodIndex);
+            }
+            break;
+        case "WritePizzaStyle":
+            function handleWritePizzaStyle(msg) {
+                var style = parseInt(msg.data.style);
+                var menuItems = menuSettings.json.menuItems;
+
+                if (style >= 0 && style <= menuItems.length) {
+                    foodIndex = style;
+                    var settings = menuItems[foodIndex];
+                    backEnd.sendMessage("StopOven ");
+                    autoShutoff.stop();
+                    preheatComplete = false;
+                    appSettings.backlightOff = false;
+                    foodNameString = settings.name;
+                    utility.setUpperTemps(settings.domeTemp)
+                    utility.setLowerTemps(settings.stoneTemp)
+                    cookTime = settings.cookTime;
+                    backEnd.sendMessage("CookTime " + cookTime);
+                    finalCheckTime = settings.finalCheckTime
+                    console.log("Setting pizza type to index " + foodIndex);
+                    console.log("Food name is set to " + foodNameString);
+                    sendMessage("WritePizzaStyleResponse id " + msg.data.id + " result success");
+                    forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
+                } else {
+                    console.log("Got a message to set the pizza style, but the index is out of range: " + JSON.stringify(msg.data));
+                    sendMessage("WritePizzaStyleResponse id " + msg.data.id + " result failure");
+                }
+            }
+            if (msg.data && msg.data.style) {
+                handleWritePizzaStyle(msg);
+            } else {
+                console.log("Got a message to set the pizza style, but the request is invalid: " + JSON.stringify(msg.data));
+                sendMessage("WritePizzaStyleResponse id " + msg.data.id + " result failure");
             }
             break;
         case "RequestRotatePizzaState":

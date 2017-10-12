@@ -9,6 +9,7 @@ Item {
     property bool screenSwitchInProgress: false
     property string targetScreen: ""
     property real cookTimeValueShadow: rootWindow.cookTimer.value
+    property real cookTimerRunningShadow: rootWindow.cookTimer.running
     property int ovenStateCount: 3
     property bool topPreheated: true
 
@@ -82,16 +83,15 @@ Item {
             name: "start"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "READY"}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(cookTime)}
-            PropertyChanges {target: startButton; visible: true}
-            PropertyChanges {target: pauseButton; visible: false}
+//            PropertyChanges {target: startButton; visible: true}
+//            PropertyChanges {target: pauseButton; visible: false}
         },
         State {
             name: "first-half"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "COOKING"}
-//            PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)}
-            PropertyChanges {target: startButton; visible: false}
-            PropertyChanges {target: pauseButton; visible: true}
+//            PropertyChanges {target: startButton; visible: false}
+//            PropertyChanges {target: pauseButton; visible: true}
         },
         State {
             name: "rotate-pizza"
@@ -113,8 +113,8 @@ Item {
             name: "done"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true}
             PropertyChanges {target: circleContent; bottomString: "DONE"}
-            PropertyChanges {target: pauseButton; visible: false}
-            PropertyChanges {target: startButton; visible: true}
+//            PropertyChanges {target: pauseButton; visible: false}
+//            PropertyChanges {target: startButton; visible: true}
         }
     ]
 
@@ -287,14 +287,14 @@ Item {
     PauseButton {
         id: pauseButton
         needsAnimation: false
-        visible: true
-        enabled: true
+        visible: cookTimer.running || cookTimer.paused
+        enabled: visible
     }
 
     ButtonRight {
         id: startButton
         text: "START"
-        visible: false
+        visible: !cookTimer.running && !cookTimer.paused
         enabled: visible
         onClicked: {
             console.log("Starting cook timer.");
@@ -302,6 +302,18 @@ Item {
             thisScreen.state = "first-half"
         }
         needsAnimation: false
+    }
+
+    onCookTimerRunningShadowChanged: {
+        if (cookTimer.running) {
+            if (thisScreen.state == "start" || thisScreen.state == "done") {
+                thisScreen.state = "first-half"
+            }
+        } else {
+            if (!cookTimer.paused) {
+                thisScreen.state = "start"
+            }
+        }
     }
 
     DomeToggle {

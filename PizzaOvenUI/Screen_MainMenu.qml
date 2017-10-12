@@ -40,7 +40,6 @@ Item {
             foodListModel.append(menuItems[i]);
         }
         appSettings.backlightOff = false;
-        //if (demoModeIsActive) {
         if (powerSwitch == 0) {
             demoTimeoutTimer.restart();
         }
