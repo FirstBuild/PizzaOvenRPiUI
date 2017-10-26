@@ -12,6 +12,7 @@ Item {
     property real cookTimerRunningShadow: rootWindow.cookTimer.running
     property int ovenStateCount: 3
     property bool topPreheated: true
+    property real oldTimeRemaining: 0
 
     function screenEntry() {
         console.log("Entering cooking screen");
@@ -149,6 +150,11 @@ Item {
     }
 
     onCookTimeValueShadowChanged: {
+        if ((cookTimer.timeRemaining == 0) || (Math.abs(cookTimer.timeRemaining - oldTimeRemaining) >= 1)) {
+            backEnd.sendMessage("TimeRemaining " + cookTimer.timeRemaining);
+            oldTimeRemaining = cookTimer.timeRemaining
+        }
+
         switch (thisScreen.state) {
         case "start":
             break;
