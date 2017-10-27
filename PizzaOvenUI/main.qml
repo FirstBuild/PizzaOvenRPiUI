@@ -24,6 +24,22 @@ Window {
     property bool finalCheckAlertOccurred: false
     property bool pizzaDoneAlertOccurred: false
 
+    onHalfTimeRotateAlertOccurredChanged: {
+        if (halfTimeRotateAlertOccurred) {
+            backEnd.sendMessage("RotatePizzaState 1");
+        }
+    }
+    onFinalCheckAlertOccurredChanged: {
+        if (finalCheckAlertOccurred) {
+            backEnd.sendMessage("FinalCheckState 1");
+        }
+    }
+    onPizzaDoneAlertOccurredChanged: {
+        if (pizzaDoneAlertOccurred) {
+            backEnd.sendMessage("PizzaDoneState 1");
+        }
+    }
+
     property int dlb: 0
     property int tco: 0
     property int acPowerIsPresent: 0
@@ -103,6 +119,13 @@ Window {
 
     property string foodNameString: "FOOD NAME"
     property int foodIndex: 0
+    onFoodIndexChanged: {
+        if (foodNameString == "CUSTOM") {
+            backEnd.sendMessage("PizzaStyle 4");
+        } else {
+            backEnd.sendMessage("PizzaStyle " + foodIndex);
+        }
+    }
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive

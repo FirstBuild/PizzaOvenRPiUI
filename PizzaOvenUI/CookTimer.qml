@@ -19,6 +19,30 @@ Item {
         }
     }
 
+    function getCookTimerState() {
+        if (cookTimer.running) {
+            return 1;
+        } else if (cookTimer.value < 100.0) {
+            return 0;
+        } else {
+            return 2;
+        }
+    }
+
+    onRunningChanged: {
+        backEnd.sendMessage("TimerState " + getCookTimerState().toString());
+        console.log("Cooking running state changed.")
+        console.log("Running: " + running);
+        console.log("Paused: " + paused);
+    }
+
+    onPausedChanged: {
+        backEnd.sendMessage("TimerState " + getCookTimerState().toString());
+        console.log("Cooking paused state changed.")
+        console.log("Running: " + running);
+        console.log("Paused: " + paused);
+    }
+
     function start() {
         value = 0.0;
         animation.from = 0.0;
