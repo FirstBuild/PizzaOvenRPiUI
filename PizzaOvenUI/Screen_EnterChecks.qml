@@ -182,6 +182,13 @@ Item {
                     appSettings.rotatePizzaAlertEnabled = halfTimeRotateAlertEnabled;
                     appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
                     appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
+                    console.log("Sending updated reminder settings to backend.");
+                    backEnd.sendMessage("ReminderSettings" +
+                                " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
+                                " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
+                                " done " + (pizzaDoneAlertEnabled ? 1 : 0)
+                                );
+
                     if (singleSettingOnly) {
                         if (!preheatComplete && ovenIsRunning()) {
                             rootWindow.maxPreheatTimer.restart();
