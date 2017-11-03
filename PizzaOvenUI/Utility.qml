@@ -65,4 +65,9 @@ Item {
             }
         }
     }
+
+    function restoreDisplayedTemps() {
+        rootWindow.displayedDomeTemp = rootWindow.upperFront.currentTemp;
+        rootWindow.displayedStoneTemp = rootWindow.lowerFront.currentTemp;
+    }
 }

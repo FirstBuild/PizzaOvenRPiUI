@@ -258,6 +258,8 @@ Item {
                     }
                 }
             }
+            rootWindow.displayedDomeTemp = upperTemp;
+            rootWindow.displayedStoneTemp = lowerFront.setTemp;
         }
     }
     CircleContent {

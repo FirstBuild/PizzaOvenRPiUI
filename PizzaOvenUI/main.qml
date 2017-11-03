@@ -86,6 +86,9 @@ Window {
     property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
 
+    property int displayedDomeTemp: upperFront.currentTemp
+    property int displayedStoneTemp: lowerFront.currentTemp
+
     property bool callServiceFailure: false
     onCallServiceFailureChanged: {
         if (callServiceFailure) {

@@ -26,6 +26,8 @@ Item {
         theCircle.animate();
         circleContent.animate();
         screenEntryAnimation.start();
+        rootWindow.displayedDomeTemp = rootWindow.upperFront.setTemp;
+        rootWindow.displayedStoneTemp = rootWindow.lowerFront.setTemp;
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}

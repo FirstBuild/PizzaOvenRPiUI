@@ -63,6 +63,8 @@ Item {
                 stoneIsPreheated = true;
             }
             doExitCheck();
+            rootWindow.displayedDomeTemp = upperTemp;
+            rootWindow.displayedStoneTemp = lowerTemp;
         }
     }
 

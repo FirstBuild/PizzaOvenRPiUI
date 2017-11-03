@@ -273,6 +273,9 @@ Item {
                 sendMessage("WriteTempDisplayUnitsResponse id " + msg.data.id + " result failure");
             }
             break;
+        case "RequestDisplayedTemps":
+            sendMessage("DisplayedTempsResponse id " + msg.data.id + " dome " + rootWindow.displayedDomeTemp + " stone " + rootWindow.displayedStoneTemp);
+            break;
         case "RequestVolumeLevel": {
             var volumeResponse = "VolumeLevelResponse id " + msg.data.id + " units ";
             console.log("Received a request for the volume level." + JSON.stringify(msg));
