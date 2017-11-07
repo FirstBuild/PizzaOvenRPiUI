@@ -320,6 +320,7 @@ Item {
         } else {
             if (!cookTimer.paused) {
                 thisScreen.state = "start"
+                rootWindow.cookTimer.reset();
             }
         }
     }
