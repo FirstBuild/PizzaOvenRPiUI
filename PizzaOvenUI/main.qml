@@ -73,12 +73,8 @@ Window {
 
     property bool preheatComplete: false
     property bool stoneIsPreheated: false
-    property bool domeIsOn: true
-    property bool domeActualState: true
-
-    onDomeIsOnChanged: {
-        backEnd.sendMessage("SetDome " + (domeIsOn ? "1" : "0"));
-        console.log("---> The dome is now " + (domeIsOn ? "on" : "off"));
+    property DomeState domeState: DomeState {
+        id: domeState
     }
 
     property int upperTempDifferential: 0
@@ -155,7 +151,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.2.8"
+    property string uiVersion: "0.2.9"
     property string backendVersion: "255.255.255.255"
     property string wifiMacId: ""
     property int wifiConnectionState: 0
@@ -194,12 +190,12 @@ Window {
     }
 
     DialogWithCheckbox {
+        id: shutdownWarningDialog
         z: 100
         x: screenStackContainer.x
         y: screenStackContainer.y
         width: screenStackContainer.width
         height: screenStackContainer.height
-        id: shutdownWarningDialog
         visible: false
         dialogMessage: "Oven shutting down, continue cooking?"
         onClicked: {
@@ -213,16 +209,16 @@ Window {
     property Item screenBookmark
     property bool singleSettingOnly: false
 
-    BackEndConnection {
+    property BackEndConnection backEnd: BackEndConnection {
         id:backEnd
     }
 
-    Utility {
+    property Utility utility: Utility {
         id: utility
     }
 
     // Parameters of the oven
-    HeaterBankData {
+    property HeaterBankData upperFront: HeaterBankData {
         id: upperFront
         bank: "UF"
         currentTemp: 75
@@ -234,7 +230,7 @@ Window {
         temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData upperRear: HeaterBankData {
         id: upperRear
         bank: "UR"
         currentTemp: 75
@@ -246,7 +242,7 @@ Window {
         temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData lowerFront: HeaterBankData {
         id: lowerFront
         bank: "LF"
         currentTemp: 75
@@ -258,7 +254,7 @@ Window {
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData lowerRear: HeaterBankData {
         id: lowerRear
         bank: "LR"
         currentTemp: 75

@@ -88,5 +88,6 @@
         <file>WifiDataRequestor.qml</file>
         <file>WifiIcon.qml</file>
         <file>DialogWithYesNoButtons.qml</file>
+        <file>DomeState.qml</file>
     </qresource>
 </RCC>

@@ -126,7 +126,7 @@ Item {
         id: domeToggle;
         text: "DOME"
         needsAnimation: false
-        state: rootWindow.domeIsOn
+//        state: rootWindow.domeIsOn
         onClicked: {
             console.log("Dome toggle clicked.");
         }

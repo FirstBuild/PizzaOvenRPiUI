@@ -311,17 +311,19 @@ Item {
             break;
         case "DomeState":
             if (msg.data == "Off") {
-                if (domeActualState) {
-                    console.log("The actual dome state is now off.");
-                    rootWindow.domeIsOn = false;
-                }
-                domeActualState = false;
+                rootWindow.domeState.actual = false;
+//                if (domeActualState) {
+//                    console.log("The actual dome state is now off.");
+//                    rootWindow.domeIsOn = false;
+//                }
+//                domeActualState = false;
             } else {
-                if (!domeActualState) {
-                    console.log("The actual dome state is now on.");
-                    rootWindow.domeIsOn = true;
-                }
-                domeActualState = true;
+                rootWindow.domeState.actual = true;
+//                if (!domeActualState) {
+//                    console.log("The actual dome state is now on.");
+//                    rootWindow.domeIsOn = true;
+//                }
+//                domeActualState = true;
             }
 
             break;
@@ -485,7 +487,15 @@ Item {
             break;
         case "WriteDomeState":
             console.log("Got WriteDomeState and data is: " + JSON.stringify(msg.data));
-             break;
+            if (msg.data.state === "1") {
+                console.log("Setting dome start on.");
+                rootWindow.domeState.set(true);
+            }
+            if (msg.data.state === "0") {
+                rootWindow.domeState.set(false);
+                console.log("Setting dome start off.");
+            }
+            break;
         case "RequestRotatePizzaState":
             sendMessage("RotatePizzaStateResponse id " + msg.data.id +
                         " state " + (halfTimeRotateAlertOccurred ? 1 : 0)

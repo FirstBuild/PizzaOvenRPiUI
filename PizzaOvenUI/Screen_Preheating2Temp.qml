@@ -13,7 +13,8 @@ Item {
 
     property real upperExitValue: 100 * (upperTempLocked ? upperFront.setTemp : upperTemp) / upperFront.setTemp
     property real lowerExitValue: 100 * (lowerTempLocked ? lowerFront.setTemp : lowerTemp) / lowerFront.setTemp
-    property real preheatProgressValue: (rootWindow.domeIsOn) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
+//    property real preheatProgressValue: (rootWindow.domeIsOn) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
+    property real preheatProgressValue: (rootWindow.domeState.actual) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
 
     property string targetScreen: ""
 
@@ -129,7 +130,7 @@ Item {
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
         } else {
             displayUpdateTimer.running = true;
-            backEnd.sendMessage("SetDome " + (rootWindow.domeIsOn ? "1" : "0"));
+//            backEnd.sendMessage("SetDome " + (rootWindow.domeIsOn ? "1" : "0"));
         }
 
         ovenStateCount = 3;
@@ -263,7 +264,8 @@ Item {
                 rootWindow.cookTimer.stop();
                 rootWindow.cookTimer.reset();
                 stackView.clear();
-                if (rootWindow.domeIsOn) {
+//                if (rootWindow.domeIsOn) {
+                if (rootWindow.domeState.displayed) {
                     stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
                 } else {
                     stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
@@ -275,7 +277,13 @@ Item {
     DomeToggle {
         id: domeToggle;
         text: "DOME"
-        state: rootWindow.domeIsOn
+//        state: rootWindow.domeIsOn
+        onStateChanged: {
+            console.log("Dome toggle state changed.");
+            if (state == false && lowerTempLocked) {
+                handleOvenStateMsg("Idle");
+            }
+        }
         onClicked: {
             console.log("Dome toggle clicked.");
             if (state == false && lowerTempLocked) {

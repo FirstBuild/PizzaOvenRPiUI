@@ -188,6 +188,7 @@ Item {
             break;
         case "final":
             if (dataCircle.circleValue >= 100) {
+//                if (domeToggle.state) {
                 if (domeToggle.state) {
                     if (topPreheated) {
                         thisScreen.state = "done";
@@ -329,7 +330,7 @@ Item {
         id: domeToggle;
         text: "DOME"
         needsAnimation: false
-        state: rootWindow.domeIsOn
+        onStateChanged: domeToggle.clicked()
         onClicked: {
             console.log("Dome toggle clicked.");
             if (!demoModeIsActive) {
@@ -342,11 +343,6 @@ Item {
                     stackView.clear();
                     stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
                     break;
-                }
-            } else {
-                if (!demoModeIsActive) {
-                    console.log("We are not in demo mode so restarting oven.");
-                    backEnd.sendMessage("StartOven ");
                 }
             }
         }
