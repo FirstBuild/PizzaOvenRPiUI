@@ -202,6 +202,7 @@ Item {
             break;
         case "OvenState":
             ovenState = msg.data;
+            console.log("Oven state message: " + ovenState);
             if (stackView.currentItem.handleOvenStateMsg)
             {
                 stackView.currentItem.handleOvenStateMsg(ovenState);
@@ -331,6 +332,7 @@ Item {
             if (msg.data.time && msg.data.time>=0 && msg.data.time<=65535) {
                 cookTime = msg.data.time;
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result success");
+                utility.findPizzaTypeFromSettings();
             } else {
                 console.log("Got a message to set the timer setting, but request is invalid: " + JSON.stringify(msg.data));
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result failure");
@@ -446,7 +448,6 @@ Item {
                     autoShutoff.stop();
                     preheatComplete = false;
                     appSettings.backlightOff = false;
-                    foodNameString = settings.name;
                     utility.setUpperTemps(settings.domeTemp)
                     utility.setLowerTemps(settings.stoneTemp)
                     cookTime = settings.cookTime;
@@ -468,6 +469,23 @@ Item {
                 sendMessage("WritePizzaStyleResponse id " + msg.data.id + " result failure");
             }
             break;
+        case "WriteSetpoints":
+            if (msg.data.UF && msg.data.LF) {
+                if (parseInt(msg.data.UF) <= upperMaxTemp && parseInt(msg.data.LF) <= lowerMaxTemp) {
+                    backEnd.sendMessage("StopOven ");
+                    autoShutoff.stop();
+                    preheatComplete = false;
+                    appSettings.backlightOff = false;
+                    utility.setLowerTemps(parseInt(msg.data.LF));
+                    utility.setUpperTemps(parseInt(msg.data.UF));
+                    utility.findPizzaTypeFromSettings();
+                    forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
+                }
+            }
+            break;
+        case "WriteDomeState":
+            console.log("Got WriteDomeState and data is: " + JSON.stringify(msg.data));
+             break;
         case "RequestRotatePizzaState":
             sendMessage("RotatePizzaStateResponse id " + msg.data.id +
                         " state " + (halfTimeRotateAlertOccurred ? 1 : 0)

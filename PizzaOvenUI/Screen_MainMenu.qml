@@ -14,7 +14,8 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
-    property int tumblerWidth: parent.width*0.55;
+    property int tumblerWidth: parent.width*0.55
+    property int foodIndexShadow: rootWindow.foodIndex
 
     opacity: 0.0
 
@@ -26,6 +27,10 @@ Item {
             stackView.clear();
             stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
         }
+    }
+
+    onFoodIndexShadowChanged: {
+        foodType.setCurrentIndexAt(0, foodIndex, 0);
     }
 
     function screenEntry() {

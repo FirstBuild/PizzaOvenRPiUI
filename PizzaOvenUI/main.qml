@@ -123,11 +123,9 @@ Window {
     property string foodNameString: "FOOD NAME"
     property int foodIndex: 0
     onFoodIndexChanged: {
-        if (foodNameString == "CUSTOM") {
-            backEnd.sendMessage("PizzaStyle 4");
-        } else {
-            backEnd.sendMessage("PizzaStyle " + foodIndex);
-        }
+        console.log("The food index changed, setting the string.");
+        foodNameString = menuSettings.json.menuItems[foodIndex].name;
+        backEnd.sendMessage("PizzaStyle " + foodIndex);
     }
 
     // Things related to how the app looks and operates

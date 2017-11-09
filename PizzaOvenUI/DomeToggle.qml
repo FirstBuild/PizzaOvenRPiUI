@@ -61,6 +61,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            console.log("The dome mouse area was clicked, it's state is " + thestate);
             autoShutoff.reset();
             sounds.touch.play();
             domeToggle.state = !domeToggle.state

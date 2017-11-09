@@ -144,7 +144,7 @@ Item {
                                 preheatComplete = false;
                                 stoneIsPreheated = false;
                             }
-                            foodNameString = "CUSTOM"
+//                            foodNameString = "CUSTOM"
                             foodIndex = 4;
                             utility.setLowerTemps(temp)
                             utility.saveCurrentSettingsAsCustom();

@@ -85,7 +85,7 @@ Item {
                 script: {
                     var temp = timeEntryTumbler.getTime();
                     if (temp !== finalCheckTime) {
-                        foodNameString = "CUSTOM"
+//                        foodNameString = "CUSTOM"
                         foodIndex = 4;
                         finalCheckTime = timeEntryTumbler.getTime();
                         utility.saveCurrentSettingsAsCustom();

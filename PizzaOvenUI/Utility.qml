@@ -70,4 +70,22 @@ Item {
         rootWindow.displayedDomeTemp = rootWindow.upperFront.currentTemp;
         rootWindow.displayedStoneTemp = rootWindow.lowerFront.currentTemp;
     }
+
+    function findPizzaTypeFromSettings() {
+        var dome = upperFront.setTemp;
+        var stone = lowerFront.setTemp;
+        var menuItems = menuSettings.json.menuItems;
+
+        console.log("In findPizzaTypeFromSettings.");
+
+        for(var i=0; i<menuItems.length; i++)  {
+            if (menuItems[i].domeTemp == dome && menuItems[i].stoneTemp == stone && cookTime == menuItems[i].cookTime) {
+                console.log("Found matching settings, setting the food index to " + i);
+                rootWindow.foodIndex = i;
+                return;
+            }
+        }
+        console.log("No match found, setting the food index to 4");
+        rootWindow.foodIndex = 4;
+    }
 }
