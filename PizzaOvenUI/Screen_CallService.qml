@@ -125,4 +125,78 @@ Rectangle {
             }
         }
     }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            console.log("Service screen clicked.");
+            failureMessages.failureText = "FAILURES:\r\n" + failures.getFailureText();
+            failureMessages.visible = true;
+        }
+    }
+
+    Rectangle {
+        id: failureMessages
+        z: 100
+        visible: false
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
+        color: appBackgroundColor
+        property string failureText: ""
+
+        Text {
+            id: idFailureText
+            text: parent.failureText
+            width: parent.width
+            height:parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.family: localFont.name
+            font.pointSize: 20
+            color: appForegroundColor
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                idTemperatures.visible = true;
+                failureMessages.visible = false;
+            }
+        }
+    }
+
+    Rectangle {
+        id: idTemperatures
+        z: 200
+        visible: false
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
+        color: appBackgroundColor
+        property string temperatures: ""
+
+        Text {
+            text: "TEMPERATURES\r\n" +
+                  "UPPER FRONT: " + upperFront.currentTemp + "\r\n" +
+                  "UPPER REAR: " + upperRear.currentTemp + "\r\n" +
+                  "LOWER FRONT: " + lowerFront.currentTemp + "\r\n" +
+                  "LOWER REAR: " + lowerRear.currentTemp
+            width: parent.width
+            height:parent.height
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.family: localFont.name
+            font.pointSize: 20
+            color: appForegroundColor
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                idTemperatures.visible = false;
+            }
+        }
+    }
 }

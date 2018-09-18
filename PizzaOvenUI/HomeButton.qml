@@ -34,6 +34,9 @@ Rectangle {
                     }
                     OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
                     ScriptAction {script: {
+                            halfTimeRotateAlertOccurred = false;
+                            finalCheckAlertOccurred = false;
+                            pizzaDoneAlertOccurred = false;
                             homeButton.clicked();
                             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                         }

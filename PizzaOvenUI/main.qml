@@ -20,6 +20,25 @@ Window {
     property bool halfTimeRotateAlertEnabled: appSettings.rotatePizzaAlertEnabled
     property bool finalCheckAlertEnabled: appSettings.finalCheckAlertEnabled
     property bool pizzaDoneAlertEnabled: appSettings.doneAlertEnabled
+    property bool halfTimeRotateAlertOccurred: false
+    property bool finalCheckAlertOccurred: false
+    property bool pizzaDoneAlertOccurred: false
+
+    onHalfTimeRotateAlertOccurredChanged: {
+        if (halfTimeRotateAlertOccurred) {
+            backEnd.sendMessage("RotatePizzaState 1");
+        }
+    }
+    onFinalCheckAlertOccurredChanged: {
+        if (finalCheckAlertOccurred) {
+            backEnd.sendMessage("FinalCheckState 1");
+        }
+    }
+    onPizzaDoneAlertOccurredChanged: {
+        if (pizzaDoneAlertOccurred) {
+            backEnd.sendMessage("PizzaDoneState 1");
+        }
+    }
 
     property int dlb: 0
     property int tco: 0
@@ -54,11 +73,8 @@ Window {
 
     property bool preheatComplete: false
     property bool stoneIsPreheated: false
-    property bool domeIsOn: true
-
-    onDomeIsOnChanged: {
-        backEnd.sendMessage("SetDome " + (domeIsOn ? "1" : "0"));
-        console.log("---> The dome is now " + (domeIsOn ? "on" : "off"));
+    property DomeState domeState: DomeState {
+        id: domeState
     }
 
     property int upperTempDifferential: 0
@@ -66,11 +82,17 @@ Window {
     property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
 
+    property int displayedDomeTemp: upperFront.currentTemp
+    property int displayedStoneTemp: lowerFront.currentTemp
+
     property bool callServiceFailure: false
     onCallServiceFailureChanged: {
         if (callServiceFailure) {
             forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
         }
+    }
+    Failures {
+        id: failures
     }
 
     property int doorCount: 0
@@ -95,6 +117,12 @@ Window {
     }
 
     property string foodNameString: "FOOD NAME"
+    property int foodIndex: 0
+    onFoodIndexChanged: {
+        console.log("The food index changed, setting the string.");
+        foodNameString = menuSettings.json.menuItems[foodIndex].name;
+        backEnd.sendMessage("PizzaStyle " + foodIndex);
+    }
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive
@@ -123,8 +151,12 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.2.6"
+    property string uiVersion: "0.2.9"
     property string backendVersion: "255.255.255.255"
+    property string wifiMacId: ""
+    property int wifiConnectionState: 0
+    property string wifiSsid: ""
+    property string wifiPassphrase: ""
 
     property int lineSpacing: 54
 
@@ -158,12 +190,12 @@ Window {
     }
 
     DialogWithCheckbox {
+        id: shutdownWarningDialog
         z: 100
         x: screenStackContainer.x
         y: screenStackContainer.y
         width: screenStackContainer.width
         height: screenStackContainer.height
-        id: shutdownWarningDialog
         visible: false
         dialogMessage: "Oven shutting down, continue cooking?"
         onClicked: {
@@ -177,16 +209,16 @@ Window {
     property Item screenBookmark
     property bool singleSettingOnly: false
 
-    BackEndConnection {
+    property BackEndConnection backEnd: BackEndConnection {
         id:backEnd
     }
 
-    Utility {
+    property Utility utility: Utility {
         id: utility
     }
 
     // Parameters of the oven
-    HeaterBankData {
+    property HeaterBankData upperFront: HeaterBankData {
         id: upperFront
         bank: "UF"
         currentTemp: 75
@@ -198,7 +230,7 @@ Window {
         temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData upperRear: HeaterBankData {
         id: upperRear
         bank: "UR"
         currentTemp: 75
@@ -210,7 +242,7 @@ Window {
         temperatureDeadband: 0
         maxTemp: upperMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData lowerFront: HeaterBankData {
         id: lowerFront
         bank: "LF"
         currentTemp: 75
@@ -222,7 +254,7 @@ Window {
         temperatureDeadband: 10
         maxTemp: lowerMaxTemp
     }
-    HeaterBankData {
+    property HeaterBankData lowerRear: HeaterBankData {
         id: lowerRear
         bank: "LR"
         currentTemp: 75

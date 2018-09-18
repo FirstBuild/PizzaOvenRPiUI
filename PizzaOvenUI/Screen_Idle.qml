@@ -71,7 +71,6 @@ Item {
             script: {
                 rootWindow.maxPreheatTimer.restart();
                 if (!demoModeIsActive) {
-                    backEnd.sendMessage("StartOven ");
                     autoShutoff.start();
                 } else {
                     lowerFront.currentTemp = 75;
@@ -94,7 +93,7 @@ Item {
         id: preheatButton
         text: "CONTINUE"
         onClicked: {
-            rootWindow.domeIsOn = true;
+            rootWindow.domeState.set(true);
             preheatClicked();
         }
         needsAnimation: false
@@ -130,9 +129,10 @@ Item {
         id: domeToggle;
         text: "DOME"
         needsAnimation: false
-        state: rootWindow.domeIsOn
+        onStateChanged: domeToggle.clicked()
         onClicked: {
-            preheatClicked()
+            console.log("Idle: Dome toggle was clicked.");
+            preheatClicked();
         }
     }
 }

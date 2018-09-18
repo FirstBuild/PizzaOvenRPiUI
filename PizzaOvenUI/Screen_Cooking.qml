@@ -9,8 +9,10 @@ Item {
     property bool screenSwitchInProgress: false
     property string targetScreen: ""
     property real cookTimeValueShadow: rootWindow.cookTimer.value
+    property real cookTimerRunningShadow: rootWindow.cookTimer.running
     property int ovenStateCount: 3
     property bool topPreheated: true
+    property real oldTimeRemaining: 0
 
     function screenEntry() {
         console.log("Entering cooking screen");
@@ -82,16 +84,15 @@ Item {
             name: "start"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "READY"}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(cookTime)}
-            PropertyChanges {target: startButton; visible: true}
-            PropertyChanges {target: pauseButton; visible: false}
+//            PropertyChanges {target: startButton; visible: true}
+//            PropertyChanges {target: pauseButton; visible: false}
         },
         State {
             name: "first-half"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "COOKING"}
-//            PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timerValue)}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)}
-            PropertyChanges {target: startButton; visible: false}
-            PropertyChanges {target: pauseButton; visible: true}
+//            PropertyChanges {target: startButton; visible: false}
+//            PropertyChanges {target: pauseButton; visible: true}
         },
         State {
             name: "rotate-pizza"
@@ -113,22 +114,47 @@ Item {
             name: "done"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true}
             PropertyChanges {target: circleContent; bottomString: "DONE"}
-            PropertyChanges {target: pauseButton; visible: false}
-            PropertyChanges {target: startButton; visible: true}
+//            PropertyChanges {target: pauseButton; visible: false}
+//            PropertyChanges {target: startButton; visible: true}
         }
     ]
 
     onStateChanged: {
         console.log("State is now " + state);
-        if (state === "rotate-pizza") sounds.alarmMid.play();
-        if (state === "final-check") sounds.alarmUrgent.play();
-        if (state === "done" && pizzaDoneAlertEnabled) {
-            console.log("Done alert is enabled.");
-            sounds.cycleComplete.play();
+        switch(state) {
+        case "start":
+        case "first-half":
+            halfTimeRotateAlertOccurred = false;
+            finalCheckAlertOccurred = false;
+            pizzaDoneAlertOccurred = false;
+            break;
+        case "rotate-pizza":
+            halfTimeRotateAlertOccurred = true;
+            if (halfTimeRotateAlertEnabled) {
+                sounds.alarmMid.play();
+            }
+            break;
+        case "final-check":
+            if(finalCheckAlertEnabled) {
+                finalCheckAlertOccurred = true;
+                sounds.alarmUrgent.play()
+            }
+            break;
+        case "done":
+            pizzaDoneAlertOccurred = true;
+            if (pizzaDoneAlertEnabled) {
+                sounds.cycleComplete.play();
+            }
+            break;
         }
     }
 
     onCookTimeValueShadowChanged: {
+        if ((cookTimer.timeRemaining == 0) || (Math.abs(cookTimer.timeRemaining - oldTimeRemaining) >= 1)) {
+            backEnd.sendMessage("TimeRemaining " + cookTimer.timeRemaining);
+            oldTimeRemaining = cookTimer.timeRemaining
+        }
+
         switch (thisScreen.state) {
         case "start":
             break;
@@ -162,6 +188,7 @@ Item {
             break;
         case "final":
             if (dataCircle.circleValue >= 100) {
+//                if (domeToggle.state) {
                 if (domeToggle.state) {
                     if (topPreheated) {
                         thisScreen.state = "done";
@@ -232,6 +259,8 @@ Item {
                     }
                 }
             }
+            rootWindow.displayedDomeTemp = upperTemp;
+            rootWindow.displayedStoneTemp = lowerFront.setTemp;
         }
     }
     CircleContent {
@@ -267,14 +296,14 @@ Item {
     PauseButton {
         id: pauseButton
         needsAnimation: false
-        visible: true
-        enabled: true
+        visible: cookTimer.running || cookTimer.paused
+        enabled: visible
     }
 
     ButtonRight {
         id: startButton
         text: "START"
-        visible: false
+        visible: !cookTimer.running && !cookTimer.paused
         enabled: visible
         onClicked: {
             console.log("Starting cook timer.");
@@ -284,11 +313,24 @@ Item {
         needsAnimation: false
     }
 
+    onCookTimerRunningShadowChanged: {
+        if (cookTimer.running) {
+            if (thisScreen.state == "start" || thisScreen.state == "done") {
+                thisScreen.state = "first-half"
+            }
+        } else {
+            if (!cookTimer.paused) {
+                thisScreen.state = "start"
+                rootWindow.cookTimer.reset();
+            }
+        }
+    }
+
     DomeToggle {
         id: domeToggle;
         text: "DOME"
         needsAnimation: false
-        state: rootWindow.domeIsOn
+        onStateChanged: domeToggle.clicked()
         onClicked: {
             console.log("Dome toggle clicked.");
             if (!demoModeIsActive) {
@@ -301,11 +343,6 @@ Item {
                     stackView.clear();
                     stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
                     break;
-                }
-            } else {
-                if (!demoModeIsActive) {
-                    console.log("We are not in demo mode so restarting oven.");
-                    backEnd.sendMessage("StartOven ");
                 }
             }
         }

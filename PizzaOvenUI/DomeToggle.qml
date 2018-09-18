@@ -9,7 +9,7 @@ Item {
     id: domeToggle
 
     property int finalPositionX: screenWidth-26-width
-    property bool state: false
+    property bool state: rootWindow.domeState.displayed
 
     width: 125
     height: lineSpacing
@@ -53,18 +53,24 @@ Item {
             width: domeToggle.width
             height: domeToggle.height/2
             anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: domeToggle.clicked();
-            state: domeToggle.state
+            onClicked: {
+                console.log("Got a click in the dome slider.");
+                domeToggle.clicked();
+            }
+//            state: domeToggle.state
+            state: rootWindow.domeState.displayed;
         }
     }
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            console.log("The dome mouse area was clicked");
             autoShutoff.reset();
             sounds.touch.play();
-            domeToggle.state = !domeToggle.state
-            rootWindow.domeIsOn = !rootWindow.domeIsOn;
+//            domeToggle.state = !domeToggle.state
+//            rootWindow.domeIsOn = !rootWindow.domeIsOn;
+            rootWindow.domeState.toggle();
             domeToggle.clicked();
         }
     }

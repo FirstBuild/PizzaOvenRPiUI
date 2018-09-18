@@ -14,7 +14,8 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
-    property int tumblerWidth: parent.width*0.55;
+    property int tumblerWidth: parent.width*0.55
+    property int foodIndexShadow: rootWindow.foodIndex
 
     opacity: 0.0
 
@@ -26,6 +27,10 @@ Item {
             stackView.clear();
             stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
         }
+    }
+
+    onFoodIndexShadowChanged: {
+        foodType.setCurrentIndexAt(0, foodIndex, 0);
     }
 
     function screenEntry() {
@@ -40,11 +45,11 @@ Item {
             foodListModel.append(menuItems[i]);
         }
         appSettings.backlightOff = false;
-        //if (demoModeIsActive) {
         if (powerSwitch == 0) {
             demoTimeoutTimer.restart();
         }
         keyhandler.focus = true;
+        foodType.setCurrentIndexAt(0, foodIndex, 0);
         screenEntryAnimation.start();
     }
 
@@ -135,6 +140,7 @@ Item {
         id: screenExitAnimation
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
+                foodIndex = theColumn.currentIndex
                 foodNameString = foodListModel.get(theColumn.currentIndex).name;
                 screenExit();
                 forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));

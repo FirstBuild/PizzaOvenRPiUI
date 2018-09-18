@@ -83,7 +83,8 @@ Item {
                 script: {
                     var temp = timeEntryTumbler.getTime();
                     if (temp !== cookTime) {
-                        foodNameString = "CUSTOM"
+//                        foodNameString = "CUSTOM"
+                        foodIndex = 4;
                         cookTime = timeEntryTumbler.getTime();
                         backEnd.sendMessage("CookTime " + cookTime);
                         finalCheckTime = cookTime * 0.9

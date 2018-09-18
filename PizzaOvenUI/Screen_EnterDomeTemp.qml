@@ -164,7 +164,8 @@ Item {
                             if (temp > upperFront.setTemp) {
                                 preheatComplete = false;
                             }
-                            foodNameString = "CUSTOM"
+//                            foodNameString = "CUSTOM"
+                            foodIndex = 4;
                             utility.setUpperTemps(temp)
                             utility.saveCurrentSettingsAsCustom();
                         }

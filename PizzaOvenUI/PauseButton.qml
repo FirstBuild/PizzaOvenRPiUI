@@ -4,6 +4,7 @@ Item {
     id: thisButton
     property bool needsAnimation: true
     signal clicked()
+    property real cookTimerPausedShadow: rootWindow.cookTimer.paused
 
     ButtonRight {
         id: pauseButton
@@ -24,4 +25,11 @@ Item {
         }
     }
 
+    onCookTimerPausedShadowChanged: {
+        if (cookTimer.paused) {
+            pauseButton.text = "RESUME"
+        } else {
+            pauseButton.text = "PAUSE"
+        }
+    }
 }

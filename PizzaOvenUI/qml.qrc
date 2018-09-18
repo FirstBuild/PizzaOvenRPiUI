@@ -83,5 +83,11 @@
         <file>DialogNotifyNoButton.qml</file>
         <file>DomeToggle.qml</file>
         <file>Screen_Idle.qml</file>
+        <file>Screen_WiFi.qml</file>
+        <file>Failures.qml</file>
+        <file>WifiDataRequestor.qml</file>
+        <file>WifiIcon.qml</file>
+        <file>DialogWithYesNoButtons.qml</file>
+        <file>DomeState.qml</file>
     </qresource>
 </RCC>

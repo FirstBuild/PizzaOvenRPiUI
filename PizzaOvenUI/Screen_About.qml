@@ -134,6 +134,30 @@ Item {
                     anchors.right: parent.right
                 }
             }
-        }
+            Rectangle {
+                height: listItemHeight
+                width: parent.width
+                color: appBackgroundColor
+                Text {
+                    height: listItemHeight
+                    text: "WIFI MAC ID"
+                    color: appForegroundColor
+                    font.family: localFont.name
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.left: parent.left
+                }
+                Text {
+                    height: listItemHeight
+                    text: wifiMacId
+                    color: appForegroundColor
+                    font.family: localFont.name
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.right: parent.right
+                }
+            }        }
     }
 }
