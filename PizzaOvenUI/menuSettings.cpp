@@ -18,7 +18,7 @@ static QJsonObject NewYorkStyle
 static QJsonObject Neapolitan
 {
     {"cookTime", 120},
-    {"domeTemp", 1300},
+    {"domeTemp", 1400},
     {"finalCheckTime", 105},
     {"halfTimeCheck", true},
     {"name", "NEAPOLITAN"},
