@@ -96,7 +96,7 @@ Item {
         },
         State {
             name: "rotate-pizza"
-            PropertyChanges {target: dataCircle; noticeText: "ROTATE PIZZA"; showTitle: false; showNotice: true}
+            PropertyChanges {target: dataCircle; noticeText: "ROTATE FOOD"; showTitle: false; showNotice: true}
         },
         State {
             name: "second-half"

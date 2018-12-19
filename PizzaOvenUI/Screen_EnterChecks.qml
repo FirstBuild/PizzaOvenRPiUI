@@ -30,7 +30,7 @@ Item {
     }
 
     ClickableTextBox {
-        text: "PIZZA CHECK REMINDERS"
+        text: "FOOD CHECK REMINDERS"
         foregroundColor: appGrayText
         width: 185
         height: 30
@@ -94,7 +94,7 @@ Item {
                 ClickableTextBox {
                     height: lineSpacing
                     width: textWidth
-                    text: "Rotate Pizza"
+                    text: "Rotate Food"
                     pointSize: optionLabelSize
                     onClicked: {
                         halfSlider.state = !halfSlider.state;

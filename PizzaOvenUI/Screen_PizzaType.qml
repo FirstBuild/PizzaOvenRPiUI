@@ -18,7 +18,7 @@ Item {
     Text {
         font.family: localFont.name
         font.pointSize: 24
-        text: "Pizza Type"
+        text: "Food Type"
         anchors.margins: myMargins
         anchors.right: thisScreen.right
         anchors.top: pizzaTypeHomeButton.top

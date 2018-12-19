@@ -75,7 +75,7 @@ Item {
 
     ListModel {
         id: settingsModel
-        ListElement { name: "CHECK PIZZA REMINDERS"; screen: "Screen_EnterChecks.qml" }
+        ListElement { name: "CHECK FOOD REMINDERS"; screen: "Screen_EnterChecks.qml" }
         ListElement { name: "PREFERENCES"; screen: "Screen_Preferences.qml" }
         ListElement { name: "CONTROL LOCKOUT" }
         ListElement { name: "VOLUME"; screen: "Screen_SetVolume.qml" }

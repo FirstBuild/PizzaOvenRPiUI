@@ -14,7 +14,9 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
-    property int tumblerWidth: parent.width*0.55
+    property int foodTypeXLocation: mainMenuGearButton.x + mainMenuGearButton.width + 10
+    property int foodTypeWidth: parent.width - foodTypeXLocation - mainMenuGearButton.x
+    property int tumblerWidth: foodTypeWidth
     property int foodIndexShadow: rootWindow.foodIndex
 
     opacity: 0.0
@@ -28,6 +30,16 @@ Item {
             stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
         }
     }
+
+//    Rectangle {
+//        x: 0
+//        y: 0
+//        width: parent.width
+//        height: parent.height
+//        color: appBackgroundColor
+//        border.color: "red"
+//        border.width: 1
+//    }
 
     onFoodIndexShadowChanged: {
         foodType.setCurrentIndexAt(0, foodIndex, 0);
@@ -100,10 +112,10 @@ Item {
 
     Tumbler {
         id: foodType
-        height: 225
-        width: 300
-        x: 180
+        x: foodTypeXLocation
         y: 85
+        height: 225
+        width: foodTypeWidth
 
         style:  MyTumblerStyle {
             onClicked: {
