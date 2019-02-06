@@ -41,8 +41,17 @@ Item {
 //        border.width: 1
 //    }
 
+    function setMenuPositionFromFoodIndex() {
+        var menuIndexes = menuSettings.json.menuOrder;
+        for (var i=0; i<menuIndexes.length; i++) {
+            if (foodIndex === menuIndexes[i]) {
+                foodType.setCurrentIndexAt(0, i, 0);
+            }
+        }
+    }
+
     onFoodIndexShadowChanged: {
-        foodType.setCurrentIndexAt(0, foodIndex, 0);
+        setMenuPositionFromFoodIndex();
     }
 
     function screenEntry() {
@@ -53,15 +62,23 @@ Item {
         // load up the list
         foodListModel.clear();
         var menuItems = menuSettings.json.menuItems;
-        for(var i=0; i<menuItems.length; i++)  {
-            foodListModel.append(menuItems[i]);
+        var menuIndexes = menuSettings.json.menuOrder;
+        if (menuItems.length === menuIndexes.length) {
+            for(var i=0; i<menuItems.length; i++)  {
+                foodListModel.append(menuItems[menuIndexes[i]]);
+            }
+        } else {
+            for(var i=0; i<menuItems.length; i++)  {
+                foodListModel.append(menuItems[i]);
+            }
         }
+
         appSettings.backlightOff = false;
         if (powerSwitch == 0) {
             demoTimeoutTimer.restart();
         }
         keyhandler.focus = true;
-        foodType.setCurrentIndexAt(0, foodIndex, 0);
+        setMenuPositionFromFoodIndex();
         screenEntryAnimation.start();
     }
 
@@ -152,8 +169,9 @@ Item {
         id: screenExitAnimation
         OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {script: {
-                foodIndex = theColumn.currentIndex
+                var menuIndexes = menuSettings.json.menuOrder;
                 foodNameString = foodListModel.get(theColumn.currentIndex).name;
+                foodIndex = menuIndexes[theColumn.currentIndex];
                 screenExit();
                 forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
             }

@@ -88,9 +88,14 @@ QJsonArray FoodArray =
     NewYorkStylePizza, NeapolitanPizza, Flatbread, DetroitStylePizza, Custom,
     RoastedVegetables, RoastedFruit, Salmon, WhiteFish
 };
+QJsonArray MenuOrder =
+{
+    0, 1, 3, 2, 5, 6, 7, 8, 4
+};
 QJsonObject DefaultMenuItems
 {
-    {"menuItems", FoodArray}
+    {"menuItems", FoodArray},
+    {"menuOrder", MenuOrder}
 };
 
 MenuSettings::MenuSettings(QObject *parent) : QObject(parent)
@@ -116,6 +121,17 @@ void MenuSettings::load(void)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadFile.readAll()));
     m_json =  loadDoc.object();
+
+    if(!m_json.contains("menuOrder")) {
+        qInfo("menuOrder not found, updating menu items");
+        loadFile.close();
+
+        m_json = DefaultMenuItems;
+
+        setJson(m_json);
+
+        return;
+    }
 
     qInfo("...menu settings loaded.");
 

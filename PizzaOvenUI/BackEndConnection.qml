@@ -443,7 +443,7 @@ Item {
                 var style = parseInt(msg.data.style);
                 var menuItems = menuSettings.json.menuItems;
 
-                if (style >= 0 && style <= menuItems.length) {
+                if (style >= 0 && style <= menuItems.length - 1) {
                     foodIndex = style;
                     var settings = menuItems[foodIndex];
                     backEnd.sendMessage("StopOven ");

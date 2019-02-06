@@ -119,7 +119,6 @@ Window {
     property string foodNameString: "FOOD NAME"
     property int foodIndex: 0
     onFoodIndexChanged: {
-        console.log("The food index changed, setting the string.");
         foodNameString = menuSettings.json.menuItems[foodIndex].name;
         backEnd.sendMessage("PizzaStyle " + foodIndex);
     }
