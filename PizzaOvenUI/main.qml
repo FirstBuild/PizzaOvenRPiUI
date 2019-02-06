@@ -79,7 +79,7 @@ Window {
 
     property int upperTempDifferential: 0
     property int lowerTempDifferential: 0
-    property int upperMaxTemp: 1400
+    property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
 
     property int displayedDomeTemp: upperFront.currentTemp
