@@ -120,29 +120,6 @@ Item {
                     width: parent.width
                     color: appBackgroundColor
                     ClickableTextBox {
-                        height: listItemHeight
-                        width: thisScreen.listTextWidth
-                        text: "ABOUT"
-                        foregroundColor: appForegroundColor
-                        horizontalAlignment: Text.AlignLeft
-                        verticalAlignment: Text.AlignVCenter
-                        anchors.left: parent.left
-                        onClicked: SequentialAnimation {
-                            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0}
-                            ScriptAction {
-                                script: {
-                                    bookmarkCurrentScreen();
-                                    stackView.push({item: Qt.resolvedUrl("Screen_About.qml"), immediate:immediateTransitions});
-                                }
-                            }
-                        }
-                    }
-                }
-                Rectangle {
-                    height: listItemHeight
-                    width: parent.width
-                    color: appBackgroundColor
-                    ClickableTextBox {
                         id: nextScreen
                         height: listItemHeight
                         width: thisScreen.listTextWidth

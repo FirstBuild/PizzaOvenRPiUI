@@ -237,8 +237,10 @@ Item {
             controlVersion = msg.data.ovenFirmwareVersion + "." + msg.data.ovenFirmwareBugfixVersion;
             break;
         case "BackendVersion":
-            console.log("Backend Version: " + msg.data.backendVersion);
             backendVersion = msg.data.backendVersion;
+            break;
+        case "InterfaceVersion":
+            interfaceVersion = msg.data.interfaceVersion;
             break;
         case "ControlBoardProgrammingState":
             console.log("Control board programming state: " + msg.data.state);

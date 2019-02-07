@@ -7,7 +7,8 @@ Item {
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
-    property int listItemHeight: lineSpacing
+//    property int listItemHeight: lineSpacing
+    property int listItemHeight: 45
     property int listItemWidth: screenWidth - screenTitle.x - 30
 
     function screenEntry() {
@@ -15,7 +16,19 @@ Item {
         console.log("Entering screen about.");
         backEnd.sendMessage("GetControlVersion no_params");
         backEnd.sendMessage("GetBackendVersion no_params");
+        backEnd.sendMessage("GetInterfaceVersion no_params");
     }
+
+    // a reference rectangle
+//    Rectangle {
+//        x: 0
+//        y: 0
+//        width: parent.width
+//        height: parent.height
+//        color: appBackgroundColor
+//        border.color: "red"
+//        border.width: 1
+//    }
 
     BackButton{
         id: backButton
@@ -140,6 +153,31 @@ Item {
                 color: appBackgroundColor
                 Text {
                     height: listItemHeight
+                    text: "INTERFACE VERSION"
+                    color: appForegroundColor
+                    font.family: localFont.name
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.left: parent.left
+                }
+                Text {
+                    height: listItemHeight
+                    text: interfaceVersion
+                    color: appForegroundColor
+                    font.family: localFont.name
+                    font.pointSize: 18
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.right: parent.right
+                }
+            }
+            Rectangle {
+                height: listItemHeight
+                width: parent.width
+                color: appBackgroundColor
+                Text {
+                    height: listItemHeight
                     text: "WIFI MAC ID"
                     color: appForegroundColor
                     font.family: localFont.name
@@ -158,6 +196,7 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
                 }
-            }        }
+            }
+        }
     }
 }

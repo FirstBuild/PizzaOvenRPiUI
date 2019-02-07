@@ -31,6 +31,7 @@ Item {
         }
     }
 
+    // a reference rectangle
 //    Rectangle {
 //        x: 0
 //        y: 0
