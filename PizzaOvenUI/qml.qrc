@@ -26,7 +26,6 @@
         <file>Screen_EnterDomeTemp.qml</file>
         <file>Sounds.qml</file>
         <file>CancelButton.qml</file>
-        <file>Screen_Settings.qml</file>
         <file>MyCheckBox.qml</file>
         <file>GearButton.qml</file>
         <file>TimeEntryTumbler.qml</file>
@@ -87,5 +86,7 @@
         <file>WifiIcon.qml</file>
         <file>DialogWithYesNoButtons.qml</file>
         <file>DomeState.qml</file>
+        <file>Screen_ProductionTest.qml</file>
+        <file>TestToggle.qml</file>
     </qresource>
 </RCC>

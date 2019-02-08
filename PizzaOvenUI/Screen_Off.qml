@@ -42,6 +42,8 @@ Item {
     function transitionOutOfOff() {
         if (developmentModeIsActive) {
             forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+        } else if (productionModeIsActive){
+            forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
         } else {
             console.log("Transitioning from off to main menu.");
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));

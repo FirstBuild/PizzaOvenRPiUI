@@ -58,6 +58,10 @@ Window {
                 forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
                 return;
             }
+            if (productionModeIsActive){
+                forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
+                return;
+            }
             if (stackView.currentItem.handlePowerSwitchStateChanged)
             {
                 stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
@@ -126,6 +130,7 @@ Window {
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive
     property bool developmentModeIsActive: false
+    property bool productionModeIsActive: false
 
     property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
@@ -181,7 +186,7 @@ Window {
         onAutoShutoffTimeoutComplete: {
             console.log("--------> Timeout complete signal received.");
             shutdownWarningDialog.visible = false;
-            if (developmentModeIsActive) {
+            if (developmentModeIsActive || productionModeIsActive) {
                 backEnd.sendMessage("StopOven ");
             } else {
                 forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
