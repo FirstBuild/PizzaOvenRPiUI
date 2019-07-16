@@ -28,6 +28,8 @@ Item {
             if (powerSwitch == 1) {
                 if (developmentModeIsActive) {
                     forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+                } else if (productionModeIsActive){
+                    forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
                 } else {
                     forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                 }
@@ -69,6 +71,8 @@ Item {
             autoShutoff.reset();
             if (developmentModeIsActive) {
                 forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+            } else if (productionModeIsActive){
+                forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
             } else {
                 forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
             }

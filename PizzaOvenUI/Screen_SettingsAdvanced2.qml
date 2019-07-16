@@ -103,6 +103,39 @@ Item {
                     ClickableTextBox {
                         height: listItemHeight
                         width: thisScreen.listTextWidth
+                        text: "PRODUCTION TEST"
+                        foregroundColor: appForegroundColor
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.left: parent.left
+                        onClicked: {
+                            productionTestSlider.state = !productionTestSlider.state
+                            productionTestSlider.clicked();
+                        }
+                    }
+                    SlideOffOn{
+                        id: productionTestSlider
+                        anchors.right: parent.right
+                        state: productionModeIsActive
+                        onClicked: {
+                            if (productionModeIsActive != productionTestSlider.state) {
+                                productionModeIsActive = productionTestSlider.state;
+                                if (productionModeIsActive) {
+                                    forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
+                                } else {
+                                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                                }
+                            }
+                        }
+                    }
+                }
+                Rectangle {
+                    height: listItemHeight
+                    width: parent.width
+                    color: appBackgroundColor
+                    ClickableTextBox {
+                        height: listItemHeight
+                        width: thisScreen.listTextWidth
                         text: "PROGRAM CONTROL"
                         foregroundColor: appForegroundColor
                         horizontalAlignment: Text.AlignLeft

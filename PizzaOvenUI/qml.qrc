@@ -6,7 +6,6 @@
         <file>MyTumblerStyle.qml</file>
         <file>Screen_AwaitStart.qml</file>
         <file>Screen_MainMenu.qml</file>
-        <file>Screen_PizzaType.qml</file>
         <file>SideButton.qml</file>
         <file>fonts/FreeSans.ttf</file>
         <file>ProgressCircle.qml</file>
@@ -27,7 +26,6 @@
         <file>Screen_EnterDomeTemp.qml</file>
         <file>Sounds.qml</file>
         <file>CancelButton.qml</file>
-        <file>Screen_Settings.qml</file>
         <file>MyCheckBox.qml</file>
         <file>GearButton.qml</file>
         <file>TimeEntryTumbler.qml</file>
@@ -69,7 +67,6 @@
         <file>Screen_SettingMaxVolume.qml</file>
         <file>Screen_About.qml</file>
         <file>ClickableTextBox.qml</file>
-        <file>Screen_Settings3.qml</file>
         <file>Screen_SetBrightness.qml</file>
         <file>Screen_EnterChecks.qml</file>
         <file>Screen_Cooking.qml</file>
@@ -89,5 +86,7 @@
         <file>WifiIcon.qml</file>
         <file>DialogWithYesNoButtons.qml</file>
         <file>DomeState.qml</file>
+        <file>Screen_ProductionTest.qml</file>
+        <file>TestToggle.qml</file>
     </qresource>
 </RCC>

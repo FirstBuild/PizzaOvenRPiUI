@@ -58,6 +58,10 @@ Window {
                 forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
                 return;
             }
+            if (productionModeIsActive){
+                forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
+                return;
+            }
             if (stackView.currentItem.handlePowerSwitchStateChanged)
             {
                 stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
@@ -79,7 +83,7 @@ Window {
 
     property int upperTempDifferential: 0
     property int lowerTempDifferential: 0
-    property int upperMaxTemp: 1400
+    property int upperMaxTemp: 1300
     property int lowerMaxTemp: 800
 
     property int displayedDomeTemp: upperFront.currentTemp
@@ -119,7 +123,6 @@ Window {
     property string foodNameString: "FOOD NAME"
     property int foodIndex: 0
     onFoodIndexChanged: {
-        console.log("The food index changed, setting the string.");
         foodNameString = menuSettings.json.menuItems[foodIndex].name;
         backEnd.sendMessage("PizzaStyle " + foodIndex);
     }
@@ -127,6 +130,7 @@ Window {
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive
     property bool developmentModeIsActive: false
+    property bool productionModeIsActive: false
 
     property color appBackgroundColor: "#202020"
     property color appForegroundColor: "white"
@@ -151,8 +155,9 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.3.1"
+    property string uiVersion: "0.3.2"
     property string backendVersion: "255.255.255.255"
+    property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
     property int wifiConnectionState: 0
     property string wifiSsid: ""
@@ -181,7 +186,7 @@ Window {
         onAutoShutoffTimeoutComplete: {
             console.log("--------> Timeout complete signal received.");
             shutdownWarningDialog.visible = false;
-            if (developmentModeIsActive) {
+            if (developmentModeIsActive || productionModeIsActive) {
                 backEnd.sendMessage("StopOven ");
             } else {
                 forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));

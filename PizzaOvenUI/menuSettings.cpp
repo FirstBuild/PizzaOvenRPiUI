@@ -6,22 +6,22 @@ using namespace std;
 
 static QString menuSettingsFile("../settings/menuSettings.json");
 
-static QJsonObject NewYorkStyle
+static QJsonObject NewYorkStylePizza
 {
     {"cookTime", 360},
     {"domeTemp", 1000},
     {"finalCheckTime", 324},
     {"halfTimeCheck", true},
-    {"name", "NEW YORK STYLE"},
+    {"name", "NEW YORK STYLE PIZZA"},
     {"stoneTemp", 600}
 };
-static QJsonObject Neapolitan
+static QJsonObject NeapolitanPizza
 {
     {"cookTime", 120},
-    {"domeTemp", 1400},
+    {"domeTemp", 1300},
     {"finalCheckTime", 105},
     {"halfTimeCheck", true},
-    {"name", "NEAPOLITAN"},
+    {"name", "NEAPOLITAN PIZZA"},
     {"stoneTemp", 675}
 };
 static QJsonObject Flatbread
@@ -33,13 +33,13 @@ static QJsonObject Flatbread
     {"name", "FLATBREAD"},
     {"stoneTemp", 625}
 };
-static QJsonObject DetroitStyle
+static QJsonObject DetroitStylePizza
 {
     {"cookTime", 420},
     {"domeTemp", 900},
     {"finalCheckTime", 378},
     {"halfTimeCheck", true},
-    {"name", "DETROIT STYLE"},
+    {"name", "DETROIT STYLE PIZZA"},
     {"stoneTemp", 700}
 };
 static QJsonObject Custom
@@ -51,13 +51,51 @@ static QJsonObject Custom
     {"name", "CUSTOM"},
     {"stoneTemp", 650}
 };
+static QJsonObject RoastedVegetables {
+    {"cookTime", 480},
+    {"domeTemp", 1175},
+    {"finalCheckTime", 432},
+    {"halfTimeCheck", true},
+    {"name", "ROASTED VEGETABLES"},
+    {"stoneTemp", 600}
+};
+static QJsonObject RoastedFruit {
+    {"cookTime", 480},
+    {"domeTemp", 1300},
+    {"finalCheckTime", 432},
+    {"halfTimeCheck", true},
+    {"name", "ROASTED FRUIT"},
+    {"stoneTemp", 250}
+};
+static QJsonObject Salmon {
+    {"cookTime", 480},
+    {"domeTemp", 1200},
+    {"finalCheckTime", 432},
+    {"halfTimeCheck", true},
+    {"name", "SALMON"},
+    {"stoneTemp", 625}
+};
+static QJsonObject WhiteFish {
+    {"cookTime", 480},
+    {"domeTemp", 1050},
+    {"finalCheckTime", 432},
+    {"halfTimeCheck", true},
+    {"name", "WHITE FISH"},
+    {"stoneTemp", 550}
+};
 QJsonArray FoodArray =
 {
-    NewYorkStyle, Neapolitan, Flatbread, DetroitStyle, Custom
+    NewYorkStylePizza, NeapolitanPizza, Flatbread, DetroitStylePizza, Custom,
+    RoastedVegetables, RoastedFruit, Salmon, WhiteFish
+};
+QJsonArray MenuOrder =
+{
+    0, 1, 3, 2, 5, 6, 7, 8, 4
 };
 QJsonObject DefaultMenuItems
 {
-    {"menuItems", FoodArray}
+    {"menuItems", FoodArray},
+    {"menuOrder", MenuOrder}
 };
 
 MenuSettings::MenuSettings(QObject *parent) : QObject(parent)
@@ -83,6 +121,17 @@ void MenuSettings::load(void)
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(loadFile.readAll()));
     m_json =  loadDoc.object();
+
+    if(!m_json.contains("menuOrder")) {
+        qInfo("menuOrder not found, updating menu items");
+        loadFile.close();
+
+        m_json = DefaultMenuItems;
+
+        setJson(m_json);
+
+        return;
+    }
 
     qInfo("...menu settings loaded.");
 
