@@ -18,6 +18,7 @@ Item {
     property bool nowProgramming: controlBoardProgrammingInProgress
 
     function screenEntry() {
+        console.log("Entering program control screen");
         screenEntryAnimation.start();
     }
 

@@ -14,6 +14,7 @@ Item {
     property int textSize: 24
 
     function screenEntry() {
+        console.log("Entering production test screen");
         appSettings.backlightOff = false;
 
         // Initialize Off percents
@@ -21,9 +22,6 @@ Item {
         backEnd.sendMessage("Set UR OffPercent 100");
         backEnd.sendMessage("Set LF OffPercent 49");
         backEnd.sendMessage("Set LR OffPercent 100");
-
-        console.log("Small button height: " + smallButtonHeight);
-        console.log("Screen height: " + screenHeight);
     }
 
     // a reference rectangle
@@ -112,17 +110,14 @@ Item {
                 console.log("Oven state: <" + ovenState + ">");
                 var color = "orange"
                 if (powerSwitch==0) {
-                    console.log("Setting color to gray.");
                     color = "gray"
                 } else {
                     switch (ovenState) {
                     case "Standby":
                     case "Cooldown":
-                        console.log("Setting color to green.");
                         color = "green"
                         break;
                     default:
-                        console.log("Setting color to red.");
                         color = "red"
                     }
                 }

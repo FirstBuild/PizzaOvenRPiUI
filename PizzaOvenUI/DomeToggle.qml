@@ -57,7 +57,6 @@ Item {
                 console.log("Got a click in the dome slider.");
                 domeToggle.clicked();
             }
-//            state: domeToggle.state
             state: rootWindow.domeState.displayed;
         }
     }
@@ -68,8 +67,6 @@ Item {
             console.log("The dome mouse area was clicked");
             autoShutoff.reset();
             sounds.touch.play();
-//            domeToggle.state = !domeToggle.state
-//            rootWindow.domeIsOn = !rootWindow.domeIsOn;
             rootWindow.domeState.toggle();
             domeToggle.clicked();
         }

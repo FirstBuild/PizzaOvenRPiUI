@@ -15,6 +15,10 @@ Item {
                                    volumeEntry.currentIndexAt(1)
     property bool uiLoaded: false
 
+    function screenEntry() {
+        console.log("Entering set max volume screen");
+    }
+
     onCurrentMaxVolumeChanged: {
         if (uiLoaded) {
             maxVolume = currentMaxVolume;

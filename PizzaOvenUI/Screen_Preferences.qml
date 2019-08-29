@@ -24,6 +24,7 @@ Item {
     }
 
     function screenEntry() {
+        console.log("Entering preferences screen");
         screenEntryAnimation.start();
     }
 

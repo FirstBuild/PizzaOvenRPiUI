@@ -17,6 +17,7 @@ Item {
     property int titleTextToPointSize: 18
 
     function screenEntry() {
+        console.log("Entering temperature entry screen");
         screenEntryAnimation.start();
         tumblerHeightAnim.start();
         titleTextAnim.start();

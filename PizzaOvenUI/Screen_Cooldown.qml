@@ -13,6 +13,7 @@ Item {
     property int myMargins: 10
 
     function screenEntry() {
+        console.log("Entering cooldown screen");
         autoShutoff.stop();
     }
 

@@ -13,7 +13,7 @@ Item {
 
     function screenEntry() {
         screenEntryAnimation.start();
-        console.log("Entering screen about.");
+        console.log("Entering about screen.");
         backEnd.sendMessage("GetControlVersion no_params");
         backEnd.sendMessage("GetBackendVersion no_params");
         backEnd.sendMessage("GetInterfaceVersion no_params");

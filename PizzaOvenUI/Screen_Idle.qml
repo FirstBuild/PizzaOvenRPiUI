@@ -22,6 +22,7 @@ Item {
     opacity: 1.0
 
     function screenEntry() {
+        console.log("Entering idle screen");
         if (thisScreen.opacity < 1.0)
         {
             editButton.animate();

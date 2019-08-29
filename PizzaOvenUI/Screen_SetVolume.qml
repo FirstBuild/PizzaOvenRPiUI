@@ -13,7 +13,7 @@ Item {
 
     function screenEntry() {
         screenEntryAnimation.start();
-        console.log("Entering volume settings.");
+        console.log("Entering volume settings screen.");
     }
 
     property int tumblerHeight: 250

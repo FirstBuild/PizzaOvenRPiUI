@@ -12,7 +12,7 @@ Item {
 
     function screenEntry() {
         screenEntryAnimation.start();
-        console.log("Entering checks settings.");
+        console.log("Entering enter checks screen.");
     }
 
     property int titleTextPointSize: 1

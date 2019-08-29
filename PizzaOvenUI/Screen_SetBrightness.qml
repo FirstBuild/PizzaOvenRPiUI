@@ -12,6 +12,7 @@ Item {
     OpacityAnimator {id: screenExitAnimation; target: thisScreen; from: 1.0; to: 0.0; running:false}
 
     function screenEntry() {
+        console.log("Entering set brightness screen");
         screenEntryAnimation.start();
         console.log("Brightness value is " + brightnessSetting);
     }

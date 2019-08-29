@@ -12,6 +12,7 @@ Item {
     property string targetScreen: ""
 
     function screenEntry() {
+        console.log("Entering start screen");
         if (opacity < 1.0) screenEntryAnimation.start();
     }
 

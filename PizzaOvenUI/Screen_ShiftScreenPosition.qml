@@ -15,6 +15,7 @@ Item {
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
     function screenEntry() {
+        console.log("Entering shift screen position screen");
         screenEntryAnimation.start();
     }
 
