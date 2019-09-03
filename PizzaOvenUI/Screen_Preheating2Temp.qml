@@ -168,9 +168,9 @@ Item {
         id: preheatingHomeButton
         needsAnimation: false
         onClicked: {
+            displayUpdateTimer.stop();
             lowerFrontAnimation.stop();
             upperFrontAnimation.stop();
-            displayUpdateTimer.stop();
         }
     }
 

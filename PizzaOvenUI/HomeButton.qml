@@ -26,6 +26,7 @@ Rectangle {
             onClicked: SequentialAnimation {
                     ScriptAction {
                         script: {
+                            homeButton.clicked();
                             autoShutoff.reset();
                             rootWindow.maxPreheatTimer.stop();
                             rootWindow.cookTimer.stop();
@@ -37,7 +38,6 @@ Rectangle {
                             halfTimeRotateAlertOccurred = false;
                             finalCheckAlertOccurred = false;
                             pizzaDoneAlertOccurred = false;
-                            homeButton.clicked();
                             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
                         }
                     }
