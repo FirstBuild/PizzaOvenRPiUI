@@ -59,7 +59,7 @@ Item {
         backEnd.sendMessage("StopOven ");
         autoShutoff.stop();
         preheatComplete = false;
-        console.log("Entering the main screen.");
+        console.log("Entering main menu screen.");
         // load up the list
         foodListModel.clear();
         var menuItems = menuSettings.json.menuItems;

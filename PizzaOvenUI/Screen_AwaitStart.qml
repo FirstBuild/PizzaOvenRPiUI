@@ -21,6 +21,7 @@ Item {
     opacity: 0.0
 
     function screenEntry() {
+        console.log("Entering await start screen");
         editButton.animate();
         preheatButton.animate();
         theCircle.animate();
@@ -126,7 +127,6 @@ Item {
         id: domeToggle;
         text: "DOME"
         needsAnimation: false
-//        state: rootWindow.domeIsOn
         onClicked: {
             console.log("Dome toggle clicked.");
         }

@@ -30,6 +30,7 @@ Item {
     property int listTextWidth: 300
 
     function screenEntry() {
+        console.log("Entering settings 2 screen");
         screenEntryAnimation.start();
     }
 

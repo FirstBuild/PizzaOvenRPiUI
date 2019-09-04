@@ -314,18 +314,8 @@ Item {
         case "DomeState":
             if (msg.data == "Off") {
                 rootWindow.domeState.actual = false;
-//                if (domeActualState) {
-//                    console.log("The actual dome state is now off.");
-//                    rootWindow.domeIsOn = false;
-//                }
-//                domeActualState = false;
             } else {
                 rootWindow.domeState.actual = true;
-//                if (!domeActualState) {
-//                    console.log("The actual dome state is now on.");
-//                    rootWindow.domeIsOn = true;
-//                }
-//                domeActualState = true;
             }
 
             break;

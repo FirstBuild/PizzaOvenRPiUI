@@ -13,7 +13,6 @@ Item {
 
     property real upperExitValue: 100 * (upperTempLocked ? upperFront.setTemp : upperTemp) / upperFront.setTemp
     property real lowerExitValue: 100 * (lowerTempLocked ? lowerFront.setTemp : lowerTemp) / lowerFront.setTemp
-//    property real preheatProgressValue: (rootWindow.domeIsOn) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
     property real preheatProgressValue: (rootWindow.domeState.actual) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
 
     property string targetScreen: ""
@@ -130,7 +129,6 @@ Item {
             if (!upperFrontAnimation.running) upperFrontAnimation.start();
         } else {
             displayUpdateTimer.running = true;
-//            backEnd.sendMessage("SetDome " + (rootWindow.domeIsOn ? "1" : "0"));
         }
 
         ovenStateCount = 3;
@@ -160,7 +158,6 @@ Item {
     CircleScreenTemplate {
         id: dataCircle
         needsAnimation: false
-        //circleValue: upperExitValue < lowerExitValue ? upperExitValue : lowerExitValue
         circleValue: preheatProgressValue
         titleText: (domeToggle.state) ? "PREHEATING" : "STONE PREHEATING"
         noticeText: ""
@@ -171,9 +168,9 @@ Item {
         id: preheatingHomeButton
         needsAnimation: false
         onClicked: {
+            displayUpdateTimer.stop();
             lowerFrontAnimation.stop();
             upperFrontAnimation.stop();
-            displayUpdateTimer.stop();
         }
     }
 
@@ -264,7 +261,6 @@ Item {
                 rootWindow.cookTimer.stop();
                 rootWindow.cookTimer.reset();
                 stackView.clear();
-//                if (rootWindow.domeIsOn) {
                 if (rootWindow.domeState.displayed) {
                     stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
                 } else {
@@ -277,7 +273,6 @@ Item {
     DomeToggle {
         id: domeToggle;
         text: "DOME"
-//        state: rootWindow.domeIsOn
         onStateChanged: {
             console.log("Dome toggle state changed.");
             if (state == false && lowerTempLocked) {

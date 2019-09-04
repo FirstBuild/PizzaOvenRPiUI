@@ -4,3 +4,4 @@ default.vim
 tags
 build-PizzaOvenUI-Raspberry_Pi-Debug
 settings
+build-PizzaOvenUI-Raspberry_Pi-Release

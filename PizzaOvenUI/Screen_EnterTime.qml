@@ -16,6 +16,7 @@ Item {
     property int titleTextToPointSize: 18
 
     function screenEntry() {
+        console.log("Entering enter time screen");
         screenEntryAnimation.start();
         tumblerHeightAnim.start();
         titleTextAnim.start();

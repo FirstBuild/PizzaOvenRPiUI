@@ -35,7 +35,9 @@ Item {
         to: pointSize
         running: true
     }
+
     function screenEntry() {
+        console.log("Entering wifi screen");
         screenEntryAnimation.start();
         queryWifiState.start();
     }

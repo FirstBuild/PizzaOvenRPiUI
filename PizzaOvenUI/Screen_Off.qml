@@ -35,7 +35,7 @@ Item {
     }
 
     function screenEntry() {
-        console.log("Entering the off screen.");
+        console.log("Entering off screen.");
         appSettings.backlightOff = true;
     }
 

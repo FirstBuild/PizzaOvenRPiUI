@@ -10,6 +10,10 @@ Rectangle {
 
     property color messageColor: "yellow"
 
+    function screenEntry() {
+        console.log("Entering call service screen");
+    }
+
     // center circle
     Item {
         id: centerCircle

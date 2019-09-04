@@ -12,6 +12,7 @@ Item {
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
     function screenEntry() {
+        console.log("Entering development screen");
         appSettings.backlightOff = false;
     }
 
