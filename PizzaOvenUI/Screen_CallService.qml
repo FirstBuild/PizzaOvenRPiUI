@@ -7,6 +7,7 @@ Rectangle {
     width: screenWidth
     height: screenHeight
     anchors.centerIn: parent
+    property string screenName: "Screen_CallService"
 
     property color messageColor: "yellow"
 
@@ -98,7 +99,6 @@ Rectangle {
                 font.pointSize: 20
                 color: appForegroundColor
                 width: parent.width
-//                height: 40
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -110,7 +110,6 @@ Rectangle {
                 font.pointSize: 16
                 color: appForegroundColor
                 width: parent.width
-//                height: 40
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -122,7 +121,6 @@ Rectangle {
                 font.pointSize: 20
                 color: appForegroundColor
                 width: parent.width
-//                height: 40
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

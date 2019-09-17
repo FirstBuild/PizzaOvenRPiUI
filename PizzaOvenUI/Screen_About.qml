@@ -2,12 +2,12 @@ import QtQuick 2.3
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_About"
 
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
-//    property int listItemHeight: lineSpacing
     property int listItemHeight: 45
     property int listItemWidth: screenWidth - screenTitle.x - 30
 
@@ -18,17 +18,6 @@ Item {
         backEnd.sendMessage("GetBackendVersion no_params");
         backEnd.sendMessage("GetInterfaceVersion no_params");
     }
-
-    // a reference rectangle
-//    Rectangle {
-//        x: 0
-//        y: 0
-//        width: parent.width
-//        height: parent.height
-//        color: appBackgroundColor
-//        border.color: "red"
-//        border.width: 1
-//    }
 
     BackButton{
         id: backButton

@@ -5,6 +5,7 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
     state: "start"
+    property string screenName: "Screen_Cooking"
 
     property bool screenSwitchInProgress: false
     property string targetScreen: ""
@@ -21,6 +22,11 @@ Item {
         if (!rootWindow.cookTimer.running) thisScreen.state = "start";
         ovenStateCount = 3;
         autoShutoff.start();
+    }
+
+    function cleanUpOnExit() {
+        screenFadeOut.stop();
+        displayUpdateTimer.stop();
     }
 
     function startExitToScreen(screen) {
@@ -84,15 +90,11 @@ Item {
             name: "start"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "READY"}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(cookTime)}
-//            PropertyChanges {target: startButton; visible: true}
-//            PropertyChanges {target: pauseButton; visible: false}
         },
         State {
             name: "first-half"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true; newTitleText: "COOKING"}
             PropertyChanges {target: circleContent; bottomString: utility.timeToString(rootWindow.cookTimer.timeRemaining)}
-//            PropertyChanges {target: startButton; visible: false}
-//            PropertyChanges {target: pauseButton; visible: true}
         },
         State {
             name: "rotate-pizza"
@@ -114,8 +116,6 @@ Item {
             name: "done"
             PropertyChanges {target: dataCircle; showNotice: false; showTitle: true}
             PropertyChanges {target: circleContent; bottomString: "DONE"}
-//            PropertyChanges {target: pauseButton; visible: false}
-//            PropertyChanges {target: startButton; visible: true}
         }
     ]
 
@@ -188,7 +188,6 @@ Item {
             break;
         case "final":
             if (dataCircle.circleValue >= 100) {
-//                if (domeToggle.state) {
                 if (domeToggle.state) {
                     if (topPreheated) {
                         thisScreen.state = "done";
@@ -263,6 +262,7 @@ Item {
             rootWindow.displayedStoneTemp = lowerFront.setTemp;
         }
     }
+
     CircleContent {
         id: circleContent
         needsAnimation: true

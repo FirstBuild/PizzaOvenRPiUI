@@ -286,9 +286,8 @@ Window {
 
         if (currentScreen === JSON.stringify(newScreen))
         {
-            console.log("current screen matches...why are we switching???")
-//            console.log("Transition to same screen, so don't switch.")
-//            return;
+            console.log("Transition to same screen, so don't switch.")
+            return;
         }
 
         currentScreen = JSON.stringify(newScreen);

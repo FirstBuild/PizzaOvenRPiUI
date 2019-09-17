@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
+    property string screenName: "Screen_Preheat2Temp"
 
     property bool screenSwitchInProgress: false
 
@@ -132,6 +133,12 @@ Item {
         }
 
         ovenStateCount = 3;
+    }
+
+    function cleanUpOnExit() {
+        displayUpdateTimer.stop();
+        screenFadeOut.stop();
+        screenExitAnimator.stop();
     }
 
     OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;

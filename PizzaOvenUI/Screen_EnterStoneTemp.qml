@@ -9,6 +9,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_EnterStoneTemp"
 
     property int tumblerColumns: 3
     property int tumblerHeight: 250
@@ -22,6 +23,10 @@ Item {
         tumblerHeightAnim.start();
         titleTextAnim.start();
         nextButton.animate();
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
@@ -116,61 +121,62 @@ Item {
         }
     }
 
-    ButtonRight {
-        id: nextButton
-        text: singleSettingOnly ? "DONE" : "NEXT"
-        onClicked: SequentialAnimation {
-            id: screenExitAnimation
-            ScriptAction {
-                script: {
-                    var temp = hundredsColumn.currentIndex * 100;
-                    temp += tensColumn.currentIndex * 10;
-                    temp += onesColumn.currentIndex;
+    SequentialAnimation {
+        id: screenExitAnimation
+        ScriptAction {
+            script: {
+                var temp = hundredsColumn.currentIndex * 100;
+                temp += tensColumn.currentIndex * 10;
+                temp += onesColumn.currentIndex;
 
-                    if (!tempDisplayInF)
-                    {
-                        console.log("Temp in C is " + temp);
-                        temp = utility.c2f(temp);
-                        console.log("Temp in F is " + temp);
-                        console.log("Max temp is " + lowerMaxTemp);
-                    }
-
-                    if (temp > lowerMaxTemp) {
-                        sounds.alarmUrgent.play();
-                        screenExitAnimation.stop();
-                        tempWarningDialog.visible = true;
-                    } else {
-                        if (temp !== lowerFront.setTemp) {
-                            if (temp > lowerFront.setTemp) {
-                                preheatComplete = false;
-                                stoneIsPreheated = false;
-                            }
-//                            foodNameString = "CUSTOM"
-                            foodIndex = 4;
-                            utility.setLowerTemps(temp)
-                            utility.saveCurrentSettingsAsCustom();
-                        }
-                    }
-
+                if (!tempDisplayInF)
+                {
+                    console.log("Temp in C is " + temp);
+                    temp = utility.c2f(temp);
+                    console.log("Temp in F is " + temp);
+                    console.log("Max temp is " + lowerMaxTemp);
                 }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    if (singleSettingOnly) {
-                        if (!preheatComplete && ovenIsRunning()) {
-                            rootWindow.maxPreheatTimer.restart();
-                            stackView.clear();
-                            stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-                        } else {
-                            restoreBookmarkedScreen();
+
+                if (temp > lowerMaxTemp) {
+                    sounds.alarmUrgent.play();
+                    screenExitAnimation.stop();
+                    tempWarningDialog.visible = true;
+                } else {
+                    if (temp !== lowerFront.setTemp) {
+                        if (temp > lowerFront.setTemp) {
+                            preheatComplete = false;
+                            stoneIsPreheated = false;
                         }
-                    } else {
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
+                        foodIndex = 4;
+                        utility.setLowerTemps(temp)
+                        utility.saveCurrentSettingsAsCustom();
                     }
+                }
+
+            }
+        }
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                if (singleSettingOnly) {
+                    if (!preheatComplete && ovenIsRunning()) {
+                        rootWindow.maxPreheatTimer.restart();
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                    } else {
+                        restoreBookmarkedScreen();
+                    }
+                } else {
+                    stackView.push({item:Qt.resolvedUrl("Screen_EnterTime.qml"), immediate:immediateTransitions});
                 }
             }
         }
+    }
+
+    ButtonRight {
+        id: nextButton
+        text: singleSettingOnly ? "DONE" : "NEXT"
+        onClicked: screenExitAnimation.start();
     }
 
     DialogWithCheckbox {

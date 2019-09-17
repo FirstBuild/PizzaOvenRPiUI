@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_Idle"
 
     property bool needsAnimation: (opacity < 1.0) ? true : false
 
@@ -31,6 +32,10 @@ Item {
             circleContent.animate();
             screenEntryAnimation.start();
         }
+    }
+
+    function cleanUpOnExit() {
+        exitToPreheatAnimation.stop();
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}

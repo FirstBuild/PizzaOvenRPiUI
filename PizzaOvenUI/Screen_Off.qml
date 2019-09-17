@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_Off"
 
     implicitWidth: parent.width
     implicitHeight: parent.height

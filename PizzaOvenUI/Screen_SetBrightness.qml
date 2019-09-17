@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_SetBrightness"
 
     opacity: 0.0
 

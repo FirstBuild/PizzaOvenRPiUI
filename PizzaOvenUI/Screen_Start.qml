@@ -8,12 +8,17 @@ Item {
     id: thisScreen
     implicitWidth: parent.width
     implicitHeight: parent.height
+    property string screenName: "Screen_Start"
 
     property string targetScreen: ""
 
     function screenEntry() {
         console.log("Entering start screen");
         if (opacity < 1.0) screenEntryAnimation.start();
+    }
+
+    function cleanUpOnExit() {
+        screenFadeOut.stop();
     }
 
     function startExitToScreen(screen) {

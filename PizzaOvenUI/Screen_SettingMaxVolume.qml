@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_SettingMaxVolume"
 
     property int tumblerHeight: 250
     property int tumblerRows: 5

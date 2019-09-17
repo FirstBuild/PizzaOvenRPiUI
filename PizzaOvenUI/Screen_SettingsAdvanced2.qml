@@ -6,6 +6,7 @@ Item {
     property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30
     property int listTextWidth: 300
+    property string screenName: "Screen_SettingsAdvanced2"
 
     opacity: 0.0
 

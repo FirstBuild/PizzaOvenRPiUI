@@ -162,7 +162,6 @@ void ProgramSettings::initializeSettingsToDefaults(void)
 /*************** TOD Offset ***************/
 void ProgramSettings::setTodOffset(int newOffset)
 {
-    cout << "Setting time of day offset to " << newOffset << endl;
     if (newOffset != m_todOffset) {
         m_todOffset = newOffset;
         emit todOffsetChanged();
@@ -178,7 +177,6 @@ int ProgramSettings::todOffset()
 /*************** Screen Offset X ***************/
 void ProgramSettings::setScreenoffsetX(int OffsetX)
 {
-    cout << "Setting screen offset X to " << OffsetX << endl;
     m_screenXOffset = OffsetX;
     emit screenOffsetXChanged();
     saveSettings();
@@ -192,7 +190,6 @@ int ProgramSettings::getScreenOffsetX()
 /*************** Screen Offset Y ***************/
 void ProgramSettings::setScreenoffsetY(int OffsetY)
 {
-    cout << "Setting screen offset Y to " << OffsetY << endl;
     m_screenYOffset = OffsetY;
     emit screenOffsetYChanged();
     saveSettings();
@@ -375,7 +372,6 @@ static void setLcdBrightness(int brightness)
 /*************** Rotate Pizza Notification ***************/
 void ProgramSettings::setRotatePizzaAlert(bool rotatePizzaAlertEnabled)
 {
-    cout << "Setting rotate pizza alert to " << rotatePizzaAlertEnabled << endl;
     m_rotatePizzaAlertEnabled = rotatePizzaAlertEnabled;
     emit rotatePizzaAlertChanged();
     saveSettings();
@@ -389,7 +385,6 @@ bool ProgramSettings::getRotatePizzaAlert()
 /*************** Final Check Notification ***************/
 void ProgramSettings::setFinalCheckAlert(bool finalCheckAlertEnabled)
 {
-    cout << "Setting final check alert to " << finalCheckAlertEnabled << endl;
     m_finalCheckAlertEnabled = finalCheckAlertEnabled;
     emit finalCheckAlertChanged();
     saveSettings();
@@ -403,7 +398,6 @@ bool ProgramSettings::getFinalCheckAlert()
 /*************** Done Notification ***************/
 void ProgramSettings::setDoneAlert(bool doneAlertEnabled)
 {
-    cout << "Setting done  alert to " << doneAlertEnabled << endl;
     m_doneAlertEnabled = doneAlertEnabled;
     emit doneAlertChanged();
     saveSettings();
@@ -417,7 +411,6 @@ bool ProgramSettings::getDoneAlert()
 /*************** Demo Mode ***************/
 void ProgramSettings::setDemoModeState(bool demoMode)
 {
-    cout << "Setting demo mode to " << demoMode << endl;
     m_demoModeState = demoMode;
     emit demoModeChanged();
     saveSettings();

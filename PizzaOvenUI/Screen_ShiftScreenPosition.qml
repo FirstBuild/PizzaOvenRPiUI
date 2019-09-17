@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_ShiftScreenPosition"
 
     implicitWidth: parent.width
     implicitHeight: parent.height
@@ -17,6 +18,28 @@ Item {
     function screenEntry() {
         console.log("Entering shift screen position screen");
         screenEntryAnimation.start();
+    }
+
+    function cleanUpOnExit() {
+        doneAnimation.stop();
+    }
+
+    SequentialAnimation {
+        id: doneAnimation
+        running: false
+        ScriptAction {
+            script: {
+                appSettings.screenOffsetX = screenOffsetX;
+                appSettings.screenOffsetY = screenOffsetY;
+            }
+        }
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; /*easing.type: Easing.InCubic*/}
+        ScriptAction {
+            script: {
+                stackView.clear();
+                stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+            }
+        }
     }
 
     property int myMargins: 10
@@ -34,21 +57,7 @@ Item {
         buttonText: "DONE"
         anchors.margins: myMargins
         anchors.centerIn: parent
-        onClicked: SequentialAnimation {
-            ScriptAction {
-                script: {
-                    appSettings.screenOffsetX = screenOffsetX;
-                    appSettings.screenOffsetY = screenOffsetY;
-                }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; /*easing.type: Easing.InCubic*/}
-            ScriptAction {
-                script: {
-                    stackView.clear();
-                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
-                }
-            }
-        }
+        onClicked: doneAnimation.start()
     }
 
     SideButton {

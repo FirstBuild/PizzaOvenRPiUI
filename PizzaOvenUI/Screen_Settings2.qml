@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     height: parent.height
     width: parent.width
+    property string screenName: "Screen_Settings2"
 
     property string targetScreen: ""
 
