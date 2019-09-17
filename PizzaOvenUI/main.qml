@@ -277,9 +277,18 @@ Window {
     }
 
     function forceScreenTransition(newScreen) {
+        var currentItem = stackView.currentItem;
+        if (currentItem.screenName) {
+            console.log("Screen name: " + currentItem.screenName);
+        } else {
+            console.log("Sceen name: UNKOWN");
+        }
+
         if (currentScreen === JSON.stringify(newScreen))
         {
-            //return;
+            console.log("current screen matches...why are we switching???")
+//            console.log("Transition to same screen, so don't switch.")
+//            return;
         }
 
         currentScreen = JSON.stringify(newScreen);

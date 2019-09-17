@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_AwaitStart"
 
     property bool needsAnimation: true
 
@@ -29,6 +30,14 @@ Item {
         screenEntryAnimation.start();
         rootWindow.displayedDomeTemp = rootWindow.upperFront.setTemp;
         rootWindow.displayedStoneTemp = rootWindow.lowerFront.setTemp;
+    }
+
+    function cleanUpOnExit() {
+        console.log("Exiting await start screen");
+        console.log("Stopping all animations");
+        screenEntryAnimation.stop();
+        screenFadeOut.stop();
+        exitToPreheatAnimation.stop();
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0; easing.type: Easing.InCubic;}
@@ -74,6 +83,7 @@ Item {
                     lowerFront.currentTemp = 75;
                 }
 
+                console.log("Exiting to preheat following exit animation in await start")
                 stackView.clear();
                 stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
             }
