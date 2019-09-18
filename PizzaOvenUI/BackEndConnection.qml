@@ -466,14 +466,23 @@ Item {
         case "WriteSetpoints":
             if (msg.data.UF && msg.data.LF) {
                 if (parseInt(msg.data.UF) <= upperMaxTemp && parseInt(msg.data.LF) <= lowerMaxTemp) {
-                    backEnd.sendMessage("StopOven ");
-                    autoShutoff.stop();
-                    preheatComplete = false;
-                    appSettings.backlightOff = false;
                     utility.setLowerTemps(parseInt(msg.data.LF));
                     utility.setUpperTemps(parseInt(msg.data.UF));
                     utility.findPizzaTypeFromSettings();
-                    forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
+                    console.log("Setpoints were written and the current machine state is " + ovenState);
+                    switch(ovenState) {
+                        case "Standby":
+                        case "Cooldown":
+                            console.log("Transitioning to the start screen.");
+                            autoShutoff.stop();
+                            preheatComplete = false;
+                            appSettings.backlightOff = false;
+                            forceScreenTransition(Qt.resolvedUrl("Screen_AwaitStart.qml"));
+                            break;
+                        default:
+                            console.log("We are already running, so don't return to the start screen.");
+                    }
+
                 }
             }
             break;
