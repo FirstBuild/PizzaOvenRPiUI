@@ -6,6 +6,7 @@ import QtMultimedia 5.0
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_Preferences"
 
     opacity: 0.0
 

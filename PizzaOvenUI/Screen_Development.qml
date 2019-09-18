@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_Development"
 
     implicitHeight: screenHeight
     implicitWidth: screenWidth

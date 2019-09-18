@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_SetTimeOfDay"
 
     property int itemsPerTumbler: 5
 

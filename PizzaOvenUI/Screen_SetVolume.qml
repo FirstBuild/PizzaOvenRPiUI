@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_SetVolume"
 
     opacity: 0.0
 
@@ -14,6 +15,10 @@ Item {
     function screenEntry() {
         screenEntryAnimation.start();
         console.log("Entering volume settings screen.");
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
     }
 
     property int tumblerHeight: 250

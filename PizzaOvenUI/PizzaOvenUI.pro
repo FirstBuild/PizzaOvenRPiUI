@@ -2,6 +2,7 @@ TEMPLATE = app
 
 QT += qml quick multimedia multimediawidgets
 CONFIG += c++11
+QMAKE_LFLAGS += "-Wl,-Map=output.map"
 
 SOURCES += main.cpp \
     programSettings.cpp \

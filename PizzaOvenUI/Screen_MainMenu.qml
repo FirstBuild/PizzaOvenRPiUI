@@ -10,6 +10,7 @@ Item {
     id: thisScreen
     height: parent.height
     width: parent.width
+    property string screenName: "Screen_MainMenu"
 
     property bool ctrlPressed: false
     property bool altPressed: false
@@ -30,17 +31,6 @@ Item {
             stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
         }
     }
-
-    // a reference rectangle
-//    Rectangle {
-//        x: 0
-//        y: 0
-//        width: parent.width
-//        height: parent.height
-//        color: appBackgroundColor
-//        border.color: "red"
-//        border.width: 1
-//    }
 
     function setMenuPositionFromFoodIndex() {
         var menuIndexes = menuSettings.json.menuOrder;
@@ -83,6 +73,11 @@ Item {
         screenEntryAnimation.start();
     }
 
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
+        gearActionAnimation.stop();
+    }
+
     function screenExit() {
         keyhandler.focus = false;
         demoTimeoutTimer.running = false;
@@ -103,24 +98,27 @@ Item {
         }
     }
 
-    GearButton {
-        id: mainMenuGearButton
-        onClicked: SequentialAnimation {
-            ScriptAction {
-                script: {
-                    if (demoModeIsActive) {
-                        demoTimeoutTimer.stop();
-                    }
-                }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    screenExit();
-                    stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
+    SequentialAnimation {
+        id: gearActionAnimation
+        ScriptAction {
+            script: {
+                if (demoModeIsActive) {
+                    demoTimeoutTimer.stop();
                 }
             }
         }
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                screenExit();
+                stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
+            }
+        }
+    }
+
+    GearButton {
+        id: mainMenuGearButton
+        onClicked: gearActionAnimation.start()
     }
 
     ListModel {
@@ -154,16 +152,6 @@ Item {
             role: "name"
         }
     }
-//    Rectangle {
-//        x: foodType.x
-//        y: foodType.y
-//        width: foodType.width
-//        height: foodType.height
-//        color: appBackgroundColor
-//        border.color: "yellow"
-//        border.width: 1
-//        opacity: 0.25
-//    }
 
     SequentialAnimation {
         id: screenExitAnimation

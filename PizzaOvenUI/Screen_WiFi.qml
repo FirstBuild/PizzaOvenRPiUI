@@ -6,6 +6,7 @@ import QtMultimedia 5.0
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_WiFi"
 
     opacity: 0.0
 
@@ -40,6 +41,11 @@ Item {
         console.log("Entering wifi screen");
         screenEntryAnimation.start();
         queryWifiState.start();
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimator.stop();
+        queryWifiState.stop();
     }
 
     Timer {

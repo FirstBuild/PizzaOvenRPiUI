@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_EnterChecks"
 
     opacity: 0.0
 
@@ -13,6 +14,10 @@ Item {
     function screenEntry() {
         screenEntryAnimation.start();
         console.log("Entering enter checks screen.");
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
     }
 
     property int titleTextPointSize: 1
@@ -58,33 +63,6 @@ Item {
             height: parent.height - 2
             x: 1
             y: 1
-//            MyCheckBox {
-//                id: radioRotate
-//                text: "Half Done"
-//                width: parent.width
-//                height: lineSpacing
-//                checked: rootWindow.halfTimeRotateAlertEnabled
-//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
-//                enabled: !rootWindow.pizzaAlertsDisabled
-//            }
-//            MyCheckBox {
-//                id: radioFinalCheck
-//                text: "Nearly Done"
-//                width: parent.width
-//                height: lineSpacing
-//                checked: rootWindow.finalCheckAlertEnabled
-//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
-//                enabled: !rootWindow.pizzaAlertsDisabled
-//            }
-//            MyCheckBox {
-//                id: radioDone
-//                text: "Finished"
-//                width: parent.width
-//                height: lineSpacing
-//                checked: rootWindow.pizzaDoneAlertEnabled
-//                opacity: rootWindow.pizzaAlertsDisabled ? 0.5 : 1.0
-//                enabled: !rootWindow.pizzaAlertsDisabled
-//            }
 
             Row {
                 width: parent.width
@@ -167,51 +145,52 @@ Item {
         }
     }
 
-    ButtonRight {
-        id: doneButton
-        text: "DONE"
-        onClicked: SequentialAnimation {
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-//                    halfTimeRotateAlertEnabled = radioRotate.checked;
-//                    finalCheckAlertEnabled = radioFinalCheck.checked;
-                    halfTimeRotateAlertEnabled = halfSlider.state;
-                    finalCheckAlertEnabled = finalSlider.state;
-                    rootWindow.pizzaDoneAlertEnabled = finishedSlider.state;
-                    appSettings.rotatePizzaAlertEnabled = halfTimeRotateAlertEnabled;
-                    appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
-                    appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
-                    console.log("Sending updated reminder settings to backend.");
-                    backEnd.sendMessage("ReminderSettings" +
-                                " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
-                                " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
-                                " done " + (pizzaDoneAlertEnabled ? 1 : 0)
-                                );
+    SequentialAnimation {
+        id: screenExitAnimation
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                halfTimeRotateAlertEnabled = halfSlider.state;
+                finalCheckAlertEnabled = finalSlider.state;
+                rootWindow.pizzaDoneAlertEnabled = finishedSlider.state;
+                appSettings.rotatePizzaAlertEnabled = halfTimeRotateAlertEnabled;
+                appSettings.finalCheckAlertEnabled = finalCheckAlertEnabled;
+                appSettings.doneAlertEnabled = rootWindow.pizzaDoneAlertEnabled;
+                console.log("Sending updated reminder settings to backend.");
+                backEnd.sendMessage("ReminderSettings" +
+                            " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
+                            " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
+                            " done " + (pizzaDoneAlertEnabled ? 1 : 0)
+                            );
 
-                    if (singleSettingOnly) {
-                        if (!preheatComplete && ovenIsRunning()) {
+                if (singleSettingOnly) {
+                    if (!preheatComplete && ovenIsRunning()) {
+                        rootWindow.maxPreheatTimer.restart();
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                    } else {
+                        restoreBookmarkedScreen();
+                    }
+                } else {
+                    stackView.clear();
+                    if (ovenIsRunning()) {
+                        if (!preheatComplete) {
                             rootWindow.maxPreheatTimer.restart();
-                            stackView.clear();
                             stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
                         } else {
-                            restoreBookmarkedScreen();
+                            stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
                         }
                     } else {
-                        stackView.clear();
-                        if (ovenIsRunning()) {
-                            if (!preheatComplete) {
-                                rootWindow.maxPreheatTimer.restart();
-                                stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-                            } else {
-                                stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
-                            }
-                        } else {
-                            stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                        }
+                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
                     }
                 }
             }
         }
+    }
+
+    ButtonRight {
+        id: doneButton
+        text: "DONE"
+        onClicked: screenExitAnimation.start();
     }
 }

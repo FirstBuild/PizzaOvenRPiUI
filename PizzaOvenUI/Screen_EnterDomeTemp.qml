@@ -9,6 +9,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_EnterDomeTemp"
 
     property int tumblerHeight: 1
     property int tumblerRows: 5
@@ -21,6 +22,10 @@ Item {
         tumblerHeightAnim.start();
         titleTextAnim.start();
         nextButton.animate();
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
@@ -131,66 +136,67 @@ Item {
         }
     }
 
-    ButtonRight {
-        id: nextButton
-        text: singleSettingOnly ? "DONE" : "NEXT"
-        height: lineSpacing
-        onClicked: SequentialAnimation {
-            id: screenExitAnimation
-            ScriptAction {
-                script: {
-                    var temp = thousandsColumn.currentIndex * 1000;
-                    temp += hundredsColumn.currentIndex * 100;
-                    temp += tensColumn.currentIndex * 10;
-                    temp += onesColumn.currentIndex;
+    SequentialAnimation {
+        id: screenExitAnimation
+        ScriptAction {
+            script: {
+                var temp = thousandsColumn.currentIndex * 1000;
+                temp += hundredsColumn.currentIndex * 100;
+                temp += tensColumn.currentIndex * 10;
+                temp += onesColumn.currentIndex;
 
-                    console.log("Temp entered is " + temp);
+                console.log("Temp entered is " + temp);
 
-                    if (!tempDisplayInF)
-                    {
-                        temp = utility.c2f(temp);
-                        console.log("Temp was in C and is now in F as " + temp);
-                        console.log("Max temp in C is " + utility.f2c(upperMaxTemp));
-                    }
-
-                    console.log("Entered temp is: " + temp);
-                    console.log("Max temp is " + upperMaxTemp);
-
-                    if (temp > upperMaxTemp) {
-                        screenExitAnimation.stop();
-                        sounds.alarmUrgent.play();
-                        messageDialog.visible = true;
-                    } else {
-                        if (temp !== upperFront.setTemp) {
-                            if (temp > upperFront.setTemp) {
-                                preheatComplete = false;
-                            }
-//                            foodNameString = "CUSTOM"
-                            foodIndex = 4;
-                            utility.setUpperTemps(temp)
-                            utility.saveCurrentSettingsAsCustom();
-                        }
-                    }
+                if (!tempDisplayInF)
+                {
+                    temp = utility.c2f(temp);
+                    console.log("Temp was in C and is now in F as " + temp);
+                    console.log("Max temp in C is " + utility.f2c(upperMaxTemp));
                 }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
-            ScriptAction {script: {
-                    console.log("Single setting: " + singleSettingOnly + ", ovenState: " + ovenState);
-                    if (singleSettingOnly) {
-                        if (!preheatComplete && ovenIsRunning()) {
-                            rootWindow.maxPreheatTimer.restart();
-                            stackView.clear();
-                            stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
-                        } else {
-                            restoreBookmarkedScreen();
-                        }
-                    } else {
 
-                        stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                console.log("Entered temp is: " + temp);
+                console.log("Max temp is " + upperMaxTemp);
+
+                if (temp > upperMaxTemp) {
+                    screenExitAnimation.stop();
+                    sounds.alarmUrgent.play();
+                    messageDialog.visible = true;
+                } else {
+                    if (temp !== upperFront.setTemp) {
+                        if (temp > upperFront.setTemp) {
+                            preheatComplete = false;
+                        }
+                        foodIndex = 4;
+                        utility.setUpperTemps(temp)
+                        utility.saveCurrentSettingsAsCustom();
                     }
                 }
             }
         }
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0; easing.type: Easing.InCubic}
+        ScriptAction {script: {
+                console.log("Single setting: " + singleSettingOnly + ", ovenState: " + ovenState);
+                if (singleSettingOnly) {
+                    if (!preheatComplete && ovenIsRunning()) {
+                        rootWindow.maxPreheatTimer.restart();
+                        stackView.clear();
+                        stackView.push({item:Qt.resolvedUrl("Screen_Preheating2Temp.qml"), immediate:immediateTransitions});
+                    } else {
+                        restoreBookmarkedScreen();
+                    }
+                } else {
+
+                    stackView.push({item:Qt.resolvedUrl("Screen_EnterStoneTemp.qml"), immediate:immediateTransitions});
+                }
+            }
+        }
+    }
+
+    ButtonRight {
+        id: nextButton
+        text: singleSettingOnly ? "DONE" : "NEXT"
+        height: lineSpacing
+        onClicked: screenExitAnimation.start()
     }
 
     DialogWithCheckbox {

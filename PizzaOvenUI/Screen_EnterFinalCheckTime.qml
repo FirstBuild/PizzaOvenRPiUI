@@ -8,6 +8,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_EnterFinalCheckTime"
 
     property int tumblerColumns: 4
     property int tumblerHeight: 1
@@ -21,6 +22,10 @@ Item {
         tumblerHeightAnim.start();
         titleTextAnim.start();
         nextButton.animate();
+    }
+
+    function cleanUpOnExit() {
+        screenExitAnimation.stop();
     }
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
@@ -77,35 +82,36 @@ Item {
         }
     }
 
-    ButtonRight {
-        id: nextButton
-        text: "DONE"
-        onClicked: SequentialAnimation {
-            id: screenExitAnimation
-            ScriptAction {
-                script: {
-                    var temp = timeEntryTumbler.getTime();
-                    if (temp !== finalCheckTime) {
-//                        foodNameString = "CUSTOM"
-                        foodIndex = 4;
-                        finalCheckTime = timeEntryTumbler.getTime();
-                        utility.saveCurrentSettingsAsCustom();
-                        backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
-                    }
-                }
-            }
-            OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
-            ScriptAction {
-                script: {
-                    if (singleSettingOnly) {
-                        restoreBookmarkedScreen();
-                    } else {
-                        stackView.clear();
-                        stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
-                    }
+    SequentialAnimation {
+        id: screenExitAnimation
+        ScriptAction {
+            script: {
+                var temp = timeEntryTumbler.getTime();
+                if (temp !== finalCheckTime) {
+                    foodIndex = 4;
+                    finalCheckTime = timeEntryTumbler.getTime();
+                    utility.saveCurrentSettingsAsCustom();
+                    backEnd.sendMessage("FinalCheckTime " + finalCheckTime);
                 }
             }
         }
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                if (singleSettingOnly) {
+                    restoreBookmarkedScreen();
+                } else {
+                    stackView.clear();
+                    stackView.push({item:Qt.resolvedUrl("Screen_AwaitStart.qml"), immediate:immediateTransitions});
+                }
+            }
+        }
+    }
+
+    ButtonRight {
+        id: nextButton
+        text: "DONE"
+        onClicked: screenExitAnimation.start()
     }
 }
 

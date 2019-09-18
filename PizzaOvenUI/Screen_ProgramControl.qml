@@ -2,6 +2,7 @@ import QtQuick 2.3
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_ProgramControl"
 
     opacity: 0.0
     property bool needsAnimation: true

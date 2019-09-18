@@ -9,6 +9,7 @@ Item {
     id: thisScreen
     width: parent.width
     height: parent.height
+    property string screenName: "Screen_TemperatureEntry"
 
     property int tumblerHeight: 1
     property int tumblerRows: 5

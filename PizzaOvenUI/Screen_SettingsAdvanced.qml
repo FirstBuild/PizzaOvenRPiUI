@@ -2,6 +2,7 @@ import QtQuick 2.3
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_SettingsAdvanced"
 
     property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30

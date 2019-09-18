@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 
 Item {
     id: thisScreen
+    property string screenName: "Screen_ProductionTest"
 
     implicitHeight: screenHeight
     implicitWidth: screenWidth
@@ -23,17 +24,6 @@ Item {
         backEnd.sendMessage("Set LF OffPercent 49");
         backEnd.sendMessage("Set LR OffPercent 100");
     }
-
-    // a reference rectangle
-//    Rectangle {
-//        x: 0
-//        y: 0
-//        width: parent.width
-//        height: parent.height
-//        color: appBackgroundColor
-//        border.color: "red"
-//        border.width: 1
-//    }
 
     Column {
         id: dataColumn

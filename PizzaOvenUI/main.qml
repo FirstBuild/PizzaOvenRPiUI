@@ -155,7 +155,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.3.3"
+    property string uiVersion: "0.3.4"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
@@ -210,7 +210,6 @@ Window {
 
     property string ovenState: "Standby"
 
-    property string currentScreen: ""
     property Item screenBookmark
     property bool singleSettingOnly: false
 
@@ -277,12 +276,22 @@ Window {
     }
 
     function forceScreenTransition(newScreen) {
-        if (currentScreen === JSON.stringify(newScreen))
-        {
-            //return;
+        var newScreenName = JSON.stringify(newScreen).replace(/\"/g, "").substring(5).replace(/.qml/, "");
+        console.log("Requested force transition to screen " + newScreenName);
+
+        var currentScreen = "UNKNOWN"
+        var currentItem = stackView.currentItem;
+        if (currentItem.screenName) {
+            currentScreen = currentItem.screenName;
         }
 
-        currentScreen = JSON.stringify(newScreen);
+        console.log("Current screen: " + currentScreen);
+
+        if (currentScreen === newScreenName)
+        {
+            console.log("Transition to same screen, so don't switch.")
+            return;
+        }
 
         if (stackView.depth > 0) {
             if (stackView.currentItem.cleanUpOnExit)
