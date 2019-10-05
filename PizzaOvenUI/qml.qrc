@@ -88,5 +88,7 @@
         <file>DomeState.qml</file>
         <file>Screen_ProductionTest.qml</file>
         <file>TestToggle.qml</file>
+        <file>Screen_TimeCycleTest.qml</file>
+        <file>GenericTimer.qml</file>
     </qresource>
 </RCC>
