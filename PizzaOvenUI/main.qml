@@ -155,7 +155,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.3.4"
+    property string uiVersion: "5.5.5"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
@@ -189,7 +189,8 @@ Window {
             if (developmentModeIsActive || productionModeIsActive) {
                 backEnd.sendMessage("StopOven ");
             } else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
             }
         }
     }
@@ -281,7 +282,7 @@ Window {
 
         var currentScreen = "UNKNOWN"
         var currentItem = stackView.currentItem;
-        if (currentItem.screenName) {
+        if (currentItem && currentItem.screenName) {
             currentScreen = currentItem.screenName;
         }
 

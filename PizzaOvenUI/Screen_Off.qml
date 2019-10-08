@@ -27,7 +27,8 @@ Item {
         case "Cooldown":
             appSettings.backlightOff = false;
             if (powerSwitch == 1) {
-                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
             } else {
                 forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
             }
@@ -47,7 +48,8 @@ Item {
             forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
         } else {
             console.log("Transitioning from off to main menu.");
-            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
         }
     }
 

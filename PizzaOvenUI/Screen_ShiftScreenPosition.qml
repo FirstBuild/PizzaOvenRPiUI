@@ -37,7 +37,8 @@ Item {
         ScriptAction {
             script: {
                 stackView.clear();
-                stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+//                stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
             }
         }
     }

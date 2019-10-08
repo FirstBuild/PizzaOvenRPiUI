@@ -20,7 +20,8 @@ Item {
 
     function handlePowerSwitchStateChanged() {
         if (powerSwitch == 1) {
-            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
         }
     }
 
@@ -33,7 +34,8 @@ Item {
                 } else if (productionModeIsActive){
                     forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
                 } else {
-                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//                    forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
                 }
             }
             else {
@@ -76,7 +78,8 @@ Item {
             } else if (productionModeIsActive){
                 forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
             } else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+//                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+                forceScreenTransition(Qt.resolvedUrl("Screen_TimeCycleTest.qml"));
             }
         }
     }

@@ -23,6 +23,7 @@ Item {
     function screenEntry() {
         console.log("Entering time cycle test screen");
         testIsRunning = false;
+        appSettings.backlightOff = false;
     }
 
     function cleanUpOnExit() {
@@ -280,6 +281,7 @@ Item {
                 } else {
                     if (powerSwitch == 1) {
                         backEnd.sendMessage("StartOven ");
+                        rootWindow.domeState.set(true);
                         autoShutoff.start();
                         onTimeTimer.start();
                     }
