@@ -48,31 +48,31 @@ Window {
     }
     property int powerSwitch: 0
     onPowerSwitchChanged: {
-        if (acPowerIsPresent == 0) {
-            return;
-        }
-        if (powerSwitch == 1) {
-            console.log("The power switch is now on.");
-            sounds.powerOn.play();
-            if (developmentModeIsActive) {
-                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
-                return;
-            }
-            if (productionModeIsActive){
-                forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
-                return;
-            }
-            if (stackView.currentItem.handlePowerSwitchStateChanged)
-            {
-                stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
-            }
-        } else {
-            sounds.powerOff.play();
-            if (!callServiceFailure) {
-                console.log("The power switch is now off, transitioning to the off screen.");
-                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-            }
-        }
+//        if (acPowerIsPresent == 0) {
+//            return;
+//        }
+//        if (powerSwitch == 1) {
+//            console.log("The power switch is now on.");
+//            sounds.powerOn.play();
+//            if (developmentModeIsActive) {
+//                forceScreenTransition(Qt.resolvedUrl("Screen_Development.qml"));
+//                return;
+//            }
+//            if (productionModeIsActive){
+//                forceScreenTransition(Qt.resolvedUrl("Screen_ProductionTest.qml"));
+//                return;
+//            }
+//            if (stackView.currentItem.handlePowerSwitchStateChanged)
+//            {
+//                stackView.currentItem.handlePowerSwitchStateChanged(powerSwitch);
+//            }
+//        } else {
+//            sounds.powerOff.play();
+//            if (!callServiceFailure) {
+//                console.log("The power switch is now off, transitioning to the off screen.");
+//                forceScreenTransition(Qt.resolvedUrl("Screen_MouseTest.qml"));
+//            }
+//        }
     }
 
     property bool preheatComplete: false
@@ -91,9 +91,9 @@ Window {
 
     property bool callServiceFailure: false
     onCallServiceFailureChanged: {
-        if (callServiceFailure) {
-            forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
-        }
+//        if (callServiceFailure) {
+//            forceScreenTransition(Qt.resolvedUrl("Screen_CallService.qml"));
+//        }
     }
     Failures {
         id: failures
@@ -109,15 +109,15 @@ Window {
 
     property bool controlBoardCommsFailed: false
     onControlBoardCommsFailedChanged: {
-        if (controlBoardCommsFailed) {
-            console.log("Comms with control board failed.");
-        } else {
-            console.log("Comms with control board restored.");
-        }
-        if (stackView.currentItem.handleControlBoardCommsChanged)
-        {
-            stackView.currentItem.handleControlBoardCommsChanged();
-        }
+//        if (controlBoardCommsFailed) {
+//            console.log("Comms with control board failed.");
+//        } else {
+//            console.log("Comms with control board restored.");
+//        }
+//        if (stackView.currentItem.handleControlBoardCommsChanged)
+//        {
+//            stackView.currentItem.handleControlBoardCommsChanged();
+//        }
     }
 
     property string foodNameString: "FOOD NAME"
@@ -179,34 +179,34 @@ Window {
 
     property AutoShutoff autoShutoff: AutoShutoff {
         id: autoShutoff
-        onAutoShutoffTimeoutWarning: {
-            console.log("--------> Timeout warning signal received.");
-            shutdownWarningDialog.visible = true;
-        }
-        onAutoShutoffTimeoutComplete: {
-            console.log("--------> Timeout complete signal received.");
-            shutdownWarningDialog.visible = false;
-            if (developmentModeIsActive || productionModeIsActive) {
-                backEnd.sendMessage("StopOven ");
-            } else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
-            }
-        }
+//        onAutoShutoffTimeoutWarning: {
+//            console.log("--------> Timeout warning signal received.");
+//            shutdownWarningDialog.visible = true;
+//        }
+//        onAutoShutoffTimeoutComplete: {
+//            console.log("--------> Timeout complete signal received.");
+//            shutdownWarningDialog.visible = false;
+//            if (developmentModeIsActive || productionModeIsActive) {
+//                backEnd.sendMessage("StopOven ");
+//            } else {
+//                forceScreenTransition(Qt.resolvedUrl("Screen_MouseTest.qml"));
+//            }
+//        }
     }
 
-    DialogWithCheckbox {
-        id: shutdownWarningDialog
-        z: 100
-        x: screenStackContainer.x
-        y: screenStackContainer.y
-        width: screenStackContainer.width
-        height: screenStackContainer.height
-        visible: false
-        dialogMessage: "Oven shutting down, continue cooking?"
-        onClicked: {
-            autoShutoff.reset()
-        }
-    }
+//    DialogWithCheckbox {
+//        id: shutdownWarningDialog
+//        z: 100
+//        x: screenStackContainer.x
+//        y: screenStackContainer.y
+//        width: screenStackContainer.width
+//        height: screenStackContainer.height
+//        visible: false
+//        dialogMessage: "Oven shutting down, continue cooking?"
+//        onClicked: {
+//            autoShutoff.reset()
+//        }
+//    }
 
     property string ovenState: "Standby"
 
@@ -319,90 +319,90 @@ Window {
     }
 
     // Define the active screen area.  All screens live here.
-    Rectangle {
-        id: screenStackContainer
-        color: appBackgroundColor
-        width: screenWidth
-        height: screenHeight
-        x: screenOffsetX
-        y: screenOffsetY
+//    Rectangle {
+//        id: screenStackContainer
+//        color: appBackgroundColor
+//        width: screenWidth
+//        height: screenHeight
+//        x: screenOffsetX
+//        y: screenOffsetY
 //        border.color: "red"
 //        border.width: 1
-        StackView {
-            id: stackView
-            width: parent.width
-            height: parent.height
-            anchors.fill: parent
-            focus: true
-            initialItem: {
-                appSettings.backlightOff = false;
-                if (appSettings.settingsInitialized) {
-                    if (callServiceFailure == false) {
+//        StackView {
+//            id: stackView
+//            width: parent.width
+//            height: parent.height
+//            anchors.fill: parent
+//            focus: true
+//            initialItem: {
+//                appSettings.backlightOff = false;
+//                if (appSettings.settingsInitialized) {
+//                    if (callServiceFailure == false) {
 
-                        Qt.resolvedUrl("Screen_Off.qml");
-                    } else {
-                        Qt.resolvedUrl("Screen_CallService.qml");
-                    }
+//                        Qt.resolvedUrl("Screen_MouseTest.qml");
+//                    } else {
+//                        Qt.resolvedUrl("Screen_CallService.qml");
+//                    }
 
-                } else {
-                    Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
-                }
-            }
-            onCurrentItemChanged: {
-                if (currentItem) {
-                    if (currentItem.screenEntry) {
-                        currentItem.screenEntry();
-                    }
-                }
-            }
-        }
-        Component.onCompleted: {
-            console.log("Starting back end connection.");
-            //webSocketConnectionTimer.start();
-            backEnd.start();
-        }
-    }
+//                } else {
+//                    Qt.resolvedUrl("Screen_MouseTest.qml");
+//                }
+//            }
+//            onCurrentItemChanged: {
+//                if (currentItem) {
+//                    if (currentItem.screenEntry) {
+//                        currentItem.screenEntry();
+//                    }
+//                }
+//            }
+//        }
+//        Component.onCompleted: {
+//            console.log("Starting back end connection.");
+//            //webSocketConnectionTimer.start();
+//            backEnd.start();
+//        }
+//    }
 
-    GearButton {
-        id: auxGear1
-        anchors.margins: 20
-        anchors.left: screenStackContainer.right
-        anchors.verticalCenter: screenStackContainer.verticalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear2
-        anchors.margins: 20
-        anchors.top: screenStackContainer.bottom
-        anchors.horizontalCenter: screenStackContainer.horizontalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear3
-        anchors.margins: 20
-        anchors.right: screenStackContainer.left
-        anchors.verticalCenter: screenStackContainer.verticalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear4
-        anchors.margins: 20
-        anchors.bottom: screenStackContainer.top
-        anchors.horizontalCenter: screenStackContainer.horizontalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
+//    GearButton {
+//        id: auxGear1
+//        anchors.margins: 20
+//        anchors.left: screenStackContainer.right
+//        anchors.verticalCenter: screenStackContainer.verticalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_MouseTest.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear2
+//        anchors.margins: 20
+//        anchors.top: screenStackContainer.bottom
+//        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_MouseTest.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear3
+//        anchors.margins: 20
+//        anchors.right: screenStackContainer.left
+//        anchors.verticalCenter: screenStackContainer.verticalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_MouseTest.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear4
+//        anchors.margins: 20
+//        anchors.bottom: screenStackContainer.top
+//        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_MouseTest.qml"), immediate:immediateTransitions});
+//        }
+//    }
 
     Timer {
         id: timeOfDayClock
@@ -439,7 +439,83 @@ Window {
         interval: 10000
         repeat: false
         onTriggered: {
-            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+//            forceScreenTransition(Qt.resolvedUrl("Screen_MouseTest.qml"));
+        }
+    }
+
+    property int lastMouseX: 0
+    property int lastMouseY: 0
+
+    Rectangle {
+        width: rootWindow.width
+        height: rootWindow.height
+//        border.width: 2
+//        border.color: "red"
+        color: appBackgroundColor
+        x: 0
+        y: 0
+
+        Column {
+            id: info
+            anchors.centerIn: parent
+            spacing: 10
+            Text {
+                id: label
+                width: 200
+                text: qsTr("Mouse Cursor")
+                color: "white"
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Text {
+                id: location
+                width: 200
+                text: qsTr("Mouse Location")
+                color: "white"
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        Canvas {
+            id: drawing
+            width: parent.width
+            height: parent.height
+            antialiasing: true
+            anchors.centerIn: parent
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                // horizontal
+                ctx.beginPath();
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'orange';
+                ctx.moveTo(0, lastMouseY);
+                ctx.lineTo(width-1, lastMouseY);
+                ctx.stroke();
+
+                // vertical
+                ctx.beginPath();
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'orange';
+                ctx.moveTo(lastMouseX, 0);
+                ctx.lineTo(lastMouseX, height-1);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: function(event) {
+                lastMouseX = event.x;
+                lastMouseY = event.y;
+                drawing.requestPaint();
+                location.text = "(" + event.x.toFixed(0) + ", " + event.y.toFixed(0) + ")"
+            }
         }
     }
 

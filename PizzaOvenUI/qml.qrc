@@ -88,5 +88,6 @@
         <file>DomeState.qml</file>
         <file>Screen_ProductionTest.qml</file>
         <file>TestToggle.qml</file>
+        <file>Screen_MouseTest.qml</file>
     </qresource>
 </RCC>
