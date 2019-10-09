@@ -10,8 +10,6 @@ Item {
     implicitHeight: parent.height
     property string screenName: "Screen_Preheat2Temp"
 
-    property bool screenSwitchInProgress: false
-
     property real upperExitValue: 100 * (upperTempLocked ? upperFront.setTemp : upperTemp) / upperFront.setTemp
     property real lowerExitValue: 100 * (lowerTempLocked ? lowerFront.setTemp : lowerTemp) / lowerFront.setTemp
     property real preheatProgressValue: (rootWindow.domeState.actual) ? (upperExitValue * 0.1 + lowerExitValue * 0.9) : lowerExitValue
@@ -26,9 +24,12 @@ Item {
     property real upperTempDemoValue: 75.0
     property real lowerTempDemoValue: 75.0
 
-    property real upperTemp: demoModeIsActive ? upperTempDemoValue : ((upperFront.currentTemp < upperFront.setTemp) ? upperFront.currentTemp : upperFront.setTemp)
+    property real currentUpperMininumTemp: (upperFront.currentTemp < upperRear.currentTemp) ? upperFront.currentTemp : upperRear.currentTemp
+    property real currentLowerMininumTemp: (lowerFront.currentTemp < lowerRear.currentTemp) ? lowerFront.currentTemp : lowerFront.currentTemp
+
+    property real upperTemp: demoModeIsActive ? upperTempDemoValue : currentUpperMininumTemp
     property real lowerTemp: demoModeIsActive ? (stoneIsPreheated ? lowerFront.setTemp : lowerTempDemoValue) :
-                                                (((lowerFront.currentTemp < lowerFront.setTemp) && !stoneIsPreheated) ? lowerFront.currentTemp : lowerFront.setTemp)
+                                                (((currentLowerMininumTemp < lowerFront.setTemp) && !stoneIsPreheated) ? currentLowerMininumTemp : lowerFront.setTemp)
 
     property int ovenStateCount: 3
 
@@ -41,9 +42,11 @@ Item {
         running: !demoModeIsActive
         onTriggered: {
             var currentDisplayTemp = upperTemp;
-            if (upperFront.currentTemp < upperFront.setTemp) {
-                if (upperFront.currentTemp > upperTemp) {
-                    upperTemp = upperFront.currentTemp;
+            var currentActualTemp = (upperFront.currentTemp < upperRear.currentTemp) ? upperFront.currentTemp : upperRear.currentTemp;
+            console.log("Current upper actual temp = " + currentActualTemp);
+            if (currentActualTemp < upperFront.setTemp) {
+                if (currentActualTemp > upperTemp) {
+                    upperTemp = currentActualTemp;
                 } else {
                     upperTemp = currentDisplayTemp;
                 }
@@ -52,9 +55,11 @@ Item {
                 upperTempLocked = true;
             }
             currentDisplayTemp = lowerTemp;
-            if ((lowerFront.currentTemp < lowerFront.setTemp) && !stoneIsPreheated) {
-                if (lowerFront.currentTemp > lowerTemp) {
-                    lowerTemp = lowerFront.currentTemp;
+            currentActualTemp = (lowerFront.currentTemp < lowerRear.currentTemp) ? lowerFront.currentTemp : lowerRear.currentTemp;
+            console.log("Current lower actual temp = " + currentActualTemp);
+            if ((currentActualTemp < lowerFront.setTemp) && !stoneIsPreheated) {
+                if (currentActualTemp > lowerTemp) {
+                    lowerTemp = currentActualTemp;
                 } else {
                     lowerTemp = currentDisplayTemp;
                 }
@@ -84,8 +89,13 @@ Item {
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
             break;
         case "Idle":
+            cleanUpOnExit();
             stackView.clear();
             stackView.push({item:Qt.resolvedUrl("Screen_Idle.qml"), immediate:immediateTransitions});
+            break;
+        case "Cooking":
+            preheatComplete = true;
+            forceScreenTransition(Qt.resolvedUrl("Screen_Cooking.qml"));
             break;
         }
     }
@@ -116,7 +126,6 @@ Item {
 
     function screenEntry() {
         console.log("Entering preheat screen");
-        screenSwitchInProgress = false;
         upperTempLocked = false;
         lowerTempLocked = stoneIsPreheated;
 
@@ -136,6 +145,7 @@ Item {
     }
 
     function cleanUpOnExit() {
+        console.log("Exiting preheat screen and preheatComplete is " + preheatComplete);
         displayUpdateTimer.stop();
         screenFadeOut.stop();
         screenExitAnimator.stop();
@@ -143,6 +153,7 @@ Item {
 
     OpacityAnimator {id: screenFadeOut; target: thisScreen; from: 1.0; to: 0.0;  easing.type: Easing.OutCubic;
         onStopped: {
+            cleanUpOnExit();
             stackView.push({item:Qt.resolvedUrl(targetScreen), immediate:immediateTransitions});
         }
         running: false
@@ -241,14 +252,21 @@ Item {
     }
 
     function doExitCheck() {
-        if (screenSwitchInProgress) return;
-        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
+        if (screenExitAnimator.running) return;
+//        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
+          if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
             if (ovenState == "Idle") {
                 handleOvenStateMsg("Idle");
                 return;
             }
 
-            screenSwitchInProgress = true;
+            console.log("Starting transition out of preheat...");
+            console.log("Upper temp locked is " + upperTempLocked);
+            console.log("Lower temp locked is " + lowerTempLocked);
+            console.log("Max preheat timer is running is " + rootWindow.maxPreheatTimer.running)
+            console.log("Local oven state is " + localOvenState);
+            console.log("Global oven state is " + ovenState);
+
             preheatComplete = true
             rootWindow.maxPreheatTimer.stop();
             if (demoModeIsActive) {
@@ -267,6 +285,7 @@ Item {
                 sounds.notification.play();
                 rootWindow.cookTimer.stop();
                 rootWindow.cookTimer.reset();
+                cleanUpOnExit();
                 stackView.clear();
                 if (rootWindow.domeState.displayed) {
                     stackView.push({item:Qt.resolvedUrl("Screen_Cooking.qml"), immediate:immediateTransitions});
