@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Extras 1.4
 import QtQuick.Controls 1.4
@@ -443,35 +443,61 @@ Window {
         }
     }
 
-    property int lastMouseX: 0
-    property int lastMouseY: 0
+    property list<TouchPoint> touches
 
     Rectangle {
         width: rootWindow.width
         height: rootWindow.height
-//        border.width: 2
-//        border.color: "red"
         color: appBackgroundColor
         x: 0
         y: 0
 
         Column {
-            id: info
             anchors.centerIn: parent
+            width: rootWindow.width
+            height: rootWindow.height / 2
             spacing: 10
             Text {
-                id: label
-                width: 200
-                text: qsTr("Mouse Cursor")
+                id: currentTouchCount
+                width: 300
+                text: qsTr("Current Touches: ")
                 color: "white"
                 horizontalAlignment: Text.AlignHCenter
+                textFormat: Text.StyledText
+                anchors.horizontalCenter: parent.horizontalCenter
             }
-            Text {
-                id: location
-                width: 200
-                text: qsTr("Mouse Location")
-                color: "white"
-                horizontalAlignment: Text.AlignHCenter
+            Row {
+                id: info
+                spacing: 10
+                height: rootWindow.height / 2
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text {
+                    id: mousePressed
+                    width: 175
+                    height: rootWindow.height / 2
+                    text: qsTr("Mouse points")
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    textFormat: Text.StyledText
+                }
+                Text {
+                    id: mouseReleased
+                    width: 175
+                    height: rootWindow.height / 2
+                    text: qsTr("Mouse points")
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    textFormat: Text.StyledText
+                }
+                Text {
+                    id: mouseUpdated
+                    width: 175
+                    height: rootWindow.height / 2
+                    text: qsTr("Mouse points")
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    textFormat: Text.StyledText
+                }
             }
         }
 
@@ -482,39 +508,87 @@ Window {
             antialiasing: true
             anchors.centerIn: parent
 
-            onPaint: {
-                var ctx = getContext("2d");
-                ctx.save();
-
-                ctx.clearRect(0, 0, width, height);
-
+            function paintOnePoint(ctx, point,color) {
                 // horizontal
                 ctx.beginPath();
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = 'orange';
-                ctx.moveTo(0, lastMouseY);
-                ctx.lineTo(width-1, lastMouseY);
+                ctx.strokeStyle = color;
+                ctx.moveTo(0, point.y);
+                ctx.lineTo(width-1, point.y);
                 ctx.stroke();
 
                 // vertical
                 ctx.beginPath();
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = 'orange';
-                ctx.moveTo(lastMouseX, 0);
-                ctx.lineTo(lastMouseX, height-1);
+                ctx.strokeStyle = color;
+                ctx.moveTo(point.x, 0);
+                ctx.lineTo(point.x, height-1);
                 ctx.stroke();
+            }
+
+            onPaint: {
+                if (touches.length == 0) return;
+
+                var colors = ['orange', 'red', 'yellow', 'red', 'blue',
+                        'magenta', 'green', 'white', 'cyan', 'purple']
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                for (var i=0; i<touches.length & i<colors.length; i++) {
+                    paintOnePoint(ctx, touches[i], colors[i]);
+                }
 
                 ctx.restore();
             }
         }
 
-        MouseArea {
+        // For single touch
+//        MouseArea {
+//            anchors.fill: parent
+//            hoverEnabled: true
+//            onClicked: function(event) {
+//                lastMouseX = event.x;
+//                lastMouseY = event.y;
+//                drawing.requestPaint();
+//                mouseClicked.text = "Clicked (" + event.x.toFixed(0) + ", " + event.y.toFixed(0) + ")"
+//            }
+//            onPressed: function(event) {
+//                mousePressed.text = "Pressed (" + event.x.toFixed(0) + ", " + event.y.toFixed(0) + ")"
+//            }
+//            onPositionChanged: function(event) {
+//                mouseChanged.text = "Changed (" + event.x.toFixed(0) + ", " + event.y.toFixed(0) + ")"
+//            }
+//        }
+
+
+        // For multiple touches
+        MultiPointTouchArea {
             anchors.fill: parent
-            onClicked: function(event) {
-                lastMouseX = event.x;
-                lastMouseY = event.y;
+            mouseEnabled: true
+            function updatePoints(label, points) {
+                var msg = label + " Points: " + points.length
+                for (var i=0; i<points.length; i++) {
+                    msg = msg  + "<br>"
+                    msg = msg + "(" + points[i].x.toFixed(0) + ", " + points[i].y.toFixed(0) + ")"
+                }
+
+                return msg;
+            }
+            onPressed: function(points) {
+                mousePressed.text = updatePoints("Pressed",points);
+            }
+            onReleased: function(points) {
+                mouseReleased.text = updatePoints("Released",points);
+            }
+            onUpdated: function(points) {
+                mouseUpdated.text = updatePoints("Updated",points);
+            }
+            onTouchUpdated: function(points) {
+                currentTouchCount.text = "Current number of touches = " + points.length;
+                touches = points;
                 drawing.requestPaint();
-                location.text = "(" + event.x.toFixed(0) + ", " + event.y.toFixed(0) + ")"
             }
         }
     }
