@@ -422,6 +422,7 @@ Item {
                 console.log("Got a message to set the reminder settings, but the request is invalid: " + JSON.stringify(msg.data));
                 sendMessage("WriteReminderSettingsResponse id " + msg.data.id + " result failure");
             }
+            utility.updateReminderSettingsOnBackend();
             break;
         case "RequestPizzaStyle":
             if (foodNameString == "CUSTOM") {
