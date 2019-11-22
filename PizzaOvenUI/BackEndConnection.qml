@@ -120,6 +120,13 @@ Item {
         id: wifiDataRequestor
     }
 
+    function recordFailTemps() {
+        var banks = [upperFront, upperRear, lowerFront, lowerRear];
+        banks.map(function(bank) {
+            if (bank.currentTemp > bank.failTemp) bank.failTemp = bank.currentTemp;
+        });
+    }
+
     function handleWebSocketMessage(_msg) {
         var  msg = JSON.parse(_msg);
         switch (msg.id){
@@ -222,6 +229,7 @@ Item {
             lowerRear.elementRelay = msg.data.LR;
             break;
         case "Failure":
+            recordFailTemps();
             failures.logFailure(msg.data.event);
             callServiceFailure = true;
             checkDifferentials();

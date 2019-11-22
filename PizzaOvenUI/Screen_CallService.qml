@@ -8,7 +8,6 @@ Rectangle {
     height: screenHeight
     anchors.centerIn: parent
     property string screenName: "Screen_CallService"
-
     property color messageColor: "yellow"
 
     function screenEntry() {
@@ -177,13 +176,15 @@ Rectangle {
         anchors.centerIn: parent
         color: appBackgroundColor
         property string temperatures: ""
+        border.color: "orange"
+        border.width: 2
 
         Text {
             text: "TEMPERATURES\r\n" +
-                  "UPPER FRONT: " + upperFront.currentTemp + "\r\n" +
-                  "UPPER REAR: " + upperRear.currentTemp + "\r\n" +
-                  "LOWER FRONT: " + lowerFront.currentTemp + "\r\n" +
-                  "LOWER REAR: " + lowerRear.currentTemp
+                  "UPPER FRONT: " + upperFront.currentTemp + ", " + upperFront.failTemp + "\r\n" +
+                  "UPPER REAR: " + upperRear.currentTemp + ", " + upperRear.failTemp + "\r\n" +
+                  "LOWER FRONT: " + lowerFront.currentTemp + ", " + lowerFront.failTemp + "\r\n" +
+                  "LOWER REAR: " + lowerRear.currentTemp + ", " + lowerRear.failTemp
             width: parent.width
             height:parent.height
             anchors.centerIn: parent
