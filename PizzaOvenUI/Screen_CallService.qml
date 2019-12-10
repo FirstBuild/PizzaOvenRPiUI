@@ -3,12 +3,12 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Rectangle {
+    id: thisScreen
     color: appBackgroundColor
     width: screenWidth
     height: screenHeight
     anchors.centerIn: parent
     property string screenName: "Screen_CallService"
-
     property color messageColor: "yellow"
 
     function screenEntry() {
@@ -176,22 +176,64 @@ Rectangle {
         height: parent.height
         anchors.centerIn: parent
         color: appBackgroundColor
-        property string temperatures: ""
 
         Text {
-            text: "TEMPERATURES\r\n" +
-                  "UPPER FRONT: " + upperFront.currentTemp + "\r\n" +
-                  "UPPER REAR: " + upperRear.currentTemp + "\r\n" +
-                  "LOWER FRONT: " + lowerFront.currentTemp + "\r\n" +
-                  "LOWER REAR: " + lowerRear.currentTemp
-            width: parent.width
-            height:parent.height
-            anchors.centerIn: parent
+            id: titleText
+            text: "TEMPERATURES"
+            color: appForegroundColor
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.family: localFont.name
-            font.pointSize: 20
-            color: appForegroundColor
+            font.pointSize: 18
+            anchors.bottom: tempColumn.top
+            anchors.horizontalCenter: tempColumn.horizontalCenter
+            anchors.bottomMargin: 10
+        }
+
+        Column {
+            id: tempColumn
+            anchors.centerIn: parent
+            Row {
+                FaultText {text: "Location"}
+                FaultText {text: "Current"}
+                FaultText {text: "Fault"}
+            }
+            Row {
+                FaultText {text: "Upper Front"}
+                FaultText {
+                    text: upperFront.currentTemp.toString()
+                }
+                FaultText {
+                    text: upperFront.failTemp.toString()
+                }
+            }
+            Row {
+                FaultText {text: "Upper Rear"}
+                FaultText {
+                    text: upperRear.currentTemp.toString()
+                }
+                FaultText {
+                    text: upperRear.failTemp.toString()
+                }
+            }
+            Row {
+                FaultText {text: "Upper Front"}
+                FaultText {
+                    text: lowerFront.currentTemp.toString()
+                }
+                FaultText {
+                    text: lowerFront.failTemp.toString()
+                }
+            }
+            Row {
+                FaultText {text: "Upper Rear"}
+                FaultText {
+                    text: lowerRear.currentTemp.toString()
+                }
+                FaultText {
+                    text: lowerRear.failTemp.toString()
+                }
+            }
         }
 
         MouseArea {

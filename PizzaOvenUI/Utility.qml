@@ -88,4 +88,12 @@ Item {
         console.log("No match found, setting the food index to 4");
         rootWindow.foodIndex = 4;
     }
+
+    function updateReminderSettingsOnBackend() {
+        backEnd.sendMessage("ReminderSettings" +
+                    " rotatePizza " + (halfTimeRotateAlertEnabled ? 1 : 0) +
+                    " finalCheck " + (finalCheckAlertEnabled ? 1 : 0) +
+                    " done " + (pizzaDoneAlertEnabled ? 1 : 0)
+                    );
+    }
 }
