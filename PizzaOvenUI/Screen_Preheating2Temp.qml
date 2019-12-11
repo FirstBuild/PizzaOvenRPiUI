@@ -95,7 +95,11 @@ Item {
             break;
         case "Cooking":
             preheatComplete = true;
-            forceScreenTransition(Qt.resolvedUrl("Screen_Cooking.qml"));
+            doExitCheck();
+            break;
+        case "PreheatStoneOnly":
+            upperTempLocked = false;
+            upperTemp = currentUpperMininumTemp;
             break;
         }
     }
@@ -253,7 +257,6 @@ Item {
 
     function doExitCheck() {
         if (screenExitAnimator.running) return;
-//        if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
           if ((upperTempLocked && lowerTempLocked) || !rootWindow.maxPreheatTimer.running || (localOvenState == "Cooking")) {
             if (ovenState == "Idle") {
                 handleOvenStateMsg("Idle");
