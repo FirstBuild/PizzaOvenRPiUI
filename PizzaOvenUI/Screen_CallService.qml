@@ -215,6 +215,7 @@ Rectangle {
                 FaultText {
                     text: upperRear.failTemp.toString()
                 }
+                visible: rootWindow.originalConfiguration
             }
             Row {
                 FaultText {text: "Upper Front"}
@@ -233,6 +234,7 @@ Rectangle {
                 FaultText {
                     text: lowerRear.failTemp.toString()
                 }
+                visible: rootWindow.originalConfiguration
             }
         }
 

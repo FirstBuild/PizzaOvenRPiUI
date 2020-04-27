@@ -24,8 +24,8 @@ Item {
     property real upperTempDemoValue: 75.0
     property real lowerTempDemoValue: 75.0
 
-    property real currentUpperMininumTemp: (upperFront.currentTemp < upperRear.currentTemp) ? upperFront.currentTemp : upperRear.currentTemp
-    property real currentLowerMininumTemp: (lowerFront.currentTemp < lowerRear.currentTemp) ? lowerFront.currentTemp : lowerFront.currentTemp
+    property real currentUpperMininumTemp: ((upperFront.currentTemp < upperRear.currentTemp) || !rootWindow.originalConfiguration) ? upperFront.currentTemp : upperRear.currentTemp
+    property real currentLowerMininumTemp: ((lowerFront.currentTemp < lowerRear.currentTemp) || !rootWindow.originalConfiguration) ? lowerFront.currentTemp : lowerFront.currentTemp
 
     property real upperTemp: demoModeIsActive ? upperTempDemoValue : currentUpperMininumTemp
     property real lowerTemp: demoModeIsActive ? (stoneIsPreheated ? lowerFront.setTemp : lowerTempDemoValue) :
@@ -43,6 +43,10 @@ Item {
         onTriggered: {
             var currentDisplayTemp = upperTemp;
             var currentActualTemp = (upperFront.currentTemp < upperRear.currentTemp) ? upperFront.currentTemp : upperRear.currentTemp;
+            if (!rootWindow.originalConfiguration) {
+                currentActualTemp = upperFront.currentTemp;
+            }
+
             console.log("Current upper actual temp = " + currentActualTemp);
             if (currentActualTemp < upperFront.setTemp) {
                 if (currentActualTemp > upperTemp) {
@@ -56,6 +60,10 @@ Item {
             }
             currentDisplayTemp = lowerTemp;
             currentActualTemp = (lowerFront.currentTemp < lowerRear.currentTemp) ? lowerFront.currentTemp : lowerRear.currentTemp;
+            if (!rootWindow.originalConfiguration) {
+                currentActualTemp = lowerFront.currentTemp;
+            }
+
             console.log("Current lower actual temp = " + currentActualTemp);
             if ((currentActualTemp < lowerFront.setTemp) && !stoneIsPreheated) {
                 if (currentActualTemp > lowerTemp) {

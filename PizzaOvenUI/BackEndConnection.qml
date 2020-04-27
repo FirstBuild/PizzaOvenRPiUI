@@ -48,9 +48,11 @@ Item {
                          } else if (socket.status == WebSocket.Open) {
                              socket.sendTextMessage("Hello World")
                              sendMessage("Get UF");
-                             sendMessage("Get UR");
                              sendMessage("Get LF");
-                             sendMessage("Get LR");
+                             if (rootWindow.originalConfiguration) {
+                                sendMessage("Get UR");
+                                sendMessage("Get LR");
+                             }
                          } else if (socket.status == WebSocket.Closed) {
                              //                             console.log("Socket closed");
                              webSocketConnectionTimer.start();
@@ -131,14 +133,21 @@ Item {
         var  msg = JSON.parse(_msg);
         switch (msg.id){
         case "Temp":
-            if (msg.data.LF && msg.data.LR){
+            if (msg.data.UF){
                 upperFront.currentTemp = msg.data.UF;
+                commFailCount = commFailResetCount;
+            }
+            if (msg.data.UR){
                 upperRear.currentTemp = msg.data.UR;
+                commFailCount = commFailResetCount;
+            }
+            if (msg.data.LF){
                 lowerFront.currentTemp = msg.data.LF;
+                commFailCount = commFailResetCount;
+            }
+            if (msg.data.LR){
                 lowerRear.currentTemp = msg.data.LR;
                 commFailCount = commFailResetCount;
-            } else {
-                console.log("Temp data missing.");
             }
             break;
         case "Reset":
@@ -217,16 +226,16 @@ Item {
 
             break;
         case "PidDutyCycles":
-            upperFront.elementDutyCycle = msg.data.UF;
-            upperRear.elementDutyCycle = msg.data.UR;
-            lowerFront.elementDutyCycle = msg.data.LF;
-            lowerRear.elementDutyCycle = msg.data.LR;
+            if(msg.data.UF) upperFront.elementDutyCycle = msg.data.UF;
+            if(msg.data.UR) upperRear.elementDutyCycle = msg.data.UR;
+            if(msg.data.LF) lowerFront.elementDutyCycle = msg.data.LF;
+            if(msg.data.LR) lowerRear.elementDutyCycle = msg.data.LR;
             break;
         case "RelayStates":
-            upperFront.elementRelay = msg.data.UF;
-            upperRear.elementRelay = msg.data.UR;
-            lowerFront.elementRelay = msg.data.LF;
-            lowerRear.elementRelay = msg.data.LR;
+            if(msg.data.UF) upperFront.elementRelay = msg.data.UF;
+            if(msg.data.UR) upperRear.elementRelay = msg.data.UR;
+            if(msg.data.LF) lowerFront.elementRelay = msg.data.LF;
+            if(msg.data.LR) lowerRear.elementRelay = msg.data.LR;
             break;
         case "Failure":
             recordFailTemps();
