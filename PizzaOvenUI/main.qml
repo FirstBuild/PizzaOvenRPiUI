@@ -14,6 +14,10 @@ Window {
 
     FontLoader { id: localFont; source: "fonts/FreeSans.ttf"; name: "FreeSans" }
 
+    // program configuration
+    // true = original oven, false = low cost ovenIsRunning:
+    property bool originalConfiguration: true
+
     // Things related to the cooking of the oven
     property int cookTime: 30
     property int finalCheckTime: cookTime * 0.9
@@ -155,7 +159,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: "0.3.7"
+    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.0"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""

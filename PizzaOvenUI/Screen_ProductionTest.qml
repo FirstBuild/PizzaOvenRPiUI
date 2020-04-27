@@ -11,18 +11,24 @@ Item {
     property int spacing: 10
     property int smallButtonWidth: ((thisScreen.width - thisScreen.spacing) / 4) - thisScreen.spacing
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 6) - thisScreen.spacing
-    property int columnWidth: smallButtonWidth
     property int textSize: 24
+    property int controlCount: rootWindow.originalConfiguration ? 4 : 2
+    property int controlWidth: (thisScreen.width - thisScreen.spacing * (controlCount - 1)) / controlCount
 
     function screenEntry() {
         console.log("Entering production test screen");
         appSettings.backlightOff = false;
 
         // Initialize Off percents
-        backEnd.sendMessage("Set UF OffPercent 100");
-        backEnd.sendMessage("Set UR OffPercent 100");
-        backEnd.sendMessage("Set LF OffPercent 49");
-        backEnd.sendMessage("Set LR OffPercent 100");
+        if (rootWindow.originalConfiguration) {
+            backEnd.sendMessage("Set UF OffPercent 100");
+            backEnd.sendMessage("Set UR OffPercent 100");
+            backEnd.sendMessage("Set LF OffPercent 49");
+            backEnd.sendMessage("Set LR OffPercent 100");
+        } else {
+            backEnd.sendMessage("Set UF OffPercent 100");
+            backEnd.sendMessage("Set LF OffPercent 100");
+        }
     }
 
     Column {
@@ -47,35 +53,38 @@ Item {
 
         Rectangle {
             id: buttonContainer
-//            border.color: "blue"
-//            border.width: 1
-            width: screenWidth - spacing * 2
+            border.color: "blue"
+            border.width: 1
+            width: thisScreen.width
             height: smallButtonHeight * 3
             color: appBackgroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             Row {
                 spacing: 10
+
                 TestToggle {
                     id: upperFrontToggle
                     heater: upperFront
                     height: buttonContainer.height
-                    width: buttonContainer.width / 4 - 3 * parent.spacing / 4
+                    width: controlWidth
                 }
                 TestToggle {
                     id: upperRearToggle
                     heater: upperRear
                     height: buttonContainer.height
-                    width: buttonContainer.width / 4 - 3 * parent.spacing / 4
+                    width: controlWidth
+                    visible: rootWindow.originalConfiguration
                 }
                 TestToggle {
                     heater: lowerFront
                     height: buttonContainer.height
-                    width: buttonContainer.width / 4 - 3 * parent.spacing / 4
+                    width: controlWidth
                 }
                 TestToggle {
                     heater: lowerRear
                     height: buttonContainer.height
-                    width: buttonContainer.width / 4 - 3 * parent.spacing / 4
+                    width: controlWidth
+                    visible: rootWindow.originalConfiguration
                 }
             }
         }
@@ -149,9 +158,11 @@ Item {
             borderColor: appForegroundColor
             onClicked: {
                 backEnd.sendMessage("Get UF");
-                backEnd.sendMessage("Get UR");
                 backEnd.sendMessage("Get LF");
-                backEnd.sendMessage("Get LR");
+                if (rootWindow.originalConfiguration) {
+                    backEnd.sendMessage("Get UR");
+                    backEnd.sendMessage("Get LR");
+                }
             }
         }
     }

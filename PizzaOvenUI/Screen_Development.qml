@@ -9,7 +9,7 @@ Item {
     implicitWidth: screenWidth
 
     property int spacing: 10
-    property int smallButtonWidth: ((thisScreen.width - thisScreen.spacing) / 4) - thisScreen.spacing
+    property int smallButtonWidth: (thisScreen.width - 3 * thisScreen.spacing) / 4
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
     function screenEntry() {
@@ -20,11 +20,13 @@ Item {
     Column {
         id: dataColumn
         z: 1
-        spacing: 10
-        anchors.centerIn: parent
+        spacing: thisScreen.spacing
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: parent.width
 
         Row {
-            spacing: 10
+            spacing: thisScreen.spacing
 
             HeaterBankVisual {
                 id: upperFrontData
@@ -41,6 +43,7 @@ Item {
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
                 borderColor: (upperRear.elementRelay == 0) ? "blue" : "red"
+                visible: rootWindow.originalConfiguration
             }
             HeaterBankVisual {
                 id: lowerFrontData
@@ -57,6 +60,7 @@ Item {
                 buttonWidth: smallButtonWidth
                 buttonHeight: smallButtonHeight
                 borderColor: (lowerRear.elementRelay == 0) ? "blue" : "red"
+                visible: rootWindow.originalConfiguration
             }
         }
         Row {
@@ -82,6 +86,7 @@ Item {
                 font.pointSize: idDutyCycleRow.textSize
                 text: " UR: " + upperRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
                 width: screenWidth/6
+                visible: rootWindow.originalConfiguration
             }
             Text {
                 color: appForegroundColor
@@ -96,6 +101,7 @@ Item {
                 font.pointSize: idDutyCycleRow.textSize
                 text: " LR: " + lowerRear.elementDutyCycle.toLocaleString(Qt.locale("C"), 'f', 3)
                 width: screenWidth/6
+                visible: rootWindow.originalConfiguration
             }
             GearButton {
                 id: mainMenuGearButton
@@ -110,7 +116,7 @@ Item {
         }
 
         Row {
-            spacing: 10
+            spacing: thisScreen.spacing
             MyButton {
                 id: idStartStopButton
                 text: (ovenState == "Standby") || (ovenState == "Cooldown") ? "Start" : "Stop"
@@ -156,7 +162,7 @@ Item {
             }
             Column {
                 Row {
-                    spacing: 10
+                    spacing: thisScreen.spacing
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
@@ -177,7 +183,7 @@ Item {
                     }
                 }
                 Row {
-                    spacing: 10
+                    spacing: thisScreen.spacing
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
@@ -216,11 +222,14 @@ Item {
         borderColor: appForegroundColor
         onClicked: {
             backEnd.sendMessage("Get UF");
-            backEnd.sendMessage("Get UR");
             backEnd.sendMessage("Get LF");
-            backEnd.sendMessage("Get LR");
+            if (rootWindow.originalConfiguration) {
+                backEnd.sendMessage("Get UR");
+                backEnd.sendMessage("Get LR");
+            }
         }
         anchors.right: dataColumn.right
+//        anchors.right: parent.right
         anchors.bottom: dataColumn.bottom
     }
     TempEntryWithKeys {
