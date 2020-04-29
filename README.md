@@ -22,7 +22,7 @@ Notes:
 Compile the following modules using the [instructions from the link](https://wiki.qt.io/RaspberryPi2EGLFS):
 -	qtimageformats
 -	qtsvg
--	qtscript
+-	qtscript (deprecated, don't use?)
 -	qtxmlpatterns
 -	qtdeclarative
 -	qtsensors
