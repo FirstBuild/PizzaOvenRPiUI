@@ -15,7 +15,7 @@ In order to cross-build for the Pi, you need to install a cross toolchain, among
 
 Notes:
 - When cloning qtbase, use branch 5.6.
-- When configuring, use linux-rpi3-g++ for the linux device.
+- When configuring, use linux-rpi3-g++ for the linux device.  Also use th -no-use-gold-linker switch.
 
 ### Compiling additional modules
 Compile the following modules using the [instructions from the link](https://wiki.qt.io/RaspberryPi2EGLFS):
