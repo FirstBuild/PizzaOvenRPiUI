@@ -14,6 +14,7 @@ You may need to deviate a little when set up the environment.  This mostly invol
 In order to cross-build for the Pi, you need to install a cross toolchain, among other things.  Follow [the instructions here](https://wiki.qt.io/RaspberryPi2EGLFS) for creating the cross environment and doing the initial build.
 
 Notes:
+- After cloning the pi tools, `git checkout 6376a50e`
 - When cloning qtbase, use branch 5.6.
 - When configuring, use linux-rpi3-g++ for the linux device.  Also use th -no-use-gold-linker switch.
 
