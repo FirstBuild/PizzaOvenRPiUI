@@ -16,7 +16,7 @@ Window {
 
     // program configuration
     // true = original oven, false = low cost ovenIsRunning:
-    property bool originalConfiguration: true
+    property bool originalConfiguration: false
 
     // Things related to the cooking of the oven
     property int cookTime: 30
@@ -103,6 +103,7 @@ Window {
         id: failures
     }
 
+    property int doorLatchState: 0
     property int doorCount: 0
     property int doorStatus: 0
     onDoorStatusChanged: {
@@ -342,7 +343,6 @@ Window {
                 appSettings.backlightOff = false;
                 if (appSettings.settingsInitialized) {
                     if (callServiceFailure == false) {
-
                         Qt.resolvedUrl("Screen_Off.qml");
                     } else {
                         Qt.resolvedUrl("Screen_CallService.qml");

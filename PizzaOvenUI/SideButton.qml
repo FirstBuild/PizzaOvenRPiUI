@@ -5,6 +5,8 @@ Item {
 
     property string buttonText: "BUTTON"
     signal clicked()
+    property alias pointSize: idButtonText.font.pointSize
+    property alias enabled: mouseArea.enabled
 
     implicitHeight: 75
     implicitWidth: parent.width*.2
@@ -39,6 +41,7 @@ Item {
         color: appGrayColor
     }
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         onClicked: {
             autoShutoff.reset();

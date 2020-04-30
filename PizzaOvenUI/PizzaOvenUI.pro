@@ -16,12 +16,14 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
-target.path = /home/pi/
+target.path = /home/pi/app
+# target.files = PizzaOvenUI
 
 sounds.files = $$files(sounds/*)
-sounds.path = /home/pi/sounds
+sounds.path = /home/pi/app/sounds
 
 INSTALLS += sounds
+# INSTALLS += target
 
 HEADERS += \
     programSettings.h \

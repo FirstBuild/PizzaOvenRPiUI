@@ -328,13 +328,16 @@ Item {
                 sendMessage("WriteVolumeLevelResponse id " + msg.data.id + " result failure");
             }
             break;
+        case "DoorLatchState":
+            console.log("Latch state is " + msg.data);
+            rootWindow.doorLatchState = msg.data == 1 ? 1 : 0;
+            break;
         case "DomeState":
             if (msg.data == "Off") {
                 rootWindow.domeState.actual = false;
             } else {
                 rootWindow.domeState.actual = true;
             }
-
             break;
         case "RequestTimerSetting":
             sendMessage("TimerSettingResponse id " + msg.data.id + " time " + cookTime);
