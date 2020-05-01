@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.1, 2020-04-30T13:02:09. -->
+<!-- Written by QtCreator 4.0.1, 2020-05-01T05:56:17. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -535,26 +535,26 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinux.DirectUploadStep</value>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_AlarmUrgent.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CycleComplete.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Off.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CyclePre.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PressHoldOff.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Select.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PowerOn.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_UnavailableTouch.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_AlarmMid.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Cancel.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_Notification.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Decrease.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CyclePost.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Touch.wav</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_On.wav</value>
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Increase.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_Notification.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_AlarmMid.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Touch.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CyclePre.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Decrease.wav</value>
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_AlarmLow.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PowerOn.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Select.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_UnavailableTouch.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Cancel.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CyclePost.wav</value>
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PowerOff.wav</value>
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/build-PizzaOvenUI-Raspberry_Pi-Debug/PizzaOvenUI</value>
-       <value type="QString">/home/rob/git/PizzaOvenRPiUI/build-PizzaOvenUI-Raspberry_Pi-Debug/PizzaOvenUI</value>
        <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PressHoldOn.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_On.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Passive_CycleComplete.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_PressHoldOff.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/PizzaOvenUI/sounds/Monogram_Interact_Off.wav</value>
+       <value type="QString">/home/rob/git/PizzaOvenRPiUI/build-PizzaOvenUI-Raspberry_Pi-Debug/PizzaOvenUI</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
        <value type="QString">raspberrypi.local</value>
@@ -594,13 +594,13 @@
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
+       <value type="QString">/home/pi/app</value>
+       <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/sounds</value>
        <value type="QString">/home/pi/app/</value>
-       <value type="QString">/home/pi/app</value>
-       <value type="QString">/home/pi/app/sounds</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots">
        <value type="QString">/home/rob/raspi/sysroot</value>
@@ -628,6 +628,8 @@
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
        <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:49</value>
+       <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:49</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
@@ -636,17 +638,15 @@
        <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:49</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:48</value>
-       <value type="QDateTime">2020-04-29T12:16:49</value>
        <value type="QDateTime">2020-04-30T12:53:04</value>
        <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:48</value>
+       <value type="QDateTime">2020-04-29T12:16:49</value>
       </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">true</value>
