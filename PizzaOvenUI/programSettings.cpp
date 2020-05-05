@@ -420,4 +420,3 @@ bool ProgramSettings::getDemoModeState()
 {
     return m_demoModeState;
 }
-

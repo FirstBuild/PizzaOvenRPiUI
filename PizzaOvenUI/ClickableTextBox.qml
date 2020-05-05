@@ -13,6 +13,7 @@ Item {
     property color foregroundColor: appGrayText
     property int titleTextPointSize: needsAnimation ? 1 : pointSize
     property bool needsAnimation: true
+    property alias border: background.border
 
     signal clicked()
 
@@ -29,8 +30,6 @@ Item {
         height: parent.height
         anchors.centerIn: parent
         color: box.backgroundColor
-//        border.color: "orange"
-//        border.width: 1
         MouseArea {
             id: mouseArea
             anchors.fill: parent

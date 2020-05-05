@@ -10,6 +10,7 @@ Item {
     property string text: "LABEL"
     property real spacing: 5
     property bool silent: false
+    property alias border: background.border
 
     Rectangle {
         id: background

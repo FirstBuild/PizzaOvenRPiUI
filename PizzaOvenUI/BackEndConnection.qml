@@ -332,6 +332,17 @@ Item {
             console.log("Latch state is " + msg.data);
             rootWindow.doorLatchState = msg.data == 1 ? 1 : 0;
             break;
+        case "FanSpeedSettings":
+            console.log("Fan speed settings received");
+            if (msg.data.preheat) {
+                console.log("Preheat fan speed = " + msg.data.preheat);
+                preheatFanSetting = msg.data.preheat;
+            }
+            if (msg.data.cooking) {
+                console.log("Cooking fan speed = " + msg.data.cooking);
+                cookingFanSetting = msg.data.cooking;
+            }
+            break;
         case "DomeState":
             if (msg.data == "Off") {
                 rootWindow.domeState.actual = false;
