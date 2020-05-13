@@ -218,7 +218,7 @@ Rectangle {
                 visible: rootWindow.originalConfiguration
             }
             Row {
-                FaultText {text: "Upper Front"}
+                FaultText {text: "Lower Front"}
                 FaultText {
                     text: lowerFront.currentTemp.toString()
                 }
@@ -227,7 +227,7 @@ Rectangle {
                 }
             }
             Row {
-                FaultText {text: "Upper Rear"}
+                FaultText {text: "Lower Rear"}
                 FaultText {
                     text: lowerRear.currentTemp.toString()
                 }
