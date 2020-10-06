@@ -129,7 +129,7 @@ Window {
 
     // Things related to how the app looks and operates
     property bool demoModeIsActive: appSettings.demoModeActive
-    property bool developmentModeIsActive: false
+    property bool developmentModeIsActive: true
     property bool productionModeIsActive: false
 
     property color appBackgroundColor: "#202020"
