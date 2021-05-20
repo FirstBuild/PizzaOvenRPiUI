@@ -128,11 +128,6 @@ Item {
         }
     }
 
-    DialogWithCheckbox {
-        id: pressPowerDialog
-        dialogMessage: "Press power button to continue"
-    }
-
     DomeToggle {
         id: domeToggle;
         text: "DOME"
@@ -140,6 +135,11 @@ Item {
         onClicked: {
             console.log("Dome toggle clicked.");
         }
+    }
+
+    DialogWithCheckbox {
+        id: pressPowerDialog
+        dialogMessage: "Press power button to continue"
     }
 }
 

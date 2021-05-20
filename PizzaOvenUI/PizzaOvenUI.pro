@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick multimedia multimediawidgets
+QT += qml quick multimedia multimediawidgets network
 CONFIG += c++11
 QMAKE_LFLAGS += "-Wl,-Map=output.map"
 

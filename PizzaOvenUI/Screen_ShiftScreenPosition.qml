@@ -11,6 +11,8 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
+    property int shiftIncrement: 1
+
     opacity: 0.0
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
@@ -67,7 +69,7 @@ Item {
         anchors.horizontalCenter: doneButton.horizontalCenter
         anchors.bottom: doneButton.top
         onClicked: {
-            screenOffsetY -= 5;
+            screenOffsetY -= shiftIncrement;
             if (screenOffsetY < 0) screenOffsetY = 0;
         }
     }
@@ -78,7 +80,7 @@ Item {
         anchors.horizontalCenter: doneButton.horizontalCenter
         anchors.top: doneButton.bottom
         onClicked: {
-            screenOffsetY += 5;
+            screenOffsetY += shiftIncrement;
         }
     }
     SideButton {
@@ -88,7 +90,7 @@ Item {
         anchors.verticalCenter: doneButton.verticalCenter
         anchors.right: doneButton.left
         onClicked: {
-            screenOffsetX -= 5;
+            screenOffsetX -= shiftIncrement;
             if (screenOffsetX < 0) screenOffsetX = 0;
         }
     }
@@ -99,7 +101,7 @@ Item {
         anchors.verticalCenter: doneButton.verticalCenter
         anchors.left: doneButton.right
         onClicked: {
-            screenOffsetX += 5;
+            screenOffsetX += shiftIncrement;
         }
     }
 

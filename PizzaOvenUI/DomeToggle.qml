@@ -8,13 +8,16 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: domeToggle
 
-    property int finalPositionX: screenWidth-26-width
+//    property int finalPositionX: screenWidth-26-width
+    property int finalPositionX: screenWidth-34-width
     property bool state: rootWindow.domeState.displayed
 
-    width: 125
+//    width: 125
+    width: 165
     height: lineSpacing
     x: needsAnimation ? (screenWidth-width)/2 : finalPositionX
-    y: 300 - lineSpacing
+//    y: 300 - lineSpacing
+    y: 396 - lineSpacing
     property string text: "IDLE"
     signal clicked()
 
@@ -40,7 +43,8 @@ Item {
             width: domeToggle.width
             height: domeToggle.height/2
             font.family: localFont.name
-            font.pointSize: 16
+//            font.pointSize: 16
+            font.pointSize: 21
             color: appForegroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter

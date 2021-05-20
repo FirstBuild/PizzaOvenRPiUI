@@ -18,6 +18,8 @@ Rectangle {
         width: lineSpacing
         anchors.centerIn: parent
         color: backButton.color
+//        border.color: "orange"
+//        border.width: 1
         MouseArea {
             id: mouseArea
             anchors.fill: parent

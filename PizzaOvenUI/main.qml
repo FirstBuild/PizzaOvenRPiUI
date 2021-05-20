@@ -142,16 +142,16 @@ Window {
     property color appGrayColor: "#707070"
     property color appGrayText: "#B0B0B0"
 
-    property int centerCircleTextHeight: 24
+    property int centerCircleTextHeight: 32
     property string gearIconSource: "Gear-Icon-white-2.svg"
     property bool immediateTransitions: true
-    property int screenWidth: 559
-    property int screenHeight: 355
+    property int screenWidth: 800 - 11
+    property int screenHeight: 480 - 11
     property int screenOffsetX: appSettings.screenOffsetX
     property int screenOffsetY: appSettings.screenOffsetY
     property string timeOfDay: "10:04"
-    property int smallTextSize: 24
-    property int bigTextSize: 42
+    property int smallTextSize: 32
+    property int bigTextSize: 55
     property int appColumnWidth: 62
     property bool tempDisplayInF: appSettings.tempDisplayInF
     property int  volumeSetting: appSettings.volumeSetting
@@ -159,6 +159,12 @@ Window {
     property int brightnessSetting: appSettings.brightness
     property int preheatFanSetting: 0
     property int cookingFanSetting: 1
+
+    // Dialog stuff
+    property int dialogY: 127
+    property int dialogDiameter: 272
+    property int dialogFontPointSize: 24
+    property int dialogTextBoxWidth: 218
 
     // some information
     property string controlVersion: "255.255.255.255"
@@ -170,7 +176,7 @@ Window {
     property string wifiSsid: ""
     property string wifiPassphrase: ""
 
-    property int lineSpacing: 54
+    property int lineSpacing: 71
 
     property bool controlBoardProgrammingInProgress: false
 
@@ -333,8 +339,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-//        border.color: "red"
-//        border.width: 1
+        border.color: "red"
+        border.width: 1
         StackView {
             id: stackView
             width: parent.width
@@ -369,46 +375,46 @@ Window {
         }
     }
 
-    GearButton {
-        id: auxGear1
-        anchors.margins: 20
-        anchors.left: screenStackContainer.right
-        anchors.verticalCenter: screenStackContainer.verticalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear2
-        anchors.margins: 20
-        anchors.top: screenStackContainer.bottom
-        anchors.horizontalCenter: screenStackContainer.horizontalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear3
-        anchors.margins: 20
-        anchors.right: screenStackContainer.left
-        anchors.verticalCenter: screenStackContainer.verticalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
-    GearButton {
-        id: auxGear4
-        anchors.margins: 20
-        anchors.bottom: screenStackContainer.top
-        anchors.horizontalCenter: screenStackContainer.horizontalCenter
-        onClicked: {
-            console.log("Extra gear, transitioning to shift screen.");
-            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
-        }
-    }
+//    GearButton {
+//        id: auxGear1
+//        anchors.margins: 20
+//        anchors.left: screenStackContainer.right
+//        anchors.verticalCenter: screenStackContainer.verticalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear2
+//        anchors.margins: 20
+//        anchors.top: screenStackContainer.bottom
+//        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear3
+//        anchors.margins: 20
+//        anchors.right: screenStackContainer.left
+//        anchors.verticalCenter: screenStackContainer.verticalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+//        }
+//    }
+//    GearButton {
+//        id: auxGear4
+//        anchors.margins: 20
+//        anchors.bottom: screenStackContainer.top
+//        anchors.horizontalCenter: screenStackContainer.horizontalCenter
+//        onClicked: {
+//            console.log("Extra gear, transitioning to shift screen.");
+//            stackView.push({item: Qt.resolvedUrl("Screen_ShiftScreenPosition.qml"), immediate:immediateTransitions});
+//        }
+//    }
 
     Timer {
         id: timeOfDayClock

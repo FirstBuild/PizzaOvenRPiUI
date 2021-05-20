@@ -20,9 +20,9 @@ Item {
 
     Item {
         x: (parent.width - width) / 2
-        y: 96
-        height: 206
-        width: 206
+        y: dialogY
+        height: dialogDiameter
+        width: dialogDiameter
 
         Rectangle {
             id: messageCircle
@@ -39,9 +39,9 @@ Item {
             text: "Dialog Message"
             wrapMode: Text.Wrap
             font.family: localFont.name
-            font.pointSize: 18
+            font.pointSize: dialogFontPointSize
             color: appForegroundColor
-            width: 165
+            width: dialogTextBoxWidth
             height: parent.height * 0.6
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter

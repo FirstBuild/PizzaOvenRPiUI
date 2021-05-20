@@ -8,9 +8,12 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: leftButton
 
-    x: needsAnimation ? (screenWidth - width)/2 : 26
-    y: 165 + (64 - lineSpacing) / 2
-    width: 125
+//    x: needsAnimation ? (screenWidth - width)/2 : 26
+//    y: 165 + (64 - lineSpacing) / 2
+//    width: 125
+    x: needsAnimation ? (screenWidth - width)/2 : 34
+    y: 218 + (84 - lineSpacing) / 2
+    width: 165
     height: lineSpacing
     property string text: "LABEL"
     signal clicked()
@@ -26,7 +29,8 @@ Item {
         }
     }
 
-    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26; running: needsAnimation}
+//    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 26; running: needsAnimation}
+    PropertyAnimation on x { id: movementAnim; from: (screenWidth - width)/2; to: 34; running: needsAnimation}
     OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
 
     SideButton {

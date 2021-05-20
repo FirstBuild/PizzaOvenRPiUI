@@ -3,10 +3,12 @@ import QtQuick 2.3
 Item {
     id: box
 
-    width: 380
+//    width: 380
+    width: 502
     height: lineSpacing
     property string text: "CLICKABLE TEXT BOX"
-    property int pointSize: 18
+//    property int pointSize: 18
+    property int pointSize: 24
     property int horizontalAlignment: Text.AlignRight
     property int verticalAlignment: Text.AlignVCenter
     property color backgroundColor: appBackgroundColor
@@ -30,6 +32,8 @@ Item {
         height: parent.height
         anchors.centerIn: parent
         color: box.backgroundColor
+//        border.color: "orange"
+//        border.width: 1
         MouseArea {
             id: mouseArea
             anchors.fill: parent

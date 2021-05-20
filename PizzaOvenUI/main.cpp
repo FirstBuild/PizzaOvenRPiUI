@@ -24,6 +24,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    qDebug()<<"SSL version use for build: "<<QSslSocket::sslLibraryBuildVersionString();
+    qDebug()<<"SSL version use for run-time: "<<QSslSocket::sslLibraryVersionNumber();
+    qDebug()<<QCoreApplication::libraryPaths();
+
 #ifdef KILL
     qDebug() << "------------- Available devices --------------------------------";
     foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
@@ -54,7 +58,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     appParentObj = engine.parent();
-
 
     return app.exec();
 }

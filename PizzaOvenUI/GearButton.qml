@@ -13,10 +13,12 @@ Rectangle {
     color: appBackgroundColor
 
     Rectangle {
-        height: lineSpacing
-        width: lineSpacing
+        height: parent.width
+        width: parent.height
         anchors.centerIn: parent
         color: gearButton.color
+//        border.color: "orange"
+//        border.width: 1
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -31,7 +33,10 @@ Rectangle {
     Image {
         id: mainMenuGearIcon
         source: gearIconSource
+        width: parent.width
+        height: parent.height
         anchors.centerIn: parent
+        fillMode: Image.Stretch
     }
 }
 

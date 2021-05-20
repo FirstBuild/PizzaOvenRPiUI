@@ -128,8 +128,10 @@ Item {
     Tumbler {
         id: foodType
         x: foodTypeXLocation
-        y: 85
-        height: 225
+//        y: 85
+//        height: 225
+        y: 112
+        height: 297
         width: foodTypeWidth
 
         style:  MyTumblerStyle {

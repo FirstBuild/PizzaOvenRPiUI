@@ -47,8 +47,8 @@ Rectangle {
 
     Rectangle {
         id: buttonBox
-        width: 30
-        height: 30
+        width: parent.width
+        height: parent.height
         anchors.centerIn: parent
 
         color: appBackgroundColor
@@ -92,6 +92,4 @@ Rectangle {
             }
         }
     }
-
-
 }
