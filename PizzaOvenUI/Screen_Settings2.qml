@@ -83,6 +83,7 @@ Item {
         ListElement { name: "VOLUME"; screen: "Screen_SetVolume.qml" }
         ListElement { name: "DISPLAY BRIGHTNESS"; screen: "Screen_SetBrightness.qml" }
         ListElement { name: "ABOUT"; screen: "Screen_About.qml" }
+        ListElement { name: "TIME"; screen: "Screen_SettingsTime.qml" }
     }
 
     Tumbler {

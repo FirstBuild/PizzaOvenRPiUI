@@ -37,7 +37,11 @@ Item {
                 }
             }
             else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                if (timeOfDayDisplayed) {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
+                } else {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                }
             }
             break;
         }

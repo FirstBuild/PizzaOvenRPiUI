@@ -74,7 +74,11 @@ Window {
             sounds.powerOff.play();
             if (!callServiceFailure) {
                 console.log("The power switch is now off, transitioning to the off screen.");
-                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                if (timeOfDayDisplayed) {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
+                } else {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                }
             }
         }
     }
@@ -150,6 +154,7 @@ Window {
     property int screenOffsetX: appSettings.screenOffsetX
     property int screenOffsetY: appSettings.screenOffsetY
     property string timeOfDay: "10:04"
+    property bool timeOfDayDisplayed: appSettings.timeOfDayDisplayed
     property int smallTextSize: 32
     property int bigTextSize: 55
     property int appColumnWidth: 62
@@ -294,6 +299,8 @@ Window {
 
         var currentScreen = "UNKNOWN"
         var currentItem = stackView.currentItem;
+        console.log("Stack depth = ", stackView.depth);
+        console.log("Current item = ", currentItem);
         if (currentItem.screenName) {
             currentScreen = currentItem.screenName;
         }
@@ -351,7 +358,11 @@ Window {
                 appSettings.backlightOff = false;
                 if (appSettings.settingsInitialized) {
                     if (callServiceFailure == false) {
-                        Qt.resolvedUrl("Screen_Off.qml");
+                        if (timeOfDayDisplayed) {
+                            Qt.resolvedUrl("Screen_TimeOfDay.qml");
+                        } else {
+                            Qt.resolvedUrl("Screen_Off.qml");
+                        }
                     } else {
                         Qt.resolvedUrl("Screen_CallService.qml");
                     }
@@ -451,7 +462,11 @@ Window {
         interval: 10000
         repeat: false
         onTriggered: {
-            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            if (timeOfDayDisplayed) {
+                forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
+            } else {
+                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            }
         }
     }
 

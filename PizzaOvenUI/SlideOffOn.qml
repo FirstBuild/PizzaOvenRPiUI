@@ -3,13 +3,15 @@ import QtQuick 2.0
 Item {
     id: toggle
 
-    width: 110
-    height: 40
+//    width: 110
+//    height: 40
+    width: 145
+    height: 53
 
     signal clicked()
 
-    property int barHeight: 4
-    property int barWidth: toggle.width * 0.4
+    property int barHeight: 5
+    property int barWidth: toggle.width * 0.5
     property color barColor: { toggle.state ? appForegroundColor : appGrayColor }
     property int ballRadius: 10
     property color ballColor: { toggle.state ? appForegroundColor : appGrayColor }
@@ -22,7 +24,7 @@ Item {
     Text {
         text: { toggle.state ? trueText : falseText }
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: 24
         color: { toggle.state ? appForegroundColor : appGrayText }
         width: parent.width/2
         height: parent.height
@@ -32,7 +34,7 @@ Item {
 //        horizontalAlignment: Text.AlignRight
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        anchors.rightMargin: 5
+        anchors.rightMargin: 7
     }
 
     Canvas {
@@ -42,7 +44,7 @@ Item {
         antialiasing: true
         //anchors.right: parent.right
         anchors.left: parent.horizontalCenter
-        anchors.leftMargin: 5
+        anchors.leftMargin: 7
         property int ballStart: toggle.state ? width - ballRadius - 1 : ballRadius
 
         onPaint: {

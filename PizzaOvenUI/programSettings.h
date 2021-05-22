@@ -13,6 +13,7 @@ class ProgramSettings : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int todOffset READ todOffset WRITE setTodOffset NOTIFY todOffsetChanged)
+    Q_PROPERTY(bool timeOfDayDisplayed READ getTimeOfDayDisplayedState WRITE setTimeOfDayDisplayState NOTIFY timeOfDayDisplayedStateChanged)
     Q_PROPERTY(int screenOffsetX READ getScreenOffsetX WRITE setScreenoffsetX NOTIFY screenOffsetXChanged)
     Q_PROPERTY(int screenOffsetY READ getScreenOffsetY WRITE setScreenoffsetY NOTIFY screenOffsetYChanged)
     Q_PROPERTY(bool settingsInitialized READ areSettingsInitialized WRITE intializeSettings NOTIFY initializationChanged)
@@ -34,6 +35,8 @@ public:
 
     void setTodOffset(int newOffset);
     int  todOffset();
+    void setTimeOfDayDisplayState(bool displayed);
+    bool getTimeOfDayDisplayedState();
     void setScreenoffsetX(int OffsetX);
     void setScreenoffsetY(int OffsetY);
     int  getScreenOffsetX();
@@ -61,6 +64,7 @@ public:
 
 signals:
     void todOffsetChanged();
+    void timeOfDayDisplayedStateChanged();
     void screenOffsetXChanged();
     void screenOffsetYChanged();
     void initializationChanged();
@@ -77,6 +81,7 @@ signals:
 public slots:
 private:
     int m_todOffset;
+    bool m_timeOfDayDisplayedState;
     int m_screenXOffset;
     int m_screenYOffset;
     bool m_settingsInitialized;
