@@ -15,7 +15,7 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
-    property int foodTypeXLocation: mainMenuGearButton.x + mainMenuGearButton.width + 10
+    property int foodTypeXLocation: mainMenuGearButton.x + mainMenuGearButton.width + 20
     property int foodTypeWidth: parent.width - foodTypeXLocation - mainMenuGearButton.x
     property int tumblerWidth: foodTypeWidth
     property int foodIndexShadow: rootWindow.foodIndex

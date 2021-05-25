@@ -366,7 +366,6 @@ Window {
                     } else {
                         Qt.resolvedUrl("Screen_CallService.qml");
                     }
-
                 } else {
                     Qt.resolvedUrl("Screen_ShiftScreenPosition.qml");
                 }
