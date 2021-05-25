@@ -10,18 +10,39 @@ Rectangle {
     anchors.centerIn: parent
     property string screenName: "Screen_CallService"
     property color messageColor: "yellow"
+    property int margin: 10
+    property int boxHeight: height - serviceGearButton.y - serviceGearButton.height - (2 * margin)
+    property int boxWidth: parent.width - (margin * 2)
 
     function screenEntry() {
         console.log("Entering call service screen");
     }
 
+    SequentialAnimation {
+        id: gearActionAnimation
+        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
+        ScriptAction {
+            script: {
+                stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
+            }
+        }
+    }
+
+    GearButton {
+        id: serviceGearButton
+        onClicked: gearActionAnimation.start()
+    }
+
     // center circle
     Item {
         id: centerCircle
-        height: 206
-        width: 206
+        //        height: 206
+        //        width: 206
+        height: 272
+        width: 272
         x: (parent.width - width) / 2
-        y: 96
+        //        y: 96
+        y: 127
 
         Rectangle {
             id: messageCircle
@@ -35,13 +56,16 @@ Rectangle {
 
         Rectangle {
             id: warningTriangle
-            width: 45
-            height: 50
+//            width: 45
+//            height: 50
+            width: 59
+            height: 66
 
             color: appBackgroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: 10
+//            anchors.topMargin: 10
+            anchors.topMargin: 13
             Canvas {
                 id: drawing
                 width: parent.width
@@ -77,7 +101,7 @@ Rectangle {
             Text {
                 text: "!"
                 font.family: localFont.name
-                font.pointSize: 25
+                font.pointSize: 33
                 color: messageColor
                 width: parent.width
                 anchors.bottom: parent.bottom
@@ -85,10 +109,11 @@ Rectangle {
                 verticalAlignment: Text.AlignBottom
             }
         }
+
         Column{
             anchors.top: warningTriangle.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: 10
+            anchors.topMargin: 13
             width: messageCircle.width
             height: messageCircle.height
             spacing: 0
@@ -96,7 +121,7 @@ Rectangle {
                 text: "Shut Off"
                 wrapMode: Text.Wrap
                 font.family: localFont.name
-                font.pointSize: 20
+                font.pointSize: 26
                 color: appForegroundColor
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -107,7 +132,7 @@ Rectangle {
                 text: "Please Call Service"
                 wrapMode: Text.Wrap
                 font.family: localFont.name
-                font.pointSize: 16
+                font.pointSize: 21
                 color: appForegroundColor
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -118,7 +143,7 @@ Rectangle {
                 text: "800-432-2737"
                 wrapMode: Text.Wrap
                 font.family: localFont.name
-                font.pointSize: 20
+                font.pointSize: 26
                 color: appForegroundColor
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -126,13 +151,13 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
             }
         }
-    }
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            console.log("Service screen clicked.");
-            failureMessages.failureText = "FAILURES:\r\n" + failures.getFailureText();
-            failureMessages.visible = true;
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("Service screen clicked.");
+                failureMessages.failureText = "FAILURES:\r\n" + failures.getFailureText();
+                failureMessages.visible = true;
+            }
         }
     }
 
@@ -140,9 +165,11 @@ Rectangle {
         id: failureMessages
         z: 100
         visible: false
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
+        width: boxWidth
+        height: boxHeight
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: serviceGearButton.bottom
+        anchors.topMargin: margin
         color: appBackgroundColor
         property string failureText: ""
 
@@ -155,10 +182,9 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.family: localFont.name
-            font.pointSize: 20
+            font.pointSize: 26
             color: appForegroundColor
         }
-
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -172,9 +198,11 @@ Rectangle {
         id: idTemperatures
         z: 200
         visible: false
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
+        width: boxWidth
+        height: boxHeight
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: serviceGearButton.bottom
+        anchors.topMargin: margin
         color: appBackgroundColor
 
         Text {
@@ -187,7 +215,7 @@ Rectangle {
             font.pointSize: 18
             anchors.bottom: tempColumn.top
             anchors.horizontalCenter: tempColumn.horizontalCenter
-            anchors.bottomMargin: 10
+            anchors.bottomMargin: 13
         }
 
         Column {
