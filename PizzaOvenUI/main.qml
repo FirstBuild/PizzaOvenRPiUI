@@ -176,7 +176,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.2"
+    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.3"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
@@ -349,8 +349,8 @@ Window {
         height: screenHeight
         x: screenOffsetX
         y: screenOffsetY
-        border.color: "red"
-        border.width: 1
+//        border.color: "red"
+//        border.width: 1
         StackView {
             id: stackView
             width: parent.width
