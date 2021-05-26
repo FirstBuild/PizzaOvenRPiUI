@@ -16,8 +16,8 @@ Item {
     property int finalTextSize: centerCircleTextHeight
     property color textColor: appForegroundColor
     property int margins: 1
-    property int boxHeight: 33
-    property int boxWidth: 100
+    property int boxHeight: 33 * screenScale
+    property int boxWidth: 100 * screenScale
     signal topStringClicked()
     signal centerTopStringClicked()
     signal centerBottomStringClicked()
@@ -30,11 +30,11 @@ Item {
 
     Rectangle {
         id: midLine
-        width: 125
+        width: 125 * screenScale
         height: 1
         color: appGrayColor
         x: (screenWidth - width) / 2
-        y: 197
+        y: 197 * screenScale
     }
 
     ClickableTextBox {
@@ -42,7 +42,7 @@ Item {
         width: boxWidth
         height: boxHeight
         anchors.horizontalCenter: midLine.horizontalCenter
-        y: 155 - height
+        y: 155 * screenScale - height
 
         foregroundColor: appGrayText
         horizontalAlignment: Text.AlignHCenter
@@ -79,7 +79,7 @@ Item {
         width: boxWidth
         height: boxHeight
         anchors.horizontalCenter: midLine.horizontalCenter
-        y: 239 - height
+        y: 239 * screenScale - height
         foregroundColor: appGrayText
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

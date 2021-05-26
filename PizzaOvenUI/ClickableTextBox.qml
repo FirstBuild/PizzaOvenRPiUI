@@ -3,12 +3,10 @@ import QtQuick 2.3
 Item {
     id: box
 
-//    width: 380
-    width: 502
+    width: 380 * screenScale
     height: lineSpacing
     property string text: "CLICKABLE TEXT BOX"
-//    property int pointSize: 18
-    property int pointSize: 24
+    property int pointSize: titleTextSize
     property int horizontalAlignment: Text.AlignRight
     property int verticalAlignment: Text.AlignVCenter
     property color backgroundColor: appBackgroundColor

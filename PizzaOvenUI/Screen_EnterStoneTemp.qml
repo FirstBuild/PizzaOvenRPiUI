@@ -12,11 +12,10 @@ Item {
     property string screenName: "Screen_EnterStoneTemp"
 
     property int tumblerColumns: 3
-//    property int tumblerHeight: 250
-    property int tumblerHeight: 250 * 1.32
+    property int tumblerHeight: 250 * screenScale
     property int tumblerRows: 5
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18 * 1.32
+    property int titleTextToPointSize: 18 * screenScale
 
     function screenEntry() {
         console.log("Entering enter stone temp screen");
@@ -42,7 +41,7 @@ Item {
     NumberAnimation on tumblerHeight {
         id: tumblerHeightAnim
         from: 1
-        to: 250 * 1.32
+        to: 250 * screenScale
     }
 
     NumberAnimation on titleTextPointSize {
@@ -54,19 +53,19 @@ Item {
     ClickableTextBox {
         text: "Select Stone Temperature"
         foregroundColor: appGrayText
-        width: 275 * 1.32
-        height: 30 * 1.32
-        x: screenWidth - width - 26 * 1.32
-        y: 41 * 1.32
+        width: 275 * screenScale
+        height: 30 * screenScale
+        x: screenWidth - width - 26 * screenScale
+        y: 41 * screenScale
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         onClicked: nextButton.clicked()
     }
 
     Item {
-        width: 300 * 1.32
+        width: 300 * screenScale
         height: tumblerHeight
-        x:88 * 1.32
+        x:88 * screenScale
         anchors.verticalCenter: nextButton.verticalCenter
 
         Tumbler {

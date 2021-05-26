@@ -44,7 +44,7 @@ Item {
         }
     }
 
-    property int myMargins: 10
+    property int myMargins: 10 * screenScale
 
     Rectangle {
         width: parent.width

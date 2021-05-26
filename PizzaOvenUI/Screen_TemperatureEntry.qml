@@ -15,7 +15,7 @@ Item {
     property int tumblerRows: 5
     property int columnHeight: tumblerHeight
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18
+    property int titleTextToPointSize: titleTextSize
 
     function screenEntry() {
         console.log("Entering temperature entry screen");

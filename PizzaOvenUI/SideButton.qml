@@ -8,8 +8,7 @@ Item {
     property alias pointSize: idButtonText.font.pointSize
     property alias enabled: mouseArea.enabled
 
-//    implicitHeight: 75
-    implicitHeight: 99
+    implicitHeight: 75 * screenScale
     implicitWidth: parent.width*.2
 
     Rectangle {
@@ -23,8 +22,7 @@ Item {
         id: idButtonText
         text: buttonText
         font.family: localFont.name
-//        font.pointSize: 16
-        font.pointSize: 21
+        font.pointSize: 16 * screenScale
         anchors.centerIn: parent
         color: appForegroundColor
     }

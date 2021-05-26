@@ -53,7 +53,7 @@ Item {
         id: idHeader
         text: entryScreen.header
         font.family: localFont.name
-        font.pointSize: 16
+        font.pointSize: 16 * screenScale
         color: appForegroundColor
         anchors.margins: myMargins
         anchors.verticalCenter: cancelButton.verticalCenter
@@ -69,6 +69,7 @@ Item {
 
         anchors.horizontalCenter: baseline.horizontalCenter
         anchors.top: idHeader.bottom
+        anchors.topMargin: 10
     }
 
     Rectangle {

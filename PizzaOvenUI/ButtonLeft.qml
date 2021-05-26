@@ -8,12 +8,9 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: leftButton
 
-//    x: needsAnimation ? (screenWidth - width)/2 : 26
-//    y: 165 + (64 - lineSpacing) / 2
-//    width: 125
-    x: needsAnimation ? (screenWidth - width)/2 : 34
-    y: 218 + (84 - lineSpacing) / 2
-    width: 165
+    x: needsAnimation ? (screenWidth - width)/2 : 26 * screenScale
+    y: 165 * screenScale + (64 * screenScale - lineSpacing) / 2
+    width: 125 * screenScale
     height: lineSpacing
     property string text: "LABEL"
     signal clicked()

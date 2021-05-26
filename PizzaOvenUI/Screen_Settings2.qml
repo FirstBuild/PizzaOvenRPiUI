@@ -26,9 +26,9 @@ Item {
         }
     }
 
-    property int listItemHeight: 50
+    property int listItemHeight: 50 * screenScale
     property int listItemWidth: screenWidth - screenTitle.x - 30
-    property int listTextWidth: 300
+    property int listTextWidth: 300 * screenScale
 
     function screenEntry() {
         console.log("Entering settings 2 screen");
@@ -59,16 +59,16 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
-        x: (parent.width - width) / 2
-        //y: 41
+        width: 400 * screenScale
+        height: 30 * screenScale
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: backButton.verticalCenter
         color: appBackgroundColor
         Text {
             id: idButtonText
             text: "SETTINGS"
             font.family: localFont.name
-            font.pointSize: 18
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             color: appGrayText
         }
@@ -88,10 +88,10 @@ Item {
 
     Tumbler {
         id: settingsTumbler
-        height: 225
-        width: 375
-        x: 105
-        y: 85
+        height: 225 * screenScale
+        width: 375 * screenScale
+        x: 105 * screenScale
+        y: 85 * screenScale
 
         style:  MyTumblerStyle {
             onClicked: {
@@ -105,8 +105,8 @@ Item {
             padding.bottom: 0
             padding.left: 0
             padding.right: 0
-            spacing: 100
-            textPointSize: 20
+            spacing: 100 * screenScale
+            textPointSize: 20 * screenScale
         }
         TumblerColumn {
             id: theColumn

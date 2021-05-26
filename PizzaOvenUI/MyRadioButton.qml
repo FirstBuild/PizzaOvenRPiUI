@@ -3,7 +3,7 @@ import QtQuick 2.6
 Item {
     id: radioButton
 
-    width: 50
+    width: 50 * screenScale
     height: lineSpacing
     property bool state: true
     signal clicked()
@@ -17,6 +17,8 @@ Item {
         width: parent.width
         height: parent.height
         color: appBackgroundColor
+//        border.color: "yellow"
+//        border.width: 1
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -41,7 +43,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: radioButton.spacing
         Rectangle {
-            width: 19
+            width: 19 * screenScale
             height: width
             radius: width/2
             anchors.verticalCenter: parent.verticalCenter
@@ -49,7 +51,7 @@ Item {
             border.color: appGrayText
             border.width: 2
             Rectangle {
-                width: 11
+                width: 11 * screenScale
                 height: width
                 radius: width/2
                 anchors.centerIn: parent
@@ -76,7 +78,7 @@ Item {
             text: radioButton.text
             color: appForegroundColor
             font.family: localFont.name
-            font.pointSize: 18
+            font.pointSize: 18 * screenScale
             verticalAlignment: Text.AlignVCenter
             height: radioButton.height
         }

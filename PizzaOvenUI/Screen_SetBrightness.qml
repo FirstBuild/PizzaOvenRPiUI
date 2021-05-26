@@ -18,10 +18,10 @@ Item {
         console.log("Brightness value is " + brightnessSetting);
     }
 
-    property int tumblerHeight: 250
+    property int tumblerHeight: 250 * screenScale
     property int tumblerRows: 5
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18
+    property int titleTextToPointSize: titleTextSize
 
     property int currentBrightness: brightnessSetting
 
@@ -46,8 +46,8 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 300
-        height: 30
+        width: 300 * screenScale
+        height: 30 * screenScale
         x: (parent.width - width) / 2
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
@@ -57,13 +57,13 @@ Item {
             id: idButtonText
             text: "BRIGHTNESS SETTING"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: 17 * screenScale
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     Rectangle {
@@ -71,7 +71,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         //y: (screenTitle.y + screenTitle.height - radioBox.height + screenHeight) / 2
         anchors.verticalCenter: doneButton.verticalCenter
-        width: 115
+        width: 115 * screenScale
         height: 3 * lineSpacing + 2
 //        border.color: "orange"
 //        border.width: 1

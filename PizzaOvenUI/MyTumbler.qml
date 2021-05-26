@@ -40,10 +40,10 @@ import Qt.labs.templates 1.0 as T
 
 T.Tumbler {
     id: control
-    implicitWidth: 60
-    implicitHeight: 200
+    implicitWidth: 60 * screenScale
+    implicitHeight: 200 * screenScale
     property color foregroundColor: appForegroundColor
-    property int pointSize: 24
+    property int pointSize: 24 * screenScale
     property int horizontalAlignment: Text.AlignLeft
     property int verticalAlignment: Text.AlignVCenter
     signal clicked(string name)

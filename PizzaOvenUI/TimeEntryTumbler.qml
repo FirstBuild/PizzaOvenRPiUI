@@ -66,7 +66,7 @@ Item {
     Text {
         id: colonText
         font.family: localFont.name
-        font.pointSize: 24
+        font.pointSize: 24 * screenScale
         color: appForegroundColor
         anchors.verticalCenter: minutesEntry.verticalCenter
         anchors.left: minutesEntry.right

@@ -7,7 +7,7 @@ Item {
     height: screenHeight
     property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30
-    property int listTextWidth: 300
+    property int listTextWidth: 300 * screenScale
     property string screenName: "Screen_FanSpeeds"
 
     opacity: 0.0
@@ -38,8 +38,8 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
+        width: 400 * screenScale
+        height: 30 * screenScale
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
@@ -47,21 +47,21 @@ Item {
             id: idTitleText
             text: "FAN SPEED SETTINGS"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     MyTwoButtonRadioWithLabel {
         id: preheatFanSpeedRadio
         anchors.top: screenTitle.bottom
-        anchors.topMargin: 10
-        anchors.left: screenTitle.left
-        width: parent.width - 2 * backButton.x
+        anchors.topMargin: 10 * screenScale
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 0.75
         height: lineSpacing
         label: "PREHEAT"
         leftText: "LOW"
@@ -76,9 +76,9 @@ Item {
     MyTwoButtonRadioWithLabel {
         id: cookingFanSpeedRadio
         anchors.top: preheatFanSpeedRadio.bottom
-        anchors.topMargin: 10
+        anchors.topMargin: 10 * screenScale
         anchors.left: preheatFanSpeedRadio.left
-        width: parent.width - 2 * backButton.x
+        width: preheatFanSpeedRadio.width
         height: lineSpacing
         label: "COOKING"
         leftText: "LOW"

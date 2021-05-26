@@ -42,6 +42,7 @@ Item {
             MyButton {text: "ENT"; onClicked: keyboard.keyPressed(Qt.Key_Return); width: keyWidth; height: keyWidth}
         }
     }
+
     Item {
         width: screenWidth
         height: screenHeight

@@ -9,8 +9,6 @@ Item {
     property int listItemWidth: 500
     property int listTextWidth: 350
     property int itemSeparation: 0
-    property int pointSize: 24
-    property int titleTextSize: 24
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
@@ -96,9 +94,10 @@ Item {
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         text: "SET TIME"
-        pointSize: pointSize
+        pointSize: titleTextSize
         onClicked: {
             console.log("SET TIME button clicked");
+            stackView.push({item: Qt.resolvedUrl("Screen_SetTimeOfDay.qml"), immediate:immediateTransitions});
         }
     }
 }

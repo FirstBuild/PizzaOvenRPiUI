@@ -39,16 +39,16 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
-        x: (parent.width - width) / 2
-        //y: 41
+        width: 400 * screenScale
+        height: 30 * screenScale
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: backButton.verticalCenter
         color: appBackgroundColor
         Text {
             id: idButtonText
             text: "PREFERENCES"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             color: appGrayText
         }
@@ -57,10 +57,10 @@ Item {
 
     Rectangle {
         id: content
-        width: 400
+        width: 400 * screenScale
         height: 4 * lineSpacing
-        x: 80
-        y: 85
+        x: 80 * screenScale
+        y: 85 * screenScale
         color: appBackgroundColor
         Column {
             width: parent.width

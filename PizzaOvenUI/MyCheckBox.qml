@@ -4,8 +4,8 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: checkbox
-    height: 30
-    width: 150
+    height: 30 * screenScale
+    width: 150 * screenScale
 
     property string text: "Label"
     property bool checked: false
@@ -17,8 +17,8 @@ Item {
 
         Rectangle {
             id: tick
-            width: 30
-            height: 30
+            width: 30 * screenScale
+            height: 30 * screenScale
             border.width: 2
             border.color: appGrayColor
             color: appBackgroundColor

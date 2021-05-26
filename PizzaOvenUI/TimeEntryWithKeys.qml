@@ -52,8 +52,8 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         text: "X"
-        width: 50
-        height: 50
+        width: 50 * screenScale
+        height: 50 * screenScale
         onClicked: {
             entryScreen.dialogCanceled();
         }
@@ -63,7 +63,7 @@ Item {
         id: idHeader
         text: entryScreen.header
         font.family: localFont.name
-        font.pointSize: 16
+        font.pointSize: 17 * screenScale
         color: appForegroundColor
         anchors.margins: myMargins
         anchors.verticalCenter: cancelButton.verticalCenter
@@ -74,7 +74,7 @@ Item {
         id: entryText
         text: entryScreen.display
         font.family: localFont.name
-        font.pointSize: 72
+        font.pointSize: 72 * screenScale
         color: appForegroundColor
 
         anchors.horizontalCenter: baseline.horizontalCenter

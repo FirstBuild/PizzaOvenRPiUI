@@ -8,7 +8,7 @@ Item {
     implicitHeight: screenHeight
     implicitWidth: screenWidth
 
-    property int spacing: 10
+    property int spacing: 10 * screenScale
     property int smallButtonWidth: (thisScreen.width - 3 * thisScreen.spacing) / 4
     property int smallButtonHeight: ((thisScreen.height - thisScreen.spacing) / 4) - thisScreen.spacing
 
@@ -65,7 +65,7 @@ Item {
         }
         Row {
             id: idDutyCycleRow
-            property int textSize: 12
+            property int textSize: 12 * screenScale
             Text {
                 color: appForegroundColor
                 font.family: localFont.name
@@ -105,8 +105,8 @@ Item {
             }
             GearButton {
                 id: mainMenuGearButton
-                height: 20
-                width: screenWidth/6
+                height: 20 * screenScale
+                width: height
                 x: screenWidth/6 - 20
                 y: 0
                 onClicked: {
@@ -166,19 +166,19 @@ Item {
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: ovenState
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "Power: " + (powerSwitch == 0 ? "Off" : "On")
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "DLB: " + (dlb == 0 ? "Off" : "On")
                     }
                 }
@@ -187,25 +187,25 @@ Item {
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "Door: " + doorStatus
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "Count: " + doorCount
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "TCO: " + (tco == 0 ? "Off" : "On")
                     }
                     Text {
                         color: appForegroundColor
                         font.family: localFont.name
-                        font.pointSize: 12
+                        font.pointSize: 12 * screenScale
                         text: "AC: " + (acPowerIsPresent == 0 ? "Off" : "On")
                     }
                 }

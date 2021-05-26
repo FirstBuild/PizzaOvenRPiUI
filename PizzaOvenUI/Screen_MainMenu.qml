@@ -15,7 +15,7 @@ Item {
     property bool ctrlPressed: false
     property bool altPressed: false
     property bool bsPressed: false
-    property int foodTypeXLocation: mainMenuGearButton.x + mainMenuGearButton.width + 20
+    property int foodTypeXLocation: mainMenuGearButton.x + mainMenuGearButton.width + 20 * screenScale
     property int foodTypeWidth: parent.width - foodTypeXLocation - mainMenuGearButton.x
     property int tumblerWidth: foodTypeWidth
     property int foodIndexShadow: rootWindow.foodIndex
@@ -136,10 +136,8 @@ Item {
     Tumbler {
         id: foodType
         x: foodTypeXLocation
-//        y: 85
-//        height: 225
-        y: 112
-        height: 297
+        y: 85 * screenScale
+        height: 225 * screenScale
         width: foodTypeWidth
 
         style:  MyTumblerStyle {
@@ -154,6 +152,7 @@ Item {
             padding.bottom: 0
             padding.left: 0
             padding.right: 0
+            spacing: 100 * screenScale
         }
         TumblerColumn {
             id: theColumn

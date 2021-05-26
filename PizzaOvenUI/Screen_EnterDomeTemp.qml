@@ -14,8 +14,7 @@ Item {
     property int tumblerHeight: 1
     property int tumblerRows: 5
     property int titleTextPointSize: 1
-//    property int titleTextToPointSize: 18
-    property int titleTextToPointSize: 24
+    property int titleTextToPointSize: 18 * screenScale
 
     function screenEntry() {
         console.log("Entering enter dome temp screen");
@@ -42,8 +41,7 @@ Item {
     NumberAnimation on tumblerHeight {
         id: tumblerHeightAnim
         from: 1
-//        to: 250
-        to: 330
+        to: 250 * screenScale
     }
 
     NumberAnimation on titleTextPointSize {
@@ -55,13 +53,9 @@ Item {
     ClickableTextBox {
         text: "Select Dome Temperature"
         foregroundColor: appGrayText
-//        width: 275
-        width: 363
-//        height: 30
-        height: 40
-//        x: screenWidth - width - 26
-        x: screenWidth - width - 34
-//        y: 41
+        width: 275 * screenScale
+        height: 30 * screenScale
+        x: screenWidth - width - 26 * screenScale
         y: backButton.y
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
@@ -71,11 +65,9 @@ Item {
     }
 
     Item {
-//        width: 300
-        width: 396
+        width: 300 * screenScale
         height: tumblerHeight
-//        x:88
-        x:116
+        x:88 * screenScale
         anchors.verticalCenter: nextButton.verticalCenter
 
         Tumbler {
@@ -112,8 +104,7 @@ Item {
                 textAlignment: Text.AlignHCenter
                 NumberAnimation on textPointSize {
                     from: 1
-//                    to: 24
-                    to: 32
+                    to: 24 * screenScale
                 }
                 showKeypress: false
                 padding.top: 0
@@ -210,7 +201,7 @@ Item {
 
     DialogWithCheckbox {
         id: messageDialog
-        pointSize: 22
+        pointSize: 17 * screenScale
         dialogMessage: "You Must Select A Temperature Below " + utility.tempToString(upperMaxTemp)
     }
 }

@@ -13,9 +13,9 @@ Item {
     property string targetScreen: ""
 
     property variant wifiStateNames: ["OFF", "AP MODE", "CONNECTING", "CONNECTED", "CONNECTED/OFF", "SCANNING", "RECONNECTING"]
-    property int pointSize: 18
+    property int pointSize: 18 * screenScale
     property int textPointSize: 1
-    property int labelWidth: 200
+    property int labelWidth: 200 * screenScale
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
@@ -71,8 +71,8 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
+        width: 400 * screenScale
+        height: 30 * screenScale
         x: (parent.width - width) / 2
         //y: 41
         color: appBackgroundColor
@@ -80,27 +80,27 @@ Item {
             id: idButtonText
             text: "WI-FI SETTINGS"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     WifiIcon {
         id: wifiIcon
         anchors.verticalCenter: screenTitle.verticalCenter
         anchors.left: screenTitle.right
-        anchors.leftMargin: 10
+        anchors.leftMargin: 10 * screenScale
         blinking: !((wifiConnectionState == 3) || (wifiConnectionState == 4) || (wifiConnectionState == 0))
         color: (wifiConnectionState == 0) ? appBackgroundColor : ((wifiConnectionState == 4) ? appGrayColor : appForegroundColor)
     }
 
     Rectangle {
         id: content
-        x: 80
-        y: 85
-        width: 400
+        x: 80 * screenScale
+        y: 85 * screenScale
+        width: 400 * screenScale
         height: parent.height - y - 1
         color: appBackgroundColor
         Column {
@@ -215,7 +215,7 @@ Item {
 
     DialogWithYesNoButtons {
         id: messageDialog
-        pointSize: 17
+        pointSize: 17 * screenScale
         dialogMessage: "ARE YOU SURE YOU WANT TO DISABLE APP CONTROL?"
         onClicked: {
             console.log("The result is " + messageDialog.result);

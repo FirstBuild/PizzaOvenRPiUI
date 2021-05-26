@@ -15,8 +15,7 @@ Item {
     property bool showTitle: true
     property bool showNotice: false
     property string noticeText: "RIGHT TEXT"
-    property int circleDiameter: 272
-//    property int circleDiameter: 206
+    property int circleDiameter: 206 * screenScale
     property bool needsAnimation: true
     property string newTitleText: "NEW TITLE"
     property bool fadeInTitle: false
@@ -68,13 +67,10 @@ Item {
     // center circle
     Item {
         id: centerCircle
-//        height: 206
-//        width: 206
-        height: 272
-        width: 272
+        height: 206 * screenScale
+        width: 206 * screenScale
         x: (parent.width - width) / 2
-//        y: 96
-        y: 127
+        y: 96 * screenScale
 
         ProgressCircle {
             id: dataCircle
@@ -88,52 +84,42 @@ Item {
     // title text
     Rectangle {
         id: titleBox
-//        width: 400
-//        height: 30
-        width: 528
-        height: 40
+        width: 400 * screenScale
+        height: 30 * screenScale
         opacity: fadeInTitle ? 0.0 : 1.0
         x: (parent.width - width) / 2
-//        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
-        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 54
+        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41 * screenScale
         color: appBackgroundColor
         Text {
             text: titleText
             font.family: localFont.name
-//            font.pointSize: 17
-            font.pointSize: 22
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             color: appGrayText
         }
         OpacityAnimator {target: titleBox; from: 0.0; to: 1.0; running: fadeInTitle}
-//        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 54; running: needsAnimation }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-titleBox.height)/2; to: 41 * screenScale; running: needsAnimation }
     }
 
     // notification text
     Rectangle {
         id: noticeBox
         width: screenWidth - 60
-//        height: 30
-        height: 40
+        height: 30 * screenScale
         opacity: 0.0
-//        x: 30
-//        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41
-        x: 40
-        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 54
+        x: 30 * screenScale
+        y: needsAnimation ? (screenHeight-titleBox.height)/2 : 41 * screenScale
         color: appBackgroundColor
         Text {
             text: noticeText
             font.family: localFont.name
-//            font.pointSize: 17
-            font.pointSize: 22
+            font.pointSize: 17 * screenScale
             anchors.right: parent.right
             horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-//        NumberAnimation on y {id: noticeAnimation; from: (screenHeight-titleBox.height)/2; to: 41; running: needsAnimation }
-        NumberAnimation on y {id: noticeAnimation; from: (screenHeight-titleBox.height)/2; to: 54; running: needsAnimation }
+        NumberAnimation on y {id: noticeAnimation; from: (screenHeight-titleBox.height)/2; to: 41 * screenScale; running: needsAnimation }
     }
 
     ParallelAnimation {

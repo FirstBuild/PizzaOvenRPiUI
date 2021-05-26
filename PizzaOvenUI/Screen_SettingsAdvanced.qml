@@ -6,7 +6,7 @@ Item {
 
     property int listItemHeight: lineSpacing
     property int listItemWidth: screenWidth - screenTitle.x - 30
-    property int listTextWidth: 300
+    property int listTextWidth: 300 * screenScale
 
     opacity: 0.0
 
@@ -35,8 +35,8 @@ Item {
         // title text
         Rectangle {
             id: screenTitle
-            width: 400
-            height: 30
+            width: 400 * screenScale
+            height: 30 * screenScale
             x: (parent.width - width) / 2
             color: appBackgroundColor
             anchors.verticalCenter: backButton.verticalCenter
@@ -44,7 +44,7 @@ Item {
                 id: idButtonText
                 text: "ADVANCED SETTINGS"
                 font.family: localFont.name
-                font.pointSize: 17
+                font.pointSize: titleTextSize
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
@@ -56,9 +56,9 @@ Item {
         Flickable {
             width: listItemWidth
             height: screenHeight - backButton.y - backButton.height - anchors.topMargin - 30
-            anchors.topMargin: 10
+            anchors.topMargin: 10 * screenScale
             anchors.top: screenTitle.bottom
-            x: 80
+            x: 80 * screenScale
             contentWidth: listItemWidth
             contentHeight: settingsList.height
             clip: true
@@ -209,6 +209,7 @@ Item {
             NumberAnimation {target: thisScreen; property: "opacity"; from: 0.0; to: 1.0;}
         }
     }
+
     DialogWithCheckbox {
         z: 20
         id: messageDialog

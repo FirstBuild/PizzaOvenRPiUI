@@ -12,6 +12,8 @@ Window {
     height: 480
     color: appBackgroundColor
 
+    property real screenScale: 1.32
+
     FontLoader { id: localFont; source: "fonts/FreeSans.ttf"; name: "FreeSans" }
 
     // program configuration
@@ -157,6 +159,7 @@ Window {
     property bool timeOfDayDisplayed: appSettings.timeOfDayDisplayed
     property int smallTextSize: 32
     property int bigTextSize: 55
+    property int titleTextSize: 18 * screenScale
     property int appColumnWidth: 62
     property bool tempDisplayInF: appSettings.tempDisplayInF
     property int  volumeSetting: appSettings.volumeSetting
@@ -168,8 +171,8 @@ Window {
     // Dialog stuff
     property int dialogY: 127
     property int dialogDiameter: 272
-    property int dialogFontPointSize: 24
-    property int dialogTextBoxWidth: 218
+    property int dialogFontPointSize: 18 * screenScale
+    property int dialogTextBoxWidth: 165 * screenScale
 
     // some information
     property string controlVersion: "255.255.255.255"

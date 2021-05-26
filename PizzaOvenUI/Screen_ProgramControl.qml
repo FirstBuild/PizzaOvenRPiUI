@@ -43,7 +43,7 @@ Item {
             id: idButtonText
             text: "PROGRAM CONTROL"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter

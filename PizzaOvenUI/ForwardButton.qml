@@ -3,11 +3,11 @@ import QtQuick 2.3
 Rectangle {
     id: forwardButton
     signal clicked()
-    implicitWidth: 14
-    implicitHeight: 26
+    implicitWidth: 14 * screenScale
+    implicitHeight: 26 * screenScale
     color: appBackgroundColor
-    x: 48
-    y: 45
+    x: 48 * screenScale
+    y: 45 * screenScale
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
 
@@ -42,6 +42,7 @@ Rectangle {
             ctx.restore();
         }
     }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent

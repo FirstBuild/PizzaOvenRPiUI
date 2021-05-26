@@ -11,7 +11,7 @@ Item {
     implicitWidth: parent.width
     implicitHeight: parent.height
 
-    property int myMargins: 10
+    property int myMargins: 10 * screenScale
 
     function screenEntry() {
         console.log("Entering cooldown screen");
@@ -59,14 +59,14 @@ Item {
     Text {
         id: screenMessage
         text: "CAUTION<br>OVEN IS HOT"
-        height: 206
+        height: 206 * screenScale
         width: height
         x: (parent.width - width) / 2
-        y: 96 + (206 - height)/2
+        y: 96 * screenScale + (206 * screenScale - height)/2
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: 18 * screenScale
         wrapMode: Text.Wrap
         color: appForegroundColor
     }

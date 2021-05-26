@@ -8,7 +8,7 @@ Item {
 
     OpacityAnimator {id: screenEntryAnimation; target: thisScreen; from: 0.0; to: 1.0;}
 
-    property int listItemHeight: 45
+    property int listItemHeight: 45 * screenScale
     property int listItemWidth: screenWidth - screenTitle.x - 30
 
     function screenEntry() {
@@ -30,22 +30,22 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
-        x: (parent.width - width) / 2
+        width: 400 * screenScale
+        height: 30 * screenScale
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
         Text {
             id: idButtonText
             text: "ABOUT"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     Flickable {
@@ -53,7 +53,7 @@ Item {
         height: screenHeight - backButton.y - backButton.height - anchors.topMargin - 30
         anchors.topMargin: 10
         anchors.top: screenTitle.bottom
-        x: 80
+        x: 80 * screenScale
         contentWidth: listItemWidth
         contentHeight: settingsList.height
         clip: true
@@ -70,7 +70,7 @@ Item {
                     text: "UI VERSION"
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -80,7 +80,7 @@ Item {
                     text: uiVersion
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
@@ -95,7 +95,7 @@ Item {
                     text: "CONTROL VERSION"
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -105,7 +105,7 @@ Item {
                     text: controlVersion
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
@@ -120,7 +120,7 @@ Item {
                     text: "BACKEND VERSION"
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -130,7 +130,7 @@ Item {
                     text: backendVersion
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
@@ -145,7 +145,7 @@ Item {
                     text: "INTERFACE VERSION"
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -155,7 +155,7 @@ Item {
                     text: interfaceVersion
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
@@ -170,7 +170,7 @@ Item {
                     text: "WIFI MAC ID"
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.left: parent.left
@@ -180,7 +180,7 @@ Item {
                     text: wifiMacId
                     color: appForegroundColor
                     font.family: localFont.name
-                    font.pointSize: 18
+                    font.pointSize: 18 * screenScale
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right

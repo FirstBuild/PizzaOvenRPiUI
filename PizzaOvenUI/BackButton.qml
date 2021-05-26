@@ -6,8 +6,8 @@ Rectangle {
     implicitWidth: 14
     implicitHeight: 26
     color: appBackgroundColor
-    x: 48
-    y: 45
+    x: 48 * screenScale
+    y: 45 * screenScale
     property int segmentThickness: 2
     property color segmentColor: appForegroundColor
 

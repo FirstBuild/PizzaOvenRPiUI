@@ -3,15 +3,12 @@ import QtQuick 2.0
 Item {
     id: toggle
 
-//    width: 110
-//    height: 40
-    width: 145
-    height: 53
+    width: 110 * screenScale
+    height: 40 * screenScale
 
     signal clicked()
 
-    property int barHeight: 5
-    property int barWidth: toggle.width * 0.5
+    property int barHeight: 4 * screenScale
     property color barColor: { toggle.state ? appForegroundColor : appGrayColor }
     property int ballRadius: 10
     property color ballColor: { toggle.state ? appForegroundColor : appGrayColor }
@@ -24,28 +21,25 @@ Item {
     Text {
         text: { toggle.state ? trueText : falseText }
         font.family: localFont.name
-        font.pointSize: 24
+        font.pointSize: 18 * screenScale
         color: { toggle.state ? appForegroundColor : appGrayText }
         width: parent.width/2
         height: parent.height
-        //anchors.left: parent.left
-        anchors.right: parent.horizontalCenter
+        anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-//        horizontalAlignment: Text.AlignRight
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
-        anchors.rightMargin: 7
+        anchors.rightMargin: 5 * screenScale
     }
 
     Canvas {
         id: drawing
-        width: toggle.barWidth
+        width: parent.width/2
         height: parent.height
         antialiasing: true
         //anchors.right: parent.right
         anchors.left: parent.horizontalCenter
-        anchors.leftMargin: 7
-        property int ballStart: toggle.state ? width - ballRadius - 1 : ballRadius
+        property int ballStart: toggle.state ? width - ballRadius: ballRadius
 
         onPaint: {
             var ctx = getContext("2d");
@@ -82,7 +76,6 @@ Item {
             toggle.state = !toggle.state;
             sounds.touch.play();
             toggle.clicked();
-            console.log("Slide width: " + toggle.width);
         }
     }
 }

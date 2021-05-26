@@ -21,9 +21,9 @@ Item {
     }
 
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18 * 1.32
-    property int textWidth: 150 * 1.32
-    property int optionLabelSize: 20 * 1.32
+    property int titleTextToPointSize: 18 * screenScale
+    property int textWidth: 150 * screenScale
+    property int optionLabelSize: 20 * screenScale
 
     property bool uiLoaded: false
 
@@ -37,10 +37,10 @@ Item {
     ClickableTextBox {
         text: "FOOD CHECK REMINDERS"
         foregroundColor: appGrayText
-        width: 185 * 1.32
-        height: 30 * 1.32
-        x: screenWidth - width - 26 * 1.32
-        y: 41 * 1.32
+        width: 185 * screenScale
+        height: 30 * screenScale
+        x: screenWidth - width - 26 * screenScale
+        y: 41 * screenScale
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         onClicked: {
@@ -51,8 +51,8 @@ Item {
     Rectangle {
         id: checkBoxes
         anchors.verticalCenter: doneButton.verticalCenter
-        x: 85 * 1.32
-        width: 300 * 1.32
+        x: 85 * screenScale
+        width: 300 * screenScale
         height: 3 * lineSpacing + 2
         color: appBackgroundColor
         Column {
@@ -68,7 +68,7 @@ Item {
                 width: parent.width
                 height: lineSpacing
                 anchors.right: parent.right
-                spacing: 20 * 1.32
+                spacing: 20 * screenScale
                 ClickableTextBox {
                     height: lineSpacing
                     width: textWidth
@@ -94,7 +94,7 @@ Item {
                 width: parent.width
                 height: lineSpacing
                 anchors.right: parent.right
-                spacing: 20 * 1.32
+                spacing: 20 * screenScale
                 ClickableTextBox {
                     height: lineSpacing
                     width: textWidth
@@ -120,7 +120,7 @@ Item {
                 width: parent.width
                 height: lineSpacing
                 anchors.right: parent.right
-                spacing: 20 * 1.32
+                spacing: 20 * screenScale
                 ClickableTextBox {
                     height: lineSpacing
                     width: textWidth

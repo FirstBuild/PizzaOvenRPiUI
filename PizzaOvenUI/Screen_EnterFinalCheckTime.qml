@@ -14,7 +14,7 @@ Item {
     property int tumblerHeight: 1
     property int tumblerRows: 5
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18
+    property int titleTextToPointSize: 18 * screenScale
 
     function screenEntry() {
         console.log("Entering enter final check time screen");
@@ -40,7 +40,7 @@ Item {
     NumberAnimation on tumblerHeight {
         id: tumblerHeightAnim
         from: 1
-        to: 250
+        to: 250 * screenScale
     }
 
     NumberAnimation on titleTextPointSize {
@@ -52,10 +52,10 @@ Item {
     ClickableTextBox {
         text: "Select final check time"
         foregroundColor: appGrayText
-        width: 235
-        height: 30
-        x: screenWidth - width - 26
-        y: 41
+        width: 235 * screenScale
+        height: 30 * screenScale
+        x: screenWidth - width - 26 * screenScale
+        y: 41 * screenScale
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
         onClicked: {
@@ -64,9 +64,9 @@ Item {
     }
 
     Item {
-        width: 300
+        width: 300 * screenScale
         height: tumblerHeight
-        x:88
+        x:88 * screenScale
         anchors.verticalCenter: nextButton.verticalCenter
 
         OpacityAnimator { from: 0.0; to: 1.0}

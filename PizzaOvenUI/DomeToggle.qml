@@ -8,16 +8,13 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: domeToggle
 
-//    property int finalPositionX: screenWidth-26-width
-    property int finalPositionX: screenWidth-34-width
+    property int finalPositionX: screenWidth - (26 * screenScale) - width
     property bool state: rootWindow.domeState.displayed
 
-//    width: 125
-    width: 165
+    width: 125 * screenScale
     height: lineSpacing
     x: needsAnimation ? (screenWidth-width)/2 : finalPositionX
-//    y: 300 - lineSpacing
-    y: 396 - lineSpacing
+    y: 300 * screenScale - lineSpacing
     property string text: "IDLE"
     signal clicked()
 
@@ -35,6 +32,15 @@ Item {
     PropertyAnimation on x { id: movementAnim; from: (screenWidth-width)/2; to: finalPositionX; running: needsAnimation}
     OpacityAnimator on opacity { id: opacityAnim; from: 0; to: 1.0; easing.type: Easing.InCubic; running: needsAnimation}
 
+//    Rectangle {
+//        id: buttonBackground
+//        color: appBackgroundColor
+//        width: parent.width
+//        height: parent.height
+//        border.color: "orange"
+//        border.width: 1
+//    }
+
     Column {
         //spacing: 10
         Text {
@@ -43,8 +49,7 @@ Item {
             width: domeToggle.width
             height: domeToggle.height/2
             font.family: localFont.name
-//            font.pointSize: 16
-            font.pointSize: 21
+            font.pointSize: 16 * screenScale
             color: appForegroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter

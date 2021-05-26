@@ -5,11 +5,9 @@ TumblerStyle {
     id: tumblerStyle
 
     property int textHeight: lineSpacing
-//    property int textWidth: 64
-    property int textWidth: 84
+    property int textWidth: 64 * screenScale
     property int textAlignment: Text.AlignLeft
-//    property int textPointSize: 24
-    property int textPointSize: 32
+    property int textPointSize: 22 * screenScale
     property bool showKeypress: true
 
     signal clicked(string name)

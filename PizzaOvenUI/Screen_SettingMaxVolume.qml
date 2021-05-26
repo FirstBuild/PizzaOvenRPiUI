@@ -7,10 +7,10 @@ Item {
     id: thisScreen
     property string screenName: "Screen_SettingMaxVolume"
 
-    property int tumblerHeight: 250
+    property int tumblerHeight: 250 * screenScale
     property int tumblerRows: 5
     property int titleTextPointSize: 1
-    property int titleTextToPointSize: 18
+    property int titleTextToPointSize: 18 * screenScale
 
     property int currentMaxVolume: volumeEntry.currentIndexAt(0) * 10 +
                                    volumeEntry.currentIndexAt(1)
@@ -39,8 +39,8 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
+        width: 400 * screenScale
+        height: 30 * screenScale
         x: (parent.width - width) / 2
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
@@ -48,19 +48,19 @@ Item {
             id: idButtonText
             text: "MAX VOLUME SETTING"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     Tumbler {
         id: volumeEntry
         height: tumblerHeight
-        anchors.bottomMargin: 20
+        anchors.bottomMargin: 20 * screenScale
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
 

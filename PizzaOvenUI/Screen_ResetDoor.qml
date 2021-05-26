@@ -24,8 +24,8 @@ Item {
     // title text
     Rectangle {
         id: screenTitle
-        width: 400
-        height: 30
+        width: 400 * screenScale
+        height: 30 * screenScale
         x: (parent.width - width) / 2
         color: appBackgroundColor
         anchors.verticalCenter: backButton.verticalCenter
@@ -33,13 +33,13 @@ Item {
             id: idButtonText
             text: "RESET DOOR"
             font.family: localFont.name
-            font.pointSize: 17
+            font.pointSize: titleTextSize
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: appGrayText
         }
-        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 }
+        NumberAnimation on y {id: titleAnimation; from: (screenHeight-screenTitle.height)/2; to: 41 * screenScale }
     }
 
     Text {
@@ -47,11 +47,11 @@ Item {
         text: rootWindow.doorLatchState == 1 ? "DOOR LATCH LOCKED" : "DOOR LATCH UNLOCKED"
         color: appForegroundColor
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: 18 * screenScale
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         anchors.top: screenTitle.bottom
-        anchors.topMargin: 20
+        anchors.topMargin: 20 * screenScale
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
@@ -60,24 +60,24 @@ Item {
         text: rootWindow.lowerRear.elementRelay == 1 ? "LATCH MOTOR ON" : "LATCH MOTOR OFF"
         color: appForegroundColor
         font.family: localFont.name
-        font.pointSize: 18
+        font.pointSize: 18 * screenScale
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         anchors.top: doorLatchStateText.bottom
-        anchors.topMargin: 20
+        anchors.topMargin: 20 * screenScale
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
     SideButton {
         id: toggleButton
         buttonText: "RUN MOTOR"
-        width: 200
+        width: 200 * screenScale
         height: lineSpacing
-        pointSize: 18
+        pointSize: 18 * screenScale
         enabled: rootWindow.lowerRear.elementRelay == 0
         visible: enabled
         anchors.top: doorLatchMotorStateText.bottom
-        anchors.topMargin: 20
+        anchors.topMargin: 20 * screenScale
         anchors.horizontalCenter: parent.horizontalCenter
         onClicked: {
             backEnd.sendMessage("ToggleLatchMotor ");

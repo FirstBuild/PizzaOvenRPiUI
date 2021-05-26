@@ -25,7 +25,7 @@ Item {
         Text {
             id: idText
             font.family: localFont.name
-            font.pointSize: 24
+            font.pointSize: 24 * screenScale
             text: button.text
             anchors.centerIn: parent
             color: button.textColor
