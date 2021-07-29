@@ -464,10 +464,12 @@ Window {
         interval: 10000
         repeat: false
         onTriggered: {
-            if (timeOfDayDisplayed) {
-                forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
-            } else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            if (!callServiceFailure) {
+                if (timeOfDayDisplayed) {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
+                } else {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                }
             }
         }
     }

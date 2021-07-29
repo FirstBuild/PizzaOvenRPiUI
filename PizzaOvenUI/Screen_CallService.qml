@@ -16,11 +16,11 @@ Rectangle {
 
     function screenEntry() {
         console.log("Entering call service screen");
+
     }
 
     SequentialAnimation {
         id: gearActionAnimation
-        OpacityAnimator {target: thisScreen; from: 1.0; to: 0.0;}
         ScriptAction {
             script: {
                 stackView.push({item: Qt.resolvedUrl("Screen_Settings2.qml"), immediate:immediateTransitions});
