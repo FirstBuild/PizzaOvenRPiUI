@@ -90,7 +90,6 @@
         <file>TestToggle.qml</file>
         <file>FaultText.qml</file>
         <file>Screen_ResetDoor.qml</file>
-        <file>Screen_FanSpeeds.qml</file>
         <file>MyTwoButtonRadioWithLabel.qml</file>
         <file>Screen_TimeOfDay.qml</file>
         <file>Screen_SettingsTime.qml</file>
