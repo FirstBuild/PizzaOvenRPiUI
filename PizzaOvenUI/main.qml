@@ -155,7 +155,7 @@ Window {
     property int screenHeight: 480 - 11
     property int screenOffsetX: appSettings.screenOffsetX
     property int screenOffsetY: appSettings.screenOffsetY
-    property string timeOfDay: "10:04"
+    property string timeOfDay: "12:00"
     property bool timeOfDayDisplayed: appSettings.timeOfDayDisplayed
     property int smallTextSize: 32
     property int bigTextSize: 55
@@ -165,8 +165,6 @@ Window {
     property int  volumeSetting: appSettings.volumeSetting
     property int  maxVolume: appSettings.maxVolume
     property int brightnessSetting: appSettings.brightness
-    property int preheatFanSetting: 0
-    property int cookingFanSetting: 1
 
     // Dialog stuff
     property int dialogY: 127
@@ -176,7 +174,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.3"
+    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.4"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
@@ -464,10 +462,12 @@ Window {
         interval: 10000
         repeat: false
         onTriggered: {
-            if (timeOfDayDisplayed) {
-                forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
-            } else {
-                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+            if (!callServiceFailure) {
+                if (timeOfDayDisplayed) {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
+                } else {
+                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ Item {
     property string screenName: "Screen_AwaitStart"
 
     property bool needsAnimation: true
+    property int localDomeTemp: 0
+    property int localStoneTemp: 0
 
     CircleScreenTemplate {
         id: theCircle
@@ -28,8 +30,10 @@ Item {
         theCircle.animate();
         circleContent.animate();
         screenEntryAnimation.start();
-        rootWindow.displayedDomeTemp = rootWindow.upperFront.setTemp;
-        rootWindow.displayedStoneTemp = rootWindow.lowerFront.setTemp;
+        rootWindow.displayedDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
+        rootWindow.displayedStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
+        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
     }
 
     function cleanUpOnExit() {
@@ -105,8 +109,8 @@ Item {
 
     CircleContent {
         id: circleContent
-        topString: utility.tempToString(upperFront.setTemp)
-        middleString: utility.tempToString(lowerFront.setTemp)
+        topString: utility.tempToString(localDomeTemp)
+        middleString: utility.tempToString(localStoneTemp)
         bottomString: utility.timeToString(cookTime)
         onTopStringClicked: {
             singleSettingOnly = true;

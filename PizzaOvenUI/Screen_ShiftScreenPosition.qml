@@ -39,7 +39,11 @@ Item {
         ScriptAction {
             script: {
                 stackView.clear();
-                stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                if (!callServiceFailure) {
+                    stackView.push({item: Qt.resolvedUrl("Screen_MainMenu.qml"), immediate:immediateTransitions});
+                } else {
+                    stackView.push({item: Qt.resolvedUrl("Screen_CallService.qml"), immediate:immediateTransitions});
+                }
             }
         }
     }
