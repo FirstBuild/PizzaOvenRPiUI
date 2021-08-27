@@ -91,10 +91,12 @@ Item {
         localOvenState = state;
         switch(state) {
         case "Standby":
+            console.log("Going to main menu because oven is in standby");
             forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
             break;
         case "Cooldown":
-            forceScreenTransition(Qt.resolvedUrl("Screen_MainMenu.qml"));
+            console.log("Going to cooldown screen because oven is in Cooldown");
+            forceScreenTransition(Qt.resolvedUrl("Screen_Cooldown.qml"));
             break;
         case "Idle":
             cleanUpOnExit();
