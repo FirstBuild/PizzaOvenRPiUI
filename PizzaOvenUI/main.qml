@@ -54,6 +54,7 @@ Window {
     }
     property int powerSwitch: 0
     onPowerSwitchChanged: {
+        console.log("Power switch is now " + powerSwitch);
         if (acPowerIsPresent == 0) {
             return;
         }
@@ -456,19 +457,19 @@ Window {
         appSettings.todOffset = offset;
     }
 
+    function handlePowerLossTimeout() {
+        if (!callServiceFailure) {
+            forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
+        }
+    }
+
     Timer {
         id: powerLossScreenOffTimer
         running: !acPowerIsPresent
         interval: 10000
         repeat: false
         onTriggered: {
-            if (!callServiceFailure) {
-                if (timeOfDayDisplayed) {
-                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
-                } else {
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                }
-            }
+            handlePowerLossTimeout();
         }
     }
 

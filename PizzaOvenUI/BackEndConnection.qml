@@ -118,6 +118,23 @@ Item {
         }
     }
 
+    Timer {
+        id: powerWatchdogTimer
+        interval: 10000
+        repeat: true
+        running: true
+        onTriggered: {
+            console.log("No power message for 10 seconds and power state is " + acPowerIsPresent);
+            if (acPowerIsPresent == 1) {
+                console.log("Turning screen off.");
+                handlePowerLossTimeout();
+                acPowerIsPresent = 0;
+                powerSwitch = 0;
+                tco = 0;
+            }
+        }
+    }
+
     WifiDataRequestor {
         id: wifiDataRequestor
     }
@@ -166,16 +183,20 @@ Item {
             console.log("Got a cook time message: " + _msg);
             break;
         case "Power":
-            //console.log("Power message: " + JSON.stringify(msg));
+            var d = new Date().toTimeString();
+            console.log(d + ": Power message: " + JSON.stringify(msg));
+            powerWatchdogTimer.restart();
             if (msg.data.ac) {
                 acPowerIsPresent = msg.data.ac*1;
-            }
-            if (msg.data.powerSwitch && msg.data.l2DLB) {
-                dlb = msg.data.l2DLB*1;
-                powerSwitch = msg.data.powerSwitch*1;
-            }
-            if (msg.data.tco) {
-                tco = msg.data.tco*1;
+                if (acPowerIsPresent) {
+                    if (msg.data.powerSwitch && msg.data.l2DLB) {
+                        dlb = msg.data.l2DLB*1;
+                        powerSwitch = msg.data.powerSwitch*1;
+                    }
+                    if (msg.data.tco) {
+                        tco = msg.data.tco*1;
+                    }
+                }
             }
             break;
         case "RelayParameters":
