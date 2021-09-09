@@ -113,11 +113,6 @@ Window {
     property int doorLatchState: 0
     property int doorCount: 0
     property int doorStatus: 0
-    onDoorStatusChanged: {
-        if (doorStatus == 1) {
-            callServiceFailure = true;
-        }
-    }
 
     property bool controlBoardCommsFailed: false
     onControlBoardCommsFailedChanged: {
