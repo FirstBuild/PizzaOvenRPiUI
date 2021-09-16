@@ -32,7 +32,7 @@ Item {
         if (upperRearOvertemp) t = appendFailureString(t, "Upper Rear Over Temp");
         if (lowerFrontOvertemp) t = appendFailureString(t, "Lower Front Over Temp");
         if (lowerRearOvertemp) t = appendFailureString(t, "Lower Rear Over Temp");
-        if (doorDropped) t = appendFailureString(t, "Safety Door Latch Set");
+        if (doorDropped) t = appendFailureString(t, "Door Triggered");
         return t;
     }
 
