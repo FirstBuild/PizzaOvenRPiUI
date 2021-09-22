@@ -94,7 +94,7 @@ Window {
 
     property int upperTempDifferential: 0
     property int lowerTempDifferential: 0
-    property int upperMaxTemp: 1500
+    property int upperMaxTemp: 1400
     property int lowerMaxTemp: 800
 
     property int displayedDomeTemp: upperFront.currentTemp
@@ -170,7 +170,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: originalConfiguration ? "0.3.7" : "20.0.6"
+    property string uiVersion: originalConfiguration ? "0.3.7" : "66.0.6"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""
