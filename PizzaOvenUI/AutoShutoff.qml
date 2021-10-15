@@ -3,7 +3,7 @@ import QtQuick 2.3
 Item {
     id: thisTimer
 
-    readonly property int maxRuntimeMinutes: 3 * 60
+    readonly property int maxRuntimeMinutes: 504 * 60
     property int timeRemaining: maxRuntimeMinutes
 
     signal autoShutoffTimeoutComplete()
