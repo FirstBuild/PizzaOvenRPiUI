@@ -20,7 +20,6 @@ const bool defaultRotatePizzaAlert = true;
 const bool defaultFinalCheckAlert = true;
 const bool defaultDoneAlert = true;
 const bool defaultDemoMode = true;
-const bool defaultTimeOfDayDisplayedState = false;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
@@ -127,7 +126,6 @@ void ProgramSettings::loadSettingsFromJsonObject(const QJsonObject &settings)
     m_doneAlertEnabled = (settings.contains("doneAlertEnabled")) ? settings["doneAlertEnabled"].toBool() : defaultDoneAlert;
     m_demoModeState = (settings.contains("demoModeEnable")) ? settings["demoModeEnable"].toBool() : defaultDemoMode;
     m_demoModeState = (settings.contains("demoModeEnable")) ? settings["demoModeEnable"].toBool() : defaultDemoMode;
-    m_timeOfDayDisplayedState = (settings.contains("timeOfDayDisplayed")) ? settings["timeOfDayDisplayed"].toBool() : defaultTimeOfDayDisplayedState;
 }
 
 void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
@@ -143,7 +141,6 @@ void ProgramSettings::storeSettingsToJsonObject(QJsonObject &settings) const
     settings["finalCheckAlertEnabled"] = m_finalCheckAlertEnabled;
     settings["doneAlertEnabled"] = m_doneAlertEnabled;
     settings["demoModeEnable"] = m_demoModeState;
-    settings["timeOfDayDisplayed"] = m_timeOfDayDisplayedState;
 }
 
 void ProgramSettings::initializeSettingsToDefaults(void)
@@ -161,7 +158,6 @@ void ProgramSettings::initializeSettingsToDefaults(void)
     m_finalCheckAlertEnabled = defaultFinalCheckAlert;
     m_doneAlertEnabled = defaultDoneAlert;
     m_demoModeState = defaultDemoMode;
-    m_timeOfDayDisplayedState = defaultTimeOfDayDisplayedState;
 }
 
 /*************** TOD Offset ***************/
@@ -177,19 +173,6 @@ void ProgramSettings::setTodOffset(int newOffset)
 int ProgramSettings::todOffset()
 {\
     return m_todOffset;
-}
-
-/*************** Time Of Day Displayed ***************/
-void ProgramSettings::setTimeOfDayDisplayState(bool displayed)
-{
-    m_timeOfDayDisplayedState = displayed;
-    emit timeOfDayDisplayedStateChanged();
-    saveSettings();
-}
-
-bool ProgramSettings::getTimeOfDayDisplayedState()
-{
-    return m_timeOfDayDisplayedState;
 }
 
 /*************** Screen Offset X ***************/
