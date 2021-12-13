@@ -20,7 +20,7 @@ const bool defaultRotatePizzaAlert = true;
 const bool defaultFinalCheckAlert = true;
 const bool defaultDoneAlert = true;
 const bool defaultDemoMode = true;
-const bool defaultTimeOfDayDisplayedState = true;
+const bool defaultTimeOfDayDisplayedState = false;
 
 extern QObject *appParentObj;
 bool backlightFileExists = false;
