@@ -77,11 +77,7 @@ Window {
             sounds.powerOff.play();
             if (!callServiceFailure) {
                 console.log("The power switch is now off, transitioning to the off screen.");
-                if (timeOfDayDisplayed) {
-                    forceScreenTransition(Qt.resolvedUrl("Screen_TimeOfDay.qml"));
-                } else {
-                    forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
-                }
+                forceScreenTransition(Qt.resolvedUrl("Screen_Off.qml"));
             }
         }
     }
@@ -152,7 +148,6 @@ Window {
     property int screenOffsetX: appSettings.screenOffsetX
     property int screenOffsetY: appSettings.screenOffsetY
     property string timeOfDay: "12:00"
-    property bool timeOfDayDisplayed: appSettings.timeOfDayDisplayed
     property int smallTextSize: 32
     property int bigTextSize: 55
     property int titleTextSize: 18 * screenScale
@@ -355,11 +350,7 @@ Window {
                 appSettings.backlightOff = false;
                 if (appSettings.settingsInitialized) {
                     if (callServiceFailure == false) {
-                        if (timeOfDayDisplayed) {
-                            Qt.resolvedUrl("Screen_TimeOfDay.qml");
-                        } else {
-                            Qt.resolvedUrl("Screen_Off.qml");
-                        }
+                        Qt.resolvedUrl("Screen_Off.qml");
                     } else {
                         Qt.resolvedUrl("Screen_CallService.qml");
                     }

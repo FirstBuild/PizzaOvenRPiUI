@@ -28,11 +28,7 @@ Item {
         if (powerSwitch == 0) {
             screenExit();
             stackView.clear();
-            if (timeOfDayDisplayed) {
-                stackView.push({item: Qt.resolvedUrl("Screen_TimeOfDay.qml"), immediate:immediateTransitions});
-            } else {
-                stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
-            }
+            stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
         }
     }
 
@@ -96,11 +92,7 @@ Item {
                 script: {
                     screenExit();
                     stackView.clear();
-                    if (timeOfDayDisplayed) {
-                        stackView.push({item: Qt.resolvedUrl("Screen_TimeOfDay.qml"), immediate:immediateTransitions});
-                    } else {
-                        stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
-                    }
+                    stackView.push({item: Qt.resolvedUrl("Screen_Off.qml"), immediate:immediateTransitions});
                 }
             }
         }
