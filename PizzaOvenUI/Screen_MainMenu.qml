@@ -45,24 +45,30 @@ Item {
         setMenuPositionFromFoodIndex();
     }
 
+    function loadTheFoodListIfEmpty() {
+        if (foodListModel.count == 0) {
+            var menuItems = menuSettings.json.menuItems;
+            var menuIndexes = menuSettings.json.menuOrder;
+
+            if (menuItems.length === menuIndexes.length) {
+                for(var i=0; i<menuItems.length; i++)  {
+                    foodListModel.append(menuItems[menuIndexes[i]]);
+                }
+            } else {
+                for(var i=0; i<menuItems.length; i++)  {
+                    foodListModel.append(menuItems[i]);
+                }
+            }
+        }
+    }
+
     function screenEntry() {
         backEnd.sendMessage("StopOven ");
         autoShutoff.stop();
         preheatComplete = false;
         console.log("Entering main menu screen.");
-        // load up the list
-        foodListModel.clear();
-        var menuItems = menuSettings.json.menuItems;
-        var menuIndexes = menuSettings.json.menuOrder;
-        if (menuItems.length === menuIndexes.length) {
-            for(var i=0; i<menuItems.length; i++)  {
-                foodListModel.append(menuItems[menuIndexes[i]]);
-            }
-        } else {
-            for(var i=0; i<menuItems.length; i++)  {
-                foodListModel.append(menuItems[i]);
-            }
-        }
+
+        loadTheFoodListIfEmpty();
 
         appSettings.backlightOff = false;
         if (powerSwitch == 0) {
