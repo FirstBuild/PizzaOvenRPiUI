@@ -301,7 +301,8 @@ Window {
 
         if (currentScreen === newScreenName)
         {
-            console.log("Transition to same screen, so don't switch.")
+            console.log("Transition to same screen, so don't switch. Attempt to update the screen.")
+            stackView.currentItem.update();
             return;
         }
 

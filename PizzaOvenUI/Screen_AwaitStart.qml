@@ -36,6 +36,13 @@ Item {
         localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
     }
 
+    function update() {
+        rootWindow.displayedDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
+        rootWindow.displayedStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
+        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+    }
+
     function cleanUpOnExit() {
         console.log("Exiting await start screen");
         console.log("Stopping all animations");
