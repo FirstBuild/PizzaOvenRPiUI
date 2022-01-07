@@ -35,12 +35,16 @@ Item {
 
     property string localOvenState: "Preheat1"
 
+    property int localDomeTemp: 0
+    property int localStoneTemp: 0
+
     Timer {
         id: displayUpdateTimer
         interval: 1000
         repeat: true
         running: !demoModeIsActive
         onTriggered: {
+            console.log("Preheat timer: upperTemp = " + upperFront.setTemp + ", lowerTemp = " + lowerFront.setTemp);
             var currentDisplayTemp = upperTemp;
             var currentActualTemp = (upperFront.currentTemp < upperRear.currentTemp) ? upperFront.currentTemp : upperRear.currentTemp;
             if (!rootWindow.originalConfiguration) {
@@ -156,6 +160,9 @@ Item {
         }
 
         ovenStateCount = 3;
+
+        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
+        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
     }
 
     function cleanUpOnExit() {
@@ -219,9 +226,9 @@ Item {
     CircleContentTwoTemp {
         id: circleContent
         needsAnimation: true
-        line1String: utility.tempToString(upperFront.setTemp)
+        line1String: utility.tempToString(localDomeTemp)
         line2String: domeToggle.state ? utility.tempToString(upperTemp) : "OFF"
-        line3String: utility.tempToString(lowerFront.setTemp)
+        line3String: utility.tempToString(localStoneTemp)
         line4String: utility.tempToString(lowerTemp)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
