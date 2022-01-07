@@ -367,7 +367,8 @@ Item {
             if (msg.data.time && msg.data.time>=0 && msg.data.time<=65535) {
                 cookTime = msg.data.time;
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result success");
-                utility.findPizzaTypeFromSettings();
+                // The following line was causing strange things to happen. Removing it seems to fix the issue.
+                // utility.findPizzaTypeFromSettings();
             } else {
                 console.log("Got a message to set the timer setting, but request is invalid: " + JSON.stringify(msg.data));
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result failure");
