@@ -88,9 +88,8 @@ Item {
                 return;
             }
         }
-        console.log("No match found, setting the food index to 4 and save these new settings as custom.");
+        console.log("No match found, setting the food index to 4.");
         rootWindow.foodIndex = 4;
-        saveCurrentSettingsAsCustom();
     }
 
     function updateReminderSettingsOnBackend() {

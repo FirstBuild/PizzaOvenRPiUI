@@ -30,17 +30,17 @@ Item {
         theCircle.animate();
         circleContent.animate();
         screenEntryAnimation.start();
-        rootWindow.displayedDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
-        rootWindow.displayedStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
-        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
-        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+        rootWindow.displayedDomeTemp = upperFront.setTemp;
+        rootWindow.displayedStoneTemp = lowerFront.setTemp;
+        localDomeTemp = upperFront.setTemp;
+        localStoneTemp = lowerFront.setTemp;
     }
 
     function update() {
-        rootWindow.displayedDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
-        rootWindow.displayedStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
-        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
-        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+        rootWindow.displayedDomeTemp = upperFront.setTemp;
+        rootWindow.displayedStoneTemp = lowerFront.setTemp;
+        localDomeTemp = upperFront.setTemp;
+        localStoneTemp = lowerFront.setTemp;
     }
 
     function cleanUpOnExit() {

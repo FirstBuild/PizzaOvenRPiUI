@@ -161,8 +161,8 @@ Item {
 
         ovenStateCount = 3;
 
-        localDomeTemp = menuSettings.json.menuItems[foodIndex].domeTemp;
-        localStoneTemp = menuSettings.json.menuItems[foodIndex].stoneTemp;
+        localDomeTemp = rootWindow.displayedDomeTemp;
+        localStoneTemp = rootWindow.displayedStoneTemp;
     }
 
     function cleanUpOnExit() {

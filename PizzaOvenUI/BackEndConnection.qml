@@ -368,7 +368,8 @@ Item {
                 cookTime = msg.data.time;
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result success");
                 // The following line was causing strange things to happen. Removing it seems to fix the issue.
-                // utility.findPizzaTypeFromSettings();
+                console.log("Got cookTime from back end: " + cookTime + ". Attempting to find pizza type.");
+                utility.findPizzaTypeFromSettings();
             } else {
                 console.log("Got a message to set the timer setting, but request is invalid: " + JSON.stringify(msg.data));
                 sendMessage("WriteTimerSettingResponse id " + msg.data.id + " result failure");
