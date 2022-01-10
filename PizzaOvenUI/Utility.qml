@@ -77,15 +77,18 @@ Item {
         var menuItems = menuSettings.json.menuItems;
 
         console.log("In findPizzaTypeFromSettings.");
+        console.log("Requested settings - dome: " + dome + ", stone: " + stone + ", time: " + cookTime);
 
+        console.log("Searching cycles for a match.");
         for(var i=0; i<menuItems.length; i++)  {
+            console.log("name: " + menuItems[i].name + ", dome: " + menuItems[i].domeTemp + ", stone: " + menuItems[i].stoneTemp + ", time: " + menuItems[i].cookTime);
             if (menuItems[i].domeTemp == dome && menuItems[i].stoneTemp == stone && cookTime == menuItems[i].cookTime) {
                 console.log("Found matching settings, setting the food index to " + i);
                 rootWindow.foodIndex = i;
                 return;
             }
         }
-        console.log("No match found, setting the food index to 4");
+        console.log("No match found, setting the food index to 4.");
         rootWindow.foodIndex = 4;
     }
 
