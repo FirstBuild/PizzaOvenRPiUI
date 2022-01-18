@@ -35,9 +35,6 @@ Item {
 
     property string localOvenState: "Preheat1"
 
-    property int localDomeTemp: 0
-    property int localStoneTemp: 0
-
     Timer {
         id: displayUpdateTimer
         interval: 1000
@@ -161,8 +158,8 @@ Item {
 
         ovenStateCount = 3;
 
-        localDomeTemp = rootWindow.displayedDomeTemp;
-        localStoneTemp = rootWindow.displayedStoneTemp;
+        rootWindow.displayedDomeTemp = upperFront.setTemp;
+        rootWindow.displayedStoneTemp = lowerFront.setTemp;
     }
 
     function cleanUpOnExit() {
@@ -226,9 +223,9 @@ Item {
     CircleContentTwoTemp {
         id: circleContent
         needsAnimation: true
-        line1String: utility.tempToString(localDomeTemp)
+        line1String: utility.tempToString(upperFront.setTemp)
         line2String: domeToggle.state ? utility.tempToString(upperTemp) : "OFF"
-        line3String: utility.tempToString(localStoneTemp)
+        line3String: utility.tempToString(lowerFront.setTemp)
         line4String: utility.tempToString(lowerTemp)
         onTopStringClicked: {
             startExitToScreen("Screen_EnterDomeTemp.qml");
