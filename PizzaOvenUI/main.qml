@@ -165,7 +165,7 @@ Window {
 
     // some information
     property string controlVersion: "255.255.255.255"
-    property string uiVersion: originalConfiguration ? "0.3.9" : "20.0.9"
+    property string uiVersion: originalConfiguration ? "0.3.10" : "20.0.10"
     property string backendVersion: "255.255.255.255"
     property string interfaceVersion: "255.255.255.255"
     property string wifiMacId: ""

@@ -79,7 +79,6 @@ Item {
         id: settingsModel
         ListElement { name: "CHECK FOOD REMINDERS"; screen: "Screen_EnterChecks.qml" }
         ListElement { name: "PREFERENCES"; screen: "Screen_Preferences.qml" }
-        ListElement { name: "CONTROL LOCKOUT" }
         ListElement { name: "VOLUME"; screen: "Screen_SetVolume.qml" }
         ListElement { name: "DISPLAY BRIGHTNESS"; screen: "Screen_SetBrightness.qml" }
         ListElement { name: "ABOUT"; screen: "Screen_About.qml" }
